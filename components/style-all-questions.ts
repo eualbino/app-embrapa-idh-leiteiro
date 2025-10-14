@@ -41,6 +41,8 @@ export const stylesQuestions = StyleSheet.create({
   },
 
   responseTextTitle: {
+    flex: 1,
+    marginRight: 8,
     fontWeight: 600,
     color: "#006f35",
     fontSize: 18,
@@ -145,5 +147,35 @@ export const stylesQuestions = StyleSheet.create({
     color: "#ffffff",
     fontSize: 16,
     fontWeight: 600,
+  },
+
+  datePickerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 5,
+    borderWidth: 2,
+    borderRadius: 15,
+    borderColor: "#e9e9e9ff",
+    paddingHorizontal: 12,
+    marginTop: 20,
+  },
+  datePickerLabel: {
+    color: "#006f36ff",
+    fontWeight: "600",
+    fontSize: 17,
+  },
+  datePickerTouchable: {
+    borderWidth: 2,
+    borderColor: "#e9e9e9ff",
+    borderRadius: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    backgroundColor: "#f9f9f9"
+  },
+  datePickerText: {
+    color: "#006f36e0",
+    fontWeight: "600",
+    fontSize: 15,
   },
 });

@@ -1,13 +1,20 @@
 import { StyleSheet } from "react-native";
 import { useTheme } from "@/src/hooks/theme";
 
-export const style = (variant: "primary" | "secondary", disabled: boolean) => {
+export const style = (
+  variant: "primary" | "secondary",
+  isActive: boolean,
+  disabled: boolean
+) => {
   const theme = useTheme();
   const variantButton = theme.components.button[variant];
 
-  const backgroundColor = disabled
-    ? (variantButton.disabled?.backgroundColor ?? variantButton.backgroundColor)
-    : variantButton.backgroundColor;
+  const backgroundColor = !isActive
+    ? "#FFFFFF"
+    : disabled
+      ? (variantButton.disabled?.backgroundColor ??
+        variantButton.backgroundColor)
+      : variantButton.backgroundColor;
 
   const textColor = disabled
     ? (variantButton.disabled?.textColor ?? variantButton.textColor)

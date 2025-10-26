@@ -16,7 +16,7 @@ const ComposicaoLeiteInput: React.FC<ComposicaoLeiteInputProps> = ({
   setPercentualProteina,
 }) => (
   <View style={stylesQuestions.containerResponses}>
-    <View>
+    <View style={stylesQuestions.containerQuestionInput}>
       <Text style={stylesQuestions.questionText}>
         <Text>E. COMPOSIÇÃO DO LEITE: </Text>
         <Text>Qual o percentual de gordura do leite?</Text>

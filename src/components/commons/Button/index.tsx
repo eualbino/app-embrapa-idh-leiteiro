@@ -10,12 +10,12 @@ import { style as getStyles } from "./styles";
 
 interface ButtonProps {
   children: React.ReactNode;
-  onPress?: (e: GestureResponderEvent) => void;
+  onPress: (e: GestureResponderEvent) => void;
   variant?: "primary" | "secondary";
   disabled?: boolean;
   style?: ViewStyle;
   textStyle?: TextStyle;
-  testID?: string;
+  isActive?: boolean
 }
 
 export const ButtonCommon: FC<ButtonProps> = ({
@@ -25,13 +25,12 @@ export const ButtonCommon: FC<ButtonProps> = ({
   disabled = false,
   style,
   textStyle,
-  testID,
+  isActive = true
 }) => {
-  const styles = getStyles(variant, disabled);
+  const styles = getStyles(variant, isActive, disabled);
 
   return (
     <TouchableOpacity
-      testID={testID}
       activeOpacity={0.8}
       onPress={onPress}
       disabled={disabled}

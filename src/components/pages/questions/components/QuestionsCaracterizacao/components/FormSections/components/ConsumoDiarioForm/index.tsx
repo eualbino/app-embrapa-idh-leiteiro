@@ -51,7 +51,7 @@ const ConsumoDiarioInput: React.FC<ConsumoDiarioInputProps> = ({
       />
     </View>
 
-    <View style={stylesQuestions.containerQuestionInput}>
+    <View>
       <Text style={stylesQuestions.questionText}>
         <Text>Unidade informada:</Text>
       </Text>

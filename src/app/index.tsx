@@ -1,27 +1,25 @@
-import { useRouter } from "expo-router";
-import { Pressable, StyleSheet, Text } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { View } from "react-native";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import LoginRegister from "../components/pages/login-register";
 
 export default function ModalScreen() {
-  const router = useRouter();
+  const insets = useSafeAreaInsets();
+  const topInset = insets.top; 
 
   return (
-    <SafeAreaView style={styles.container}>
-        <Pressable onPress={() => router.push("/questions")} >
-          <Text style={styles.link}>Go to questions screen</Text>
-        </Pressable>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: -topInset, 
+        }}
+      >
+        <View>
+          <LoginRegister />
+        </View>
+      </View>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 20,
-  },
-  link: {
-    color: "blue",
-  },
-});

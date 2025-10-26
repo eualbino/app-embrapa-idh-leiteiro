@@ -32,7 +32,7 @@ const EnergiaEletricaInput: React.FC<EnergiaEletricaInputProps> = ({
       />
     </View>
 
-    <View style={stylesQuestions.containerQuestionInput}>
+    <View>
       <Text style={stylesQuestions.questionText}>
         <Text>A propriedade possui energia fotovoltaica?</Text>
       </Text>

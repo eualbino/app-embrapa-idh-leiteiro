@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { View, Text, Alert } from "react-native";
+import { View, Text } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
+import Toast from "react-native-toast-message";
 import { Input } from "@/src/components/commons/Input";
 import { ButtonCommon } from "@/src/components/commons/Button";
 import { styles } from "./styles";
@@ -16,12 +17,20 @@ export default function ConfirmCodeForgotPassword() {
 
   const handleConfirmCode = async () => {
     if (!code.trim()) {
-      Alert.alert("Erro", "Por favor, insira o código de verificação.");
+      Toast.show({
+        type: "error",
+        text1: "Erro",
+        text2: "Por favor, insira o código de verificação.",
+      });
       return;
     }
 
     if (code.length < 4) {
-      Alert.alert("Erro", "O código deve ter pelo menos 4 dígitos.");
+      Toast.show({
+        type: "error",
+        text1: "Erro",
+        text2: "O código deve ter pelo menos 4 dígitos.",
+      });
       return;
     }
 
@@ -30,15 +39,24 @@ export default function ConfirmCodeForgotPassword() {
     try {
       await new Promise(resolve => setTimeout(resolve, 1500));
 
-      router.push({
-        pathname: "/forgot-password/reset-password",
-        params: { email, code }
+      Toast.show({
+        type: "success",
+        text1: "Código Verificado",
+        text2: "Código confirmado com sucesso!",
       });
+
+      setTimeout(() => {
+        router.push({
+          pathname: "/forgot-password/reset-password",
+          params: { email, code }
+        });
+      }, 1000);
     } catch (error) {
-      Alert.alert(
-        "Erro",
-        "Código inválido ou expirado. Tente novamente."
-      );
+      Toast.show({
+        type: "error",
+        text1: "Erro",
+        text2: "Código inválido ou expirado. Tente novamente.",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -50,16 +68,18 @@ export default function ConfirmCodeForgotPassword() {
     try {
       await new Promise(resolve => setTimeout(resolve, 1500));
       
-      Alert.alert(
-        "Código Reenviado",
-        "Um novo código foi enviado para seu e-mail."
-      );
+      Toast.show({
+        type: "success",
+        text1: "Código Reenviado",
+        text2: "Um novo código foi enviado para seu e-mail.",
+      });
       setCode("");
     } catch (error) {
-      Alert.alert(
-        "Erro",
-        "Não foi possível reenviar o código. Tente novamente mais tarde."
-      );
+      Toast.show({
+        type: "error",
+        text1: "Erro",
+        text2: "Não foi possível reenviar o código.",
+      });
     } finally {
       setIsResending(false);
     }

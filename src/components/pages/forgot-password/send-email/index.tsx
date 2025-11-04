@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { View, Text, Alert } from "react-native";
+import { View, Text } from "react-native";
 import { useRouter } from "expo-router";
+import Toast from "react-native-toast-message";
 import { Input } from "@/src/components/commons/Input";
 import { ButtonCommon } from "@/src/components/commons/Button";
 import { styles } from "./styles";
@@ -17,12 +18,20 @@ export default function SendEmailForgotPassword() {
 
   const handleSendEmail = async () => {
     if (!email.trim()) {
-      Alert.alert("Erro", "Por favor, insira seu e-mail.");
+      Toast.show({
+        type: "error",
+        text1: "Erro",
+        text2: "Por favor, insira seu e-mail.",
+      });
       return;
     }
 
     if (!validateEmail(email)) {
-      Alert.alert("Erro", "Por favor, insira um e-mail válido.");
+      Toast.show({
+        type: "error",
+        text1: "Erro",
+        text2: "Por favor, insira um e-mail válido.",
+      });
       return;
     }
 
@@ -31,24 +40,25 @@ export default function SendEmailForgotPassword() {
     try {
       await new Promise(resolve => setTimeout(resolve, 1500));
       
-      Alert.alert(
-        "E-mail Enviado",
-        "Um código de verificação foi enviado para seu e-mail.",
-        [
-          {
-            text: "OK",
-            onPress: () => router.push({
-              pathname: "/forgot-password/confirm-code",
-              params: { email }
-            }),
-          },
-        ]
-      );
+      Toast.show({
+        type: "success",
+        text1: "E-mail Enviado",
+        text2: "Um código de verificação foi enviado para seu e-mail.",
+      });
+
+      // Navegar após um pequeno delay para o usuário ver o toast
+      setTimeout(() => {
+        router.push({
+          pathname: "/forgot-password/confirm-code",
+          params: { email }
+        });
+      }, 1000);
     } catch (error) {
-      Alert.alert(
-        "Erro",
-        "Não foi possível enviar o e-mail. Tente novamente mais tarde."
-      );
+      Toast.show({
+        type: "error",
+        text1: "Erro",
+        text2: "Não foi possível enviar o e-mail. Tente novamente.",
+      });
     } finally {
       setIsLoading(false);
     }

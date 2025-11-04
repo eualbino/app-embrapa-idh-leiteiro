@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react";
-import { View, Text, Alert } from "react-native";
+import { View, Text } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
+import Toast from "react-native-toast-message";
 import { Input } from "@/src/components/commons/Input";
 import { ButtonCommon } from "@/src/components/commons/Button";
 import { styles } from "./styles";
@@ -31,17 +32,29 @@ export default function ResetPasswordForgotPassword() {
 
   const handleResetPassword = async () => {
     if (!newPassword.trim()) {
-      Alert.alert("Erro", "Por favor, insira sua nova senha.");
+      Toast.show({
+        type: "error",
+        text1: "Erro",
+        text2: "Por favor, insira sua nova senha.",
+      });
       return;
     }
 
     if (!isPasswordValid) {
-      Alert.alert("Erro", "A senha não atende aos requisitos mínimos.");
+      Toast.show({
+        type: "error",
+        text1: "Erro",
+        text2: "A senha não atende aos requisitos mínimos.",
+      });
       return;
     }
 
     if (newPassword !== confirmPassword) {
-      Alert.alert("Erro", "As senhas não coincidem.");
+      Toast.show({
+        type: "error",
+        text1: "Erro",
+        text2: "As senhas não coincidem.",
+      });
       return;
     }
 
@@ -50,17 +63,21 @@ export default function ResetPasswordForgotPassword() {
     try {
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
-      Alert.alert("Senha Redefinida", "Sua senha foi redefinida com sucesso!", [
-        {
-          text: "OK",
-          onPress: () => router.push("/"),
-        },
-      ]);
+      Toast.show({
+        type: "success",
+        text1: "Senha Redefinida",
+        text2: "Sua senha foi redefinida com sucesso!",
+      });
+
+      setTimeout(() => {
+        router.push("/");
+      }, 1500);
     } catch (error) {
-      Alert.alert(
-        "Erro",
-        "Não foi possível redefinir a senha. Tente novamente mais tarde."
-      );
+      Toast.show({
+        type: "error",
+        text1: "Erro",
+        text2: "Não foi possível redefinir a senha.",
+      });
     } finally {
       setIsLoading(false);
     }

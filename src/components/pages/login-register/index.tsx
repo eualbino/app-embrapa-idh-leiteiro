@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   View,
   Text,
-  TouchableOpacity,
-  GestureResponderEvent,
 } from "react-native";
 import { styles } from "./styles";
 import { Input } from "../../commons/Input";
@@ -53,7 +51,6 @@ export default function LoginRegister() {
           onChangeText={setName}
           autoComplete="name"
         />
-
         <Input
           label="E-mail"
           placeholder="email@gmail.com.br"
@@ -100,6 +97,15 @@ export default function LoginRegister() {
         </ButtonCommon>
       </View>
       {returnViewUser()}
+      
+      {view === VIEW_LOGIN_PAGE.LOGIN && (
+        <Text 
+          style={styles.forgotPasswordLink}
+          onPress={() => route.push("/forgot-password/send-email")}
+        >
+          Esqueci minha senha
+        </Text>
+      )}
 
       <ButtonCommon onPress={() => route.push("/questions")}>
         {view === VIEW_LOGIN_PAGE.LOGIN ? "Login" : "Register"}

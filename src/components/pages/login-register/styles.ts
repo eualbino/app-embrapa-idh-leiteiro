@@ -42,4 +42,12 @@ export const styles = StyleSheet.create({
     shadowRadius: 15,
     elevation: 5,
   },
+  forgotPasswordLink: {
+    color: theme.colors.primary.default,
+    fontSize: theme.typography.sizes.sm,
+    fontWeight: theme.typography.weights.medium,
+    textAlign: "right",
+    fontStyle: "underline",
+    marginTop: -20,
+  },
 });

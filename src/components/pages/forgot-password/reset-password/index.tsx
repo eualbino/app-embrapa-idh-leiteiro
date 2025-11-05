@@ -1,12 +1,14 @@
 import React, { useState, useMemo } from "react";
 import { View, Text } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
+import { useTranslation } from "react-i18next";
 import Toast from "react-native-toast-message";
 import { Input } from "@/src/components/commons/Input";
 import { ButtonCommon } from "@/src/components/commons/Button";
 import { styles } from "./styles";
 
 export default function ResetPasswordForgotPassword() {
+  const { t } = useTranslation();
   const router = useRouter();
   const params = useLocalSearchParams();
   const email = (params.email as string) || "";
@@ -34,8 +36,8 @@ export default function ResetPasswordForgotPassword() {
     if (!newPassword.trim()) {
       Toast.show({
         type: "error",
-        text1: "Erro",
-        text2: "Por favor, insira sua nova senha.",
+        text1: t('common.error'),
+        text2: t('forgotPassword.errors.emptyPassword'),
       });
       return;
     }
@@ -43,8 +45,8 @@ export default function ResetPasswordForgotPassword() {
     if (!isPasswordValid) {
       Toast.show({
         type: "error",
-        text1: "Erro",
-        text2: "A senha não atende aos requisitos mínimos.",
+        text1: t('common.error'),
+        text2: t('forgotPassword.errors.invalidPassword'),
       });
       return;
     }
@@ -52,8 +54,8 @@ export default function ResetPasswordForgotPassword() {
     if (newPassword !== confirmPassword) {
       Toast.show({
         type: "error",
-        text1: "Erro",
-        text2: "As senhas não coincidem.",
+        text1: t('common.error'),
+        text2: t('forgotPassword.errors.passwordMismatch'),
       });
       return;
     }
@@ -65,8 +67,8 @@ export default function ResetPasswordForgotPassword() {
 
       Toast.show({
         type: "success",
-        text1: "Senha Redefinida",
-        text2: "Sua senha foi redefinida com sucesso!",
+        text1: t('forgotPassword.success.passwordReset'),
+        text2: t('forgotPassword.success.passwordResetMessage'),
       });
 
       setTimeout(() => {
@@ -75,8 +77,8 @@ export default function ResetPasswordForgotPassword() {
     } catch (error) {
       Toast.show({
         type: "error",
-        text1: "Erro",
-        text2: "Não foi possível redefinir a senha.",
+        text1: t('common.error'),
+        text2: t('forgotPassword.errors.resetFailed'),
       });
     } finally {
       setIsLoading(false);
@@ -90,16 +92,16 @@ export default function ResetPasswordForgotPassword() {
   return (
     <View style={{ width: "100%" }}>
       <View style={styles.card}>
-        <Text style={styles.title}>Redefinir Senha</Text>
+        <Text style={styles.title}>{t('forgotPassword.resetPasswordTitle')}</Text>
 
         <Text style={styles.description}>
-          Crie uma nova senha para sua conta.
+          {t('forgotPassword.resetPasswordDescription')}
         </Text>
 
         <View style={styles.inputContainer}>
           <Input
-            label="Nova Senha"
-            placeholder="Digite sua nova senha"
+            label={t('forgotPassword.newPassword')}
+            placeholder={t('forgotPassword.newPasswordPlaceholder')}
             value={newPassword}
             onChangeText={setNewPassword}
             secureTextEntry
@@ -109,10 +111,43 @@ export default function ResetPasswordForgotPassword() {
           />
         </View>
 
+        <View style={styles.passwordRequirements}>
+          <Text style={[
+            styles.requirementText,
+            passwordValidation.minLength ? styles.requirementMet : styles.requirementNotMet
+          ]}>
+            {passwordValidation.minLength ? "✓" : "○"} {t('forgotPassword.passwordRequirements.minLength')}
+          </Text>
+          <Text style={[
+            styles.requirementText,
+            passwordValidation.hasUpperCase ? styles.requirementMet : styles.requirementNotMet
+          ]}>
+            {passwordValidation.hasUpperCase ? "✓" : "○"} {t('forgotPassword.passwordRequirements.hasUpperCase')}
+          </Text>
+          <Text style={[
+            styles.requirementText,
+            passwordValidation.hasLowerCase ? styles.requirementMet : styles.requirementNotMet
+          ]}>
+            {passwordValidation.hasLowerCase ? "✓" : "○"} {t('forgotPassword.passwordRequirements.hasLowerCase')}
+          </Text>
+          <Text style={[
+            styles.requirementText,
+            passwordValidation.hasNumber ? styles.requirementMet : styles.requirementNotMet
+          ]}>
+            {passwordValidation.hasNumber ? "✓" : "○"} {t('forgotPassword.passwordRequirements.hasNumber')}
+          </Text>
+          <Text style={[
+            styles.requirementText,
+            passwordValidation.hasSpecialChar ? styles.requirementMet : styles.requirementNotMet
+          ]}>
+            {passwordValidation.hasSpecialChar ? "✓" : "○"} {t('forgotPassword.passwordRequirements.hasSpecialChar')}
+          </Text>
+        </View>
+
         <View style={styles.inputContainer}>
           <Input
-            label="Confirmar Nova Senha"
-            placeholder="Digite sua senha novamente"
+            label={t('forgotPassword.confirmPassword')}
+            placeholder={t('forgotPassword.confirmPasswordPlaceholder')}
             value={confirmPassword}
             onChangeText={setConfirmPassword}
             secureTextEntry
@@ -130,7 +165,7 @@ export default function ResetPasswordForgotPassword() {
               isLoading || !isPasswordValid || newPassword !== confirmPassword
             }
           >
-            {isLoading ? "Redefinindo..." : "Redefinir Senha"}
+            {isLoading ? t('forgotPassword.resetting') : t('forgotPassword.resetPassword')}
           </ButtonCommon>
         </View>
 
@@ -140,7 +175,7 @@ export default function ResetPasswordForgotPassword() {
             variant="secondary"
             disabled={isLoading}
           >
-            Voltar ao Login
+            {t('auth.backToLogin')}
           </ButtonCommon>
         </View>
       </View>

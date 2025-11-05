@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, TextInput } from "react-native";
-import { stylesQuestions } from "../../../../styles";
+import { useTranslation } from "react-i18next";
+import { stylesCharacterization } from "../../../../styles";
 
 interface RebanhoInputProps {
   vacasLactacao: string;
@@ -26,74 +27,78 @@ const RebanhoInput: React.FC<RebanhoInputProps> = ({
   setBezerros,
   garrotes,
   setGarrotes,
-}) => (
-  <View style={stylesQuestions.containerResponses}>
-    <View style={stylesQuestions.containerQuestionInput}>
-      <Text style={stylesQuestions.questionText}>
-        <Text>C. REBANHO: </Text>
-        <Text>Quantas vacas em lactação existem na propriedade?</Text>
-      </Text>
-      <TextInput
-        style={stylesQuestions.textInput}
-        placeholder="Vacas em Lactação"
-        value={vacasLactacao}
-        onChangeText={setVacasLactacao}
-        keyboardType="numeric"
-      />
-    </View>
+}) => {
+  const { t } = useTranslation();
+  
+  return (
+    <View style={stylesCharacterization.containerResponses}>
+      <View style={stylesCharacterization.containerQuestionInput}>
+        <Text style={stylesCharacterization.questionText}>
+          <Text>{t('questionnaire.characterization.herd.sectionTitle')} </Text>
+          <Text>{t('questionnaire.characterization.herd.lactatingCows')}</Text>
+        </Text>
+        <TextInput
+          style={stylesCharacterization.textInput}
+          placeholder={t('questionnaire.characterization.herd.lactatingCowsPlaceholder')}
+          value={vacasLactacao}
+          onChangeText={setVacasLactacao}
+          keyboardType="numeric"
+        />
+      </View>
 
-    <View style={stylesQuestions.containerQuestionInput}>
-      <Text style={stylesQuestions.questionText}>
-        <Text>Quantas vacas secas existem na propriedade?</Text>
-      </Text>
-      <TextInput
-        style={stylesQuestions.textInput}
-        placeholder="Vacas Secas"
-        value={vacasSecas}
-        onChangeText={setVacasSecas}
-        keyboardType="numeric"
-      />
-    </View>
+      <View style={stylesCharacterization.containerQuestionInput}>
+        <Text style={stylesCharacterization.questionText}>
+          <Text>{t('questionnaire.characterization.herd.dryCows')}</Text>
+        </Text>
+        <TextInput
+          style={stylesCharacterization.textInput}
+          placeholder={t('questionnaire.characterization.herd.dryCowsPlaceholder')}
+          value={vacasSecas}
+          onChangeText={setVacasSecas}
+          keyboardType="numeric"
+        />
+      </View>
 
-    <View style={stylesQuestions.containerQuestionInput}>
-      <Text style={stylesQuestions.questionText}>
-        <Text>Quantas novilhas existem na propriedade?</Text>
-      </Text>
-      <TextInput
-        style={stylesQuestions.textInput}
-        placeholder="Novilhas"
-        value={novilhas}
-        onChangeText={setNovilhas}
-        keyboardType="numeric"
-      />
-    </View>
+      <View style={stylesCharacterization.containerQuestionInput}>
+        <Text style={stylesCharacterization.questionText}>
+          <Text>{t('questionnaire.characterization.herd.heifers')}</Text>
+        </Text>
+        <TextInput
+          style={stylesCharacterization.textInput}
+          placeholder={t('questionnaire.characterization.herd.heifersPlaceholder')}
+          value={novilhas}
+          onChangeText={setNovilhas}
+          keyboardType="numeric"
+        />
+      </View>
 
-    <View style={stylesQuestions.containerQuestionInput}>
-      <Text style={stylesQuestions.questionText}>
-        <Text>Quantos bezerros existem na propriedade?</Text>
-      </Text>
-      <TextInput
-        style={stylesQuestions.textInput}
-        placeholder="Bezerros"
-        value={bezerros}
-        onChangeText={setBezerros}
-        keyboardType="numeric"
-      />
-    </View>
+      <View style={stylesCharacterization.containerQuestionInput}>
+        <Text style={stylesCharacterization.questionText}>
+          <Text>{t('questionnaire.characterization.herd.calves')}</Text>
+        </Text>
+        <TextInput
+          style={stylesCharacterization.textInput}
+          placeholder={t('questionnaire.characterization.herd.calvesPlaceholder')}
+          value={bezerros}
+          onChangeText={setBezerros}
+          keyboardType="numeric"
+        />
+      </View>
 
-    <View>
-      <Text style={stylesQuestions.questionText}>
-        <Text>Quantos garrotes existem na propriedade?</Text>
-      </Text>
-      <TextInput
-        style={stylesQuestions.textInput}
-        placeholder="Garrotes"
-        value={garrotes}
-        onChangeText={setGarrotes}
-        keyboardType="numeric"
-      />
+      <View>
+        <Text style={stylesCharacterization.questionText}>
+          <Text>{t('questionnaire.characterization.herd.steers')}</Text>
+        </Text>
+        <TextInput
+          style={stylesCharacterization.textInput}
+          placeholder={t('questionnaire.characterization.herd.steersPlaceholder')}
+          value={garrotes}
+          onChangeText={setGarrotes}
+          keyboardType="numeric"
+        />
+      </View>
     </View>
-  </View>
-);
+  );
+};
 
 export default RebanhoInput;

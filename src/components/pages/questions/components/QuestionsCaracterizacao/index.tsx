@@ -1,11 +1,11 @@
 import React, { useCallback } from "react";
 import { View } from "react-native";
 
-import { FormData } from "./types";
+import { FormData } from "@/src/components/pages/questions/components/QuestionsCaracterizacao/types";
 import { useCharacterizationFormState } from "@/src/components/pages/questions/components/QuestionsCaracterizacao/hooks/useCharacterizationFormState";
 import { useCharacterizationFormLogic } from "@/src/components/pages/questions/components/QuestionsCaracterizacao/hooks/useCharacterizationFormLogic";
 import { FormSections } from "./components/FormSections";
-import { stylesQuestions } from "./styles";
+import { stylesCharacterization } from "./styles";
 
 interface FormularioQuestionarioProps {
   onDataChange: (data: FormData) => void;
@@ -20,8 +20,8 @@ export const FormularioQuestionario: React.FC<FormularioQuestionarioProps> = ({
 
   const renderRadioButton = useCallback(
     (isSelected: boolean) => (
-      <View style={[stylesQuestions.radio]}>
-        {isSelected && <View style={stylesQuestions.radioSelected} />}
+      <View style={[stylesCharacterization.radio]}>
+        {isSelected && <View style={stylesCharacterization.radioSelected} />}
       </View>
     ),
     []

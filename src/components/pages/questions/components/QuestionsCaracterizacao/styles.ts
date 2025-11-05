@@ -1,9 +1,7 @@
-import { useTheme } from "@/src/hooks/theme";
+import { theme } from "@/src/config";
 import { StyleSheet } from "react-native";
 
-const theme = useTheme();
-
-export const stylesQuestions = StyleSheet.create({
+export const stylesCharacterization = StyleSheet.create({
   containerResponses: {
     marginTop: theme.spacing.lg,
     borderWidth: theme.borders.width.thick,

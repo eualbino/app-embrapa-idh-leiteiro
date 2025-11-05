@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, ScrollView } from "react-native";
+import { useTranslation } from "react-i18next";
 import {
   QuestionnaireProvider,
   useQuestionnaireContext,
@@ -10,7 +11,7 @@ import { QuestionGroup } from "./components/QuestionGroup";
 import { NavigationButtons } from "./components/NavigationButtons";
 import { FormularioQuestionario } from "./components/QuestionsCaracterizacao";
 import { questions } from "@/src/mock/questions";
-import { stylesQuestions } from "./styles";
+import { stylesQuestionsPage } from "./styles";
 
 const data_quantidade_agua = questions.filter(
   (question) => question.groupMain === "quantidade-agua"
@@ -59,16 +60,17 @@ const QuestionnaireContent: React.FC = () => {
 };
 
 export default function AllQuestionsScore() {
+  const { t } = useTranslation();
+  
   return (
     <QuestionnaireProvider>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={stylesQuestions.containerInfo}>
-          <Text style={stylesQuestions.textHeader}>
-            Índice de{"\n"}Desempenho{"\n"}Hídrico na Produção Leiteira
+        <View style={stylesQuestionsPage.containerInfo}>
+          <Text style={stylesQuestionsPage.textHeader}>
+            {t('questionnaire.title')}
           </Text>
-          <Text style={stylesQuestions.textSubHeader}>
-            Responda o questionário e obtenha um score indívidual, indicando o
-            nível de desempenho hídrico do sistema de produção leiteira.
+          <Text style={stylesQuestionsPage.textSubHeader}>
+            {t('questionnaire.subtitle')}
           </Text>
         </View>
       </ScrollView>

@@ -1,7 +1,5 @@
 import { StyleSheet } from "react-native";
-import { useTheme } from "@/src/hooks/theme";
-
-const theme = useTheme();
+import { theme } from "@/src/config";
 
 export const styles = StyleSheet.create({
   optionContainer: {

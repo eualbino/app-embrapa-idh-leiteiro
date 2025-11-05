@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
-import { Alert } from "react-native";
+import { useTranslation } from "react-i18next";
 import { questions } from "@/src/mock/questions";
-import { FormData } from "@/src/components/pages/questions/types";
+import { FormData } from "@/src/components/pages/questions/components/QuestionsCaracterizacao/types";
+import Toast from "react-native-toast-message";
 
 interface QuestionnaireState {
   step: number;
@@ -45,6 +46,7 @@ const groups = [
 
 export const useQuestionnaire = (): QuestionnaireState &
   QuestionnaireActions => {
+  const { t } = useTranslation();
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<{ [key: string]: number | null }>({});
   const [formData, setFormData] = useState<FormData | null>(null);
@@ -88,54 +90,61 @@ export const useQuestionnaire = (): QuestionnaireState &
     []
   );
 
-  const validateCaracterizacaoForm = useCallback((data: FormData): string[] => {
-    const errors: string[] = [];
+  const validateCaracterizacaoForm = useCallback(
+    (data: FormData): string[] => {
+      const errors: string[] = [];
 
-    if (!data.sistemaProducao.tipo) {
-      errors.push("Sistema de Produção é obrigatório");
-    }
+      if (!data.sistemaProducao.tipo) {
+        errors.push(t("questionnaire.validation.productionSystemRequired"));
+      }
 
-    if (
-      data.sistemaProducao.tipo === "outro" &&
-      !data.sistemaProducao.outroEspecificacao?.trim()
-    ) {
-      errors.push(
-        'Especifique o sistema de produção quando "Outro" for selecionado'
-      );
-    }
+      if (
+        data.sistemaProducao.tipo === "outro" &&
+        !data.sistemaProducao.outroEspecificacao?.trim()
+      ) {
+        errors.push(t("questionnaire.validation.specifyOtherProductionSystem"));
+      }
 
-    if (!data.area.propriedade) {
-      errors.push("Área da propriedade é obrigatória");
-    }
+      if (!data.area.propriedade) {
+        errors.push(t("questionnaire.validation.farmAreaRequired"));
+      }
 
-    if (!data.rebanho.vacasLactacao) {
-      errors.push("Número de vacas em lactação é obrigatório");
-    }
+      if (!data.rebanho.vacasLactacao) {
+        errors.push(t("questionnaire.validation.lactatingCowsRequired"));
+      }
 
-    if (!data.producaoLeiteira.litrosDiaPropriedade) {
-      errors.push("Produção de litros por dia é obrigatória");
-    }
+      if (!data.producaoLeiteira.litrosDiaPropriedade) {
+        errors.push(t("questionnaire.validation.dailyProductionRequired"));
+      }
 
-    return errors;
-  }, []);
+      return errors;
+    },
+    [t]
+  );
 
   const handleNext = useCallback(() => {
     if (step === 0) {
       if (formData) {
         const errors = validateCaracterizacaoForm(formData);
         if (errors.length > 0) {
-          Alert.alert(
-            "Campos Obrigatórios",
-            "Por favor, preencha os seguintes campos:\n\n" + errors.join("\n"),
-            [{ text: "OK" }]
-          );
+          Toast.show({
+            type: "error",
+            text1: t("questionnaire.questions.toasts.requiredFieldsTitle"),
+            text2: `${t(
+              "questionnaire.questions.toasts.fillFieldsPrefix"
+            )}\n\n• ${errors.join("\n• ")}`,
+            visibilityTime: 20000,
+            autoHide: true,
+          });
           return;
         }
       } else {
-        Alert.alert(
-          "Erro",
-          "Dados do formulário de caracterização não disponíveis."
-        );
+        Toast.show({
+          type: "error",
+          text1: t("questionnaire.questions.toasts.missingFormDataTitle"),
+          text2: t("questionnaire.questions.toasts.missingFormDataMessage"),
+          visibilityTime: 5000,
+        });
         return;
       }
     }
@@ -147,21 +156,19 @@ export const useQuestionnaire = (): QuestionnaireState &
 
       const sortedAnswers = Object.keys(answers)
         .sort((a, b) => parseInt(a) - parseInt(b))
-        .reduce(
-          (obj, key) => {
-            obj[key] = answers[key];
-            return obj;
-          },
-          {} as { [key: string]: number | null }
-        );
+        .reduce((obj, key) => {
+          obj[key] = answers[key];
+          return obj;
+        }, {} as { [key: string]: number | null });
 
       console.log("📝 Respostas atuais:", sortedAnswers);
 
       if (!allAnswered) {
-        Alert.alert(
-          "Atenção",
-          "Responda todas as perguntas antes de continuar."
-        );
+        Toast.show({
+          type: "warning",
+          text1: t("questionnaire.questions.toasts.answerAllTitle"),
+          text2: t("questionnaire.questions.toasts.answerAllMessage"),
+        });
         return;
       }
     }
@@ -169,7 +176,11 @@ export const useQuestionnaire = (): QuestionnaireState &
     if (step < groups.length - 1) {
       setStep((prev) => prev + 1);
     } else {
-      Alert.alert("Sucesso", "Você finalizou todas as perguntas!");
+      Toast.show({
+        type: "success",
+        text1: t("questionnaire.questions.toasts.completedTitle"),
+        text2: t("questionnaire.questions.toasts.completedMessage"),
+      });
     }
   }, [step, formData, currentGroup, answers, validateCaracterizacaoForm]);
 

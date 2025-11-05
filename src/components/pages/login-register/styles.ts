@@ -1,7 +1,5 @@
-import { useTheme } from "@/src/hooks/theme";
+import { theme } from "@/src/config";
 import { StyleSheet } from "react-native";
-
-const theme = useTheme();
 
 export const styles = StyleSheet.create({
   container: {
@@ -47,7 +45,7 @@ export const styles = StyleSheet.create({
     fontSize: theme.typography.sizes.sm,
     fontWeight: theme.typography.weights.medium,
     textAlign: "right",
-    fontStyle: "underline",
+    textDecorationLine: "underline",
     marginTop: -20,
   },
 });

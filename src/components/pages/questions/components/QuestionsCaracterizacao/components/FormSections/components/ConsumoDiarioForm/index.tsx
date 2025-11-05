@@ -1,6 +1,7 @@
 import React, { JSX } from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
-import { stylesQuestions } from "../../../../styles";
+import { useTranslation } from "react-i18next";
+import { stylesCharacterization } from "../../../../styles";
 
 interface ConsumoDiarioInputProps {
   volumoso: string;
@@ -20,65 +21,69 @@ const ConsumoDiarioInput: React.FC<ConsumoDiarioInputProps> = ({
   unidadeInformada,
   setUnidadeInformada,
   renderRadioButton,
-}) => (
-  <View style={stylesQuestions.containerResponses}>
-    <View style={stylesQuestions.containerQuestionInput}>
-      <Text style={stylesQuestions.questionText}>
-        <Text>F. CONSUMO DIÁRIO: </Text>
-        <Text>Qual o consumo diário de volumoso por vaca (kg/dia ou %PV)?</Text>
-      </Text>
-      <TextInput
-        style={stylesQuestions.textInput}
-        placeholder="Consumo de Volumoso"
-        value={volumoso}
-        onChangeText={setVolumoso}
-        keyboardType="numeric"
-      />
-    </View>
-
-    <View style={stylesQuestions.containerQuestionInput}>
-      <Text style={stylesQuestions.questionText}>
-        <Text>
-          Qual o consumo diário de concentrado por vaca (kg/dia ou %PV)?
+}) => {
+  const { t } = useTranslation();
+  
+  return (
+    <View style={stylesCharacterization.containerResponses}>
+      <View style={stylesCharacterization.containerQuestionInput}>
+        <Text style={stylesCharacterization.questionText}>
+          <Text>{t('questionnaire.characterization.dailyConsumption.sectionTitle')} </Text>
+          <Text>{t('questionnaire.characterization.dailyConsumption.roughageConsumption')}</Text>
         </Text>
-      </Text>
-      <TextInput
-        style={stylesQuestions.textInput}
-        placeholder="Consumo de Concentrado"
-        value={concentrado}
-        onChangeText={setConcentrado}
-        keyboardType="numeric"
-      />
-    </View>
+        <TextInput
+          style={stylesCharacterization.textInput}
+          placeholder={t('questionnaire.characterization.dailyConsumption.roughageConsumptionPlaceholder')}
+          value={volumoso}
+          onChangeText={setVolumoso}
+          keyboardType="numeric"
+        />
+      </View>
 
-    <View>
-      <Text style={stylesQuestions.questionText}>
-        <Text>Unidade informada:</Text>
-      </Text>
-      <View >
-        <TouchableOpacity
-          style={stylesQuestions.optionContainer}
-          onPress={() => setUnidadeInformada("kg/dia")}
-        >
-          {renderRadioButton(unidadeInformada === "kg/dia")}
-          <View style={{ flex: 1, marginRight: 1 }}>
-            <Text style={[stylesQuestions.questionsResponseText]}>kg/dia</Text>
-          </View>
-        </TouchableOpacity>
+      <View style={stylesCharacterization.containerQuestionInput}>
+        <Text style={stylesCharacterization.questionText}>
+          <Text>
+            {t('questionnaire.characterization.dailyConsumption.concentrateConsumption')}
+          </Text>
+        </Text>
+        <TextInput
+          style={stylesCharacterization.textInput}
+          placeholder={t('questionnaire.characterization.dailyConsumption.concentrateConsumptionPlaceholder')}
+          value={concentrado}
+          onChangeText={setConcentrado}
+          keyboardType="numeric"
+        />
       </View>
+
       <View>
-        <TouchableOpacity
-          style={stylesQuestions.optionContainer}
-          onPress={() => setUnidadeInformada("%PV")}
-        >
-          {renderRadioButton(unidadeInformada === "%PV")}
-          <View style={{ flex: 1, marginRight: 1 }}>
-            <Text style={[stylesQuestions.questionsResponseText]}>%PV</Text>
-          </View>
-        </TouchableOpacity>
+        <Text style={stylesCharacterization.questionText}>
+          <Text>{t('questionnaire.characterization.dailyConsumption.unitInformed')}</Text>
+        </Text>
+        <View >
+          <TouchableOpacity
+            style={stylesCharacterization.optionContainer}
+            onPress={() => setUnidadeInformada("kg/dia")}
+          >
+            {renderRadioButton(unidadeInformada === "kg/dia")}
+            <View style={{ flex: 1, marginRight: 1 }}>
+              <Text style={[stylesCharacterization.questionsResponseText]}>kg/dia</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+        <View>
+          <TouchableOpacity
+            style={stylesCharacterization.optionContainer}
+            onPress={() => setUnidadeInformada("%PV")}
+          >
+            {renderRadioButton(unidadeInformada === "%PV")}
+            <View style={{ flex: 1, marginRight: 1 }}>
+              <Text style={[stylesCharacterization.questionsResponseText]}>%PV</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
-  </View>
-);
+  );
+};
 
 export default ConsumoDiarioInput;

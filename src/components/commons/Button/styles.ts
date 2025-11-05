@@ -1,12 +1,11 @@
 import { StyleSheet } from "react-native";
-import { useTheme } from "@/src/hooks/theme";
+import { theme } from "@/src/config";
 
 export const style = (
   variant: "primary" | "secondary",
   isActive: boolean,
   disabled: boolean
 ) => {
-  const theme = useTheme();
   const variantButton = theme.components.button[variant];
 
   const backgroundColor = !isActive

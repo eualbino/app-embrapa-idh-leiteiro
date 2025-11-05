@@ -1,17 +1,20 @@
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { questions } from '@/src/mock/questions';
 
 interface UseQuestionnaireProgressProps {
   answers: { [key: string]: number | null };
 }
 
 export const useQuestionnaireProgress = ({ answers }: UseQuestionnaireProgressProps) => {
+  const { t } = useTranslation();
   const answeredCount = useMemo(() => {
     return Object.values(answers).filter(
       (value) => value !== undefined
     ).length;
   }, [answers]);
 
-  const TOTAL_QUESTIONS = 35;
+  const TOTAL_QUESTIONS = questions.length;
   
   const progress = useMemo(() => {
     return answeredCount / TOTAL_QUESTIONS;
@@ -20,20 +23,20 @@ export const useQuestionnaireProgress = ({ answers }: UseQuestionnaireProgressPr
   const getStepTitle = (step: number) => {
     switch (step) {
       case 0:
-        return "Caracterização da Propriedade / Rebanho / Sistema";
+        return t('questionnaire.questions.characterizationTitle');
       case 1:
-        return "Quantidade de Água";
+        return t('questionnaire.questions.waterQuantityTitle');
       case 2:
-        return "Qualidade da Água";
+        return t('questionnaire.questions.waterQualityTitle');
       case 3:
-        return "Manejo de Resíduos e Uso de Fertilizantes";
+        return t('questionnaire.questions.wasteManagementTitle');
       default:
         return "";
     }
   };
 
   const getStepDescription = (step: number) => {
-    return `Categoria ${step + 1} de 4`;
+    return t('questionnaire.questions.category', { current: step + 1, total: 4 });
   };
 
   return {
@@ -41,6 +44,6 @@ export const useQuestionnaireProgress = ({ answers }: UseQuestionnaireProgressPr
     progress,
     getStepTitle,
     getStepDescription,
-    totalQuestions: 35,
+    totalQuestions: TOTAL_QUESTIONS,
   };
 };

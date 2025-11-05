@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { View, Text } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
+import { useTranslation } from "react-i18next";
 import Toast from "react-native-toast-message";
 import { Input } from "@/src/components/commons/Input";
 import { ButtonCommon } from "@/src/components/commons/Button";
 import { styles } from "./styles";
 
 export default function ConfirmCodeForgotPassword() {
+  const { t } = useTranslation();
   const router = useRouter();
   const params = useLocalSearchParams();
   const email = params.email as string || "seu.email@exemplo.com";
@@ -19,8 +21,8 @@ export default function ConfirmCodeForgotPassword() {
     if (!code.trim()) {
       Toast.show({
         type: "error",
-        text1: "Erro",
-        text2: "Por favor, insira o código de verificação.",
+        text1: t('common.error'),
+        text2: t('forgotPassword.errors.emptyCode'),
       });
       return;
     }
@@ -28,8 +30,8 @@ export default function ConfirmCodeForgotPassword() {
     if (code.length < 4) {
       Toast.show({
         type: "error",
-        text1: "Erro",
-        text2: "O código deve ter pelo menos 4 dígitos.",
+        text1: t('common.error'),
+        text2: t('forgotPassword.errors.invalidCode'),
       });
       return;
     }
@@ -41,8 +43,8 @@ export default function ConfirmCodeForgotPassword() {
 
       Toast.show({
         type: "success",
-        text1: "Código Verificado",
-        text2: "Código confirmado com sucesso!",
+        text1: t('forgotPassword.success.codeVerified'),
+        text2: t('forgotPassword.success.codeVerifiedMessage'),
       });
 
       setTimeout(() => {
@@ -54,8 +56,8 @@ export default function ConfirmCodeForgotPassword() {
     } catch (error) {
       Toast.show({
         type: "error",
-        text1: "Erro",
-        text2: "Código inválido ou expirado. Tente novamente.",
+        text1: t('common.error'),
+        text2: t('forgotPassword.errors.verifyCodeFailed'),
       });
     } finally {
       setIsLoading(false);
@@ -70,15 +72,15 @@ export default function ConfirmCodeForgotPassword() {
       
       Toast.show({
         type: "success",
-        text1: "Código Reenviado",
-        text2: "Um novo código foi enviado para seu e-mail.",
+        text1: t('forgotPassword.success.codeResent'),
+        text2: t('forgotPassword.success.codeResentMessage'),
       });
       setCode("");
     } catch (error) {
       Toast.show({
         type: "error",
-        text1: "Erro",
-        text2: "Não foi possível reenviar o código.",
+        text1: t('common.error'),
+        text2: t('forgotPassword.errors.resendFailed'),
       });
     } finally {
       setIsResending(false);
@@ -92,19 +94,19 @@ export default function ConfirmCodeForgotPassword() {
   return (
     <View style={{ width: "100%" }}>
       <View style={styles.card}>
-        <Text style={styles.title}>Confirmar Código</Text>
+        <Text style={styles.title}>{t('forgotPassword.confirmCodeTitle')}</Text>
         
         <Text style={styles.description}>
-          Foi enviado um código para seu e-mail:
+          {t('forgotPassword.confirmCodeDescription')}
         </Text>
 
         <Text style={styles.emailText}>{email}</Text>
 
         <View style={styles.inputContainer}>
           <Input
-            label="Código de Verificação"
+            label={t('forgotPassword.code')}
             type="number-pad"
-            placeholder="Digite o código"
+            placeholder={t('forgotPassword.codePlaceholder')}
             value={code}
             onChangeText={setCode}
             autoCapitalize="none"
@@ -120,7 +122,7 @@ export default function ConfirmCodeForgotPassword() {
             variant="primary"
             disabled={isLoading || isResending}
           >
-            {isLoading ? "Verificando..." : "Confirmar Código"}
+            {isLoading ? t('forgotPassword.verifying') : t('forgotPassword.confirmCode')}
           </ButtonCommon>
         </View>
 
@@ -130,17 +132,17 @@ export default function ConfirmCodeForgotPassword() {
             variant="secondary"
             disabled={isLoading || isResending}
           >
-            Voltar
+            {t('common.back')}
           </ButtonCommon>
         </View>
 
         <View style={styles.resendContainer}>
-          <Text style={styles.resendText}>Não recebeu o código?</Text>
+          <Text style={styles.resendText}>{t('forgotPassword.didntReceiveCode')}</Text>
           <Text 
             style={styles.resendLink}
             onPress={isResending ? undefined : handleResendCode}
           >
-            {isResending ? "Reenviando..." : "Reenviar código"}
+            {isResending ? t('forgotPassword.resending') : t('forgotPassword.resendCode')}
           </Text>
         </View>
       </View>

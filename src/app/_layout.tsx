@@ -3,6 +3,7 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar, StyleSheet } from "react-native";
 import Toast from "react-native-toast-message";
 import toastConfig from "@/src/config/toast";
+import "@/src/locales/i18n";
 
 export default function RootLayout() {
   return (

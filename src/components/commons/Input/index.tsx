@@ -6,7 +6,7 @@ import {
   TextInputProps,
   KeyboardTypeOptions,
 } from "react-native";
-import { useInputStyles } from "./styles";
+import { style } from "./styles";
 
 interface InputProps extends Omit<TextInputProps, "style"> {
   label?: string;
@@ -24,7 +24,7 @@ export const Input: React.FC<InputProps> = ({
   labelStyle,
   ...inputProps
 }) => {
-  const styles = useInputStyles();
+  const styles = style();
 
   return (
     <View style={[styles.container, containerStyle]}>

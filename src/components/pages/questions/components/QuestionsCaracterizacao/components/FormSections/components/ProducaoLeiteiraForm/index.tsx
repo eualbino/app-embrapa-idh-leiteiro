@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, TextInput } from "react-native";
-import { stylesQuestions } from "../../../../styles";
+import { useTranslation } from "react-i18next";
+import { stylesCharacterization } from "../../../../styles";
 
 interface ProducaoLeiteiraInputProps {
   litrosDiaPropriedade: string;
@@ -14,37 +15,41 @@ const ProducaoLeiteiraInput: React.FC<ProducaoLeiteiraInputProps> = ({
   setLitrosDiaPropriedade,
   litrosVacaDia,
   setLitrosVacaDia,
-}) => (
-  <View style={stylesQuestions.containerResponses}>
-    <View style={stylesQuestions.containerQuestionInput}>
-      <Text style={stylesQuestions.questionText}>
-        <Text>D. PRODUÇÃO LEITEIRA: </Text>
-        <Text>
-          Qual a produção de leite diária da propriedade (litros/dia)?
+}) => {
+  const { t } = useTranslation();
+  
+  return (
+    <View style={stylesCharacterization.containerResponses}>
+      <View style={stylesCharacterization.containerQuestionInput}>
+        <Text style={stylesCharacterization.questionText}>
+          <Text>{t('questionnaire.characterization.milkProduction.sectionTitle')} </Text>
+          <Text>
+            {t('questionnaire.characterization.milkProduction.dailyProduction')}
+          </Text>
         </Text>
-      </Text>
-      <TextInput
-        style={stylesQuestions.textInput}
-        placeholder="Litros/dia da propriedade"
-        value={litrosDiaPropriedade}
-        onChangeText={setLitrosDiaPropriedade}
-        keyboardType="numeric"
-      />
-    </View>
+        <TextInput
+          style={stylesCharacterization.textInput}
+          placeholder={t('questionnaire.characterization.milkProduction.dailyProductionPlaceholder')}
+          value={litrosDiaPropriedade}
+          onChangeText={setLitrosDiaPropriedade}
+          keyboardType="numeric"
+        />
+      </View>
 
-    <View>
-      <Text style={stylesQuestions.questionText}>
-        <Text>Qual a produção de leite por vaca/dia (litros/vaca/dia)?</Text>
-      </Text>
-      <TextInput
-        style={stylesQuestions.textInput}
-        placeholder="Litros/vaca/dia"
-        value={litrosVacaDia}
-        onChangeText={setLitrosVacaDia}
-        keyboardType="numeric"
-      />
+      <View>
+        <Text style={stylesCharacterization.questionText}>
+          <Text>{t('questionnaire.characterization.milkProduction.productionPerCow')}</Text>
+        </Text>
+        <TextInput
+          style={stylesCharacterization.textInput}
+          placeholder={t('questionnaire.characterization.milkProduction.productionPerCowPlaceholder')}
+          value={litrosVacaDia}
+          onChangeText={setLitrosVacaDia}
+          keyboardType="numeric"
+        />
+      </View>
     </View>
-  </View>
-);
+  );
+};
 
 export default ProducaoLeiteiraInput;

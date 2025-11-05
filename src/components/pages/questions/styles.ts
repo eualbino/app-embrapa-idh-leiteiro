@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { theme } from "@/src/config";
 
-export const stylesQuestions = StyleSheet.create({
+export const stylesQuestionsPage = StyleSheet.create({
   containerProgressBar: {
     borderRadius: theme.borders.radius.lg,
     borderWidth: theme.borders.width.thick,

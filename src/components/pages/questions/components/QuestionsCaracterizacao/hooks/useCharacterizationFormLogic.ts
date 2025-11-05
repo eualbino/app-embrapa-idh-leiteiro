@@ -1,5 +1,5 @@
 import { useEffect, useCallback } from 'react';
-import { FormData } from '@/src/components/pages/questions/types';
+import { FormData } from '@/src/components/pages/questions/components/QuestionsCaracterizacao/types';
 
 interface UseCharacterizationFormLogicProps {
   // Sistema de Produção
@@ -138,36 +138,4 @@ export const useCharacterizationFormLogic = ({
     const formData = createFormData();
     onDataChange(formData);
   }, [createFormData, onDataChange]);
-
-  // Função para validar campos obrigatórios
-  const validateRequiredFields = useCallback((): string[] => {
-    const errors: string[] = [];
-
-    if (!sistemaProducao) {
-      errors.push("Sistema de Produção é obrigatório");
-    }
-
-    if (sistemaProducao === "outro" && !outroSistemaProducao.trim()) {
-      errors.push("Especifique o sistema de produção quando 'Outro' for selecionado");
-    }
-
-    if (!areaPropriedade) {
-      errors.push("Área da propriedade é obrigatória");
-    }
-
-    if (!vacasLactacao) {
-      errors.push("Número de vacas em lactação é obrigatório");
-    }
-
-    if (!litrosDiaPropriedade) {
-      errors.push("Produção de litros por dia é obrigatória");
-    }
-
-    return errors;
-  }, [sistemaProducao, outroSistemaProducao, areaPropriedade, vacasLactacao, litrosDiaPropriedade]);
-
-  return {
-    createFormData,
-    validateRequiredFields,
-  };
 };

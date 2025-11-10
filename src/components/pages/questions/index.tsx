@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, ScrollView } from "react-native";
 import { useTranslation } from "react-i18next";
 import {
@@ -64,17 +64,34 @@ export default function AllQuestionsScore() {
   
   return (
     <QuestionnaireProvider>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={stylesQuestionsPage.containerInfo}>
-          <Text style={stylesQuestionsPage.textHeader}>
-            {t('questionnaire.title')}
-          </Text>
-          <Text style={stylesQuestionsPage.textSubHeader}>
-            {t('questionnaire.subtitle')}
-          </Text>
-        </View>
-      </ScrollView>
-      <QuestionnaireContent />
+      <QuestionnaireContentWrapper />
     </QuestionnaireProvider>
   );
 }
+
+const QuestionnaireContentWrapper: React.FC = () => {
+  const { t } = useTranslation();
+  const { scrollRef, step } = useQuestionnaireContext();
+  
+  // Força scroll para o topo sempre que o step mudar
+  useEffect(() => {
+    // Usa requestAnimationFrame para garantir que o scroll aconteça após o render
+    requestAnimationFrame(() => {
+      scrollRef.current?.scrollTo({ x: 0, y: 0, animated: false });
+    });
+  }, [step, scrollRef]);
+  
+  return (
+    <ScrollView ref={scrollRef} showsVerticalScrollIndicator={false}>
+      <View style={stylesQuestionsPage.containerInfo}>
+        <Text style={stylesQuestionsPage.textHeader}>
+          {t('questionnaire.title')}
+        </Text>
+        <Text style={stylesQuestionsPage.textSubHeader}>
+          {t('questionnaire.subtitle')}
+        </Text>
+      </View>
+      <QuestionnaireContent />
+    </ScrollView>
+  );
+};

@@ -1,4 +1,5 @@
-import React, { createContext, useContext, ReactNode } from "react";
+import React, { createContext, useContext, ReactNode, useRef } from "react";
+import { ScrollView } from "react-native";
 import { useQuestionnaire } from "@/src/hooks/useQuestionnaire";
 import { FormData } from "@/src/components/pages/questions/components/QuestionsCaracterizacao/types";
 
@@ -8,6 +9,7 @@ interface QuestionnaireContextType {
   formData: FormData | null;
   date: Date;
   showPicker: boolean;
+  scrollRef: React.RefObject<ScrollView>;
   setStep: (step: number) => void;
   setAnswers: (answers: { [key: string]: number | null }) => void;
   setFormData: (formData: FormData | null) => void;
@@ -34,9 +36,10 @@ export const QuestionnaireProvider: React.FC<QuestionnaireProviderProps> = ({
   children,
 }) => {
   const questionnaire = useQuestionnaire();
+  const scrollRef = useRef<ScrollView>(null);
 
   return (
-    <QuestionnaireContext.Provider value={questionnaire}>
+    <QuestionnaireContext.Provider value={{ ...questionnaire, scrollRef }}>
       {children}
     </QuestionnaireContext.Provider>
   );

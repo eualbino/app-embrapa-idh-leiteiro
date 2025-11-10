@@ -16,7 +16,7 @@ export const NavigationButtons: React.FC = () => {
     <View style={styles.container}>
       <View>
         <ButtonCommon
-          onPress={handlePrevious}
+          onPress={() => handlePrevious()}
           disabled={isFirstStep}
           variant="secondary"
         >
@@ -24,7 +24,7 @@ export const NavigationButtons: React.FC = () => {
         </ButtonCommon>
       </View>
       <View>
-        <ButtonCommon onPress={handleNext} variant="primary">
+        <ButtonCommon onPress={() => handleNext()} variant="primary">
           {isLastStep ? t('questionnaire.questions.finish') : t('questionnaire.questions.next')} {"  >"}
         </ButtonCommon>
       </View>

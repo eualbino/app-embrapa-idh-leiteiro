@@ -38,12 +38,13 @@ export default {
     forgotPassword: {
       title: "Esqueceu a Senha?",
       sendEmailTitle: "Esqueceu a Senha?",
-      sendEmailDescription: "Digite seu e-mail cadastrado e enviaremos um código de verificação para redefinir sua senha.",
+      sendEmailDescription:
+        "Digite seu e-mail cadastrado e enviaremos um código de verificação para redefinir sua senha.",
       confirmCodeTitle: "Confirmar Código",
       confirmCodeDescription: "Foi enviado um código para seu e-mail:",
       resetPasswordTitle: "Redefinir Senha",
       resetPasswordDescription: "Crie uma nova senha para sua conta.",
-      
+
       email: "E-mail",
       emailPlaceholder: "seu.email@exemplo.com",
       code: "Código de Verificação",
@@ -52,18 +53,18 @@ export default {
       newPasswordPlaceholder: "Digite sua nova senha",
       confirmPassword: "Confirmar Nova Senha",
       confirmPasswordPlaceholder: "Digite sua senha novamente",
-      
+
       sendCode: "Enviar Código",
       sending: "Enviando...",
       confirmCode: "Confirmar Código",
       verifying: "Verificando...",
       resetPassword: "Redefinir Senha",
       resetting: "Redefinindo...",
-      
+
       didntReceiveCode: "Não recebeu o código?",
       resendCode: "Reenviar código",
       resending: "Reenviando...",
-      
+
       // Password requirements
       passwordRequirements: {
         minLength: "Mínimo de 8 caracteres",
@@ -72,7 +73,7 @@ export default {
         hasNumber: "Pelo menos um número",
         hasSpecialChar: "Pelo menos um caractere especial",
       },
-      
+
       // Toast messages
       errors: {
         emptyEmail: "Por favor, insira seu e-mail.",
@@ -87,10 +88,11 @@ export default {
         passwordMismatch: "As senhas não coincidem.",
         resetFailed: "Não foi possível redefinir a senha.",
       },
-      
+
       success: {
         emailSent: "E-mail Enviado",
-        emailSentMessage: "Um código de verificação foi enviado para seu e-mail.",
+        emailSentMessage:
+          "Um código de verificação foi enviado para seu e-mail.",
         codeVerified: "Código Verificado",
         codeVerifiedMessage: "Código confirmado com sucesso!",
         codeResent: "Código Reenviado",
@@ -103,7 +105,8 @@ export default {
     // Questionnaire
     questionnaire: {
       title: "Questionário",
-      subtitle: "Responda o questionário e obtenha um score individual, indicando o nível de desempenho hídrico do sistema de produção leiteira.",
+      subtitle:
+        "Responda o questionário e obtenha um score individual, indicando o nível de desempenho hídrico do sistema de produção leiteira.",
       date: "Data",
       identification: "Identificação",
       // Characterization (used across form sections)
@@ -113,9 +116,12 @@ export default {
           question: "Qual é o Sistema de Produção empregado pela propriedade?",
           options: {
             exclusivelyPasture: "Exclusivamente a pasto",
-            pastureWithSupplementation: "Pastagem com suplementação proteica e/ou energética no cocho",
-            confinedNoPasture: "Confinado (volumoso e concentrado no cocho) sem acesso a pastagem",
-            confinedLactatingCows: "Confinado para vacas em lactação e pasto (com ou sem suplementação) para demais categorias",
+            pastureWithSupplementation:
+              "Pastagem com suplementação proteica e/ou energética no cocho",
+            confinedNoPasture:
+              "Confinado (volumoso e concentrado no cocho) sem acesso a pastagem",
+            confinedLactatingCows:
+              "Confinado para vacas em lactação e pasto (com ou sem suplementação) para demais categorias",
             other: "Outro. Qual?",
           },
           otherPlaceholder: "Especifique outro sistema",
@@ -144,9 +150,11 @@ export default {
         },
         milkProduction: {
           sectionTitle: "D. PRODUÇÃO LEITEIRA:",
-          dailyProduction: "Qual a produção de leite diária da propriedade (litros/dia)?",
+          dailyProduction:
+            "Qual a produção de leite diária da propriedade (litros/dia)?",
           dailyProductionPlaceholder: "Litros/dia da propriedade",
-          productionPerCow: "Qual a produção de leite por vaca/dia (litros/vaca/dia)?",
+          productionPerCow:
+            "Qual a produção de leite por vaca/dia (litros/vaca/dia)?",
           productionPerCowPlaceholder: "Litros/vaca/dia",
         },
         milkComposition: {
@@ -158,15 +166,18 @@ export default {
         },
         dailyConsumption: {
           sectionTitle: "F. CONSUMO DIÁRIO:",
-          roughageConsumption: "Qual o consumo diário de volumoso por vaca (kg/dia ou %PV)?",
+          roughageConsumption:
+            "Qual o consumo diário de volumoso por vaca (kg/dia ou %PV)?",
           roughageConsumptionPlaceholder: "Consumo de Volumoso",
-          concentrateConsumption: "Qual o consumo diário de concentrado por vaca (kg/dia ou %PV)?",
+          concentrateConsumption:
+            "Qual o consumo diário de concentrado por vaca (kg/dia ou %PV)?",
           concentrateConsumptionPlaceholder: "Consumo de Concentrado",
           unitInformed: "Unidade informada:",
         },
         electricEnergy: {
           sectionTitle: "G. ENERGIA ELÉTRICA:",
-          monthlyConsumption: "Qual o consumo mensal de energia elétrica (kWh/mês)?",
+          monthlyConsumption:
+            "Qual o consumo mensal de energia elétrica (kWh/mês)?",
           monthlyConsumptionPlaceholder: "Consumo Mensal (kWh/mês)",
           hasSolarEnergy: "A propriedade possui energia fotovoltaica?",
         },
@@ -179,18 +190,21 @@ export default {
       name: "Nome",
       city: "Município",
       state: "Estado",
-      
+
       // Production System
       productionSystem: {
         title: "Sistema de Produção",
         question: "Qual Sistema de Produção empregado pela propriedade?",
         pasture: "Exclusivamente a pasto",
-        pastureWithSupplement: "Pastagem com suplementação proteica e/ou energética no cocho",
-        confined: "Confinado (volumoso e concentrado no cocho) sem acesso a pastagem",
-        confinedLactating: "Confinado para vacas em lactação e pasto (com ou sem suplementação) para demais categorias",
+        pastureWithSupplement:
+          "Pastagem com suplementação proteica e/ou energética no cocho",
+        confined:
+          "Confinado (volumoso e concentrado no cocho) sem acesso a pastagem",
+        confinedLactating:
+          "Confinado para vacas em lactação e pasto (com ou sem suplementação) para demais categorias",
         other: "Outro",
       },
-      
+
       // Area
       area: {
         title: "Área",
@@ -198,7 +212,7 @@ export default {
         pastureArea: "Área com pastagem (ha)",
         silageArea: "Área usada para produção de silagem (ha)",
       },
-      
+
       // Cattle Herd
       herd: {
         title: "Rebanho Bovino (média dos últimos 12 meses)",
@@ -209,7 +223,7 @@ export default {
         steers: "Garrotes",
         bulls: "Touros",
       },
-      
+
       // Milk Production
       milkProduction: {
         title: "Produção Leiteira (média dos últimos 12 meses)",
@@ -218,25 +232,27 @@ export default {
         fatPercentage: "% de gordura no leite",
         proteinPercentage: "% de proteína no leite",
       },
-      
+
       // Consumption
       consumption: {
         title: "Consumo Diário",
-        averageConsumption: "Média do consumo diário (kg) de volumoso e concentrado das vacas em lactação?",
+        averageConsumption:
+          "Média do consumo diário (kg) de volumoso e concentrado das vacas em lactação?",
         roughage: "Volumoso (kg/vaca em lactação/dia)",
         concentrate: "Concentrado (kg/vaca em lactação/dia)",
         unit: "Qual unidade informada?",
         freshMatter: "kg de matéria natural",
         dryMatter: "kg de matéria seca",
       },
-      
+
       // Energy
       energy: {
         title: "Energia Elétrica",
-        monthlyConsumption: "Qual é a média mensal de consumo de energia elétrica? (KWh)",
+        monthlyConsumption:
+          "Qual é a média mensal de consumo de energia elétrica? (KWh)",
         hasPhotovoltaic: "Tem Energia Fotovoltáica?",
       },
-      
+
       // Environmental Legislation
       environmental: {
         title: "Legislação Ambiental",
@@ -246,7 +262,7 @@ export default {
         yes: "Sim",
         exempt: "Dispensa",
       },
-      
+
       // Water sections will be added separately due to size
       water: {
         quantity: "Quantidade de Água",
@@ -256,11 +272,12 @@ export default {
         quality: "Qualidade de Água",
         conservation: "Conservação da Água",
       },
-      
+
       questions: {
         progress: "Progresso",
         category: "Categoria {{current}} de {{total}}",
-        characterizationTitle: "Caracterização da Propriedade / Rebanho / Sistema",
+        characterizationTitle:
+          "Caracterização da Propriedade / Rebanho / Sistema",
         waterQuantityTitle: "Quantidade de Água",
         waterQualityTitle: "Qualidade da Água",
         wasteManagementTitle: "Manejo de Resíduos e Uso de Fertilizantes",
@@ -273,7 +290,8 @@ export default {
           requiredFieldsTitle: "Campos Obrigatórios",
           fillFieldsPrefix: "Por favor, preencha os seguintes campos:",
           missingFormDataTitle: "Erro",
-          missingFormDataMessage: "Dados do formulário de caracterização não disponíveis.",
+          missingFormDataMessage:
+            "Dados do formulário de caracterização não disponíveis.",
           answerAllTitle: "Atenção",
           answerAllMessage: "Responda todas as perguntas antes de continuar.",
           completedTitle: "Sucesso",
@@ -282,7 +300,8 @@ export default {
         // Individual questions
         q1: {
           text: "Existe um MAPA HIDRÁULICO da propriedade?",
-          observation: "O Mapa Hidráulico é o mapeamento de toda a rede hidráulica do sistema de produção com a identificação das fontes de água, pontos de consumo, localização de bombas e fluxos de águas pluviais e de efluentes",
+          observation:
+            "O Mapa Hidráulico é o mapeamento de toda a rede hidráulica do sistema de produção com a identificação das fontes de água, pontos de consumo, localização de bombas e fluxos de águas pluviais e de efluentes",
         },
         q2: {
           text: "Há MEDIÇÃO DO CONSUMO DE ÁGUA da propriedade?",
@@ -292,11 +311,13 @@ export default {
         },
         q4: {
           text: "Qual é o % de pontos de consumo de água que é monitorado?",
-          observation: "Identifique o total de pontos de consumo que existem na propriedade. Determine quantos deles possuem monitoramento com hidrômetro. Divida o número de pontos com monitoramento pelo número total e multiplique por 100.",
+          observation:
+            "Identifique o total de pontos de consumo que existem na propriedade. Determine quantos deles possuem monitoramento com hidrômetro. Divida o número de pontos com monitoramento pelo número total e multiplique por 100.",
         },
         q5: {
           text: "A atividade possui metas de redução do consumo ou perda da água?",
-          observation: "Um plano com metas para a redução do consumo de água ou das perdas deve conter uma etapa que descreva como isso será alcançado dentro do prazo previsto.",
+          observation:
+            "Um plano com metas para a redução do consumo de água ou das perdas deve conter uma etapa que descreva como isso será alcançado dentro do prazo previsto.",
         },
         q6: {
           text: "A propriedade possui um SISTEMA DE CONTROLE DE VAZÃO DE ÁGUA nas mangueiras de lavagem da sala de ORDENHA?",
@@ -312,11 +333,13 @@ export default {
         },
         q10: {
           text: "Propriedade possui programa de uso de água de IRRIGAÇÃO?",
-          observation: "O Programa de irrigação deve conter o cálculo da lâmina de água a ser aplicada de acordo com os parâmetros técnicos (aspectos climáticos, unidade do solo, etc.). Não se aplica quando as propriedades não fazem irrigação.",
+          observation:
+            "O Programa de irrigação deve conter o cálculo da lâmina de água a ser aplicada de acordo com os parâmetros técnicos (aspectos climáticos, unidade do solo, etc.). Não se aplica quando as propriedades não fazem irrigação.",
         },
         q11: {
           text: "O acionamento do sistema de RESFRIAMENTO dos animais é feito com base em parâmetros técnicos?",
-          observation: "Sistema de resfriamento que aciona com base em controle com parâmetros técnicos (temperatura e umidade ambiente).",
+          observation:
+            "Sistema de resfriamento que aciona com base em controle com parâmetros técnicos (temperatura e umidade ambiente).",
         },
         q12: {
           text: "A propriedade possui CAPTAÇÃO DE ÁGUA DA CHUVA e armazenamento em CISTERNA?",
@@ -329,7 +352,8 @@ export default {
         },
         q15: {
           text: "Qual a % DE PONTOS DE ÁGUA MONITORADOS para qualidade da água em relação ao total de pontos de consumo?",
-          observation: "Identifique o total de pontos de consumo que existem na propriedade. Determine quantos pontos possuem coleta e análise de água. Divida o número de pontos de coleta pelo número total de pontos de consumo e multiplique por 100.",
+          observation:
+            "Identifique o total de pontos de consumo que existem na propriedade. Determine quantos pontos possuem coleta e análise de água. Divida o número de pontos de coleta pelo número total de pontos de consumo e multiplique por 100.",
         },
         q16: {
           text: "A propriedade faz ANÁLISE DE NITRATO na água?",
@@ -366,7 +390,8 @@ export default {
         },
         q27: {
           text: "Qual é o % de LAVAGENS DO PISO do curral de espera e da sala de ordenha no total de número de ordenhas?",
-          observation: "Determine quantas lavagens se faz por dia. Divida o número de lavagens pelo número total de ordenhas e multiplique por 100.",
+          observation:
+            "Determine quantas lavagens se faz por dia. Divida o número de lavagens pelo número total de ordenhas e multiplique por 100.",
         },
         q28: {
           text: "A propriedade faz RASPAGEM DO ESTERCO do piso antes da lavagem?",
@@ -376,11 +401,13 @@ export default {
         },
         q30: {
           text: "A propriedade possui um PLANO DE EMERGÊNCIA para eventos extremos?",
-          observation: "Como eventos extremos entende-se: transbordamento da esterqueira/lagoa de dejetos, rompimento de canal/canaleta que transporta dejeto, escoamento superficial de resíduo pelo solo, etc.",
+          observation:
+            "Como eventos extremos entende-se: transbordamento da esterqueira/lagoa de dejetos, rompimento de canal/canaleta que transporta dejeto, escoamento superficial de resíduo pelo solo, etc.",
         },
         q31: {
           text: "A propriedade DOCUMENTA E MONITORA o uso de fertilizantes químicos e orgânicos?",
-          observation: "Todo o uso de fertilizante químico ou orgânico é documentado por tamanho da área de aplicação, tipo de cultura, quantidade de NPK aplicada, data de aplicação e considerando a análise de fertilidade do solo da área.",
+          observation:
+            "Todo o uso de fertilizante químico ou orgânico é documentado por tamanho da área de aplicação, tipo de cultura, quantidade de NPK aplicada, data de aplicação e considerando a análise de fertilidade do solo da área.",
         },
         q32: {
           text: "Faz ANÁLISE EM LABORATÓRIO da concentração de nutrientes (nitrogênio, fósforo e potássio) do RESÍDUO ORGÂNICO?",
@@ -405,9 +432,12 @@ export default {
           doesNotClean: "Não faz limpeza dos bebedouros",
           doesNotApply: "Não faz aplicação",
           noMeasurementSystem: "Não possui sistema de medição",
-          noQualityMonitoringSystem: "Não possui sistema de monitoramento de qualidade da água",
-          noStorageTreatmentSystem: "Não possui sistema de armazenamento ou tratamento de dejetos",
-          noStorageTreatmentSystemWaste: "Não possui sistema de armazenamento ou tratamento dos dejetos",
+          noQualityMonitoringSystem:
+            "Não possui sistema de monitoramento de qualidade da água",
+          noStorageTreatmentSystem:
+            "Não possui sistema de armazenamento ou tratamento de dejetos",
+          noStorageTreatmentSystemWaste:
+            "Não possui sistema de armazenamento ou tratamento dos dejetos",
           noCooling: "Não faz resfriamento (Não se aplica)",
           monthlyOrMore: "Mensal ou superior",
           biweekly: "Quinzenal",
@@ -421,18 +451,25 @@ export default {
           between26And50: "Entre 26% a 50%",
           between51And79: "Entre 51% a 79%",
           above80: "Acima de 80%",
-          lessThan25AllPoints: "Menos de 25% de todos os pontos de consumo são monitorados",
-          between26And50Points: "Entre 26% e 50% dos pontos de consumo são monitorados",
-          between51And79Points: "Entre 51% e 79% dos pontos de consumo são monitorados",
+          lessThan25AllPoints:
+            "Menos de 25% de todos os pontos de consumo são monitorados",
+          between26And50Points:
+            "Entre 26% e 50% dos pontos de consumo são monitorados",
+          between51And79Points:
+            "Entre 51% e 79% dos pontos de consumo são monitorados",
           analysisOncePerYear: "Realiza análise 1 vez por ano",
           analysisTwicePerYear: "Realiza análise 2 vezes por ano",
-          analysisEvery3YearsOrMore: "Realiza análise a cada 3 anos ou mais e esporádico",
+          analysisEvery3YearsOrMore:
+            "Realiza análise a cada 3 anos ou mais e esporádico",
           analysisEvery2Years: "Realiza análise a cada 2 anos",
           annualAnalysis: "Realiza análise anual",
           in100PercentMilkings: "Em 100% das ordenhas",
-          inLessThan100PercentMilkings: "Em menos de 100% das ordenhas (há menos de piso em algumas das ordenhas)",
-          noBasedOnProducerDecision: "NÃO, o acionamento é feito com base na decisão do produtor(a)",
-          yesBasedOnTechnicalParameters: "SIM, o acionamento é feito com base em parâmetros técnicos considerando a temperatura e umidade do ambiente",
+          inLessThan100PercentMilkings:
+            "Em menos de 100% das ordenhas (há menos de piso em algumas das ordenhas)",
+          noBasedOnProducerDecision:
+            "NÃO, o acionamento é feito com base na decisão do produtor(a)",
+          yesBasedOnTechnicalParameters:
+            "SIM, o acionamento é feito com base em parâmetros técnicos considerando a temperatura e umidade do ambiente",
           weeklyApplication: "Aplicação Semanal",
           biweeklyApplication: "Aplicação Quinzenal",
           monthlyApplication: "Aplicação Mensal",
@@ -442,13 +479,43 @@ export default {
           incorporatedIntoSoil: "Aplica o resíduo incorporando ele no solo",
         },
       },
-      // Validation messages for Step 0 form
       validation: {
-        productionSystemRequired: "Sistema de Produção é obrigatório",
-        specifyOtherProductionSystem: "Especifique o sistema de produção quando \"Outro\" for selecionado",
-        farmAreaRequired: "Área da propriedade é obrigatória",
-        lactatingCowsRequired: "Número de vacas em lactação é obrigatório",
-        dailyProductionRequired: "Produção de litros por dia é obrigatória",
+        productionSystemRequired: "Sistema de Produção",
+        specifyOtherProductionSystem:
+          'Especifique o sistema de produção quando "Outro" for selecionado',
+
+        // Área
+        farmAreaRequired: "Área da propriedade",
+        pastureAreaRequired: "Área de pastagem",
+        silageAreaRequired: "Área de silagem",
+
+        // Rebanho
+        lactatingCowsRequired: "Número de vacas em lactação",
+        dryCowsRequired: "Número de vacas secas",
+        heifersRequired: "Número de novilhas",
+        calvesRequired: "Número de bezerros",
+        steersRequired: "Número de garrotes",
+
+        // Produção Leiteira
+        dailyProductionRequired: "Produção de litros por dia",
+        productionPerCowRequired: "Produção de litros por vaca/dia",
+
+        // Composição do Leite
+        fatPercentageRequired: "Percentual de gordura do leite",
+        proteinPercentageRequired: "Percentual de proteína do leite",
+
+        // Consumo Diário
+        roughageConsumptionRequired: "Consumo de volumoso",
+        concentrateConsumptionRequired: "Consumo de concentrado",
+        consumptionUnitRequired: "Unidade de medida do consumo",
+
+        // Energia Elétrica
+        electricityConsumptionRequired: "Consumo mensal de energia elétrica",
+        photovoltaicEnergyRequired: "Informação sobre energia fotovoltaica",
+
+        // Legislação Ambiental
+        environmentalLicenseRequired: "Licença ambiental",
+        waterGrantRequired: "Outorga de água",
       },
     },
   },

@@ -1,6 +1,6 @@
-import React, { createContext, useContext, ReactNode } from 'react';
-import { useQuestionnaire } from '@/src/hooks/useQuestionnaire';
-import { FormData } from '@/src/components/pages/questions/types';
+import React, { createContext, useContext, ReactNode } from "react";
+import { useQuestionnaire } from "@/src/hooks/useQuestionnaire";
+import { FormData } from "@/src/components/pages/questions/components/QuestionsCaracterizacao/types";
 
 interface QuestionnaireContextType {
   step: number;
@@ -22,13 +22,17 @@ interface QuestionnaireContextType {
   validateCaracterizacaoForm: (data: FormData) => string[];
 }
 
-const QuestionnaireContext = createContext<QuestionnaireContextType | undefined>(undefined);
+const QuestionnaireContext = createContext<
+  QuestionnaireContextType | undefined
+>(undefined);
 
 interface QuestionnaireProviderProps {
   children: ReactNode;
 }
 
-export const QuestionnaireProvider: React.FC<QuestionnaireProviderProps> = ({ children }) => {
+export const QuestionnaireProvider: React.FC<QuestionnaireProviderProps> = ({
+  children,
+}) => {
   const questionnaire = useQuestionnaire();
 
   return (
@@ -41,7 +45,9 @@ export const QuestionnaireProvider: React.FC<QuestionnaireProviderProps> = ({ ch
 export const useQuestionnaireContext = (): QuestionnaireContextType => {
   const context = useContext(QuestionnaireContext);
   if (context === undefined) {
-    throw new Error('useQuestionnaireContext must be used within a QuestionnaireProvider');
+    throw new Error(
+      "useQuestionnaireContext must be used within a QuestionnaireProvider"
+    );
   }
   return context;
 };

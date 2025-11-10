@@ -474,14 +474,44 @@ export default {
             "Applies the residue by incorporating it into the soil",
         },
       },
-      // Validation messages for Step 0 form
+
       validation: {
-        productionSystemRequired: "Production System is required",
+        productionSystemRequired: "Production System",
         specifyOtherProductionSystem:
           "Specify the production system when 'Other' is selected",
-        farmAreaRequired: "Farm area is required",
-        lactatingCowsRequired: "Number of lactating cows is required",
-        dailyProductionRequired: "Daily liters production is required",
+
+        // Area
+        farmAreaRequired: "Farm area",
+        pastureAreaRequired: "Pasture area",
+        silageAreaRequired: "Silage area",
+
+        // Herd
+        lactatingCowsRequired: "Number of lactating cows",
+        dryCowsRequired: "Number of dry cows",
+        heifersRequired: "Number of heifers",
+        calvesRequired: "Number of calves",
+        steersRequired: "Number of steers",
+
+        // Milk Production
+        dailyProductionRequired: "Daily liters production",
+        productionPerCowRequired: "Liters per cow/day production",
+
+        // Milk Composition
+        fatPercentageRequired: "Milk fat percentage",
+        proteinPercentageRequired: "Milk protein percentage",
+
+        // Daily Consumption
+        roughageConsumptionRequired: "Roughage consumption",
+        concentrateConsumptionRequired: "Concentrate consumption",
+        consumptionUnitRequired: "Consumption unit of measurement",
+
+        // Electric Energy
+        electricityConsumptionRequired: "Monthly electricity consumption",
+        photovoltaicEnergyRequired: "Photovoltaic energy information",
+
+        // Environmental Legislation
+        environmentalLicenseRequired: "Environmental license",
+        waterGrantRequired: "Water use grant",
       },
     },
   },

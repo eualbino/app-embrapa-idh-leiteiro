@@ -118,6 +118,28 @@ export const useQuestionnaire = (): QuestionnaireState &
     }
 
     if (step < questionGroups.length - 1) {
+      // Se estiver avançando do step 1 em diante, mostra o score
+      if (step >= 1) {
+        const groupNames: { [key: number]: string } = {
+          1: "quantidade-agua",
+          2: "qualidade-agua",
+          3: "manejo-residuos-uso-fertilizantes",
+        };
+        
+        const groupName = groupNames[step];
+        const groupTranslationKey = `questionnaire.questions.groups.${groupName}`;
+        const translatedGroupName = t(groupTranslationKey);
+        
+        Toast.show({
+          type: "score",
+          text1: t("questionnaire.questions.toasts.scoreTitle", { groupName: translatedGroupName }),
+          text2: "SCORE",
+          position: "bottom",
+          visibilityTime: 5000,
+          bottomOffset: 200,
+        });
+      }
+      
       setStep((prev) => prev + 1);
     } else {
       Toast.show({

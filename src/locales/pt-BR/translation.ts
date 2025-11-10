@@ -296,6 +296,12 @@ export default {
           answerAllMessage: "Responda todas as perguntas antes de continuar.",
           completedTitle: "Sucesso",
           completedMessage: "Você finalizou todas as perguntas!",
+          scoreTitle: "Seu score em {{groupName}} foi de:",
+        },
+        groups: {
+          "quantidade-agua": "Quantidade de Água",
+          "qualidade-agua": "Qualidade de Água",
+          "manejo-residuos-uso-fertilizantes": "Manejo de Resíduos e Uso de Fertilizantes",
         },
         // Individual questions
         q1: {

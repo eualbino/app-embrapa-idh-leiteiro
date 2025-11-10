@@ -48,6 +48,12 @@ const toastConfig: ToastConfig = {
       text2NumberOfLines={0}
     />
   ),
+  score: (props) => (
+    <View style={styles.scoreToast}>
+      <Text style={styles.scoreTitle}>{props.text1}</Text>
+      <Text style={styles.scoreValue}>{props.text2}</Text>
+    </View>
+  ),
 };
 
 const styles = StyleSheet.create({
@@ -100,6 +106,35 @@ const styles = StyleSheet.create({
     color: theme.colors.text.secondary,
     flexWrap: 'wrap',
     marginTop: 2,
+  },
+  scoreToast: {
+    backgroundColor: theme.colors.background.default,
+    borderRadius: 16,
+    paddingVertical: theme.spacing.xl,
+    paddingHorizontal: theme.spacing.xl,
+    width: '80%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+    borderWidth: 2,
+    borderColor: theme.colors.primary.default,
+  },
+  scoreTitle: {
+    fontSize: theme.typography.sizes.lg,
+    fontWeight: theme.typography.weights.bold,
+    color: theme.colors.text.primary,
+    textAlign: 'center',
+    marginBottom: theme.spacing.md,
+  },
+  scoreValue: {
+    fontSize: 64,
+    fontWeight: theme.typography.weights.bold,
+    color: theme.colors.primary.default,
+    textAlign: 'center',
   },
 });
 

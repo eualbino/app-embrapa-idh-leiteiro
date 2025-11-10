@@ -38,12 +38,13 @@ export default {
     forgotPassword: {
       title: "Forgot Password?",
       sendEmailTitle: "Forgot Password?",
-      sendEmailDescription: "Enter your registered email and we will send you a verification code to reset your password.",
+      sendEmailDescription:
+        "Enter your registered email and we will send you a verification code to reset your password.",
       confirmCodeTitle: "Confirm Code",
       confirmCodeDescription: "A code was sent to your email:",
       resetPasswordTitle: "Reset Password",
       resetPasswordDescription: "Create a new password for your account.",
-      
+
       email: "Email",
       emailPlaceholder: "your.email@example.com",
       code: "Verification Code",
@@ -52,18 +53,18 @@ export default {
       newPasswordPlaceholder: "Enter your new password",
       confirmPassword: "Confirm New Password",
       confirmPasswordPlaceholder: "Enter your password again",
-      
+
       sendCode: "Send Code",
       sending: "Sending...",
       confirmCode: "Confirm Code",
       verifying: "Verifying...",
       resetPassword: "Reset Password",
       resetting: "Resetting...",
-      
+
       didntReceiveCode: "Didn't receive the code?",
       resendCode: "Resend code",
       resending: "Resending...",
-      
+
       // Password requirements
       passwordRequirements: {
         minLength: "Minimum of 8 characters",
@@ -72,7 +73,7 @@ export default {
         hasNumber: "At least one number",
         hasSpecialChar: "At least one special character",
       },
-      
+
       // Toast messages
       errors: {
         emptyEmail: "Please enter your email.",
@@ -87,7 +88,7 @@ export default {
         passwordMismatch: "Passwords do not match.",
         resetFailed: "Could not reset password.",
       },
-      
+
       success: {
         emailSent: "Email Sent",
         emailSentMessage: "A verification code was sent to your email.",
@@ -103,7 +104,8 @@ export default {
     // Questionnaire
     questionnaire: {
       title: "Questionnaire",
-      subtitle: "Answer the questionnaire to obtain an individual score indicating the water performance level of the dairy production system.",
+      subtitle:
+        "Answer the questionnaire to obtain an individual score indicating the water performance level of the dairy production system.",
       date: "Date",
       identification: "Identification",
       // Characterization (used across form sections)
@@ -113,9 +115,12 @@ export default {
           question: "What Production System is employed in the farm?",
           options: {
             exclusivelyPasture: "Exclusively pasture",
-            pastureWithSupplementation: "Pasture with protein and/or energy supplementation at the trough",
-            confinedNoPasture: "Confined (roughage and concentrate at the trough) without pasture access",
-            confinedLactatingCows: "Confined for lactating cows and pasture (with or without supplementation) for other categories",
+            pastureWithSupplementation:
+              "Pasture with protein and/or energy supplementation at the trough",
+            confinedNoPasture:
+              "Confined (roughage and concentrate at the trough) without pasture access",
+            confinedLactatingCows:
+              "Confined for lactating cows and pasture (with or without supplementation) for other categories",
             other: "Other. Which?",
           },
           otherPlaceholder: "Specify other system",
@@ -144,9 +149,11 @@ export default {
         },
         milkProduction: {
           sectionTitle: "D. MILK PRODUCTION:",
-          dailyProduction: "What is the farm's daily milk production (liters/day)?",
+          dailyProduction:
+            "What is the farm's daily milk production (liters/day)?",
           dailyProductionPlaceholder: "Farm liters/day",
-          productionPerCow: "What is the milk production per cow/day (liters/cow/day)?",
+          productionPerCow:
+            "What is the milk production per cow/day (liters/cow/day)?",
           productionPerCowPlaceholder: "Liters/cow/day",
         },
         milkComposition: {
@@ -158,28 +165,32 @@ export default {
         },
         dailyConsumption: {
           sectionTitle: "F. DAILY CONSUMPTION:",
-          roughageConsumption: "What is the daily roughage consumption per cow (kg/day or %BW)?",
+          roughageConsumption:
+            "What is the daily roughage consumption per cow (kg/day or %BW)?",
           roughageConsumptionPlaceholder: "Roughage Consumption",
-          concentrateConsumption: "What is the daily concentrate consumption per cow (kg/day or %BW)?",
+          concentrateConsumption:
+            "What is the daily concentrate consumption per cow (kg/day or %BW)?",
           concentrateConsumptionPlaceholder: "Concentrate Consumption",
           unitInformed: "Unit provided:",
         },
         electricEnergy: {
           sectionTitle: "G. ELECTRIC ENERGY:",
-          monthlyConsumption: "What is the monthly electricity consumption (kWh/month)?",
+          monthlyConsumption:
+            "What is the monthly electricity consumption (kWh/month)?",
           monthlyConsumptionPlaceholder: "Monthly Consumption (kWh/month)",
           hasSolarEnergy: "Does the farm have photovoltaic energy?",
         },
         environmentalLegislation: {
           sectionTitle: "H. ENVIRONMENTAL LEGISLATION:",
-          hasEnvironmentalLicense: "Does the farm have an environmental license?",
+          hasEnvironmentalLicense:
+            "Does the farm have an environmental license?",
           hasWaterGrant: "Does the farm have a water use grant?",
         },
       },
       name: "Name",
       city: "City",
       state: "State",
-      
+
       // Production System
       productionSystem: {
         title: "Production System",
@@ -187,10 +198,11 @@ export default {
         pasture: "Pasture",
         pastureWithSupplement: "Pasture with feed supplementation",
         confined: "Confined",
-        confinedLactating: "Confined for lactating cows and pasture (with or without supplementation) for other animals",
+        confinedLactating:
+          "Confined for lactating cows and pasture (with or without supplementation) for other animals",
         other: "Other",
       },
-      
+
       // Area
       area: {
         title: "Area",
@@ -198,7 +210,7 @@ export default {
         pastureArea: "Pasture area (ha)",
         silageArea: "Area used for silage production (ha)",
       },
-      
+
       // Cattle Herd
       herd: {
         title: "Cattle Herd (average of the last 12 months)",
@@ -209,7 +221,7 @@ export default {
         steers: "Steers",
         bulls: "Bulls",
       },
-      
+
       // Milk Production
       milkProduction: {
         title: "Milk Production (average of the last 12 months)",
@@ -218,35 +230,38 @@ export default {
         fatPercentage: "% fat in milk",
         proteinPercentage: "% protein in milk",
       },
-      
+
       // Consumption
       consumption: {
         title: "Daily Consumption",
-        averageConsumption: "Average daily consumption (kg) of roughage and concentrate of lactating cows?",
+        averageConsumption:
+          "Average daily consumption (kg) of roughage and concentrate of lactating cows?",
         roughage: "Roughage (kg/lactating cow/day)",
         concentrate: "Concentrate (kg/lactating cow/day)",
         unit: "What unit is reported?",
         freshMatter: "kg of fresh matter",
         dryMatter: "kg of dry matter",
       },
-      
+
       // Energy
       energy: {
         title: "Electricity",
-        monthlyConsumption: "What is the monthly average energy consumption? (KWh)",
+        monthlyConsumption:
+          "What is the monthly average energy consumption? (KWh)",
         hasPhotovoltaic: "Do you have Photovoltaic Energy?",
       },
-      
+
       // Environmental Legislation
       environmental: {
         title: "Environmental Legislation",
-        environmentalLicense: "Do you have an Environmental License for Dairy Activity?",
+        environmentalLicense:
+          "Do you have an Environmental License for Dairy Activity?",
         waterGrant: "Do you have a Water Use Grant?",
         no: "No",
         yes: "Yes",
         exempt: "Exempt",
       },
-      
+
       water: {
         quantity: "Water Quantity",
         consumption: "Water Consumption",
@@ -255,7 +270,7 @@ export default {
         quality: "Water Quality",
         conservation: "Water Conservation",
       },
-      
+
       questions: {
         progress: "Progress",
         category: "Category {{current}} of {{total}}",
@@ -281,7 +296,8 @@ export default {
         // Individual questions
         q1: {
           text: "Is there a HYDRAULIC MAP of the farm?",
-          observation: "The Hydraulic Map is the mapping of the entire hydraulic network of the production system with the identification of water sources, consumption points, pump locations and flows of rainwater and effluents",
+          observation:
+            "The Hydraulic Map is the mapping of the entire hydraulic network of the production system with the identification of water sources, consumption points, pump locations and flows of rainwater and effluents",
         },
         q2: {
           text: "Is there WATER CONSUMPTION MEASUREMENT of the production system?",
@@ -291,11 +307,13 @@ export default {
         },
         q4: {
           text: "What is the % of water consumption points that are monitored?",
-          observation: "Identify the total consumption points that exist on the farm. Determine how many of them have monitoring with a water meter. Divide the number of points monitored by the total number and multiply by 100.",
+          observation:
+            "Identify the total consumption points that exist on the farm. Determine how many of them have monitoring with a water meter. Divide the number of points monitored by the total number and multiply by 100.",
         },
         q5: {
           text: "Does the activity have goals for reducing water consumption or loss?",
-          observation: "A plan with goals for reducing water consumption or losses should contain a stage that describes how this will be achieved within the expected timeframe.",
+          observation:
+            "A plan with goals for reducing water consumption or losses should contain a stage that describes how this will be achieved within the expected timeframe.",
         },
         q6: {
           text: "Does the farm have a WATER FLOW CONTROL SYSTEM in the washing hoses of the MILKING parlor?",
@@ -311,11 +329,13 @@ export default {
         },
         q10: {
           text: "Does the farm have an IRRIGATION water use program?",
-          observation: "The irrigation program should include a calculation of the water to be applied based on technical parameters (climatic aspects, soil type, etc.). Does not apply when farms do not irrigate.",
+          observation:
+            "The irrigation program should include a calculation of the water to be applied based on technical parameters (climatic aspects, soil type, etc.). Does not apply when farms do not irrigate.",
         },
         q11: {
           text: "Is the activation of the animal COOLING system based on technical parameters?",
-          observation: "The cooling system should be activated based on technical parameters (temperature and ambient humidity).",
+          observation:
+            "The cooling system should be activated based on technical parameters (temperature and ambient humidity).",
         },
         q12: {
           text: "Does the farm have RAINWATER COLLECTION?",
@@ -328,7 +348,8 @@ export default {
         },
         q15: {
           text: "What is the % OF WATER POINTS MONITORED for water quality in relation to the total consumption points?",
-          observation: "Identify the total consumption points that exist on the farm. Determine how many points have water analysis. Divide the number of sample points by the total number of water points and multiply by 100.",
+          observation:
+            "Identify the total consumption points that exist on the farm. Determine how many points have water analysis. Divide the number of sample points by the total number of water points and multiply by 100.",
         },
         q16: {
           text: "Does the farm perform NITRATE ANALYSIS in water?",
@@ -365,7 +386,8 @@ export default {
         },
         q27: {
           text: "What is the % of FLOOR WASHING of the holding pen and milking parlor in the total number of milkings?",
-          observation: "Determine how many washes are done per day. Divide the number of washes by the total number of milkings and multiply by 100.",
+          observation:
+            "Determine how many washes are done per day. Divide the number of washes by the total number of milkings and multiply by 100.",
         },
         q28: {
           text: "Does the farm SCRAPE MANURE from the floor before washing?",
@@ -375,11 +397,13 @@ export default {
         },
         q30: {
           text: "Does the farm have an EMERGENCY PLAN for extreme events?",
-          observation: "Extreme events are understood as: overflow of the manure pit/lagoon, rupture of canal/channel that transports waste, surface runoff of residue through the soil, etc.",
+          observation:
+            "Extreme events are understood as: overflow of the manure pit/lagoon, rupture of canal/channel that transports waste, surface runoff of residue through the soil, etc.",
         },
         q31: {
           text: "Does the farm DOCUMENT AND MONITOR the use of chemical and organic fertilizers?",
-          observation: "All use of chemical or organic fertilizer is documented by application area size, crop type, amount of NPK applied, application date and considering the soil fertility analysis of the area.",
+          observation:
+            "All use of chemical or organic fertilizer is documented by application area size, crop type, amount of NPK applied, application date and considering the soil fertility analysis of the area.",
         },
         q32: {
           text: "Do you perform LABORATORY ANALYSIS of the nutrient concentration (nitrogen, phosphorus and potassium) of ORGANIC RESIDUE?",
@@ -404,7 +428,8 @@ export default {
           doesNotClean: "Does not clean water troughs",
           doesNotApply: "Does not apply",
           noMeasurementSystem: "Does not have a measurement system",
-          noQualityMonitoringSystem: "Does not have water quality monitoring system",
+          noQualityMonitoringSystem:
+            "Does not have water quality monitoring system",
           noStorageTreatmentSystem: "Does not have a treatment system",
           noStorageTreatmentSystemWaste: "Does not have a treatment system",
           noCooling: "Does not cool (Not applicable)",
@@ -420,31 +445,40 @@ export default {
           between26And50: "Between 26% to 50%",
           between51And79: "Between 51% to 79%",
           above80: "Above 80%",
-          lessThan25AllPoints: "Less than 25% of all consumption points are monitored",
-          between26And50Points: "Between 26% and 50% of consumption points are monitored",
-          between51And79Points: "Between 51% and 79% of consumption points are monitored",
+          lessThan25AllPoints:
+            "Less than 25% of all consumption points are monitored",
+          between26And50Points:
+            "Between 26% and 50% of consumption points are monitored",
+          between51And79Points:
+            "Between 51% and 79% of consumption points are monitored",
           analysisOncePerYear: "Analysis 1 time per year",
           analysisTwicePerYear: "Analysis 2 times per year",
-          analysisEvery3YearsOrMore: "Analysis every 3 years or more and sporadic",
+          analysisEvery3YearsOrMore:
+            "Analysis every 3 years or more and sporadic",
           analysisEvery2Years: "Analysis every 2 years",
           annualAnalysis: "Annual analysis",
           in100PercentMilkings: "In 100% of milkings",
-          inLessThan100PercentMilkings: "In less than 100% of milkings (there is less floor washing in some milkings)",
-          noBasedOnProducerDecision: "NO, activation is based on the producer's decision",
-          yesBasedOnTechnicalParameters: "YES, activation is based on technical parameters considering temperature and ambient humidity",
+          inLessThan100PercentMilkings:
+            "In less than 100% of milkings (there is less floor washing in some milkings)",
+          noBasedOnProducerDecision:
+            "NO, activation is based on the producer's decision",
+          yesBasedOnTechnicalParameters:
+            "YES, activation is based on technical parameters considering temperature and ambient humidity",
           weeklyApplication: "Weekly Application",
           biweeklyApplication: "Biweekly Application",
           monthlyApplication: "Monthly Application",
           quarterlyApplication: "Quarterly Application",
           every4MonthsOrMore: "Application every 4 months or more",
           surfaceApplication: "Applies superficially",
-          incorporatedIntoSoil: "Applies the residue by incorporating it into the soil",
+          incorporatedIntoSoil:
+            "Applies the residue by incorporating it into the soil",
         },
       },
       // Validation messages for Step 0 form
       validation: {
         productionSystemRequired: "Production System is required",
-        specifyOtherProductionSystem: "Specify the production system when 'Other' is selected",
+        specifyOtherProductionSystem:
+          "Specify the production system when 'Other' is selected",
         farmAreaRequired: "Farm area is required",
         lactatingCowsRequired: "Number of lactating cows is required",
         dailyProductionRequired: "Daily liters production is required",

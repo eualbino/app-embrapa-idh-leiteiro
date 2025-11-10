@@ -47,8 +47,7 @@ export default function SendEmailForgotPassword() {
         text1: t('forgotPassword.success.emailSent'),
         text2: t('forgotPassword.success.emailSentMessage'),
       });
-
-      // Navegar após um pequeno delay para o usuário ver o toast
+      
       setTimeout(() => {
         router.push({
           pathname: "/forgot-password/confirm-code",

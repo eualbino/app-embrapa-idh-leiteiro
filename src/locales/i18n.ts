@@ -9,7 +9,6 @@ import es from './es/translation';
 
 const LANGUAGE_STORAGE_KEY = '@app:language';
 
-// Detecção do idioma do dispositivo
 const getDeviceLanguage = () => {
   const locales = Localization.getLocales();
   
@@ -18,8 +17,7 @@ const getDeviceLanguage = () => {
   }
   
   const languageCode = locales[0].languageCode;
-  
-  // Mapeia os códigos de idioma
+
   if (languageCode === 'pt') return 'pt-BR';
   if (languageCode === 'es') return 'es';
   if (languageCode === 'en') return 'en';
@@ -27,14 +25,12 @@ const getDeviceLanguage = () => {
   return 'pt-BR';
 };
 
-// Recursos de tradução
 const resources = {
   'pt-BR': ptBR,
   en: en,
   es: es,
 };
 
-// Inicialização do i18n
 const initI18n = async () => {
   let savedLanguage = await AsyncStorage.getItem(LANGUAGE_STORAGE_KEY);
   
@@ -52,14 +48,13 @@ const initI18n = async () => {
       compatibilityJSON: 'v4',
       
       interpolation: {
-        escapeValue: false, // React já faz escape
+        escapeValue: false,
       },
       
       react: {
         useSuspense: false,
       },
-      
-      // Cache para melhor performance
+
       cache: {
         enabled: true,
       },
@@ -68,13 +63,11 @@ const initI18n = async () => {
 
 initI18n();
 
-// Função para mudar o idioma
 export const changeLanguage = async (language: string) => {
   await i18n.changeLanguage(language);
   await AsyncStorage.setItem(LANGUAGE_STORAGE_KEY, language);
 };
 
-// Idiomas disponíveis
 export const availableLanguages = [
   { code: 'pt-BR', name: 'Português', flag: '🇧🇷' },
   { code: 'en', name: 'English', flag: '🇺🇸' },

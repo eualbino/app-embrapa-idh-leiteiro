@@ -63,7 +63,7 @@ export const useQuestionnaire = (): QuestionnaireState &
   const handleNext = useCallback(() => {
     if (step === 0) {
       if (formData) {
-        const errors = validateCaracterizacaoForm(formData);
+        const errors = validateCaracterizacaoForm(formData, t);
         if (errors.length > 0) {
           Toast.show({
             type: "error",
@@ -90,9 +90,8 @@ export const useQuestionnaire = (): QuestionnaireState &
     if (step > 0 && currentGroup) {
       const unansweredQuestions = currentGroup.filter((q) => {
         const answer = answers[q.id];
-        return (
-          answer === undefined || (answer === null && !questionDisabled(q.id))
-        );
+        const isAnswered = answer !== undefined || questionDisabled(q.id);
+        return !isAnswered;
       });
 
       const sortedAnswers = Object.keys(answers)

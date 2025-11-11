@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import Toast from "react-native-toast-message";
+import { router } from "expo-router";
 import { FormData } from "@/src/components/pages/questions/components/QuestionsCaracterizacao/types";
 import { questionGroups } from "./questionGroups";
 import { validateCaracterizacaoForm } from "./validation";
@@ -142,11 +143,30 @@ export const useQuestionnaire = (): QuestionnaireState &
       
       setStep((prev) => prev + 1);
     } else {
+      // Último step - mostra o score e navega para resultado
+      const groupNames: { [key: number]: string } = {
+        1: "quantidade-agua",
+        2: "qualidade-agua",
+        3: "manejo-residuos-uso-fertilizantes",
+      };
+      
+      const groupName = groupNames[step];
+      const groupTranslationKey = `questionnaire.questions.groups.${groupName}`;
+      const translatedGroupName = t(groupTranslationKey);
+      
       Toast.show({
-        type: "success",
-        text1: t("questionnaire.questions.toasts.completedTitle"),
-        text2: t("questionnaire.questions.toasts.completedMessage"),
+        type: "score",
+        text1: t("questionnaire.questions.toasts.scoreTitle", { groupName: translatedGroupName }),
+        text2: "SCORE",
+        position: "bottom",
+        visibilityTime: 5000,
+        bottomOffset: 200,
       });
+
+      // Navega para a página de resultado após 5 segundos
+      setTimeout(() => {
+        router.push("/result");
+      }, 5000);
     }
   }, [step, formData, currentGroup, answers, questionDisabled, t]);
 

@@ -520,5 +520,19 @@ export default {
         waterGrantRequired: "Water use grant",
       },
     },
+
+    // Result Page
+    result: {
+      title: "Your total score was:",
+      improvementSuggestions: "Improvement Suggestions",
+      suggestions: {
+        water_monitoring: "Implement a continuous water consumption monitoring system with water meters at all critical points of the property.",
+        hydraulic_mapping: "Develop a complete hydraulic map of the property to identify potential loss points and optimize water distribution.",
+        efficient_irrigation: "Adopt more efficient irrigation systems, such as drip or low-pressure sprinklers, reducing waste.",
+        water_reuse: "Implement water reuse systems, using treated effluents for pasture irrigation and facility cleaning.",
+        rainwater_harvesting: "Install rainwater harvesting systems for use in activities that do not require potable water.",
+        staff_training: "Promote regular training with staff on conscious and efficient water use practices in dairy production.",
+      },
+    },
   },
 };

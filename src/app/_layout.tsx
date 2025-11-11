@@ -3,17 +3,26 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar, StyleSheet } from "react-native";
 import Toast from "react-native-toast-message";
 import toastConfig from "@/src/config/toast";
+import { theme } from "@/src/config";
 import "@/src/locales/i18n";
+import * as NavigationBar from "expo-navigation-bar";
+import { useEffect } from "react";
 
 export default function RootLayout() {
+  NavigationBar.setButtonStyleAsync("dark");
+
   return (
     <SafeAreaProvider>
-      <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
-      <SafeAreaView style={styles.safeArea}>
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle="dark-content"
+      />
+      <SafeAreaView style={styles.safeArea} edges={["bottom"]}>
         <Stack
           screenOptions={{
             headerShown: false,
-            contentStyle: { backgroundColor: "#ffffff", paddingHorizontal: 20, },
+            contentStyle: { backgroundColor: "#ffffff", paddingHorizontal: 20 },
           }}
         />
         <Toast config={toastConfig} topOffset={100} />

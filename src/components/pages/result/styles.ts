@@ -1,0 +1,85 @@
+import { StyleSheet } from "react-native";
+import { theme } from "@/src/config";
+
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: theme.colors.background.default,
+  },
+  headerContainer: {
+    alignItems: "center",
+    paddingVertical: theme.spacing.xl,
+    paddingHorizontal: theme.spacing.lg,
+    backgroundColor: theme.colors.background.default,
+  },
+  title: {
+    fontSize: theme.typography.sizes.xl,
+    fontWeight: theme.typography.weights.bold,
+    color: theme.colors.text.primary,
+    textAlign: "center",
+    marginBottom: theme.spacing.lg,
+  },
+  scoreContainer: {
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    backgroundColor: theme.colors.primary.default,
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+    marginVertical: theme.spacing.md,
+  },
+  scoreValue: {
+    fontSize: 48,
+    fontWeight: theme.typography.weights.bold,
+    color: theme.colors.background.default,
+  },
+  suggestionsContainer: {
+    paddingHorizontal: theme.spacing.lg,
+    paddingBottom: theme.spacing.xl,
+  },
+  suggestionsTitle: {
+    fontSize: theme.typography.sizes.lg,
+    fontWeight: theme.typography.weights.bold,
+    color: theme.colors.text.primary,
+    marginBottom: theme.spacing.lg,
+    marginTop: theme.spacing.md,
+    textAlign: "center",
+  },
+  suggestionCard: {
+    flexDirection: "row",
+    padding: theme.spacing.md,
+    marginBottom: theme.spacing.md,
+    shadowColor: "#7f7f7f",
+    borderRadius: 6,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  suggestionNumber: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: theme.colors.primary.default,
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: theme.spacing.md,
+    flexShrink: 0,
+  },
+  suggestionNumberText: {
+    fontSize: theme.typography.sizes.md,
+    fontWeight: theme.typography.weights.bold,
+    color: theme.colors.background.default,
+  },
+  suggestionText: {
+    flex: 1,
+    fontSize: theme.typography.sizes.sm,
+    color: theme.colors.text.secondary,
+    lineHeight: 20,
+  },
+});

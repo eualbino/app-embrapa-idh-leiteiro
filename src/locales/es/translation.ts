@@ -524,5 +524,19 @@ export default {
         waterGrantRequired: "La autorización de uso de agua",
       },
     },
+
+    // Result Page
+    result: {
+      title: "Su puntuación total fue:",
+      improvementSuggestions: "Sugerencias de Mejora",
+      suggestions: {
+        water_monitoring: "Implemente un sistema de monitoreo continuo del consumo de agua con medidores en todos los puntos críticos de la propiedad.",
+        hydraulic_mapping: "Desarrolle un mapa hidráulico completo de la propiedad para identificar posibles puntos de pérdida y optimizar la distribución de agua.",
+        efficient_irrigation: "Adopte sistemas de riego más eficientes, como goteo o aspersión de baja presión, reduciendo desperdicios.",
+        water_reuse: "Implemente sistemas de reutilización de agua, aprovechando efluentes tratados para riego de pasturas y limpieza de instalaciones.",
+        rainwater_harvesting: "Instale sistemas de captación de agua de lluvia para uso en actividades que no requieren agua potable.",
+        staff_training: "Promueva capacitaciones regulares con el equipo sobre prácticas de uso consciente y eficiente del agua en la producción lechera.",
+      },
+    },
   },
 };

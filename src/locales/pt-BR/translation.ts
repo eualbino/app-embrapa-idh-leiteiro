@@ -524,5 +524,19 @@ export default {
         waterGrantRequired: "Outorga de água",
       },
     },
+
+    // Result Page
+    result: {
+      title: "Seu Score Total Foi",
+      improvementSuggestions: "Sugestões de Melhorias",
+      suggestions: {
+        water_monitoring: "Implemente um sistema de monitoramento contínuo do consumo de água com hidrômetros em todos os pontos críticos da propriedade.",
+        hydraulic_mapping: "Desenvolva um mapa hidráulico completo da propriedade para identificar possíveis pontos de perda e otimizar a distribuição de água.",
+        efficient_irrigation: "Adote sistemas de irrigação mais eficientes, como gotejamento ou aspersão de baixa pressão, reduzindo desperdícios.",
+        water_reuse: "Implemente sistemas de reúso de água, aproveitando efluentes tratados para irrigação de pastagens e limpeza de instalações.",
+        rainwater_harvesting: "Instale sistemas de captação de água da chuva para uso em atividades que não exigem água potável.",
+        staff_training: "Promova treinamentos regulares com a equipe sobre práticas de uso consciente e eficiente da água na produção leiteira.",
+      },
+    },
   },
 };

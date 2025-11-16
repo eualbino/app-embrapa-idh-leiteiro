@@ -3,10 +3,8 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar, StyleSheet } from "react-native";
 import Toast from "react-native-toast-message";
 import toastConfig from "@/src/config/toast";
-import { theme } from "@/src/config";
 import "@/src/locales/i18n";
 import * as NavigationBar from "expo-navigation-bar";
-import { useEffect } from "react";
 
 export default function RootLayout() {
   NavigationBar.setButtonStyleAsync("dark");

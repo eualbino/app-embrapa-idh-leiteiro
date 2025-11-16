@@ -167,12 +167,14 @@ export default {
         dailyConsumption: {
           sectionTitle: "F. CONSUMO DIÁRIO:",
           roughageConsumption:
-            "Qual o consumo diário de volumoso por vaca (kg/dia ou %PV)?",
+            "Qual o consumo diário de volumoso por vaca (Matéria Natural ou Matéria Seca)?",
           roughageConsumptionPlaceholder: "Consumo de Volumoso",
           concentrateConsumption:
-            "Qual o consumo diário de concentrado por vaca (kg/dia ou %PV)?",
+            "Qual o consumo diário de concentrado por vaca (Matéria Natural ou Matéria Seca)?",
           concentrateConsumptionPlaceholder: "Consumo de Concentrado",
           unitInformed: "Unidade informada:",
+          naturalMatter: "Matéria Natural",
+          dryMatter: "Matéria Seca",
         },
         electricEnergy: {
           sectionTitle: "G. ENERGIA ELÉTRICA:",
@@ -241,8 +243,8 @@ export default {
         roughage: "Volumoso (kg/vaca em lactação/dia)",
         concentrate: "Concentrado (kg/vaca em lactação/dia)",
         unit: "Qual unidade informada?",
-        freshMatter: "kg de matéria natural",
-        dryMatter: "kg de matéria seca",
+        freshMatter: "Matéria Natural",
+        dryMatter: "Matéria Seca",
       },
 
       // Energy

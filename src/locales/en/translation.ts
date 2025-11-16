@@ -166,12 +166,14 @@ export default {
         dailyConsumption: {
           sectionTitle: "F. DAILY CONSUMPTION:",
           roughageConsumption:
-            "What is the daily roughage consumption per cow (kg/day or %BW)?",
+            "What is the daily roughage consumption per cow (Fresh Matter or Dry Matter)?",
           roughageConsumptionPlaceholder: "Roughage Consumption",
           concentrateConsumption:
-            "What is the daily concentrate consumption per cow (kg/day or %BW)?",
+            "What is the daily concentrate consumption per cow (Fresh Matter or Dry Matter)?",
           concentrateConsumptionPlaceholder: "Concentrate Consumption",
           unitInformed: "Unit provided:",
+          naturalMatter: "Fresh Matter",
+          dryMatter: "Dry Matter",
         },
         electricEnergy: {
           sectionTitle: "G. ELECTRIC ENERGY:",
@@ -235,12 +237,12 @@ export default {
       consumption: {
         title: "Daily Consumption",
         averageConsumption:
-          "Average daily consumption (kg) of roughage and concentrate of lactating cows?",
+          "Average daily consumption (kg) of roughage and concentrate for lactating cows?",
         roughage: "Roughage (kg/lactating cow/day)",
         concentrate: "Concentrate (kg/lactating cow/day)",
-        unit: "What unit is reported?",
-        freshMatter: "kg of fresh matter",
-        dryMatter: "kg of dry matter",
+        unit: "Which unit was informed?",
+        freshMatter: "Fresh Matter",
+        dryMatter: "Dry Matter",
       },
 
       // Energy

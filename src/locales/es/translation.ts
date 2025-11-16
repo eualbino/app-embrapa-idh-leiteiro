@@ -169,12 +169,14 @@ export default {
         dailyConsumption: {
           sectionTitle: "F. CONSUMO DIARIO:",
           roughageConsumption:
-            "¿Cuál es el consumo diario de forraje por vaca (kg/día o %PV)?",
+            "¿Cuál es el consumo diario de forraje por vaca (Materia Fresca o Materia Seca)?",
           roughageConsumptionPlaceholder: "Consumo de Forraje",
           concentrateConsumption:
-            "¿Cuál es el consumo diario de concentrado por vaca (kg/día o %PV)?",
+            "¿Cuál es el consumo diario de concentrado por vaca (Materia Fresca o Materia Seca)?",
           concentrateConsumptionPlaceholder: "Consumo de Concentrado",
           unitInformed: "Unidad informada:",
+          naturalMatter: "Materia Fresca",
+          dryMatter: "Materia Seca",
         },
         electricEnergy: {
           sectionTitle: "G. ENERGÍA ELÉCTRICA:",
@@ -243,8 +245,8 @@ export default {
         roughage: "Forraje (kg/vaca lechera/día)",
         concentrate: "Concentrado (kg/vaca en lactación/día)",
         unit: "Unidad informada",
-        freshMatter: "kg de materia natural",
-        dryMatter: "kg de materia seca",
+        freshMatter: "Materia Fresca",
+        dryMatter: "Materia Seca",
       },
 
       // Energy

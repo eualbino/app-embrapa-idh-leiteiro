@@ -62,22 +62,22 @@ const ConsumoDiarioInput: React.FC<ConsumoDiarioInputProps> = ({
         <View >
           <TouchableOpacity
             style={stylesCharacterization.optionContainer}
-            onPress={() => setUnidadeInformada("kg/dia")}
+            onPress={() => setUnidadeInformada("Matéria Natural")}
           >
-            {renderRadioButton(unidadeInformada === "kg/dia")}
+            {renderRadioButton(unidadeInformada === "Matéria Natural")}
             <View style={{ flex: 1, marginRight: 1 }}>
-              <Text style={[stylesCharacterization.questionsResponseText]}>kg/dia</Text>
+              <Text style={[stylesCharacterization.questionsResponseText]}>Matéria Natural</Text>
             </View>
           </TouchableOpacity>
         </View>
         <View>
           <TouchableOpacity
             style={stylesCharacterization.optionContainer}
-            onPress={() => setUnidadeInformada("%PV")}
+            onPress={() => setUnidadeInformada("Matéria Seca")}
           >
-            {renderRadioButton(unidadeInformada === "%PV")}
+            {renderRadioButton(unidadeInformada === "Matéria Seca")}
             <View style={{ flex: 1, marginRight: 1 }}>
-              <Text style={[stylesCharacterization.questionsResponseText]}>%PV</Text>
+              <Text style={[stylesCharacterization.questionsResponseText]}>Matéria Seca</Text>
             </View>
           </TouchableOpacity>
         </View>

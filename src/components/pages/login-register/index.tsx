@@ -20,18 +20,36 @@ export default function LoginRegister() {
   const route = useRouter();
   const { login, register, isLoading } = useAuthContext();
 
+  const applyCpfMask = (value: string) => {
+    const numbers = value.replace(/\D/g, '');
+
+    if (numbers.length <= 3) {
+      return numbers;
+    } else if (numbers.length <= 6) {
+      return `${numbers.slice(0, 3)}.${numbers.slice(3)}`;
+    } else if (numbers.length <= 9) {
+      return `${numbers.slice(0, 3)}.${numbers.slice(3, 6)}.${numbers.slice(6)}`;
+    } else {
+      return `${numbers.slice(0, 3)}.${numbers.slice(3, 6)}.${numbers.slice(6, 9)}-${numbers.slice(9, 11)}`;
+    }
+  };
+
+  const removeCpfMask = (value: string) => {
+    return value.replace(/\D/g, '');
+  };
+
   const handleSubmit = async () => {
     if (view === VIEW_LOGIN_PAGE.LOGIN) {
       await login({
         email: email || undefined,
-        cpf: cpf || undefined,
+        cpf: cpf ? removeCpfMask(cpf) : undefined,
         password,
       });
     } else {
       await register({
         name,
         email,
-        cpf,
+        cpf: removeCpfMask(cpf),
         password,
       });
     }
@@ -43,15 +61,15 @@ export default function LoginRegister() {
         <View>
           <Input
             label={t("common.email") + " ou CPF"}
-            placeholder="email@gmail.com"
+            placeholder="email@gmail.com ou 123.456.789-00"
             value={email || cpf}
             onChangeText={(text) => {
-              // Se contém @ é email, senão é CPF
-              if (text.includes('@')) {
+              if (text.includes('@') || /[a-zA-Z]/.test(text)) {
                 setEmail(text);
                 setCpf('');
               } else {
-                setCpf(text);
+                const maskedCpf = applyCpfMask(text);
+                setCpf(maskedCpf);
                 setEmail('');
               }
             }}
@@ -91,8 +109,12 @@ export default function LoginRegister() {
           label="CPF"
           placeholder="123.456.789-00"
           value={cpf}
-          onChangeText={setCpf}
+          onChangeText={(text) => {
+            const maskedCpf = applyCpfMask(text);
+            setCpf(maskedCpf);
+          }}
           keyboardType="numeric"
+          maxLength={14}
         />
         <Input
           label={t("common.password")}

@@ -81,7 +81,9 @@ const ConsumoDiarioInput: React.FC<ConsumoDiarioInputProps> = ({
             {renderRadioButton(unidadeInformada === "materia_natural")}
             <View style={{ flex: 1, marginRight: 1 }}>
               <Text style={[stylesCharacterization.questionsResponseText]}>
-                Matéria Natural
+                {t(
+                  "questionnaire.characterization.dailyConsumption.naturalMatter"
+                )}
               </Text>
             </View>
           </TouchableOpacity>
@@ -94,7 +96,7 @@ const ConsumoDiarioInput: React.FC<ConsumoDiarioInputProps> = ({
             {renderRadioButton(unidadeInformada === "materia_seca")}
             <View style={{ flex: 1, marginRight: 1 }}>
               <Text style={[stylesCharacterization.questionsResponseText]}>
-                Matéria Seca
+                {t("questionnaire.characterization.dailyConsumption.dryMatter")}
               </Text>
             </View>
           </TouchableOpacity>

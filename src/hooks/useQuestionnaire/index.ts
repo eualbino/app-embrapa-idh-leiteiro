@@ -102,8 +102,6 @@ export const useQuestionnaire = (): QuestionnaireState &
           return obj;
         }, {} as { [key: string]: number | null });
 
-      console.log("📝 Respostas atuais:", sortedAnswers);
-
       if (unansweredQuestions.length > 0) {
         const questionNumbers = unansweredQuestions.map((q) => q.id).join(", ");
         Toast.show({
@@ -119,7 +117,6 @@ export const useQuestionnaire = (): QuestionnaireState &
     }
 
     if (step < questionGroups.length - 1) {
-      // Se estiver avançando do step 1 em diante, mostra o score
       if (step >= 1) {
         const groupNames: { [key: number]: string } = {
           1: "quantidade-agua",
@@ -163,7 +160,6 @@ export const useQuestionnaire = (): QuestionnaireState &
         bottomOffset: 200,
       });
 
-      // Navega para a página de resultado após 5 segundos
       setTimeout(() => {
         router.push("/result");
       }, 5000);

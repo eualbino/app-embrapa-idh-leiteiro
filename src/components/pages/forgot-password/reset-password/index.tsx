@@ -1,22 +1,20 @@
 import React, { useState, useMemo } from "react";
 import { View, Text } from "react-native";
-import { useRouter, useLocalSearchParams } from "expo-router";
+import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import Toast from "react-native-toast-message";
 import { Input } from "@/src/components/commons/Input";
 import { ButtonCommon } from "@/src/components/commons/Button";
+import { useForgotPassword } from "@/src/hooks/useForgotPassword";
 import { styles } from "./styles";
 
 export default function ResetPasswordForgotPassword() {
   const { t } = useTranslation();
   const router = useRouter();
-  const params = useLocalSearchParams();
-  const email = (params.email as string) || "";
-  const code = (params.code as string) || "";
+  const { isLoading, resetPassword } = useForgotPassword();
 
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
 
   const passwordValidation = useMemo(() => {
     return {
@@ -60,29 +58,7 @@ export default function ResetPasswordForgotPassword() {
       return;
     }
 
-    setIsLoading(true);
-
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      Toast.show({
-        type: "success",
-        text1: t('forgotPassword.success.passwordReset'),
-        text2: t('forgotPassword.success.passwordResetMessage'),
-      });
-
-      setTimeout(() => {
-        router.push("/");
-      }, 1500);
-    } catch (error) {
-      Toast.show({
-        type: "error",
-        text1: t('common.error'),
-        text2: t('forgotPassword.errors.resetFailed'),
-      });
-    } finally {
-      setIsLoading(false);
-    }
+    await resetPassword(newPassword);
   };
 
   const handleBackToLogin = () => {

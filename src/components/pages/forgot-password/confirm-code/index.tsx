@@ -1,21 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text } from "react-native";
-import { useRouter, useLocalSearchParams } from "expo-router";
+import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import Toast from "react-native-toast-message";
 import { Input } from "@/src/components/commons/Input";
 import { ButtonCommon } from "@/src/components/commons/Button";
+import { useForgotPassword } from "@/src/hooks/useForgotPassword";
 import { styles } from "./styles";
 
 export default function ConfirmCodeForgotPassword() {
   const { t } = useTranslation();
   const router = useRouter();
-  const params = useLocalSearchParams();
-  const email = params.email as string || "seu.email@exemplo.com";
+  const { isLoading, validateOtp, sendForgotPasswordEmail, getStoredEmail } = useForgotPassword();
   
   const [code, setCode] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState("");
   const [isResending, setIsResending] = useState(false);
+
+  useEffect(() => {
+    getStoredEmail().then(setEmail);
+  }, []);
 
   const handleConfirmCode = async () => {
     if (!code.trim()) {
@@ -36,52 +40,19 @@ export default function ConfirmCodeForgotPassword() {
       return;
     }
 
-    setIsLoading(true);
-
-    try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
-
-      Toast.show({
-        type: "success",
-        text1: t('forgotPassword.success.codeVerified'),
-        text2: t('forgotPassword.success.codeVerifiedMessage'),
-      });
-
-      setTimeout(() => {
-        router.push({
-          pathname: "/forgot-password/reset-password",
-          params: { email, code }
-        });
-      }, 1000);
-    } catch (error) {
-      Toast.show({
-        type: "error",
-        text1: t('common.error'),
-        text2: t('forgotPassword.errors.verifyCodeFailed'),
-      });
-    } finally {
-      setIsLoading(false);
-    }
+    await validateOtp(code);
   };
 
   const handleResendCode = async () => {
+    if (isResending || isLoading) return;
+    
     setIsResending(true);
 
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      Toast.show({
-        type: "success",
-        text1: t('forgotPassword.success.codeResent'),
-        text2: t('forgotPassword.success.codeResentMessage'),
-      });
+      await sendForgotPasswordEmail({ email });
       setCode("");
     } catch (error) {
-      Toast.show({
-        type: "error",
-        text1: t('common.error'),
-        text2: t('forgotPassword.errors.resendFailed'),
-      });
+      // Erro já tratado no hook
     } finally {
       setIsResending(false);
     }

@@ -7,26 +7,54 @@ import { VIEW_LOGIN_PAGE } from "./contants";
 import { ButtonCommon } from "../../commons/Button";
 import { useRouter } from "expo-router";
 import { LanguageSelector } from "../../commons/LanguageSelector";
+import { useAuthContext } from "@/src/contexts/AuthContext";
 
 export default function LoginRegister() {
   const { t } = useTranslation();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [cpf, setCpf] = useState("");
   const [password, setPassword] = useState("");
   const [view, setView] = useState<VIEW_LOGIN_PAGE>(VIEW_LOGIN_PAGE.LOGIN);
 
   const route = useRouter();
+  const { login, register, isLoading } = useAuthContext();
+
+  const handleSubmit = async () => {
+    if (view === VIEW_LOGIN_PAGE.LOGIN) {
+      await login({
+        email: email || undefined,
+        cpf: cpf || undefined,
+        password,
+      });
+    } else {
+      await register({
+        name,
+        email,
+        cpf,
+        password,
+      });
+    }
+  };
 
   function returnViewUser() {
     if (view === VIEW_LOGIN_PAGE.LOGIN) {
       return (
         <View>
           <Input
-            label={t("common.email")}
-            placeholder="email@gmail.com.br"
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
+            label={t("common.email") + " ou CPF"}
+            placeholder="email@gmail.com"
+            value={email || cpf}
+            onChangeText={(text) => {
+              // Se contém @ é email, senão é CPF
+              if (text.includes('@')) {
+                setEmail(text);
+                setCpf('');
+              } else {
+                setCpf(text);
+                setEmail('');
+              }
+            }}
             autoComplete="email"
           />
 
@@ -59,7 +87,13 @@ export default function LoginRegister() {
           keyboardType="email-address"
           autoComplete="email"
         />
-
+        <Input
+          label="CPF"
+          placeholder="123.456.789-00"
+          value={cpf}
+          onChangeText={setCpf}
+          keyboardType="numeric"
+        />
         <Input
           label={t("common.password")}
           placeholder="********"
@@ -109,8 +143,10 @@ export default function LoginRegister() {
           </Text>
         )}
 
-        <ButtonCommon onPress={() => route.push("/questions")}>
-          {view === VIEW_LOGIN_PAGE.LOGIN
+        <ButtonCommon onPress={handleSubmit} disabled={isLoading}>
+          {isLoading 
+            ? t("common.loading")
+            : view === VIEW_LOGIN_PAGE.LOGIN
             ? t("auth.loginButton")
             : t("auth.registerButton")}
         </ButtonCommon>

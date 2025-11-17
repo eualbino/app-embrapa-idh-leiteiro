@@ -5,13 +5,14 @@ import { useTranslation } from "react-i18next";
 import Toast from "react-native-toast-message";
 import { Input } from "@/src/components/commons/Input";
 import { ButtonCommon } from "@/src/components/commons/Button";
+import { useForgotPassword } from "@/src/hooks/useForgotPassword";
 import { styles } from "./styles";
 
 export default function SendEmailForgotPassword() {
   const { t } = useTranslation();
   const router = useRouter();
   const [email, setEmail] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, sendForgotPasswordEmail } = useForgotPassword();
 
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -37,32 +38,7 @@ export default function SendEmailForgotPassword() {
       return;
     }
 
-    setIsLoading(true);
-
-    try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      Toast.show({
-        type: "success",
-        text1: t('forgotPassword.success.emailSent'),
-        text2: t('forgotPassword.success.emailSentMessage'),
-      });
-      
-      setTimeout(() => {
-        router.push({
-          pathname: "/forgot-password/confirm-code",
-          params: { email }
-        });
-      }, 1000);
-    } catch (error) {
-      Toast.show({
-        type: "error",
-        text1: t('common.error'),
-        text2: t('forgotPassword.errors.sendEmailFailed'),
-      });
-    } finally {
-      setIsLoading(false);
-    }
+    await sendForgotPasswordEmail({ email });
   };
 
   const handleBackToLogin = () => {

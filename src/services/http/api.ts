@@ -3,9 +3,8 @@ import axios, {
   AxiosError,
   InternalAxiosRequestConfig,
 } from "axios";
-import Constants from "expo-constants";
 
-const API_URL = process.env.EXPO_PUBLIC_API_URL;
+const API_URL = process.env.EXPO_PUBLIC_API_URL || "http://192.168.15.7:3333";
 
 const api: AxiosInstance = axios.create({
   baseURL: API_URL,
@@ -42,7 +41,6 @@ api.interceptors.response.use(
   },
   async (error: AxiosError) => {
     const status = error.response?.status;
-    const message = error.response?.data || error.message;
 
     switch (status) {
       case 401:

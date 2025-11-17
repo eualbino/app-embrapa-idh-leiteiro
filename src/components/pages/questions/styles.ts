@@ -178,6 +178,7 @@ export const stylesQuestionsPage = StyleSheet.create({
     fontSize: theme.typography.sizes.sm,
   },
   containerInfo: {
+    marginTop: theme.spacing.xxxl,
     alignItems: "center",
     justifyContent: "center",
   },

@@ -23,17 +23,25 @@ const ConsumoDiarioInput: React.FC<ConsumoDiarioInputProps> = ({
   renderRadioButton,
 }) => {
   const { t } = useTranslation();
-  
+
   return (
     <View style={stylesCharacterization.containerResponses}>
       <View style={stylesCharacterization.containerQuestionInput}>
         <Text style={stylesCharacterization.questionText}>
-          <Text>{t('questionnaire.characterization.dailyConsumption.sectionTitle')} </Text>
-          <Text>{t('questionnaire.characterization.dailyConsumption.roughageConsumption')}</Text>
+          <Text>
+            {t("questionnaire.characterization.dailyConsumption.sectionTitle")}{" "}
+          </Text>
+          <Text>
+            {t(
+              "questionnaire.characterization.dailyConsumption.roughageConsumption"
+            )}
+          </Text>
         </Text>
         <TextInput
           style={stylesCharacterization.textInput}
-          placeholder={t('questionnaire.characterization.dailyConsumption.roughageConsumptionPlaceholder')}
+          placeholder={t(
+            "questionnaire.characterization.dailyConsumption.roughageConsumptionPlaceholder"
+          )}
           value={volumoso}
           onChangeText={setVolumoso}
           keyboardType="numeric"
@@ -43,12 +51,16 @@ const ConsumoDiarioInput: React.FC<ConsumoDiarioInputProps> = ({
       <View style={stylesCharacterization.containerQuestionInput}>
         <Text style={stylesCharacterization.questionText}>
           <Text>
-            {t('questionnaire.characterization.dailyConsumption.concentrateConsumption')}
+            {t(
+              "questionnaire.characterization.dailyConsumption.concentrateConsumption"
+            )}
           </Text>
         </Text>
         <TextInput
           style={stylesCharacterization.textInput}
-          placeholder={t('questionnaire.characterization.dailyConsumption.concentrateConsumptionPlaceholder')}
+          placeholder={t(
+            "questionnaire.characterization.dailyConsumption.concentrateConsumptionPlaceholder"
+          )}
           value={concentrado}
           onChangeText={setConcentrado}
           keyboardType="numeric"
@@ -57,27 +69,33 @@ const ConsumoDiarioInput: React.FC<ConsumoDiarioInputProps> = ({
 
       <View>
         <Text style={stylesCharacterization.questionText}>
-          <Text>{t('questionnaire.characterization.dailyConsumption.unitInformed')}</Text>
+          <Text>
+            {t("questionnaire.characterization.dailyConsumption.unitInformed")}
+          </Text>
         </Text>
-        <View >
+        <View>
           <TouchableOpacity
             style={stylesCharacterization.optionContainer}
-            onPress={() => setUnidadeInformada("Matéria Natural")}
+            onPress={() => setUnidadeInformada("materia_natural")}
           >
-            {renderRadioButton(unidadeInformada === "Matéria Natural")}
+            {renderRadioButton(unidadeInformada === "materia_natural")}
             <View style={{ flex: 1, marginRight: 1 }}>
-              <Text style={[stylesCharacterization.questionsResponseText]}>Matéria Natural</Text>
+              <Text style={[stylesCharacterization.questionsResponseText]}>
+                Matéria Natural
+              </Text>
             </View>
           </TouchableOpacity>
         </View>
         <View>
           <TouchableOpacity
             style={stylesCharacterization.optionContainer}
-            onPress={() => setUnidadeInformada("Matéria Seca")}
+            onPress={() => setUnidadeInformada("materia_seca")}
           >
-            {renderRadioButton(unidadeInformada === "Matéria Seca")}
+            {renderRadioButton(unidadeInformada === "materia_seca")}
             <View style={{ flex: 1, marginRight: 1 }}>
-              <Text style={[stylesCharacterization.questionsResponseText]}>Matéria Seca</Text>
+              <Text style={[stylesCharacterization.questionsResponseText]}>
+                Matéria Seca
+              </Text>
             </View>
           </TouchableOpacity>
         </View>

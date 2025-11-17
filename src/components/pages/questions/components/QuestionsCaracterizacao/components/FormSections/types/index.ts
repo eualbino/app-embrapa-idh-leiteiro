@@ -1,4 +1,9 @@
 export interface FormSectionsProps {
+  cidade: string;
+  setCidade: (value: string) => void;
+  estado: string;
+  setEstado: (value: string) => void;
+
   // Sistema de Produção
   sistemaProducao: string;
   setSistemaProducao: (value: string) => void;
@@ -24,6 +29,8 @@ export interface FormSectionsProps {
   setBezerros: (value: string) => void;
   garrotes: string;
   setGarrotes: (value: string) => void;
+  bulls: string;
+  setBulls: (value: string) => void;
 
   // Produção Leiteira
   litrosDiaPropriedade: string;

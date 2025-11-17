@@ -6,7 +6,6 @@ import {
   useQuestionnaireContext,
 } from "@/src/contexts/QuestionnaireContext";
 import { QuestionnaireHeader } from "./components/QuestionnaireHeader";
-import { DatePicker } from "./components/DatePicker";
 import { QuestionGroup } from "./components/QuestionGroup";
 import { NavigationButtons } from "./components/NavigationButtons";
 import { FormularioQuestionario } from "./components/QuestionsCaracterizacao";
@@ -43,13 +42,10 @@ const QuestionnaireContent: React.FC = () => {
       <QuestionnaireHeader />
 
       {step === 0 ? (
-        <View>
-          <DatePicker />
-          <FormularioQuestionario
-            onDataChange={handleDataChange}
-            initialData={formData}
-          />
-        </View>
+        <FormularioQuestionario
+          onDataChange={handleDataChange}
+          initialData={formData}
+        />
       ) : (
         currentGroup && <QuestionGroup questions={currentGroup} />
       )}
@@ -60,8 +56,6 @@ const QuestionnaireContent: React.FC = () => {
 };
 
 export default function AllQuestionsScore() {
-  const { t } = useTranslation();
-  
   return (
     <QuestionnaireProvider>
       <QuestionnaireContentWrapper />
@@ -72,23 +66,21 @@ export default function AllQuestionsScore() {
 const QuestionnaireContentWrapper: React.FC = () => {
   const { t } = useTranslation();
   const { scrollRef, step } = useQuestionnaireContext();
-  
-  // Força scroll para o topo sempre que o step mudar
+
   useEffect(() => {
-    // Usa requestAnimationFrame para garantir que o scroll aconteça após o render
     requestAnimationFrame(() => {
       scrollRef.current?.scrollTo({ x: 0, y: 0, animated: false });
     });
   }, [step, scrollRef]);
-  
+
   return (
     <ScrollView ref={scrollRef} showsVerticalScrollIndicator={false}>
       <View style={stylesQuestionsPage.containerInfo}>
         <Text style={stylesQuestionsPage.textHeader}>
-          {t('questionnaire.title')}
+          {t("questionnaire.title")}
         </Text>
         <Text style={stylesQuestionsPage.textSubHeader}>
-          {t('questionnaire.subtitle')}
+          {t("questionnaire.subtitle")}
         </Text>
       </View>
       <QuestionnaireContent />

@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import Toast from "react-native-toast-message";
 import { Input } from "@/src/components/commons/Input";
 import { ButtonCommon } from "@/src/components/commons/Button";
-import { useForgotPassword } from "@/src/hooks/useForgotPassword";
+import { useForgotPassword } from "@/src/components/pages/forgot-password/hooks/useForgotPassword/useForgotPassword";
 import { styles } from "./styles";
 
 export default function ResetPasswordForgotPassword() {

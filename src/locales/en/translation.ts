@@ -110,6 +110,13 @@ export default {
       identification: "Identification",
       // Characterization (used across form sections)
       characterization: {
+        location: {
+          sectionTitle: "LOCATION:",
+          city: "City",
+          cityPlaceholder: "Enter city name",
+          state: "State",
+          statePlaceholder: "Ex: CA",
+        },
         productionSystem: {
           sectionTitle: "A. PRODUCTION SYSTEM:",
           question: "What Production System is employed in the farm?",
@@ -146,6 +153,8 @@ export default {
           calvesPlaceholder: "Calves",
           steers: "Steers",
           steersPlaceholder: "Steers",
+          bulls: "Bulls",
+          bullsPlaceholder: "Bulls",
         },
         milkProduction: {
           sectionTitle: "D. MILK PRODUCTION:",
@@ -299,7 +308,8 @@ export default {
         groups: {
           "quantidade-agua": "Water Quantity",
           "qualidade-agua": "Water Quality",
-          "manejo-residuos-uso-fertilizantes": "Waste Management and Fertilizer Use",
+          "manejo-residuos-uso-fertilizantes":
+            "Waste Management and Fertilizer Use",
         },
         // Individual questions
         q1: {
@@ -484,6 +494,10 @@ export default {
       },
 
       validation: {
+        // Location
+        cidadeRequired: "City",
+        estadoRequired: "State",
+
         productionSystemRequired: "Production System",
         specifyOtherProductionSystem:
           "Specify the production system when 'Other' is selected",
@@ -528,12 +542,18 @@ export default {
       title: "Your total score was:",
       improvementSuggestions: "Improvement Suggestions",
       suggestions: {
-        water_monitoring: "Implement a continuous water consumption monitoring system with water meters at all critical points of the property.",
-        hydraulic_mapping: "Develop a complete hydraulic map of the property to identify potential loss points and optimize water distribution.",
-        efficient_irrigation: "Adopt more efficient irrigation systems, such as drip or low-pressure sprinklers, reducing waste.",
-        water_reuse: "Implement water reuse systems, using treated effluents for pasture irrigation and facility cleaning.",
-        rainwater_harvesting: "Install rainwater harvesting systems for use in activities that do not require potable water.",
-        staff_training: "Promote regular training with staff on conscious and efficient water use practices in dairy production.",
+        water_monitoring:
+          "Implement a continuous water consumption monitoring system with water meters at all critical points of the property.",
+        hydraulic_mapping:
+          "Develop a complete hydraulic map of the property to identify potential loss points and optimize water distribution.",
+        efficient_irrigation:
+          "Adopt more efficient irrigation systems, such as drip or low-pressure sprinklers, reducing waste.",
+        water_reuse:
+          "Implement water reuse systems, using treated effluents for pasture irrigation and facility cleaning.",
+        rainwater_harvesting:
+          "Install rainwater harvesting systems for use in activities that do not require potable water.",
+        staff_training:
+          "Promote regular training with staff on conscious and efficient water use practices in dairy production.",
       },
     },
   },

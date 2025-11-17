@@ -10,8 +10,14 @@ import EnergiaEletricaInput from "./components/EnergiaEletricaForm";
 import LegislacaoAmbientalInput from "./components/LegislacaoAmbientalForm";
 import SistemaProducaoInput from "./components/SistemaProducaoForm";
 import { FormSectionsProps } from "./types";
+import LocalizacaoInput from "./components/LocalizacaoForm";
 
 export const FormSections: React.FC<FormSectionsProps> = ({
+  cidade,
+  setCidade,
+  estado,
+  setEstado,
+
   // Sistema de Produção
   sistemaProducao,
   setSistemaProducao,
@@ -37,6 +43,8 @@ export const FormSections: React.FC<FormSectionsProps> = ({
   setBezerros,
   garrotes,
   setGarrotes,
+  bulls,
+  setBulls,
 
   // Produção Leiteira
   litrosDiaPropriedade,
@@ -74,6 +82,13 @@ export const FormSections: React.FC<FormSectionsProps> = ({
 }) => {
   return (
     <View>
+      <LocalizacaoInput
+        cidade={cidade}
+        setCidade={setCidade}
+        estado={estado}
+        setEstado={setEstado}
+      />
+
       <SistemaProducaoInput
         sistemaProducao={sistemaProducao}
         setSistemaProducao={setSistemaProducao}
@@ -102,6 +117,8 @@ export const FormSections: React.FC<FormSectionsProps> = ({
         setBezerros={setBezerros}
         garrotes={garrotes}
         setGarrotes={setGarrotes}
+        bulls={bulls}
+        setBulls={setBulls}
       />
 
       <ProducaoLeiteiraInput

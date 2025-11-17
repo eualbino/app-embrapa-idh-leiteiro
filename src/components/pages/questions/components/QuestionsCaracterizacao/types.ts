@@ -3,6 +3,11 @@ export interface SistemaProducao {
   outroEspecificacao: string | null;
 }
 
+export interface Localizacao {
+  cidade: string;
+  estado: string;
+}
+
 export interface Area {
   propriedade: number;
   pastagem: number;
@@ -15,6 +20,7 @@ export interface Rebanho {
   novilhas: number;
   bezerros: number;
   garrotes: number;
+  bulls: number;
 }
 
 export interface ProducaoLeiteira {
@@ -44,6 +50,7 @@ export interface LegislacaoAmbiental {
 }
 
 export interface FormData {
+  localizacao: Localizacao;
   sistemaProducao: SistemaProducao;
   area: Area;
   rebanho: Rebanho;
@@ -52,5 +59,4 @@ export interface FormData {
   consumoDiario: ConsumoDiario;
   energiaEletrica: EnergiaEletrica;
   legislacaoAmbiental: LegislacaoAmbiental;
-  dataPreenchimento: string;
 }

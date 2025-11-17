@@ -1,11 +1,21 @@
-import { useState } from 'react';
-import { FormData } from '@/src/components/pages/questions/types';
+import { useState } from "react";
+import { FormData } from "../types";
 
 interface UseCharacterizationFormStateProps {
   initialData?: FormData | null;
 }
 
-export const useCharacterizationFormState = ({ initialData }: UseCharacterizationFormStateProps) => {
+export const useCharacterizationFormState = ({
+  initialData,
+}: UseCharacterizationFormStateProps) => {
+  // Localização
+  const [cidade, setCidade] = useState<string>(
+    initialData?.localizacao?.cidade || ""
+  );
+  const [estado, setEstado] = useState<string>(
+    initialData?.localizacao?.estado || ""
+  );
+
   // Sistema de Produção
   const [sistemaProducao, setSistemaProducao] = useState<string>(
     initialData?.sistemaProducao.tipo || ""
@@ -40,6 +50,9 @@ export const useCharacterizationFormState = ({ initialData }: UseCharacterizatio
   );
   const [garrotes, setGarrotes] = useState<string>(
     initialData?.rebanho.garrotes.toString() || ""
+  );
+  const [bulls, setBulls] = useState<string>(
+    initialData?.rebanho.bulls.toString() || ""
   );
 
   // Produção Leiteira
@@ -86,12 +99,18 @@ export const useCharacterizationFormState = ({ initialData }: UseCharacterizatio
   );
 
   return {
+    // Localização
+    cidade,
+    setCidade,
+    estado,
+    setEstado,
+
     // Sistema de Produção
     sistemaProducao,
     setSistemaProducao,
     outroSistemaProducao,
     setOutroSistemaProducao,
-    
+
     // Área
     areaPropriedade,
     setAreaPropriedade,
@@ -99,7 +118,7 @@ export const useCharacterizationFormState = ({ initialData }: UseCharacterizatio
     setAreaPastagem,
     areaSilagem,
     setAreaSilagem,
-    
+
     // Rebanho
     vacasLactacao,
     setVacasLactacao,
@@ -111,19 +130,21 @@ export const useCharacterizationFormState = ({ initialData }: UseCharacterizatio
     setBezerros,
     garrotes,
     setGarrotes,
-    
+    bulls,
+    setBulls,
+
     // Produção Leiteira
     litrosDiaPropriedade,
     setLitrosDiaPropriedade,
     litrosVacaDia,
     setLitrosVacaDia,
-    
+
     // Composição do Leite
     percentualGordura,
     setPercentualGordura,
     percentualProteina,
     setPercentualProteina,
-    
+
     // Consumo Diário
     volumoso,
     setVolumoso,
@@ -131,13 +152,13 @@ export const useCharacterizationFormState = ({ initialData }: UseCharacterizatio
     setConcentrado,
     unidadeInformada,
     setUnidadeInformada,
-    
+
     // Energia Elétrica
     consumoEnergia,
     setConsumoEnergia,
     temEnergiaFotovoltaica,
     setTemEnergiaFotovoltaica,
-    
+
     // Legislação Ambiental
     temLicencaAmbiental,
     setTemLicencaAmbiental,

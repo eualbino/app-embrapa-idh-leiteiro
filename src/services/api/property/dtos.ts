@@ -61,9 +61,10 @@ export interface CreatePropertyResponse {
 export type ProductionSystemType =
   | "PASTO"
   | "PASTO_SUPLEMENTACAO"
-  | "CONFINADO_SEM_ACESSO_PASTO"
-  | "CONFINADO_PARA_VACAS_LACTANTES";
+  | "CONFINADO"
+  | "CONFINADO_MISTO"
+  | "OUTRO";
 
 export type FeedUnitType = "MATERIA_NATURAL" | "MATERIA_SECA";
 
-export type LicenseStatusType = "SIM" | "NAO" | "NAO_APLICA";
+export type LicenseStatusType = "SIM" | "NAO" | "DISPENSA";

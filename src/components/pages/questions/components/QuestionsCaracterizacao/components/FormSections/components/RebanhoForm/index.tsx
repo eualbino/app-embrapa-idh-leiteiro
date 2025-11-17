@@ -14,6 +14,8 @@ interface RebanhoInputProps {
   setBezerros: (value: string) => void;
   garrotes: string;
   setGarrotes: (value: string) => void;
+  bulls: string;
+  setBulls: (value: string) => void;
 }
 
 const RebanhoInput: React.FC<RebanhoInputProps> = ({
@@ -27,19 +29,23 @@ const RebanhoInput: React.FC<RebanhoInputProps> = ({
   setBezerros,
   garrotes,
   setGarrotes,
+  bulls,
+  setBulls,
 }) => {
   const { t } = useTranslation();
-  
+
   return (
     <View style={stylesCharacterization.containerResponses}>
       <View style={stylesCharacterization.containerQuestionInput}>
         <Text style={stylesCharacterization.questionText}>
-          <Text>{t('questionnaire.characterization.herd.sectionTitle')} </Text>
-          <Text>{t('questionnaire.characterization.herd.lactatingCows')}</Text>
+          <Text>{t("questionnaire.characterization.herd.sectionTitle")} </Text>
+          <Text>{t("questionnaire.characterization.herd.lactatingCows")}</Text>
         </Text>
         <TextInput
           style={stylesCharacterization.textInput}
-          placeholder={t('questionnaire.characterization.herd.lactatingCowsPlaceholder')}
+          placeholder={t(
+            "questionnaire.characterization.herd.lactatingCowsPlaceholder"
+          )}
           value={vacasLactacao}
           onChangeText={setVacasLactacao}
           keyboardType="numeric"
@@ -48,11 +54,13 @@ const RebanhoInput: React.FC<RebanhoInputProps> = ({
 
       <View style={stylesCharacterization.containerQuestionInput}>
         <Text style={stylesCharacterization.questionText}>
-          <Text>{t('questionnaire.characterization.herd.dryCows')}</Text>
+          <Text>{t("questionnaire.characterization.herd.dryCows")}</Text>
         </Text>
         <TextInput
           style={stylesCharacterization.textInput}
-          placeholder={t('questionnaire.characterization.herd.dryCowsPlaceholder')}
+          placeholder={t(
+            "questionnaire.characterization.herd.dryCowsPlaceholder"
+          )}
           value={vacasSecas}
           onChangeText={setVacasSecas}
           keyboardType="numeric"
@@ -61,11 +69,13 @@ const RebanhoInput: React.FC<RebanhoInputProps> = ({
 
       <View style={stylesCharacterization.containerQuestionInput}>
         <Text style={stylesCharacterization.questionText}>
-          <Text>{t('questionnaire.characterization.herd.heifers')}</Text>
+          <Text>{t("questionnaire.characterization.herd.heifers")}</Text>
         </Text>
         <TextInput
           style={stylesCharacterization.textInput}
-          placeholder={t('questionnaire.characterization.herd.heifersPlaceholder')}
+          placeholder={t(
+            "questionnaire.characterization.herd.heifersPlaceholder"
+          )}
           value={novilhas}
           onChangeText={setNovilhas}
           keyboardType="numeric"
@@ -74,26 +84,45 @@ const RebanhoInput: React.FC<RebanhoInputProps> = ({
 
       <View style={stylesCharacterization.containerQuestionInput}>
         <Text style={stylesCharacterization.questionText}>
-          <Text>{t('questionnaire.characterization.herd.calves')}</Text>
+          <Text>{t("questionnaire.characterization.herd.calves")}</Text>
         </Text>
         <TextInput
           style={stylesCharacterization.textInput}
-          placeholder={t('questionnaire.characterization.herd.calvesPlaceholder')}
+          placeholder={t(
+            "questionnaire.characterization.herd.calvesPlaceholder"
+          )}
           value={bezerros}
           onChangeText={setBezerros}
           keyboardType="numeric"
         />
       </View>
 
-      <View>
+      <View style={stylesCharacterization.containerQuestionInput}>
         <Text style={stylesCharacterization.questionText}>
-          <Text>{t('questionnaire.characterization.herd.steers')}</Text>
+          <Text>{t("questionnaire.characterization.herd.steers")}</Text>
         </Text>
         <TextInput
           style={stylesCharacterization.textInput}
-          placeholder={t('questionnaire.characterization.herd.steersPlaceholder')}
+          placeholder={t(
+            "questionnaire.characterization.herd.steersPlaceholder"
+          )}
           value={garrotes}
           onChangeText={setGarrotes}
+          keyboardType="numeric"
+        />
+      </View>
+
+      <View>
+        <Text style={stylesCharacterization.questionText}>
+          <Text>{t("questionnaire.characterization.herd.bulls")}</Text>
+        </Text>
+        <TextInput
+          style={stylesCharacterization.textInput}
+          placeholder={t(
+            "questionnaire.characterization.herd.bullsPlaceholder"
+          )}
+          value={bulls}
+          onChangeText={setBulls}
           keyboardType="numeric"
         />
       </View>

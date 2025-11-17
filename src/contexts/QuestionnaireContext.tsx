@@ -1,6 +1,6 @@
 import React, { createContext, useContext, ReactNode, useRef } from "react";
 import { ScrollView } from "react-native";
-import { useQuestionnaire } from "@/src/hooks/useQuestionnaire";
+import { useQuestionnaire } from "@/src/components/pages/questions/hooks/useQuestionnaire";
 import { FormData } from "@/src/components/pages/questions/components/QuestionsCaracterizacao/types";
 
 interface QuestionnaireContextType {
@@ -9,7 +9,8 @@ interface QuestionnaireContextType {
   formData: FormData | null;
   date: Date;
   showPicker: boolean;
-  scrollRef: React.RefObject<ScrollView>;
+  isCreatingProperty: boolean;
+  scrollRef: React.RefObject<ScrollView | null>;
   setStep: (step: number) => void;
   setAnswers: (answers: { [key: string]: number | null }) => void;
   setFormData: (formData: FormData | null) => void;
@@ -21,7 +22,10 @@ interface QuestionnaireContextType {
   toggleDatePicker: () => void;
   formatDate: (rawDate: Date) => string;
   questionDisabled: (questionId: string | number) => boolean;
-  validateCaracterizacaoForm: (data: FormData) => string[];
+  validateCaracterizacaoForm: (
+    data: FormData,
+    t: (key: string) => string
+  ) => string[];
 }
 
 const QuestionnaireContext = createContext<

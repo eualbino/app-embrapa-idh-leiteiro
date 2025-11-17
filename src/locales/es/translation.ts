@@ -113,6 +113,13 @@ export default {
       identification: "Identificación",
       // Caracterización (usado en secciones del formulario)
       characterization: {
+        location: {
+          sectionTitle: "UBICACIÓN:",
+          city: "Ciudad",
+          cityPlaceholder: "Ingrese la ciudad",
+          state: "Estado",
+          statePlaceholder: "Ej: SP",
+        },
         productionSystem: {
           sectionTitle: "A. SISTEMA DE PRODUCCIÓN:",
           question: "¿Cuál es el sistema de producción empleado por la finca?",
@@ -149,6 +156,8 @@ export default {
           calvesPlaceholder: "Terneros",
           steers: "Novillos",
           steersPlaceholder: "Novillos",
+          bulls: "Toros",
+          bullsPlaceholder: "Toros",
         },
         milkProduction: {
           sectionTitle: "D. PRODUCCIÓN LECHERA:",
@@ -305,7 +314,8 @@ export default {
         groups: {
           "quantidade-agua": "Cantidad de Agua",
           "qualidade-agua": "Calidad del Agua",
-          "manejo-residuos-uso-fertilizantes": "Manejo de Residuos y Uso de Fertilizantes",
+          "manejo-residuos-uso-fertilizantes":
+            "Manejo de Residuos y Uso de Fertilizantes",
         },
         // Individual questions
         q1: {
@@ -487,7 +497,11 @@ export default {
         },
       },
       validation: {
-        productionSystemRequired: "El sistema de producción",
+        // Localización
+        cidadeRequired: "Ciudad",
+        estadoRequired: "Estado",
+
+        productionSystemRequired: "Sistema de Producción",
         specifyOtherProductionSystem:
           "Especifique el sistema de producción cuando se seleccione 'Otro'",
 
@@ -532,12 +546,18 @@ export default {
       title: "Su puntuación total fue:",
       improvementSuggestions: "Sugerencias de Mejora",
       suggestions: {
-        water_monitoring: "Implemente un sistema de monitoreo continuo del consumo de agua con medidores en todos los puntos críticos de la propiedad.",
-        hydraulic_mapping: "Desarrolle un mapa hidráulico completo de la propiedad para identificar posibles puntos de pérdida y optimizar la distribución de agua.",
-        efficient_irrigation: "Adopte sistemas de riego más eficientes, como goteo o aspersión de baja presión, reduciendo desperdicios.",
-        water_reuse: "Implemente sistemas de reutilización de agua, aprovechando efluentes tratados para riego de pasturas y limpieza de instalaciones.",
-        rainwater_harvesting: "Instale sistemas de captación de agua de lluvia para uso en actividades que no requieren agua potable.",
-        staff_training: "Promueva capacitaciones regulares con el equipo sobre prácticas de uso consciente y eficiente del agua en la producción lechera.",
+        water_monitoring:
+          "Implemente un sistema de monitoreo continuo del consumo de agua con medidores en todos los puntos críticos de la propiedad.",
+        hydraulic_mapping:
+          "Desarrolle un mapa hidráulico completo de la propiedad para identificar posibles puntos de pérdida y optimizar la distribución de agua.",
+        efficient_irrigation:
+          "Adopte sistemas de riego más eficientes, como goteo o aspersión de baja presión, reduciendo desperdicios.",
+        water_reuse:
+          "Implemente sistemas de reutilización de agua, aprovechando efluentes tratados para riego de pasturas y limpieza de instalaciones.",
+        rainwater_harvesting:
+          "Instale sistemas de captación de agua de lluvia para uso en actividades que no requieren agua potable.",
+        staff_training:
+          "Promueva capacitaciones regulares con el equipo sobre prácticas de uso consciente y eficiente del agua en la producción lechera.",
       },
     },
   },

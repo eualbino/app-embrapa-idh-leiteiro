@@ -34,7 +34,6 @@ export const useProperty = () => {
         break;
     }
 
-    console.log(formData.consumoDiario.unidadeInformada);
     const feedUnit: "MATERIA_NATURAL" | "MATERIA_SECA" =
       formData.consumoDiario.unidadeInformada === "materia_natural"
         ? "MATERIA_NATURAL"

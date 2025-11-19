@@ -7,18 +7,30 @@ import { styles } from "./styles";
 
 export const NavigationButtons: React.FC = () => {
   const { t } = useTranslation();
-  const { step, handleNext, handlePrevious, isCreatingProperty } =
-    useQuestionnaireContext();
+  const {
+    step,
+    handleNext,
+    handlePrevious,
+    isCreatingProperty,
+    isCreatingWaterIndicator,
+    isCreatingWaterQuality,
+    isCreatingWasteManagement,
+  } = useQuestionnaireContext();
 
   const isFirstStep = step === 0;
   const isLastStep = step === 3;
+  const isLoading =
+    isCreatingProperty ||
+    isCreatingWaterIndicator ||
+    isCreatingWaterQuality ||
+    isCreatingWasteManagement;
 
   return (
     <View style={styles.container}>
       <View>
         <ButtonCommon
           onPress={() => handlePrevious()}
-          disabled={isFirstStep || isCreatingProperty}
+          disabled={isFirstStep || isLoading}
           variant="secondary"
         >
           {"<  "} {t("questionnaire.questions.previous")}
@@ -28,9 +40,9 @@ export const NavigationButtons: React.FC = () => {
         <ButtonCommon
           onPress={() => handleNext()}
           variant="primary"
-          disabled={isCreatingProperty}
+          disabled={isLoading}
         >
-          {isCreatingProperty
+          {isLoading
             ? t("common.loading")
             : isLastStep
             ? t("questionnaire.questions.finish")

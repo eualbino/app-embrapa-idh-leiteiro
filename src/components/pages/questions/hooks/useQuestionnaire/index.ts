@@ -8,14 +8,21 @@ import { validateCaracterizacaoForm } from "./validation";
 import { shouldDisableQuestion } from "./questionDisabling";
 import { QuestionnaireState, QuestionnaireActions } from "./types";
 import { useProperty } from "@/src/components/pages/questions/hooks/useProperty/useProperty";
+import { useWaterIndicator } from "@/src/components/pages/questions/hooks/useWaterIndicator";
+import { useWaterQualityConservation } from "@/src/components/pages/questions/hooks/useWaterQualityConservation";
+import { useWasteManagement } from "@/src/components/pages/questions/hooks/useWasteManagement";
 
 export const useQuestionnaire = (): QuestionnaireState &
   QuestionnaireActions => {
   const { t } = useTranslation();
   const { createProperty, isLoading: isCreatingProperty } = useProperty();
+  const { createWaterIndicator, isLoading: isCreatingWaterIndicator } = useWaterIndicator();
+  const { createWaterQualityConservation, isLoading: isCreatingWaterQuality } = useWaterQualityConservation();
+  const { createWasteManagement, isLoading: isCreatingWasteManagement } = useWasteManagement();
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<{ [key: string]: number | null }>({});
   const [formData, setFormData] = useState<FormData | null>(null);
+  const [propertyId, setPropertyId] = useState<string | null>(null);
   const [date, setDate] = useState(new Date());
   const [showPicker, setShowPicker] = useState<boolean>(false);
 
@@ -81,7 +88,10 @@ export const useQuestionnaire = (): QuestionnaireState &
         }
 
         try {
-          await createProperty(formData);
+          const response = await createProperty(formData);
+          if (response?.property?.id) {
+            setPropertyId(response.property.id);
+          }
           setStep((prev) => prev + 1);
         } catch (error) {
           console.error(error);
@@ -96,7 +106,7 @@ export const useQuestionnaire = (): QuestionnaireState &
         });
         return;
       }
-      return; // Retorna aqui para não executar o resto da função
+      return;
     }
 
     if (step > 0 && currentGroup) {
@@ -105,13 +115,6 @@ export const useQuestionnaire = (): QuestionnaireState &
         const isAnswered = answer !== undefined || questionDisabled(q.id);
         return !isAnswered;
       });
-
-      const sortedAnswers = Object.keys(answers)
-        .sort((a, b) => parseInt(a) - parseInt(b))
-        .reduce((obj, key) => {
-          obj[key] = answers[key];
-          return obj;
-        }, {} as { [key: string]: number | null });
 
       if (unansweredQuestions.length > 0) {
         const questionNumbers = unansweredQuestions.map((q) => q.id).join(", ");
@@ -139,21 +142,72 @@ export const useQuestionnaire = (): QuestionnaireState &
         const groupTranslationKey = `questionnaire.questions.groups.${groupName}`;
         const translatedGroupName = t(groupTranslationKey);
 
-        Toast.show({
-          type: "score",
-          text1: t("questionnaire.questions.toasts.scoreTitle", {
-            groupName: translatedGroupName,
-          }),
-          text2: "SCORE",
-          position: "bottom",
-          visibilityTime: 5000,
-          bottomOffset: 200,
-        });
+        if (step === 1) {
+          if (!propertyId) {
+            Toast.show({
+              type: "error",
+              text1: t("common.error"),
+              text2: "Property ID não encontrado. Por favor, reinicie o questionário.",
+              visibilityTime: 5000,
+            });
+            return;
+          }
+
+          try {
+            const response = await createWaterIndicator(answers, propertyId);
+            const score = response?.data?.finalScore?.toFixed(2) || "N/A";
+            
+            Toast.show({
+              type: "score",
+              text1: t("questionnaire.questions.toasts.scoreTitle", {
+                groupName: translatedGroupName,
+              }),
+              text2: `${score}`,
+              position: "bottom",
+              visibilityTime: 5000,
+              bottomOffset: 200,
+            });
+          } catch (error) {
+            console.error("Erro ao criar Water Indicator:", error);
+            return;
+          }
+        }
+
+        if (step === 2) {
+          if (!propertyId) {
+            Toast.show({
+              type: "error",
+              text1: t("common.error"),
+              text2: "Property ID não encontrado. Por favor, reinicie o questionário.",
+              visibilityTime: 5000,
+            });
+            return;
+          }
+
+          try {
+            const response = await createWaterQualityConservation(answers, propertyId);
+            const score = response?.data?.finalScore?.toFixed(2) || "N/A";
+            
+            Toast.show({
+              type: "score",
+              text1: t("questionnaire.questions.toasts.scoreTitle", {
+                groupName: translatedGroupName,
+              }),
+              text2: `${score}`,
+              position: "bottom",
+              visibilityTime: 5000,
+              bottomOffset: 200,
+            });
+          } catch (error) {
+            console.error("Erro ao criar Water Quality Conservation:", error);
+            return;
+          }
+        }
+
       }
 
       setStep((prev) => prev + 1);
     } else {
-      // Último step - mostra o score e navega para resultado
       const groupNames: { [key: number]: string } = {
         1: "quantidade-agua",
         2: "qualidade-agua",
@@ -164,20 +218,38 @@ export const useQuestionnaire = (): QuestionnaireState &
       const groupTranslationKey = `questionnaire.questions.groups.${groupName}`;
       const translatedGroupName = t(groupTranslationKey);
 
-      Toast.show({
-        type: "score",
-        text1: t("questionnaire.questions.toasts.scoreTitle", {
-          groupName: translatedGroupName,
-        }),
-        text2: "SCORE",
-        position: "bottom",
-        visibilityTime: 5000,
-        bottomOffset: 200,
-      });
+      if (!propertyId) {
+        Toast.show({
+          type: "error",
+          text1: t("common.error"),
+          text2: "Property ID não encontrado. Por favor, reinicie o questionário.",
+          visibilityTime: 5000,
+        });
+        return;
+      }
 
-      setTimeout(() => {
-        router.push("/result");
-      }, 5000);
+      try {
+        const response = await createWasteManagement(answers, propertyId);
+        const score = response?.data?.finalScore?.toFixed(2) || "N/A";
+        
+        Toast.show({
+          type: "score",
+          text1: t("questionnaire.questions.toasts.scoreTitle", {
+            groupName: translatedGroupName,
+          }),
+          text2: `${score}`,
+          position: "bottom",
+          visibilityTime: 5000,
+          bottomOffset: 200,
+        });
+
+        setTimeout(() => {
+          router.push("/result");
+        }, 5000);
+      } catch (error) {
+        console.error("Erro ao criar Waste Management:", error);
+        return;
+      }
     }
   }, [
     step,
@@ -187,6 +259,10 @@ export const useQuestionnaire = (): QuestionnaireState &
     questionDisabled,
     t,
     createProperty,
+    createWaterIndicator,
+    createWaterQualityConservation,
+    createWasteManagement,
+    propertyId,
   ]);
 
   const handlePrevious = useCallback(() => {
@@ -194,10 +270,6 @@ export const useQuestionnaire = (): QuestionnaireState &
       setStep(step - 1);
     }
   }, [step]);
-
-  const toggleDatePicker = useCallback(() => {
-    setShowPicker(!showPicker);
-  }, [showPicker]);
 
   const formatDate = useCallback((rawDate: Date) => {
     let day = rawDate.getDate().toString().padStart(2, "0");
@@ -214,18 +286,17 @@ export const useQuestionnaire = (): QuestionnaireState &
     date,
     showPicker,
     isCreatingProperty,
+    isCreatingWaterIndicator,
+    isCreatingWaterQuality,
+    isCreatingWasteManagement,
     // Actions
-    setStep,
-    setAnswers,
     setFormData,
     setDate,
     setShowPicker,
     handleSelect,
     handleNext,
     handlePrevious,
-    toggleDatePicker,
     formatDate,
     questionDisabled,
-    validateCaracterizacaoForm,
   };
 };

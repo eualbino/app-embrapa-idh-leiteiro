@@ -1,7 +1,7 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { BaseToast, ErrorToast, ToastConfig } from 'react-native-toast-message';
-import { theme } from '../index';
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { BaseToast, ErrorToast, ToastConfig } from "react-native-toast-message";
+import { theme } from "../index";
 
 const toastConfig: ToastConfig = {
   success: (props) => (
@@ -51,7 +51,10 @@ const toastConfig: ToastConfig = {
   score: (props) => (
     <View style={styles.scoreToast}>
       <Text style={styles.scoreTitle}>{props.text1}</Text>
-      <Text style={styles.scoreValue}>{props.text2}</Text>
+      <View style={styles.scoreContainer}>
+        <Text style={styles.scoreValue}>{props.text2}</Text>
+        <Text style={styles.scoreMax}> / 1</Text>
+      </View>
     </View>
   ),
 };
@@ -62,7 +65,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 5,
     backgroundColor: theme.colors.background.default,
     minHeight: 70,
-    width: '90%',
+    width: "90%",
     height: undefined,
   },
   errorToast: {
@@ -70,7 +73,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 5,
     backgroundColor: theme.colors.background.default,
     minHeight: 70,
-    width: '90%',
+    width: "90%",
     height: undefined,
   },
   infoToast: {
@@ -78,7 +81,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 5,
     backgroundColor: theme.colors.background.default,
     minHeight: 70,
-    width: '90%',
+    width: "90%",
     height: undefined,
   },
   warningToast: {
@@ -86,7 +89,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 5,
     backgroundColor: theme.colors.background.default,
     minHeight: 70,
-    width: '90%',
+    width: "90%",
     height: undefined,
   },
   contentContainer: {
@@ -98,13 +101,13 @@ const styles = StyleSheet.create({
     fontSize: theme.typography.sizes.md,
     fontWeight: theme.typography.weights.bold,
     color: theme.colors.text.primary,
-    flexWrap: 'wrap',
+    flexWrap: "wrap",
   },
   text2: {
     fontSize: theme.typography.sizes.sm,
     fontWeight: theme.typography.weights.regular,
     color: theme.colors.text.secondary,
-    flexWrap: 'wrap',
+    flexWrap: "wrap",
     marginTop: 2,
   },
   scoreToast: {
@@ -112,10 +115,10 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     paddingVertical: theme.spacing.xl,
     paddingHorizontal: theme.spacing.xl,
-    width: '80%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000',
+    width: "80%",
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
@@ -127,14 +130,25 @@ const styles = StyleSheet.create({
     fontSize: theme.typography.sizes.lg,
     fontWeight: theme.typography.weights.bold,
     color: theme.colors.text.primary,
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: theme.spacing.md,
+  },
+  scoreContainer: {
+    flexDirection: "row",
+    alignItems: "baseline",
+    justifyContent: "center",
   },
   scoreValue: {
     fontSize: 64,
     fontWeight: theme.typography.weights.bold,
     color: theme.colors.primary.default,
-    textAlign: 'center',
+    textAlign: "center",
+  },
+  scoreMax: {
+    fontSize: 20,
+    fontWeight: theme.typography.weights.bold,
+    color: theme.colors.text.secondary,
+    textAlign: "center",
   },
 });
 

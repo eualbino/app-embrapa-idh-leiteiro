@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SecureStore from "expo-secure-store";
 import Toast from "react-native-toast-message";
 import { AuthService } from "@/src/services";
 import type {
@@ -61,7 +62,7 @@ export function useForgotPassword() {
 
       const response = await AuthService.validateOtp({ email, otp_code });
 
-      await AsyncStorage.setItem(RESET_TOKEN_KEY, response.token);
+      await SecureStore.setItemAsync(RESET_TOKEN_KEY, response.token);
 
       Toast.show({
         type: "success",
@@ -102,7 +103,7 @@ export function useForgotPassword() {
     try {
       setIsLoading(true);
 
-      const token = await AsyncStorage.getItem(RESET_TOKEN_KEY);
+      const token = await SecureStore.getItemAsync(RESET_TOKEN_KEY);
 
       if (!token) {
         throw new Error("Token de reset não encontrado");
@@ -116,7 +117,8 @@ export function useForgotPassword() {
         text2: "Sua senha foi redefinida com sucesso!",
       });
 
-      await AsyncStorage.multiRemove([RESET_TOKEN_KEY, RESET_EMAIL_KEY]);
+      await SecureStore.deleteItemAsync(RESET_TOKEN_KEY);
+      await AsyncStorage.removeItem(RESET_EMAIL_KEY);
 
       router.replace("/");
     } catch (error: any) {
@@ -141,7 +143,8 @@ export function useForgotPassword() {
 
       // Se token expirou, limpar e redirecionar
       if (status === 401) {
-        await AsyncStorage.multiRemove([RESET_TOKEN_KEY, RESET_EMAIL_KEY]);
+        await SecureStore.deleteItemAsync(RESET_TOKEN_KEY);
+        await AsyncStorage.removeItem(RESET_EMAIL_KEY);
         router.replace("/forgot-password/send-email");
       }
     } finally {

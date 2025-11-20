@@ -1,9 +1,12 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useRouter } from 'expo-router';
-import Toast from 'react-native-toast-message';
-import { AuthService } from '@/src/services';
-import type { LoginRequest, RegisterRequest } from '@/src/services/api/auth/dtos';
+import { createContext, useContext, useState, ReactNode } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
+import Toast from "react-native-toast-message";
+import { AuthService } from "@/src/services";
+import type {
+  LoginRequest,
+  RegisterRequest,
+} from "@/src/services/api/auth/dtos";
 
 interface AuthContextData {
   isLoading: boolean;
@@ -25,35 +28,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setIsLoading(true);
 
       const response = await AuthService.login(credentials);
-      
+
       // Salvar token
-      await AsyncStorage.setItem('@app:token', response.token);
-      
+      await AsyncStorage.setItem("@app:token", response.token);
+
       setIsAuthenticated(true);
 
       Toast.show({
-        type: 'success',
-        text1: 'Login realizado!',
-        text2: 'Bem-vindo de volta!',
+        type: "success",
+        text1: "Login realizado!",
+        text2: "Bem-vindo de volta!",
       });
 
-      // Redirecionar para questions
-      router.replace('/questions');
+      router.replace({ pathname: "/(logged)/(home)/" } as any);
     } catch (error: any) {
-      console.error('Erro no login:', error);
-      
+      console.error("Erro no login:", error);
+
       const status = error?.response?.status;
-      let errorMessage = 'Não foi possível fazer login. Tente novamente.';
+      let errorMessage = "Não foi possível fazer login. Tente novamente.";
 
       if (status === 401 || status === 404) {
-        errorMessage = 'Email/CPF ou senha inválidos.';
+        errorMessage = "Email/CPF ou senha inválidos.";
       } else if (status === 400) {
-        errorMessage = error?.response?.data?.message || 'Dados inválidos.';
+        errorMessage = error?.response?.data?.message || "Dados inválidos.";
       }
 
       Toast.show({
-        type: 'error',
-        text1: 'Erro no Login',
+        type: "error",
+        text1: "Erro no Login",
         text2: errorMessage,
       });
     } finally {
@@ -68,9 +70,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       await AuthService.register(data);
 
       Toast.show({
-        type: 'success',
-        text1: 'Cadastro realizado!',
-        text2: 'Faça login para continuar.',
+        type: "success",
+        text1: "Cadastro realizado!",
+        text2: "Faça login para continuar.",
       });
 
       await login({
@@ -78,18 +80,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         password: data.password,
       });
     } catch (error: any) {
-      console.error('Erro no registro:', error);
-      
+      console.error("Erro no registro:", error);
+
       const status = error?.response?.status;
-      let errorMessage = 'Não foi possível cadastrar. Tente novamente.';
+      let errorMessage = "Não foi possível cadastrar. Tente novamente.";
 
       if (status === 400) {
-        errorMessage = error?.response?.data?.message || 'Email ou CPF já cadastrado.';
+        errorMessage =
+          error?.response?.data?.message || "Email ou CPF já cadastrado.";
       }
 
       Toast.show({
-        type: 'error',
-        text1: 'Erro no Cadastro',
+        type: "error",
+        text1: "Erro no Cadastro",
         text2: errorMessage,
       });
     } finally {
@@ -100,26 +103,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = async () => {
     try {
       setIsLoading(true);
-      
+
       // Remover token
-      await AsyncStorage.removeItem('@app:token');
-      
+      await AsyncStorage.removeItem("@app:token");
+
       setIsAuthenticated(false);
 
       Toast.show({
-        type: 'success',
-        text1: 'Logout realizado',
-        text2: 'Até logo!',
+        type: "success",
+        text1: "Logout realizado",
+        text2: "Até logo!",
       });
 
-      router.replace('/');
+      router.replace("/");
     } catch (error) {
-      console.error('Erro no logout:', error);
-      
+      console.error("Erro no logout:", error);
+
       Toast.show({
-        type: 'error',
-        text1: 'Erro',
-        text2: 'Não foi possível fazer logout.',
+        type: "error",
+        text1: "Erro",
+        text2: "Não foi possível fazer logout.",
       });
     } finally {
       setIsLoading(false);
@@ -145,7 +148,7 @@ export function useAuthContext() {
   const context = useContext(AuthContext);
 
   if (!context) {
-    throw new Error('useAuthContext must be used within an AuthProvider');
+    throw new Error("useAuthContext must be used within an AuthProvider");
   }
 
   return context;

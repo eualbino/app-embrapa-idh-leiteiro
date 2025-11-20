@@ -6,11 +6,11 @@ import {
 
 export class WaterQualityConservationService {
   static async createWaterQualityConservation(
-    data: CreateWaterQualityConservationRequest
+    data: CreateWaterQualityConservationRequest,
   ): Promise<CreateWaterQualityConservationResponse> {
     const response = await api.post<CreateWaterQualityConservationResponse>(
       "/water-quality-conservation",
-      data
+      data,
     );
     return response.data;
   }

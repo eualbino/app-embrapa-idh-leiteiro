@@ -556,5 +556,12 @@ export default {
           "Promote regular training with staff on conscious and efficient water use practices in dairy production.",
       },
     },
+    
+    // History Page
+    history: {
+      title: "History of results",
+      description: "Review your past results.",
+      noRecords: "No results records found.",
+    },
   },
 };

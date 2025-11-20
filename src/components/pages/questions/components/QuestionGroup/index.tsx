@@ -1,15 +1,15 @@
-import React from 'react';
-import { View } from 'react-native';
-import { styles } from './styles';
-import { QuestionItem } from './components/QuestionItem';
+import React from "react";
+import { View } from "react-native";
+import { styles } from "./styles";
+import { QuestionItem } from "./components/QuestionItem";
 
 interface QuestionGroupProps {
-  questions: Array<{
+  questions: {
     id: number;
     text: string;
     observation?: string;
-    option: Array<{ label: string; value: number | null }>;
-  }>;
+    option: { label: string; value: number | null }[];
+  }[];
 }
 
 export const QuestionGroup: React.FC<QuestionGroupProps> = ({ questions }) => {

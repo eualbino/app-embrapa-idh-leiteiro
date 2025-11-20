@@ -11,7 +11,7 @@ interface QuestionItemProps {
     id: number;
     text: string;
     observation?: string;
-    option: Array<{ label: string; value: number | null }>;
+    option: { label: string; value: number | null }[];
   };
 }
 

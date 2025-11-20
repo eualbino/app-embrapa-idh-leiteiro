@@ -560,5 +560,12 @@ export default {
           "Promova treinamentos regulares com a equipe sobre práticas de uso consciente e eficiente da água na produção leiteira.",
       },
     },
+
+    // History Page
+    history: {
+      title: "Histórico de Resultados",
+      description: "Veja os resultados anteriores.",
+      noRecords: "Nenhum resultado encontrado.",
+    },
   },
 };

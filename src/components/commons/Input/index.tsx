@@ -7,7 +7,7 @@ import {
   KeyboardTypeOptions,
   TouchableOpacity,
 } from "react-native";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from "@expo/vector-icons";
 import { style } from "./styles";
 
 interface InputProps extends Omit<TextInputProps, "style"> {
@@ -33,14 +33,14 @@ export const Input: React.FC<InputProps> = ({
 
   return (
     <View style={[styles.container, containerStyle]}>
-      {label && (
-        <Text style={[styles.label, labelStyle]}>
-          {label}
-        </Text>
-      )}
-      <View style={{ position: 'relative' }}>
+      {label && <Text style={[styles.label, labelStyle]}>{label}</Text>}
+      <View style={{ position: "relative" }}>
         <TextInput
-          style={[styles.input, inputStyle, isPasswordInput && { paddingRight: 50 }]}
+          style={[
+            styles.input,
+            inputStyle,
+            isPasswordInput && { paddingRight: 50 },
+          ]}
           keyboardType={type}
           secureTextEntry={isPasswordInput && !isPasswordVisible}
           {...inputProps}
@@ -49,14 +49,14 @@ export const Input: React.FC<InputProps> = ({
           <TouchableOpacity
             onPress={() => setIsPasswordVisible(!isPasswordVisible)}
             style={{
-              position: 'absolute',
+              position: "absolute",
               right: 15,
-              top: '50%',
+              top: "50%",
               transform: [{ translateY: -12 }],
             }}
           >
             <Ionicons
-              name={isPasswordVisible ? 'eye-off-outline' : 'eye-outline'}
+              name={isPasswordVisible ? "eye-off-outline" : "eye-outline"}
               size={24}
               color="#666"
             />

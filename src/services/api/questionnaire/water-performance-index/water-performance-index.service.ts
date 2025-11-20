@@ -5,10 +5,10 @@ import {
 } from "./dtos";
 export class WaterPerformanceIndexService {
   static async getWaterPerformanceIndex(
-    params: GetWaterPerformanceIndexParams
+    params: GetWaterPerformanceIndexParams,
   ): Promise<GetWaterPerformanceIndexResponse> {
     const response = await api.get<GetWaterPerformanceIndexResponse>(
-      `/water-performance-index/${params.propertyId}`
+      `/water-performance-index/${params.propertyId}`,
     );
     return response.data;
   }

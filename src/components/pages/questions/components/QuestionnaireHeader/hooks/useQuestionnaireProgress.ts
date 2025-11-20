@@ -1,21 +1,20 @@
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { questions } from '@/src/mock/questions';
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 
 interface UseQuestionnaireProgressProps {
   answers: { [key: string]: number | null };
 }
 
-export const useQuestionnaireProgress = ({ answers }: UseQuestionnaireProgressProps) => {
+export const useQuestionnaireProgress = ({
+  answers,
+}: UseQuestionnaireProgressProps) => {
   const { t } = useTranslation();
   const answeredCount = useMemo(() => {
-    return Object.values(answers).filter(
-      (value) => value !== undefined
-    ).length;
+    return Object.values(answers).filter((value) => value !== undefined).length;
   }, [answers]);
 
-  const TOTAL_QUESTIONS = questions.length;
-  
+  const TOTAL_QUESTIONS = 35;
+
   const progress = useMemo(() => {
     return answeredCount / TOTAL_QUESTIONS;
   }, [answeredCount]);
@@ -23,20 +22,23 @@ export const useQuestionnaireProgress = ({ answers }: UseQuestionnaireProgressPr
   const getStepTitle = (step: number) => {
     switch (step) {
       case 0:
-        return t('questionnaire.questions.characterizationTitle');
+        return t("questionnaire.questions.characterizationTitle");
       case 1:
-        return t('questionnaire.questions.waterQuantityTitle');
+        return t("questionnaire.questions.waterQuantityTitle");
       case 2:
-        return t('questionnaire.questions.waterQualityTitle');
+        return t("questionnaire.questions.waterQualityTitle");
       case 3:
-        return t('questionnaire.questions.wasteManagementTitle');
+        return t("questionnaire.questions.wasteManagementTitle");
       default:
         return "";
     }
   };
 
   const getStepDescription = (step: number) => {
-    return t('questionnaire.questions.category', { current: step + 1, total: 4 });
+    return t("questionnaire.questions.category", {
+      current: step + 1,
+      total: 4,
+    });
   };
 
   return {

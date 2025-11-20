@@ -22,9 +22,33 @@ export default function RootLayout() {
           <Stack
             screenOptions={{
               headerShown: false,
-              contentStyle: { backgroundColor: "#ffffff", paddingHorizontal: 20 },
+              contentStyle: { backgroundColor: "#ffffff" },
             }}
-          />
+          >
+            <Stack.Screen
+              name="index"
+              options={{
+                contentStyle: {
+                  backgroundColor: "#ffffff",
+                  paddingHorizontal: 20,
+                },
+              }}
+            />
+            <Stack.Screen
+              name="forgot-password"
+              options={{
+                contentStyle: {
+                  backgroundColor: "#ffffff",
+                },
+              }}
+            />
+            <Stack.Screen
+              name="(logged)"
+              options={{
+                contentStyle: { backgroundColor: "#ffffff" },
+              }}
+            />
+          </Stack>
           <Toast config={toastConfig} topOffset={100} />
         </SafeAreaView>
       </SafeAreaProvider>

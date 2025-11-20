@@ -15,7 +15,7 @@ interface ButtonProps {
   disabled?: boolean;
   style?: ViewStyle;
   textStyle?: TextStyle;
-  isActive?: boolean
+  isActive?: boolean;
 }
 
 export const ButtonCommon: FC<ButtonProps> = ({
@@ -25,7 +25,7 @@ export const ButtonCommon: FC<ButtonProps> = ({
   disabled = false,
   style,
   textStyle,
-  isActive = true
+  isActive = true,
 }) => {
   const styles = getStyles(variant, isActive, disabled);
 

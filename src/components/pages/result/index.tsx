@@ -17,7 +17,7 @@ export default function ResultPage() {
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      {/* Header com Score */}
+
       <View style={styles.headerContainer}>
         <Text style={styles.title}>{t("result.title")}</Text>
         <View style={styles.scoreContainer}>
@@ -25,7 +25,6 @@ export default function ResultPage() {
         </View>
       </View>
 
-      {/* Sugestões de Melhorias */}
       <View style={styles.suggestionsContainer}>
         <Text style={styles.suggestionsTitle}>
           {t("result.improvementSuggestions")}

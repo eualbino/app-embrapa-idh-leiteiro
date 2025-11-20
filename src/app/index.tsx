@@ -7,7 +7,7 @@ import LoginRegister from "../components/pages/login-register";
 export default function ModalScreen() {
   const insets = useSafeAreaInsets();
   const topInset = insets.top;
-  
+
   return (
     <SafeAreaView
       style={{

@@ -13,13 +13,13 @@ import { questions } from "@/src/mock/questions";
 import { stylesQuestionsPage } from "./styles";
 
 const data_quantidade_agua = questions.filter(
-  (question) => question.groupMain === "quantidade-agua"
+  (question) => question.groupMain === "quantidade-agua",
 );
 const data_qualidade_agua = questions.filter(
-  (question) => question.groupMain === "qualidade-agua"
+  (question) => question.groupMain === "qualidade-agua",
 );
 const data_manejo_residuos = questions.filter(
-  (question) => question.groupMain === "manejo-residuos-uso-fertilizantes"
+  (question) => question.groupMain === "manejo-residuos-uso-fertilizantes",
 );
 
 const groups = [
@@ -74,7 +74,12 @@ const QuestionnaireContentWrapper: React.FC = () => {
   }, [step, scrollRef]);
 
   return (
-    <ScrollView ref={scrollRef} showsVerticalScrollIndicator={false}>
+    <ScrollView
+      ref={scrollRef}
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{ paddingHorizontal: 20 }}
+      style={{ backgroundColor: "#ffffff" }}
+    >
       <View style={stylesQuestionsPage.containerInfo}>
         <Text style={stylesQuestionsPage.textHeader}>
           {t("questionnaire.title")}

@@ -1,8 +1,8 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import { availableLanguages, changeLanguage } from '@/src/locales/i18n';
-import { theme } from '@/src/config';
+import React from "react";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { useTranslation } from "react-i18next";
+import { availableLanguages, changeLanguage } from "@/src/locales/i18n";
+import { theme } from "@/src/config";
 
 export const LanguageSelector: React.FC = () => {
   const { i18n } = useTranslation();
@@ -40,15 +40,15 @@ export const LanguageSelector: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     gap: theme.spacing.xs,
     marginVertical: theme.spacing.md,
   },
   languageButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingHorizontal: theme.spacing.sm,
     paddingVertical: theme.spacing.xs,
     borderRadius: theme.borders.radius.sm,

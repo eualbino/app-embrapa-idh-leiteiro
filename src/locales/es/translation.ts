@@ -560,5 +560,12 @@ export default {
           "Promueva capacitaciones regulares con el equipo sobre prácticas de uso consciente y eficiente del agua en la producción lechera.",
       },
     },
+
+    // History Page
+    history: {
+      title: "Historial del resultado",
+      description: "Revise seus resultados anteriores.",
+      noRecords: "Não foi encontrado registros de resultados anteriores.",
+    },
   },
 };

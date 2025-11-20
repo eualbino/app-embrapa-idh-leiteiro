@@ -11,22 +11,23 @@ import { styles } from "./styles";
 export default function ConfirmCodeForgotPassword() {
   const { t } = useTranslation();
   const router = useRouter();
-  const { isLoading, validateOtp, sendForgotPasswordEmail, getStoredEmail } = useForgotPassword();
-  
+  const { isLoading, validateOtp, sendForgotPasswordEmail, getStoredEmail } =
+    useForgotPassword();
+
   const [code, setCode] = useState("");
   const [email, setEmail] = useState("");
   const [isResending, setIsResending] = useState(false);
 
   useEffect(() => {
     getStoredEmail().then(setEmail);
-  }, []);
+  }, [getStoredEmail]);
 
   const handleConfirmCode = async () => {
     if (!code.trim()) {
       Toast.show({
         type: "error",
-        text1: t('common.error'),
-        text2: t('forgotPassword.errors.emptyCode'),
+        text1: t("common.error"),
+        text2: t("forgotPassword.errors.emptyCode"),
       });
       return;
     }
@@ -34,8 +35,8 @@ export default function ConfirmCodeForgotPassword() {
     if (code.length < 4) {
       Toast.show({
         type: "error",
-        text1: t('common.error'),
-        text2: t('forgotPassword.errors.invalidCode'),
+        text1: t("common.error"),
+        text2: t("forgotPassword.errors.invalidCode"),
       });
       return;
     }
@@ -45,14 +46,12 @@ export default function ConfirmCodeForgotPassword() {
 
   const handleResendCode = async () => {
     if (isResending || isLoading) return;
-    
+
     setIsResending(true);
 
     try {
       await sendForgotPasswordEmail({ email });
       setCode("");
-    } catch (error) {
-      // Erro já tratado no hook
     } finally {
       setIsResending(false);
     }
@@ -65,19 +64,19 @@ export default function ConfirmCodeForgotPassword() {
   return (
     <View style={{ width: "100%" }}>
       <View style={styles.card}>
-        <Text style={styles.title}>{t('forgotPassword.confirmCodeTitle')}</Text>
-        
+        <Text style={styles.title}>{t("forgotPassword.confirmCodeTitle")}</Text>
+
         <Text style={styles.description}>
-          {t('forgotPassword.confirmCodeDescription')}
+          {t("forgotPassword.confirmCodeDescription")}
         </Text>
 
         <Text style={styles.emailText}>{email}</Text>
 
         <View style={styles.inputContainer}>
           <Input
-            label={t('forgotPassword.code')}
+            label={t("forgotPassword.code")}
             type="number-pad"
-            placeholder={t('forgotPassword.codePlaceholder')}
+            placeholder={t("forgotPassword.codePlaceholder")}
             value={code}
             onChangeText={setCode}
             autoCapitalize="none"
@@ -93,7 +92,9 @@ export default function ConfirmCodeForgotPassword() {
             variant="primary"
             disabled={isLoading || isResending}
           >
-            {isLoading ? t('forgotPassword.verifying') : t('forgotPassword.confirmCode')}
+            {isLoading
+              ? t("forgotPassword.verifying")
+              : t("forgotPassword.confirmCode")}
           </ButtonCommon>
         </View>
 
@@ -103,17 +104,21 @@ export default function ConfirmCodeForgotPassword() {
             variant="secondary"
             disabled={isLoading || isResending}
           >
-            {t('common.back')}
+            {t("common.back")}
           </ButtonCommon>
         </View>
 
         <View style={styles.resendContainer}>
-          <Text style={styles.resendText}>{t('forgotPassword.didntReceiveCode')}</Text>
-          <Text 
+          <Text style={styles.resendText}>
+            {t("forgotPassword.didntReceiveCode")}
+          </Text>
+          <Text
             style={styles.resendLink}
             onPress={isResending ? undefined : handleResendCode}
           >
-            {isResending ? t('forgotPassword.resending') : t('forgotPassword.resendCode')}
+            {isResending
+              ? t("forgotPassword.resending")
+              : t("forgotPassword.resendCode")}
           </Text>
         </View>
       </View>

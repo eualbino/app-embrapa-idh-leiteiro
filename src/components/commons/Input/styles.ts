@@ -2,7 +2,6 @@ import { StyleSheet } from "react-native";
 import { theme } from "@/src/config";
 
 export const style = () => {
-
   return StyleSheet.create({
     container: {
       marginBottom: theme.spacing.md,

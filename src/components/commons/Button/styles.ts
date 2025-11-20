@@ -4,7 +4,7 @@ import { theme } from "@/src/config";
 export const style = (
   variant: "primary" | "secondary",
   isActive: boolean,
-  disabled: boolean
+  disabled: boolean,
 ) => {
   const variantButton = theme.components.button[variant];
 

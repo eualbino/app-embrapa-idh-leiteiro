@@ -14,11 +14,17 @@ import { useWasteManagement } from "@/src/components/pages/questions/hooks/useWa
 
 export const useQuestionnaire = (): QuestionnaireState &
   QuestionnaireActions => {
+  // Hooks
   const { t } = useTranslation();
   const { createProperty, isLoading: isCreatingProperty } = useProperty();
-  const { createWaterIndicator, isLoading: isCreatingWaterIndicator } = useWaterIndicator();
-  const { createWaterQualityConservation, isLoading: isCreatingWaterQuality } = useWaterQualityConservation();
-  const { createWasteManagement, isLoading: isCreatingWasteManagement } = useWasteManagement();
+  const { createWaterIndicator, isLoading: isCreatingWaterIndicator } =
+    useWaterIndicator();
+  const { createWaterQualityConservation, isLoading: isCreatingWaterQuality } =
+    useWaterQualityConservation();
+  const { createWasteManagement, isLoading: isCreatingWasteManagement } =
+    useWasteManagement();
+
+  // State
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<{ [key: string]: number | null }>({});
   const [formData, setFormData] = useState<FormData | null>(null);
@@ -28,8 +34,12 @@ export const useQuestionnaire = (): QuestionnaireState &
 
   const currentGroup = questionGroups[step];
 
+  const answer2 = answers["2"];
+  const answer14 = answers["14"];
+  const answer22 = answers["22"];
+
   useEffect(() => {
-    if (answers["2"] === 0) {
+    if (answer2 === 0) {
       setAnswers((prevAnswers) => ({
         ...prevAnswers,
         "3": 0,
@@ -37,7 +47,7 @@ export const useQuestionnaire = (): QuestionnaireState &
       }));
     }
 
-    if (answers["14"] === 0) {
+    if (answer14 === 0) {
       setAnswers((prevAnswers) => ({
         ...prevAnswers,
         "15": null,
@@ -46,7 +56,7 @@ export const useQuestionnaire = (): QuestionnaireState &
       }));
     }
 
-    if (answers["22"] === 0) {
+    if (answer22 === 0) {
       setAnswers((prevAnswers) => ({
         ...prevAnswers,
         "23": null,
@@ -54,20 +64,20 @@ export const useQuestionnaire = (): QuestionnaireState &
         "25": null,
       }));
     }
-  }, [answers["2"], answers["14"], answers["22"]]);
+  }, [answer2, answer14, answer22]);
 
   const handleSelect = useCallback(
     (id: string | number, value: number | null) => {
       setAnswers((prev) => ({ ...prev, [id]: value }));
     },
-    []
+    [],
   );
 
   const questionDisabled = useCallback(
     (questionId: string | number) => {
       return shouldDisableQuestion(questionId, answers);
     },
-    [answers]
+    [answers],
   );
 
   const handleNext = useCallback(async () => {
@@ -79,7 +89,7 @@ export const useQuestionnaire = (): QuestionnaireState &
             type: "error",
             text1: t("questionnaire.questions.toasts.requiredFieldsTitle"),
             text2: `${t(
-              "questionnaire.questions.toasts.fillFieldsPrefix"
+              "questionnaire.questions.toasts.fillFieldsPrefix",
             )}\n\n• ${errors.join("\n• ")}`,
             visibilityTime: 20000,
             autoHide: true,
@@ -147,7 +157,8 @@ export const useQuestionnaire = (): QuestionnaireState &
             Toast.show({
               type: "error",
               text1: t("common.error"),
-              text2: "Property ID não encontrado. Por favor, reinicie o questionário.",
+              text2:
+                "Property ID não encontrado. Por favor, reinicie o questionário.",
               visibilityTime: 5000,
             });
             return;
@@ -156,7 +167,7 @@ export const useQuestionnaire = (): QuestionnaireState &
           try {
             const response = await createWaterIndicator(answers, propertyId);
             const score = response?.data?.finalScore?.toFixed(2) || "N/A";
-            
+
             Toast.show({
               type: "score",
               text1: t("questionnaire.questions.toasts.scoreTitle", {
@@ -178,16 +189,20 @@ export const useQuestionnaire = (): QuestionnaireState &
             Toast.show({
               type: "error",
               text1: t("common.error"),
-              text2: "Property ID não encontrado. Por favor, reinicie o questionário.",
+              text2:
+                "Property ID não encontrado. Por favor, reinicie o questionário.",
               visibilityTime: 5000,
             });
             return;
           }
 
           try {
-            const response = await createWaterQualityConservation(answers, propertyId);
+            const response = await createWaterQualityConservation(
+              answers,
+              propertyId,
+            );
             const score = response?.data?.finalScore?.toFixed(2) || "N/A";
-            
+
             Toast.show({
               type: "score",
               text1: t("questionnaire.questions.toasts.scoreTitle", {
@@ -203,7 +218,6 @@ export const useQuestionnaire = (): QuestionnaireState &
             return;
           }
         }
-
       }
 
       setStep((prev) => prev + 1);
@@ -222,7 +236,8 @@ export const useQuestionnaire = (): QuestionnaireState &
         Toast.show({
           type: "error",
           text1: t("common.error"),
-          text2: "Property ID não encontrado. Por favor, reinicie o questionário.",
+          text2:
+            "Property ID não encontrado. Por favor, reinicie o questionário.",
           visibilityTime: 5000,
         });
         return;
@@ -231,7 +246,7 @@ export const useQuestionnaire = (): QuestionnaireState &
       try {
         const response = await createWasteManagement(answers, propertyId);
         const score = response?.data?.finalScore?.toFixed(2) || "N/A";
-        
+
         Toast.show({
           type: "score",
           text1: t("questionnaire.questions.toasts.scoreTitle", {

@@ -4,17 +4,17 @@ import { useTranslation } from "react-i18next";
 import { stylesCharacterization } from "../../../../styles";
 
 interface LocalizacaoInputProps {
+  pais: string;
+  setPais: (value: string) => void;
   cidade: string;
   setCidade: (value: string) => void;
-  estado: string;
-  setEstado: (value: string) => void;
 }
 
 const LocalizacaoInput: React.FC<LocalizacaoInputProps> = ({
+  pais,
+  setPais,
   cidade,
   setCidade,
-  estado,
-  setEstado,
 }) => {
   const { t } = useTranslation();
 
@@ -25,31 +25,29 @@ const LocalizacaoInput: React.FC<LocalizacaoInputProps> = ({
           <Text>
             {t("questionnaire.characterization.location.sectionTitle")}{" "}
           </Text>
-          <Text>{t("questionnaire.characterization.location.city")}</Text>
+          <Text>{t("questionnaire.characterization.location.country")}</Text>
         </Text>
         <TextInput
           style={stylesCharacterization.textInput}
           placeholder={t(
-            "questionnaire.characterization.location.cityPlaceholder"
+            "questionnaire.characterization.location.countryPlaceholder",
           )}
-          value={cidade}
-          onChangeText={setCidade}
+          value={pais}
+          onChangeText={setPais}
         />
       </View>
 
       <View style={stylesCharacterization.containerQuestionInput}>
         <Text style={stylesCharacterization.questionText}>
-          <Text>{t("questionnaire.characterization.location.state")}</Text>
+          <Text>{t("questionnaire.characterization.location.city")}</Text>
         </Text>
         <TextInput
           style={stylesCharacterization.textInput}
           placeholder={t(
-            "questionnaire.characterization.location.statePlaceholder"
+            "questionnaire.characterization.location.cityPlaceholder",
           )}
-          value={estado}
-          onChangeText={(text) => setEstado(text.toUpperCase())}
-          maxLength={2}
-          autoCapitalize="characters"
+          value={cidade}
+          onChangeText={setCidade}
         />
       </View>
     </View>

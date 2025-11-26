@@ -3,8 +3,8 @@ import { FormData } from "@/src/components/pages/questions/components/QuestionsC
 
 interface UseCharacterizationFormLogicProps {
   // Localização
+  pais: string;
   cidade: string;
-  estado: string;
 
   // Sistema de Produção
   sistemaProducao: string;
@@ -48,8 +48,8 @@ interface UseCharacterizationFormLogicProps {
 }
 
 export const useCharacterizationFormLogic = ({
+  pais,
   cidade,
-  estado,
   sistemaProducao,
   outroSistemaProducao,
   areaPropriedade,
@@ -78,8 +78,8 @@ export const useCharacterizationFormLogic = ({
   const createFormData = useCallback((): FormData => {
     return {
       localizacao: {
+        pais: pais,
         cidade: cidade,
-        estado: estado,
       },
       sistemaProducao: {
         tipo: sistemaProducao,
@@ -122,8 +122,8 @@ export const useCharacterizationFormLogic = ({
       },
     };
   }, [
+    pais,
     cidade,
-    estado,
     sistemaProducao,
     outroSistemaProducao,
     areaPropriedade,

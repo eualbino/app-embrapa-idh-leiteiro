@@ -12,7 +12,7 @@ export const useProperty = () => {
   const { t } = useTranslation();
 
   const mapFormDataToPropertyRequest = (
-    formData: FormData
+    formData: FormData,
   ): CreatePropertyRequest => {
     let productionSystem: CreatePropertyRequest["productionSystem"] = "PASTO";
 
@@ -56,8 +56,8 @@ export const useProperty = () => {
     };
 
     const mappedData = {
+      country: formData.localizacao.pais,
       city: formData.localizacao.cidade,
-      state: formData.localizacao.estado,
       productionSystem,
       totalAreaHa: formData.area.propriedade,
       pastureAreaHa: formData.area.pastagem,
@@ -79,10 +79,10 @@ export const useProperty = () => {
       hasPhotovoltaicEnergy:
         formData.energiaEletrica.temEnergiaFotovoltaica === true,
       hasEnvironmentalLicense: mapLicenseStatus(
-        formData.legislacaoAmbiental.temLicencaAmbiental
+        formData.legislacaoAmbiental.temLicencaAmbiental,
       ),
       hasWaterGrant: mapLicenseStatus(
-        formData.legislacaoAmbiental.temOutorgaAgua
+        formData.legislacaoAmbiental.temOutorgaAgua,
       ),
     };
 

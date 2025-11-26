@@ -1,8 +1,8 @@
 export interface FormSectionsProps {
+  pais: string;
+  setPais: (value: string) => void;
   cidade: string;
   setCidade: (value: string) => void;
-  estado: string;
-  setEstado: (value: string) => void;
 
   // Sistema de Produção
   sistemaProducao: string;

@@ -113,10 +113,10 @@ export default {
       characterization: {
         location: {
           sectionTitle: "LOCALIZAÇÃO:",
+          country: "País",
+          countryPlaceholder: "Digite o país",
           city: "Cidade",
           cityPlaceholder: "Digite a cidade",
-          state: "Estado (UF)",
-          statePlaceholder: "Ex: SP",
         },
         productionSystem: {
           sectionTitle: "A. SISTEMA DE PRODUÇÃO:",
@@ -199,8 +199,8 @@ export default {
         },
       },
       name: "Nome",
+      country: "País",
       city: "Município",
-      state: "Estado",
 
       // Production System
       productionSystem: {
@@ -500,7 +500,7 @@ export default {
       validation: {
         // Localização
         cidadeRequired: "Cidade",
-        estadoRequired: "Estado",
+        paisRequired: "País",
 
         productionSystemRequired: "Sistema de Produção",
         specifyOtherProductionSystem:
@@ -510,6 +510,8 @@ export default {
         farmAreaRequired: "Área da propriedade",
         pastureAreaRequired: "Área de pastagem",
         silageAreaRequired: "Área de silagem",
+        areaExceedsTotalArea:
+          "A soma da área de pastagem e silagem não pode ser maior que a área total da propriedade",
 
         // Rebanho
         lactatingCowsRequired: "Número de vacas em lactação",
@@ -521,10 +523,17 @@ export default {
         // Produção Leiteira
         dailyProductionRequired: "Produção de litros por dia",
         productionPerCowRequired: "Produção de litros por vaca/dia",
+        dailyProductionMinimum:
+          "Produção de litros por dia deve ser no mínimo 0,1",
+        productionPerCowMinimum:
+          "Produção de litros por vaca/dia deve ser no mínimo 0,1",
 
         // Composição do Leite
         fatPercentageRequired: "Percentual de gordura do leite",
+        fatPercentageMinimum: "Percentual de gordura deve ser no mínimo 0,1",
         proteinPercentageRequired: "Percentual de proteína do leite",
+        proteinPercentageMinimum:
+          "Percentual de proteína deve ser no mínimo 0,1",
 
         // Consumo Diário
         roughageConsumptionRequired: "Consumo de volumoso",
@@ -533,6 +542,8 @@ export default {
 
         // Energia Elétrica
         electricityConsumptionRequired: "Consumo mensal de energia elétrica",
+        electricityConsumptionMinimum:
+          "Consumo de energia deve ser no mínimo 0,1 kWh",
         photovoltaicEnergyRequired: "Informação sobre energia fotovoltaica",
 
         // Legislação Ambiental

@@ -112,10 +112,10 @@ export default {
       characterization: {
         location: {
           sectionTitle: "LOCATION:",
+          country: "Country",
+          countryPlaceholder: "Enter country name",
           city: "City",
           cityPlaceholder: "Enter city name",
-          state: "State",
-          statePlaceholder: "Ex: CA",
         },
         productionSystem: {
           sectionTitle: "A. PRODUCTION SYSTEM:",
@@ -200,7 +200,7 @@ export default {
       },
       name: "Name",
       city: "City",
-      state: "State",
+      country: "Country",
 
       // Production System
       productionSystem: {
@@ -496,7 +496,7 @@ export default {
       validation: {
         // Location
         cidadeRequired: "City",
-        estadoRequired: "State",
+        paisRequired: "Country",
 
         productionSystemRequired: "Production System",
         specifyOtherProductionSystem:
@@ -506,6 +506,8 @@ export default {
         farmAreaRequired: "Farm area",
         pastureAreaRequired: "Pasture area",
         silageAreaRequired: "Silage area",
+        areaExceedsTotalArea:
+          "The sum of pasture and silage area cannot exceed the total property area",
 
         // Herd
         lactatingCowsRequired: "Number of lactating cows",
@@ -517,10 +519,15 @@ export default {
         // Milk Production
         dailyProductionRequired: "Daily liters production",
         productionPerCowRequired: "Liters per cow/day production",
+        dailyProductionMinimum: "Daily liters production must be at least 0.1",
+        productionPerCowMinimum:
+          "Liters per cow/day production must be at least 0.1",
 
         // Milk Composition
         fatPercentageRequired: "Milk fat percentage",
+        fatPercentageMinimum: "Fat percentage must be at least 0.1",
         proteinPercentageRequired: "Milk protein percentage",
+        proteinPercentageMinimum: "Protein percentage must be at least 0.1",
 
         // Daily Consumption
         roughageConsumptionRequired: "Roughage consumption",
@@ -529,6 +536,8 @@ export default {
 
         // Electric Energy
         electricityConsumptionRequired: "Monthly electricity consumption",
+        electricityConsumptionMinimum:
+          "Electricity consumption must be at least 0.1 kWh",
         photovoltaicEnergyRequired: "Photovoltaic energy information",
 
         // Environmental Legislation
@@ -556,7 +565,7 @@ export default {
           "Promote regular training with staff on conscious and efficient water use practices in dairy production.",
       },
     },
-    
+
     // History Page
     history: {
       title: "History of results",

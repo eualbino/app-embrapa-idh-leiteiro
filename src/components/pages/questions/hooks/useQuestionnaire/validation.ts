@@ -2,7 +2,7 @@ import { FormData } from "@/src/components/pages/questions/components/QuestionsC
 
 export const validateCaracterizacaoForm = (
   data: FormData,
-  t: (key: string) => string
+  t: (key: string) => string,
 ): string[] => {
   const errors: string[] = [];
 
@@ -10,8 +10,8 @@ export const validateCaracterizacaoForm = (
   if (!data.localizacao?.cidade?.trim()) {
     errors.push(t("questionnaire.validation.cidadeRequired"));
   }
-  if (!data.localizacao?.estado?.trim()) {
-    errors.push(t("questionnaire.validation.estadoRequired"));
+  if (!data.localizacao?.pais?.trim()) {
+    errors.push(t("questionnaire.validation.paisRequired"));
   }
 
   // Sistema de Produção
@@ -35,6 +35,17 @@ export const validateCaracterizacaoForm = (
   }
   if (data.area.silagem === undefined || data.area.silagem === null) {
     errors.push(t("questionnaire.validation.silageAreaRequired"));
+  }
+
+  if (
+    data.area.propriedade !== undefined &&
+    data.area.pastagem !== undefined &&
+    data.area.silagem !== undefined
+  ) {
+    const somaAreas = data.area.pastagem + data.area.silagem;
+    if (somaAreas > data.area.propriedade) {
+      errors.push(t("questionnaire.validation.areaExceedsTotalArea"));
+    }
   }
 
   // Rebanho
@@ -63,27 +74,35 @@ export const validateCaracterizacaoForm = (
   // Produção Leiteira
   if (
     data.producaoLeiteira.litrosDiaPropriedade === undefined ||
-    data.producaoLeiteira.litrosDiaPropriedade === null
+    data.producaoLeiteira.litrosDiaPropriedade === null ||
+    data.producaoLeiteira.litrosDiaPropriedade === 0
   ) {
     errors.push(t("questionnaire.validation.dailyProductionRequired"));
   }
+
   if (
     data.producaoLeiteira.litrosVacaDia === undefined ||
-    data.producaoLeiteira.litrosVacaDia === null
+    data.producaoLeiteira.litrosVacaDia === null ||
+    data.producaoLeiteira.litrosVacaDia === 0
   ) {
     errors.push(t("questionnaire.validation.productionPerCowRequired"));
+  } else if (data.producaoLeiteira.litrosVacaDia < 0.1) {
+    errors.push(t("questionnaire.validation.productionPerCowMinimum"));
   }
 
   // Composição do Leite
   if (
     data.composicaoLeite.percentualGordura === undefined ||
-    data.composicaoLeite.percentualGordura === null
+    data.composicaoLeite.percentualGordura === null ||
+    data.composicaoLeite.percentualGordura === 0
   ) {
     errors.push(t("questionnaire.validation.fatPercentageRequired"));
   }
+
   if (
     data.composicaoLeite.percentualProteina === undefined ||
-    data.composicaoLeite.percentualProteina === null
+    data.composicaoLeite.percentualProteina === null ||
+    data.composicaoLeite.percentualProteina === 0
   ) {
     errors.push(t("questionnaire.validation.proteinPercentageRequired"));
   }
@@ -108,15 +127,10 @@ export const validateCaracterizacaoForm = (
   // Energia Elétrica
   if (
     data.energiaEletrica.consumoMensal === undefined ||
-    data.energiaEletrica.consumoMensal === null
+    data.energiaEletrica.consumoMensal === null ||
+    data.energiaEletrica.consumoMensal === 0
   ) {
     errors.push(t("questionnaire.validation.electricityConsumptionRequired"));
-  }
-  if (
-    data.energiaEletrica.temEnergiaFotovoltaica === undefined ||
-    data.energiaEletrica.temEnergiaFotovoltaica === null
-  ) {
-    errors.push(t("questionnaire.validation.photovoltaicEnergyRequired"));
   }
 
   // Legislação Ambiental

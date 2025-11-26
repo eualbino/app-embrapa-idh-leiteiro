@@ -4,8 +4,8 @@ export interface SistemaProducao {
 }
 
 export interface Localizacao {
+  pais: string;
   cidade: string;
-  estado: string;
 }
 
 export interface Area {

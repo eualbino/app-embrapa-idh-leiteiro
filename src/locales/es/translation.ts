@@ -115,10 +115,10 @@ export default {
       characterization: {
         location: {
           sectionTitle: "UBICACIÓN:",
+          country: "País",
+          countryPlaceholder: "Ingrese el país",
           city: "Ciudad",
           cityPlaceholder: "Ingrese la ciudad",
-          state: "Estado",
-          statePlaceholder: "Ej: SP",
         },
         productionSystem: {
           sectionTitle: "A. SISTEMA DE PRODUCCIÓN:",
@@ -201,8 +201,8 @@ export default {
         },
       },
       name: "Nombre",
+      country: "País",
       city: "Ciudad",
-      state: "Provincia",
 
       // Production System
       productionSystem: {
@@ -499,7 +499,7 @@ export default {
       validation: {
         // Localización
         cidadeRequired: "Ciudad",
-        estadoRequired: "Estado",
+        paisRequired: "País",
 
         productionSystemRequired: "Sistema de Producción",
         specifyOtherProductionSystem:
@@ -509,6 +509,8 @@ export default {
         farmAreaRequired: "La superficie de la finca",
         pastureAreaRequired: "La superficie de pastoreo",
         silageAreaRequired: "La superficie de ensilaje",
+        areaExceedsTotalArea:
+          "La suma del área de pastoreo y ensilaje no puede ser mayor que el área total de la finca",
 
         // Rebaño
         lactatingCowsRequired: "El número de vacas en lactación",
@@ -520,10 +522,17 @@ export default {
         // Producción Lechera
         dailyProductionRequired: "La producción diaria en litros",
         productionPerCowRequired: "La producción de litros por vaca/día",
+        dailyProductionMinimum:
+          "La producción diaria en litros debe ser como mínimo 0,1",
+        productionPerCowMinimum:
+          "La producción de litros por vaca/día debe ser como mínimo 0,1",
 
         // Composición de la Leche
         fatPercentageRequired: "El porcentaje de grasa de la leche",
+        fatPercentageMinimum: "El porcentaje de grasa debe ser como mínimo 0,1",
         proteinPercentageRequired: "El porcentaje de proteína de la leche",
+        proteinPercentageMinimum:
+          "El porcentaje de proteína debe ser como mínimo 0,1",
 
         // Consumo Diario
         roughageConsumptionRequired: "El consumo de forraje",
@@ -533,6 +542,8 @@ export default {
         // Energía Eléctrica
         electricityConsumptionRequired:
           "El consumo mensual de energía eléctrica",
+        electricityConsumptionMinimum:
+          "El consumo de energía debe ser como mínimo 0,1 kWh",
         photovoltaicEnergyRequired: "La información sobre energía fotovoltaica",
 
         // Legislación Ambiental

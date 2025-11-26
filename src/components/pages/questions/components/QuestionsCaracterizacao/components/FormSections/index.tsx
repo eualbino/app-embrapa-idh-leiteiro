@@ -13,10 +13,10 @@ import { FormSectionsProps } from "./types";
 import LocalizacaoInput from "./components/LocalizacaoForm";
 
 export const FormSections: React.FC<FormSectionsProps> = ({
+  pais,
+  setPais,
   cidade,
   setCidade,
-  estado,
-  setEstado,
 
   // Sistema de Produção
   sistemaProducao,
@@ -83,10 +83,10 @@ export const FormSections: React.FC<FormSectionsProps> = ({
   return (
     <View>
       <LocalizacaoInput
+        pais={pais}
+        setPais={setPais}
         cidade={cidade}
         setCidade={setCidade}
-        estado={estado}
-        setEstado={setEstado}
       />
 
       <SistemaProducaoInput

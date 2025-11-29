@@ -1,5 +1,4 @@
 import { api } from '../../http';
-import { ApiResponse } from '../../http/types';
 import {
   LoginRequest,
   LoginResponse,
@@ -19,11 +18,6 @@ export class AuthService {
 
   static async register(data: RegisterRequest): Promise<void> {
     await api.post('/users', data);
-  }
-
-  static async logout(): Promise<ApiResponse<void>> {
-    const response = await api.post<ApiResponse<void>>('/auth/logout');
-    return response.data;
   }
 
   static async forgotPassword(data: ForgotPasswordRequest): Promise<void> {

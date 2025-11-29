@@ -8,6 +8,7 @@ import { ButtonCommon } from "../../commons/Button";
 import { useRouter } from "expo-router";
 import { LanguageSelector } from "../../commons/LanguageSelector";
 import { useAuthContext } from "@/src/contexts/AuthContext";
+import { formatCPFInput, unformatCPF } from "@/src/utils";
 
 export default function LoginRegister() {
   const { t } = useTranslation();
@@ -20,36 +21,18 @@ export default function LoginRegister() {
   const route = useRouter();
   const { login, register, isLoading } = useAuthContext();
 
-  const applyCpfMask = (value: string) => {
-    const numbers = value.replace(/\D/g, '');
-
-    if (numbers.length <= 3) {
-      return numbers;
-    } else if (numbers.length <= 6) {
-      return `${numbers.slice(0, 3)}.${numbers.slice(3)}`;
-    } else if (numbers.length <= 9) {
-      return `${numbers.slice(0, 3)}.${numbers.slice(3, 6)}.${numbers.slice(6)}`;
-    } else {
-      return `${numbers.slice(0, 3)}.${numbers.slice(3, 6)}.${numbers.slice(6, 9)}-${numbers.slice(9, 11)}`;
-    }
-  };
-
-  const removeCpfMask = (value: string) => {
-    return value.replace(/\D/g, '');
-  };
-
   const handleSubmit = async () => {
     if (view === VIEW_LOGIN_PAGE.LOGIN) {
       await login({
         email: email || undefined,
-        cpf: cpf ? removeCpfMask(cpf) : undefined,
+        cpf: cpf ? unformatCPF(cpf) : undefined,
         password,
       });
     } else {
       await register({
         name,
         email,
-        cpf: removeCpfMask(cpf),
+        cpf: unformatCPF(cpf),
         password,
       });
     }
@@ -64,13 +47,13 @@ export default function LoginRegister() {
             placeholder="email@gmail.com ou 123.456.789-00"
             value={email || cpf}
             onChangeText={(text) => {
-              if (text.includes('@') || /[a-zA-Z]/.test(text)) {
+              if (text.includes("@") || /[a-zA-Z]/.test(text)) {
                 setEmail(text);
-                setCpf('');
+                setCpf("");
               } else {
-                const maskedCpf = applyCpfMask(text);
+                const maskedCpf = formatCPFInput(text);
                 setCpf(maskedCpf);
-                setEmail('');
+                setEmail("");
               }
             }}
             autoComplete="email"
@@ -110,7 +93,7 @@ export default function LoginRegister() {
           placeholder="123.456.789-00"
           value={cpf}
           onChangeText={(text) => {
-            const maskedCpf = applyCpfMask(text);
+            const maskedCpf = formatCPFInput(text);
             setCpf(maskedCpf);
           }}
           keyboardType="numeric"
@@ -166,11 +149,11 @@ export default function LoginRegister() {
         )}
 
         <ButtonCommon onPress={handleSubmit} disabled={isLoading}>
-          {isLoading 
+          {isLoading
             ? t("common.loading")
             : view === VIEW_LOGIN_PAGE.LOGIN
-            ? t("auth.loginButton")
-            : t("auth.registerButton")}
+              ? t("auth.loginButton")
+              : t("auth.registerButton")}
         </ButtonCommon>
       </View>
     </View>

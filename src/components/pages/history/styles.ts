@@ -77,6 +77,7 @@ export const styles = StyleSheet.create({
     marginTop: theme.spacing.md,
   },
   propertiesTitle: {
+    textAlign: "center",
     fontSize: theme.typography.sizes.xl,
     fontWeight: theme.typography.weights.semibold,
     color: theme.colors.primary.default,

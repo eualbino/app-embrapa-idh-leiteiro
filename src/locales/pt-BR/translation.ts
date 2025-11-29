@@ -21,6 +21,11 @@ export default {
       warning: "Atenção",
       info: "Informação",
       notApplicable: "Não se aplica",
+      logout: "Sair",
+      logoutTitle: "Sair da Conta",
+      logoutMessage: "Tem certeza que deseja sair da sua conta?",
+      logoutConfirm: "Sair",
+      logoutCancel: "Cancelar",
     },
 
     // Login & Register
@@ -577,6 +582,13 @@ export default {
       title: "Histórico de Resultados",
       description: "Veja os resultados anteriores.",
       noRecords: "Nenhum resultado encontrado.",
+      userData: "Dados do Usuário",
+      userName: "Nome",
+      userEmail: "Email",
+      userCpf: "CPF",
+      propertiesHistory: "Histórico de Propriedades",
+      pullToRefresh: "Puxe para baixo para tentar novamente",
+      emptyMessage: "Preencha o questionário para visualizar seu histórico",
     },
   },
 };

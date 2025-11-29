@@ -1,3 +1,4 @@
+// External Libraries
 import type { FC } from "react";
 import {
   View,
@@ -6,6 +7,8 @@ import {
   TextInput,
   GestureResponderEvent,
 } from "react-native";
+
+// Style
 import { styles } from "./styles";
 
 interface RadioProps {

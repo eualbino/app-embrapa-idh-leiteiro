@@ -1,6 +1,9 @@
+// External Libraries
 import React from "react";
 import { View, Text, ScrollView } from "react-native";
 import { useTranslation } from "react-i18next";
+
+// Style
 import { styles } from "./styles";
 
 export default function ResultPage() {
@@ -17,7 +20,6 @@ export default function ResultPage() {
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-
       <View style={styles.headerContainer}>
         <Text style={styles.title}>{t("result.title")}</Text>
         <View style={styles.scoreContainer}>

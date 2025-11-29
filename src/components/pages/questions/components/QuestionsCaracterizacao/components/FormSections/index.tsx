@@ -1,6 +1,8 @@
+// External Libraries
 import React from "react";
 import { View } from "react-native";
 
+// Components
 import AreaInput from "./components/AreaInputForm";
 import RebanhoInput from "./components/RebanhoForm";
 import ProducaoLeiteiraInput from "./components/ProducaoLeiteiraForm";
@@ -9,8 +11,10 @@ import ConsumoDiarioInput from "./components/ConsumoDiarioForm";
 import EnergiaEletricaInput from "./components/EnergiaEletricaForm";
 import LegislacaoAmbientalInput from "./components/LegislacaoAmbientalForm";
 import SistemaProducaoInput from "./components/SistemaProducaoForm";
-import { FormSectionsProps } from "./types";
 import LocalizacaoInput from "./components/LocalizacaoForm";
+
+// Types
+import { FormSectionsProps } from "./types";
 
 export const FormSections: React.FC<FormSectionsProps> = ({
   pais,

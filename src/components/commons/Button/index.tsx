@@ -1,3 +1,4 @@
+// External Libraries
 import React, { FC } from "react";
 import {
   TouchableOpacity,
@@ -6,6 +7,8 @@ import {
   TextStyle,
   GestureResponderEvent,
 } from "react-native";
+
+// Style
 import { style as getStyles } from "./styles";
 
 interface ButtonProps {

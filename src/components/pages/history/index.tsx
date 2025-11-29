@@ -1,3 +1,4 @@
+// External Libraries
 import React from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -7,11 +8,22 @@ import {
   ActivityIndicator,
   RefreshControl,
 } from "react-native";
-import { styles } from "./styles";
-import { useUserHistory } from "./hooks/useUserHistory";
-import { PropertyHistoryCard } from "./components/PropertyHistoryCard";
-import { formatCPF } from "@/src/utils";
+
+// Config
 import { theme } from "@/src/config";
+
+// Components
+import { PropertyHistoryCard } from "./components/PropertyHistoryCard";
+import { LogoutButton } from "../../commons/LogoutButton";
+
+// Hooks
+import { useUserHistory } from "./hooks/useUserHistory";
+
+// Utils
+import { formatCPF } from "@/src/utils";
+
+// Style
+import { styles } from "./styles";
 
 export default function History() {
   const { t } = useTranslation();
@@ -61,6 +73,7 @@ export default function History() {
         <View style={styles.containerInfo}>
           <Text style={styles.textHeader}>{t("history.title")}</Text>
           <Text style={styles.textSubHeader}>{t("history.description")}</Text>
+          <LogoutButton />
         </View>
 
         {user && (

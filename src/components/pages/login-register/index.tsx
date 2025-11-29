@@ -1,14 +1,25 @@
+// External Libraries
 import { useState } from "react";
 import { View, Text } from "react-native";
 import { useTranslation } from "react-i18next";
-import { styles } from "./styles";
-import { Input } from "../../commons/Input";
-import { VIEW_LOGIN_PAGE } from "./contants";
-import { ButtonCommon } from "../../commons/Button";
 import { useRouter } from "expo-router";
-import { LanguageSelector } from "../../commons/LanguageSelector";
+
+// Context
 import { useAuthContext } from "@/src/contexts/AuthContext";
+
+// Components
+import { Input } from "../../commons/Input";
+import { ButtonCommon } from "../../commons/Button";
+import { LanguageSelector } from "../../commons/LanguageSelector";
+
+// Utils
 import { formatCPFInput, unformatCPF } from "@/src/utils";
+
+// Types
+import { VIEW_LOGIN_PAGE } from "./contants";
+
+// Style
+import { styles } from "./styles";
 
 export default function LoginRegister() {
   const { t } = useTranslation();

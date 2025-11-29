@@ -1,6 +1,9 @@
+// External Libraries
 import React from "react";
 import { View, Text, TextInput } from "react-native";
 import { useTranslation } from "react-i18next";
+
+// Style
 import { stylesCharacterization } from "../../../../styles";
 
 interface LocalizacaoInputProps {

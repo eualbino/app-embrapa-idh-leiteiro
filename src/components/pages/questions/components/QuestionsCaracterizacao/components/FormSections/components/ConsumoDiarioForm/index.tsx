@@ -29,18 +29,20 @@ const ConsumoDiarioInput: React.FC<ConsumoDiarioInputProps> = ({
       <View style={stylesCharacterization.containerQuestionInput}>
         <Text style={stylesCharacterization.questionText}>
           <Text>
-            {t("questionnaire.characterization.dailyConsumption.sectionTitle")}{" "}
+            {t(
+              "questionnaire.characterization.dailyConsumption.sectionTitle",
+            )}{" "}
           </Text>
           <Text>
             {t(
-              "questionnaire.characterization.dailyConsumption.roughageConsumption"
+              "questionnaire.characterization.dailyConsumption.roughageConsumption",
             )}
           </Text>
         </Text>
         <TextInput
           style={stylesCharacterization.textInput}
           placeholder={t(
-            "questionnaire.characterization.dailyConsumption.roughageConsumptionPlaceholder"
+            "questionnaire.characterization.dailyConsumption.roughageConsumptionPlaceholder",
           )}
           value={volumoso}
           onChangeText={setVolumoso}
@@ -52,14 +54,14 @@ const ConsumoDiarioInput: React.FC<ConsumoDiarioInputProps> = ({
         <Text style={stylesCharacterization.questionText}>
           <Text>
             {t(
-              "questionnaire.characterization.dailyConsumption.concentrateConsumption"
+              "questionnaire.characterization.dailyConsumption.concentrateConsumption",
             )}
           </Text>
         </Text>
         <TextInput
           style={stylesCharacterization.textInput}
           placeholder={t(
-            "questionnaire.characterization.dailyConsumption.concentrateConsumptionPlaceholder"
+            "questionnaire.characterization.dailyConsumption.concentrateConsumptionPlaceholder",
           )}
           value={concentrado}
           onChangeText={setConcentrado}
@@ -82,7 +84,7 @@ const ConsumoDiarioInput: React.FC<ConsumoDiarioInputProps> = ({
             <View style={{ flex: 1, marginRight: 1 }}>
               <Text style={[stylesCharacterization.questionsResponseText]}>
                 {t(
-                  "questionnaire.characterization.dailyConsumption.naturalMatter"
+                  "questionnaire.characterization.dailyConsumption.naturalMatter",
                 )}
               </Text>
             </View>

@@ -1,8 +1,11 @@
+// External Libraries
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
-import { availableLanguages, changeLanguage } from "@/src/locales/i18n";
+
+// Config
 import { theme } from "@/src/config";
+import { availableLanguages, changeLanguage } from "@/src/locales/i18n";
 
 export const LanguageSelector: React.FC = () => {
   const { i18n } = useTranslation();

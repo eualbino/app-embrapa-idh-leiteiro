@@ -46,6 +46,7 @@ export const Input: React.FC<InputProps> = ({
           ]}
           keyboardType={type}
           secureTextEntry={isPasswordInput && !isPasswordVisible}
+          placeholderTextColor="#999"
           {...inputProps}
         />
         {isPasswordInput && (

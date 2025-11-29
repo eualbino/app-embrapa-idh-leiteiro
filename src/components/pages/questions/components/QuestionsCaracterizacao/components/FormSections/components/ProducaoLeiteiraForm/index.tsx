@@ -39,6 +39,7 @@ const ProducaoLeiteiraInput: React.FC<ProducaoLeiteiraInputProps> = ({
           placeholder={t(
             "questionnaire.characterization.milkProduction.dailyProductionPlaceholder",
           )}
+          placeholderTextColor="#999"
           value={litrosDiaPropriedade}
           onChangeText={setLitrosDiaPropriedade}
           keyboardType="numeric"
@@ -58,6 +59,7 @@ const ProducaoLeiteiraInput: React.FC<ProducaoLeiteiraInputProps> = ({
           placeholder={t(
             "questionnaire.characterization.milkProduction.productionPerCowPlaceholder",
           )}
+          placeholderTextColor="#999"
           value={litrosVacaDia}
           onChangeText={setLitrosVacaDia}
           keyboardType="numeric"

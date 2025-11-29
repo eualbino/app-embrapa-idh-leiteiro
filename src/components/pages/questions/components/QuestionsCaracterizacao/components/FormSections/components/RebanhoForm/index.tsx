@@ -49,6 +49,7 @@ const RebanhoInput: React.FC<RebanhoInputProps> = ({
           placeholder={t(
             "questionnaire.characterization.herd.lactatingCowsPlaceholder",
           )}
+          placeholderTextColor="#999"
           value={vacasLactacao}
           onChangeText={setVacasLactacao}
           keyboardType="numeric"
@@ -64,6 +65,7 @@ const RebanhoInput: React.FC<RebanhoInputProps> = ({
           placeholder={t(
             "questionnaire.characterization.herd.dryCowsPlaceholder",
           )}
+          placeholderTextColor="#999"
           value={vacasSecas}
           onChangeText={setVacasSecas}
           keyboardType="numeric"
@@ -79,6 +81,7 @@ const RebanhoInput: React.FC<RebanhoInputProps> = ({
           placeholder={t(
             "questionnaire.characterization.herd.heifersPlaceholder",
           )}
+          placeholderTextColor="#999"
           value={novilhas}
           onChangeText={setNovilhas}
           keyboardType="numeric"
@@ -94,6 +97,7 @@ const RebanhoInput: React.FC<RebanhoInputProps> = ({
           placeholder={t(
             "questionnaire.characterization.herd.calvesPlaceholder",
           )}
+          placeholderTextColor="#999"
           value={bezerros}
           onChangeText={setBezerros}
           keyboardType="numeric"
@@ -109,6 +113,7 @@ const RebanhoInput: React.FC<RebanhoInputProps> = ({
           placeholder={t(
             "questionnaire.characterization.herd.steersPlaceholder",
           )}
+          placeholderTextColor="#999"
           value={garrotes}
           onChangeText={setGarrotes}
           keyboardType="numeric"
@@ -124,6 +129,7 @@ const RebanhoInput: React.FC<RebanhoInputProps> = ({
           placeholder={t(
             "questionnaire.characterization.herd.bullsPlaceholder",
           )}
+          placeholderTextColor="#999"
           value={bulls}
           onChangeText={setBulls}
           keyboardType="numeric"

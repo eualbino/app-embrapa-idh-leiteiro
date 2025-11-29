@@ -1,3 +1,4 @@
+// External Libraries
 import React from "react";
 import { View, ScrollView, StyleSheet, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";

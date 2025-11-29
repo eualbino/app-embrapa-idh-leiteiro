@@ -1,10 +1,18 @@
+// External Libraries
 import React, { useCallback } from "react";
 import { View } from "react-native";
 
-import { FormData } from "@/src/components/pages/questions/components/QuestionsCaracterizacao/types";
+// Components
+import { FormSections } from "./components/FormSections";
+
+// Hooks
 import { useCharacterizationFormState } from "@/src/components/pages/questions/components/QuestionsCaracterizacao/hooks/useCharacterizationFormState";
 import { useCharacterizationFormLogic } from "@/src/components/pages/questions/components/QuestionsCaracterizacao/hooks/useCharacterizationFormLogic";
-import { FormSections } from "./components/FormSections";
+
+// Types
+import { FormData } from "@/src/components/pages/questions/components/QuestionsCaracterizacao/types";
+
+// Style
 import { stylesCharacterization } from "./styles";
 
 interface FormularioQuestionarioProps {
@@ -24,7 +32,7 @@ export const FormularioQuestionario: React.FC<FormularioQuestionarioProps> = ({
         {isSelected && <View style={stylesCharacterization.radioSelected} />}
       </View>
     ),
-    []
+    [],
   );
 
   useCharacterizationFormLogic({

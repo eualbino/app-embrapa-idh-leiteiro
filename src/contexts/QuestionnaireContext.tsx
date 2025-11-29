@@ -1,6 +1,11 @@
+// External Libraries
 import React, { createContext, useContext, ReactNode, useRef } from "react";
 import { ScrollView } from "react-native";
+
+// Hooks
 import { useQuestionnaire } from "@/src/components/pages/questions/hooks/useQuestionnaire";
+
+// Types
 import { FormData } from "@/src/components/pages/questions/components/QuestionsCaracterizacao/types";
 
 interface QuestionnaireContextType {
@@ -51,7 +56,7 @@ export const useQuestionnaireContext = (): QuestionnaireContextType => {
   const context = useContext(QuestionnaireContext);
   if (context === undefined) {
     throw new Error(
-      "useQuestionnaireContext must be used within a QuestionnaireProvider"
+      "useQuestionnaireContext must be used within a QuestionnaireProvider",
     );
   }
   return context;

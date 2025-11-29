@@ -14,6 +14,7 @@ import { QuestionnaireHeader } from "./components/QuestionnaireHeader";
 import { QuestionGroup } from "./components/QuestionGroup";
 import { NavigationButtons } from "./components/NavigationButtons";
 import { FormularioQuestionario } from "./components/QuestionsCaracterizacao";
+import { LogoutButton } from "../../commons/LogoutButton";
 
 // Mock Data
 import { questions } from "@/src/mock/questions";
@@ -96,7 +97,9 @@ const QuestionnaireContentWrapper: React.FC = () => {
         <Text style={stylesQuestionsPage.textSubHeader}>
           {t("questionnaire.subtitle")}
         </Text>
+        <LogoutButton />
       </View>
+      
       <QuestionnaireContent />
     </ScrollView>
   );

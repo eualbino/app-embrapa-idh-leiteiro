@@ -1,6 +1,9 @@
+// External Libraries
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { BaseToast, ErrorToast, ToastConfig } from "react-native-toast-message";
+
+// Config
 import { theme } from "../index";
 
 const toastConfig: ToastConfig = {

@@ -1,8 +1,10 @@
-import ResultPage from "@/src/components/pages/result";
+// External Libraries
 import { SafeAreaView } from "react-native-safe-area-context";
-import { withAuthentication } from "@/src/hoc/withAuthentication";
 
-function Result() {
+// Components
+import ResultPage from "@/src/components/pages/result";
+
+export default function Result() {
   return (
     <SafeAreaView
       style={{ flex: 1, backgroundColor: "#ffffff" }}
@@ -12,5 +14,3 @@ function Result() {
     </SafeAreaView>
   );
 }
-
-export default withAuthentication(Result);

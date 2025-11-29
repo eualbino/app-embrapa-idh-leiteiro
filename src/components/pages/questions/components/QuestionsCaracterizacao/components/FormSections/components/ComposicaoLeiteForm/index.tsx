@@ -1,6 +1,9 @@
+// External Libraries
 import React from "react";
 import { View, Text, TextInput } from "react-native";
 import { useTranslation } from "react-i18next";
+
+// Style
 import { stylesCharacterization } from "../../../../styles";
 
 interface ComposicaoLeiteInputProps {
@@ -17,17 +20,25 @@ const ComposicaoLeiteInput: React.FC<ComposicaoLeiteInputProps> = ({
   setPercentualProteina,
 }) => {
   const { t } = useTranslation();
-  
+
   return (
     <View style={stylesCharacterization.containerResponses}>
       <View style={stylesCharacterization.containerQuestionInput}>
         <Text style={stylesCharacterization.questionText}>
-          <Text>{t('questionnaire.characterization.milkComposition.sectionTitle')} </Text>
-          <Text>{t('questionnaire.characterization.milkComposition.fatPercentage')}</Text>
+          <Text>
+            {t(
+              "questionnaire.characterization.milkComposition.sectionTitle",
+            )}{" "}
+          </Text>
+          <Text>
+            {t("questionnaire.characterization.milkComposition.fatPercentage")}
+          </Text>
         </Text>
         <TextInput
           style={stylesCharacterization.textInput}
-          placeholder={t('questionnaire.characterization.milkComposition.fatPercentagePlaceholder')}
+          placeholder={t(
+            "questionnaire.characterization.milkComposition.fatPercentagePlaceholder",
+          )}
           value={percentualGordura}
           onChangeText={setPercentualGordura}
           keyboardType="numeric"
@@ -36,11 +47,17 @@ const ComposicaoLeiteInput: React.FC<ComposicaoLeiteInputProps> = ({
 
       <View>
         <Text style={stylesCharacterization.questionText}>
-          <Text>{t('questionnaire.characterization.milkComposition.proteinPercentage')}</Text>
+          <Text>
+            {t(
+              "questionnaire.characterization.milkComposition.proteinPercentage",
+            )}
+          </Text>
         </Text>
         <TextInput
           style={stylesCharacterization.textInput}
-          placeholder={t('questionnaire.characterization.milkComposition.proteinPercentagePlaceholder')}
+          placeholder={t(
+            "questionnaire.characterization.milkComposition.proteinPercentagePlaceholder",
+          )}
           value={percentualProteina}
           onChangeText={setPercentualProteina}
           keyboardType="numeric"

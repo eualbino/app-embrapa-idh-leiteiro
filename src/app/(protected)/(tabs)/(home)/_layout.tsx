@@ -1,3 +1,4 @@
+// External Libraries
 import { Stack } from "expo-router";
 
 export default function HomeLayout() {

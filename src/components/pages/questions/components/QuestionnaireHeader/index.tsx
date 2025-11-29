@@ -1,8 +1,15 @@
+// External Libraries
 import React from "react";
 import { View, Text } from "react-native";
 import { useTranslation } from "react-i18next";
-import { useQuestionnaireProgress } from "@/src/components/pages/questions/components/QuestionnaireHeader/hooks/useQuestionnaireProgress";
+
+// Context
 import { useQuestionnaireContext } from "@/src/contexts/QuestionnaireContext";
+
+// Hooks
+import { useQuestionnaireProgress } from "@/src/components/pages/questions/components/QuestionnaireHeader/hooks/useQuestionnaireProgress";
+
+// Style
 import { styles } from "./styles";
 
 export const QuestionnaireHeader: React.FC = () => {
@@ -21,11 +28,14 @@ export const QuestionnaireHeader: React.FC = () => {
       <View style={styles.container}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>
-            {t('questionnaire.questions.characterizationTitle')}
+            {t("questionnaire.questions.characterizationTitle")}
           </Text>
           <View>
             <Text style={styles.categoryCount}>
-              {t('questionnaire.questions.category', { current: step + 1, total: 4 })}
+              {t("questionnaire.questions.category", {
+                current: step + 1,
+                total: 4,
+              })}
             </Text>
           </View>
         </View>
@@ -38,7 +48,9 @@ export const QuestionnaireHeader: React.FC = () => {
       <View style={styles.progressContainer}>
         <View style={styles.progressTextContainer}>
           <View>
-            <Text style={styles.progressText}>{t('questionnaire.questions.progress')}</Text>
+            <Text style={styles.progressText}>
+              {t("questionnaire.questions.progress")}
+            </Text>
           </View>
           <View>
             <Text style={styles.progressText}>

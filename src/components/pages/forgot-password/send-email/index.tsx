@@ -1,11 +1,18 @@
+// External Libraries
 import React, { useState } from "react";
 import { View, Text } from "react-native";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import Toast from "react-native-toast-message";
+
+// Components
 import { Input } from "@/src/components/commons/Input";
 import { ButtonCommon } from "@/src/components/commons/Button";
+
+// Hooks
 import { useForgotPassword } from "@/src/components/pages/forgot-password/hooks/useForgotPassword/useForgotPassword";
+
+// Style
 import { styles } from "./styles";
 
 export default function SendEmailForgotPassword() {
@@ -23,8 +30,8 @@ export default function SendEmailForgotPassword() {
     if (!email.trim()) {
       Toast.show({
         type: "error",
-        text1: t('common.error'),
-        text2: t('forgotPassword.errors.emptyEmail'),
+        text1: t("common.error"),
+        text2: t("forgotPassword.errors.emptyEmail"),
       });
       return;
     }
@@ -32,8 +39,8 @@ export default function SendEmailForgotPassword() {
     if (!validateEmail(email)) {
       Toast.show({
         type: "error",
-        text1: t('common.error'),
-        text2: t('forgotPassword.errors.invalidEmail'),
+        text1: t("common.error"),
+        text2: t("forgotPassword.errors.invalidEmail"),
       });
       return;
     }
@@ -48,17 +55,17 @@ export default function SendEmailForgotPassword() {
   return (
     <View>
       <View style={styles.card}>
-        <Text style={styles.title}>{t('forgotPassword.sendEmailTitle')}</Text>
-        
+        <Text style={styles.title}>{t("forgotPassword.sendEmailTitle")}</Text>
+
         <Text style={styles.description}>
-          {t('forgotPassword.sendEmailDescription')}
+          {t("forgotPassword.sendEmailDescription")}
         </Text>
 
         <View style={styles.inputContainer}>
           <Input
-            label={t('forgotPassword.email')}
+            label={t("forgotPassword.email")}
             type="email-address"
-            placeholder={t('forgotPassword.emailPlaceholder')}
+            placeholder={t("forgotPassword.emailPlaceholder")}
             value={email}
             onChangeText={setEmail}
             autoCapitalize="none"
@@ -73,7 +80,9 @@ export default function SendEmailForgotPassword() {
             variant="primary"
             disabled={isLoading}
           >
-            {isLoading ? t('forgotPassword.sending') : t('forgotPassword.sendCode')}
+            {isLoading
+              ? t("forgotPassword.sending")
+              : t("forgotPassword.sendCode")}
           </ButtonCommon>
         </View>
 
@@ -83,7 +92,7 @@ export default function SendEmailForgotPassword() {
             variant="secondary"
             disabled={isLoading}
           >
-            {t('auth.backToLogin')}
+            {t("auth.backToLogin")}
           </ButtonCommon>
         </View>
       </View>

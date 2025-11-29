@@ -1,6 +1,9 @@
+// External Libraries
 import React from "react";
 import { View, Text, TextInput } from "react-native";
 import { useTranslation } from "react-i18next";
+
+// Style
 import { stylesCharacterization } from "../../../../styles";
 
 interface RebanhoInputProps {
@@ -44,7 +47,7 @@ const RebanhoInput: React.FC<RebanhoInputProps> = ({
         <TextInput
           style={stylesCharacterization.textInput}
           placeholder={t(
-            "questionnaire.characterization.herd.lactatingCowsPlaceholder"
+            "questionnaire.characterization.herd.lactatingCowsPlaceholder",
           )}
           value={vacasLactacao}
           onChangeText={setVacasLactacao}
@@ -59,7 +62,7 @@ const RebanhoInput: React.FC<RebanhoInputProps> = ({
         <TextInput
           style={stylesCharacterization.textInput}
           placeholder={t(
-            "questionnaire.characterization.herd.dryCowsPlaceholder"
+            "questionnaire.characterization.herd.dryCowsPlaceholder",
           )}
           value={vacasSecas}
           onChangeText={setVacasSecas}
@@ -74,7 +77,7 @@ const RebanhoInput: React.FC<RebanhoInputProps> = ({
         <TextInput
           style={stylesCharacterization.textInput}
           placeholder={t(
-            "questionnaire.characterization.herd.heifersPlaceholder"
+            "questionnaire.characterization.herd.heifersPlaceholder",
           )}
           value={novilhas}
           onChangeText={setNovilhas}
@@ -89,7 +92,7 @@ const RebanhoInput: React.FC<RebanhoInputProps> = ({
         <TextInput
           style={stylesCharacterization.textInput}
           placeholder={t(
-            "questionnaire.characterization.herd.calvesPlaceholder"
+            "questionnaire.characterization.herd.calvesPlaceholder",
           )}
           value={bezerros}
           onChangeText={setBezerros}
@@ -104,7 +107,7 @@ const RebanhoInput: React.FC<RebanhoInputProps> = ({
         <TextInput
           style={stylesCharacterization.textInput}
           placeholder={t(
-            "questionnaire.characterization.herd.steersPlaceholder"
+            "questionnaire.characterization.herd.steersPlaceholder",
           )}
           value={garrotes}
           onChangeText={setGarrotes}
@@ -119,7 +122,7 @@ const RebanhoInput: React.FC<RebanhoInputProps> = ({
         <TextInput
           style={stylesCharacterization.textInput}
           placeholder={t(
-            "questionnaire.characterization.herd.bullsPlaceholder"
+            "questionnaire.characterization.herd.bullsPlaceholder",
           )}
           value={bulls}
           onChangeText={setBulls}

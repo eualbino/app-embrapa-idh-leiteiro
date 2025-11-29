@@ -1,8 +1,13 @@
+// External Libraries
 import React from "react";
 import { View, Text, TouchableOpacity, Platform } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useTranslation } from "react-i18next";
+
+// Context
 import { useQuestionnaireContext } from "@/src/contexts/QuestionnaireContext";
+
+// Style
 import { styles } from "./styles";
 
 export const DatePicker: React.FC = () => {
@@ -36,7 +41,9 @@ export const DatePicker: React.FC = () => {
       )}
 
       <View style={styles.container}>
-        <Text style={styles.label}>{t('questionnaire.questions.dateLabel')}</Text>
+        <Text style={styles.label}>
+          {t("questionnaire.questions.dateLabel")}
+        </Text>
 
         <TouchableOpacity onPress={toggleDatePicker} style={styles.touchable}>
           <Text style={styles.text}>{formatDate(date)}</Text>

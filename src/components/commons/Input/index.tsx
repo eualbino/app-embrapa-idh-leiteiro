@@ -1,3 +1,4 @@
+// External Libraries
 import React, { useState } from "react";
 import {
   View,
@@ -8,6 +9,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+
+// Style
 import { style } from "./styles";
 
 interface InputProps extends Omit<TextInputProps, "style"> {

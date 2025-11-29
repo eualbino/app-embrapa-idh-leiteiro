@@ -1,7 +1,12 @@
+// External Libraries
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+
+// Config
 import { theme } from "@/src/config";
+
+// Types
 import { PropertySummary } from "@/src/services/api/user";
 
 interface PropertyHistoryCardProps {

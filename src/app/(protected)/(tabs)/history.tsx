@@ -1,8 +1,10 @@
+// External Libraries
 import { SafeAreaView } from "react-native-safe-area-context";
-import { withAuthentication } from "../../hoc/withAuthentication";
+
+// Components
 import History from "@/src/components/pages/history";
 
-function HistoryPage() {
+export default function HistoryPage() {
   return (
     <SafeAreaView
       style={{ flex: 1, backgroundColor: "#ffffff" }}
@@ -12,5 +14,3 @@ function HistoryPage() {
     </SafeAreaView>
   );
 }
-
-export default withAuthentication(HistoryPage);

@@ -1,8 +1,15 @@
+// External Libraries
 import React from "react";
 import { View } from "react-native";
 import { useTranslation } from "react-i18next";
-import { ButtonCommon } from "@/src/components/commons/Button";
+
+// Context
 import { useQuestionnaireContext } from "@/src/contexts/QuestionnaireContext";
+
+// Components
+import { ButtonCommon } from "@/src/components/commons/Button";
+
+// Style
 import { styles } from "./styles";
 
 export const NavigationButtons: React.FC = () => {
@@ -45,8 +52,8 @@ export const NavigationButtons: React.FC = () => {
           {isLoading
             ? t("common.loading")
             : isLastStep
-            ? t("questionnaire.questions.finish")
-            : t("questionnaire.questions.next")}{" "}
+              ? t("questionnaire.questions.finish")
+              : t("questionnaire.questions.next")}{" "}
           {"  >"}
         </ButtonCommon>
       </View>

@@ -1,3 +1,4 @@
+// External Libraries
 import { Redirect } from "expo-router";
 
 export default function ForgotPasswordIndex() {

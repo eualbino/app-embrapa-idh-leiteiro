@@ -1,8 +1,10 @@
-import AllQuestionsScore from "@/src/components/pages/questions";
+// External Libraries
 import { SafeAreaView } from "react-native-safe-area-context";
-import { withAuthentication } from "@/src/hoc/withAuthentication";
 
-function QuestionsPage() {
+// Components
+import AllQuestionsScore from "@/src/components/pages/questions";
+
+export default function QuestionsPage() {
   return (
     <SafeAreaView
       style={{ flex: 1, backgroundColor: "#ffffff" }}
@@ -12,5 +14,3 @@ function QuestionsPage() {
     </SafeAreaView>
   );
 }
-
-export default withAuthentication(QuestionsPage);

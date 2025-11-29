@@ -1,11 +1,18 @@
+// External Libraries
 import React, { useState, useEffect } from "react";
 import { View, Text } from "react-native";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import Toast from "react-native-toast-message";
+
+// Components
 import { Input } from "@/src/components/commons/Input";
 import { ButtonCommon } from "@/src/components/commons/Button";
+
+// Hooks
 import { useForgotPassword } from "@/src/components/pages/forgot-password/hooks/useForgotPassword/useForgotPassword";
+
+// Style
 import { styles } from "./styles";
 
 export default function ConfirmCodeForgotPassword() {

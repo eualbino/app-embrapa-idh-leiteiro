@@ -19,17 +19,27 @@ const EnergiaEletricaInput: React.FC<EnergiaEletricaInputProps> = ({
   renderRadioButton,
 }) => {
   const { t } = useTranslation();
-  
+
   return (
     <View style={stylesCharacterization.containerResponses}>
       <View style={stylesCharacterization.containerQuestionInput}>
         <Text style={stylesCharacterization.questionText}>
-          <Text>{t('questionnaire.characterization.electricEnergy.sectionTitle')} </Text>
-          <Text>{t('questionnaire.characterization.electricEnergy.monthlyConsumption')}</Text>
+          <Text>
+            {t(
+              "questionnaire.characterization.electricEnergy.sectionTitle",
+            )}{" "}
+          </Text>
+          <Text>
+            {t(
+              "questionnaire.characterization.electricEnergy.monthlyConsumption",
+            )}
+          </Text>
         </Text>
         <TextInput
           style={stylesCharacterization.textInput}
-          placeholder={t('questionnaire.characterization.electricEnergy.monthlyConsumptionPlaceholder')}
+          placeholder={t(
+            "questionnaire.characterization.electricEnergy.monthlyConsumptionPlaceholder",
+          )}
           value={consumoEnergia}
           onChangeText={setConsumoEnergia}
           keyboardType="numeric"
@@ -38,16 +48,20 @@ const EnergiaEletricaInput: React.FC<EnergiaEletricaInputProps> = ({
 
       <View>
         <Text style={stylesCharacterization.questionText}>
-          <Text>{t('questionnaire.characterization.electricEnergy.hasSolarEnergy')}</Text>
+          <Text>
+            {t("questionnaire.characterization.electricEnergy.hasSolarEnergy")}
+          </Text>
         </Text>
-        <View >
+        <View>
           <TouchableOpacity
             style={stylesCharacterization.optionContainer}
             onPress={() => setTemEnergiaFotovoltaica(true)}
           >
             {renderRadioButton(temEnergiaFotovoltaica === true)}
             <View style={{ flex: 1, marginRight: 1 }}>
-              <Text style={[stylesCharacterization.questionsResponseText]}>{t('common.yes')}</Text>
+              <Text style={[stylesCharacterization.questionsResponseText]}>
+                {t("common.yes")}
+              </Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -58,7 +72,9 @@ const EnergiaEletricaInput: React.FC<EnergiaEletricaInputProps> = ({
           >
             {renderRadioButton(temEnergiaFotovoltaica === false)}
             <View style={{ flex: 1, marginRight: 1 }}>
-              <Text style={[stylesCharacterization.questionsResponseText]}>{t('common.no')}</Text>
+              <Text style={[stylesCharacterization.questionsResponseText]}>
+                {t("common.no")}
+              </Text>
             </View>
           </TouchableOpacity>
         </View>

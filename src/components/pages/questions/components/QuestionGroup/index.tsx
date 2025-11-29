@@ -1,7 +1,12 @@
+// External Libraries
 import React from "react";
 import { View } from "react-native";
-import { styles } from "./styles";
+
+// Components
 import { QuestionItem } from "./components/QuestionItem";
+
+// Style
+import { styles } from "./styles";
 
 interface QuestionGroupProps {
   questions: {

@@ -1,9 +1,16 @@
+// External Libraries
 import React, { memo } from "react";
 import { View, Text } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import { useTranslation } from "react-i18next";
-import { OptionWithInput } from "@/src/components/commons/RadioButton";
+
+// Context
 import { useQuestionnaireContext } from "@/src/contexts/QuestionnaireContext";
+
+// Components
+import { OptionWithInput } from "@/src/components/commons/RadioButton";
+
+// Style
 import { styles } from "./styles";
 
 interface QuestionItemProps {

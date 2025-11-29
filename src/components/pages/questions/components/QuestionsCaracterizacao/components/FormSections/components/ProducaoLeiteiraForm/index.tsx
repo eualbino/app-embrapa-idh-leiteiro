@@ -1,6 +1,9 @@
+// External Libraries
 import React from "react";
 import { View, Text, TextInput } from "react-native";
 import { useTranslation } from "react-i18next";
+
+// Style
 import { stylesCharacterization } from "../../../../styles";
 
 interface ProducaoLeiteiraInputProps {
@@ -17,19 +20,25 @@ const ProducaoLeiteiraInput: React.FC<ProducaoLeiteiraInputProps> = ({
   setLitrosVacaDia,
 }) => {
   const { t } = useTranslation();
-  
+
   return (
     <View style={stylesCharacterization.containerResponses}>
       <View style={stylesCharacterization.containerQuestionInput}>
         <Text style={stylesCharacterization.questionText}>
-          <Text>{t('questionnaire.characterization.milkProduction.sectionTitle')} </Text>
           <Text>
-            {t('questionnaire.characterization.milkProduction.dailyProduction')}
+            {t(
+              "questionnaire.characterization.milkProduction.sectionTitle",
+            )}{" "}
+          </Text>
+          <Text>
+            {t("questionnaire.characterization.milkProduction.dailyProduction")}
           </Text>
         </Text>
         <TextInput
           style={stylesCharacterization.textInput}
-          placeholder={t('questionnaire.characterization.milkProduction.dailyProductionPlaceholder')}
+          placeholder={t(
+            "questionnaire.characterization.milkProduction.dailyProductionPlaceholder",
+          )}
           value={litrosDiaPropriedade}
           onChangeText={setLitrosDiaPropriedade}
           keyboardType="numeric"
@@ -38,11 +47,17 @@ const ProducaoLeiteiraInput: React.FC<ProducaoLeiteiraInputProps> = ({
 
       <View>
         <Text style={stylesCharacterization.questionText}>
-          <Text>{t('questionnaire.characterization.milkProduction.productionPerCow')}</Text>
+          <Text>
+            {t(
+              "questionnaire.characterization.milkProduction.productionPerCow",
+            )}
+          </Text>
         </Text>
         <TextInput
           style={stylesCharacterization.textInput}
-          placeholder={t('questionnaire.characterization.milkProduction.productionPerCowPlaceholder')}
+          placeholder={t(
+            "questionnaire.characterization.milkProduction.productionPerCowPlaceholder",
+          )}
           value={litrosVacaDia}
           onChangeText={setLitrosVacaDia}
           keyboardType="numeric"

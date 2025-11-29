@@ -1,6 +1,9 @@
+// External Libraries
 import React, { JSX } from "react";
 import { View, Text, TouchableOpacity, TextInput } from "react-native";
 import { useTranslation } from "react-i18next";
+
+// Style
 import { stylesCharacterization } from "../../../../styles";
 
 interface SistemaProducaoInputProps {
@@ -19,13 +22,19 @@ const SistemaProducaoInput: React.FC<SistemaProducaoInputProps> = ({
   renderRadioButton,
 }) => {
   const { t } = useTranslation();
-  
+
   return (
     <View style={stylesCharacterization.containerResponses}>
       <View>
         <Text style={stylesCharacterization.questionText}>
-          <Text>{t('questionnaire.characterization.productionSystem.sectionTitle')} </Text>
-          <Text>{t('questionnaire.characterization.productionSystem.question')}</Text>
+          <Text>
+            {t(
+              "questionnaire.characterization.productionSystem.sectionTitle",
+            )}{" "}
+          </Text>
+          <Text>
+            {t("questionnaire.characterization.productionSystem.question")}
+          </Text>
         </Text>
       </View>
 
@@ -37,7 +46,9 @@ const SistemaProducaoInput: React.FC<SistemaProducaoInputProps> = ({
           {renderRadioButton(sistemaProducao === "exclusivamente_pasto")}
           <View style={{ flex: 1, marginRight: 1 }}>
             <Text style={[stylesCharacterization.questionsResponseText]}>
-              {t('questionnaire.characterization.productionSystem.options.exclusivelyPasture')}
+              {t(
+                "questionnaire.characterization.productionSystem.options.exclusivelyPasture",
+              )}
             </Text>
           </View>
         </TouchableOpacity>
@@ -51,7 +62,9 @@ const SistemaProducaoInput: React.FC<SistemaProducaoInputProps> = ({
           {renderRadioButton(sistemaProducao === "pastagem_suplementacao")}
           <View style={{ flex: 1, marginRight: 1 }}>
             <Text style={[stylesCharacterization.questionsResponseText]}>
-              {t('questionnaire.characterization.productionSystem.options.pastureWithSupplementation')}
+              {t(
+                "questionnaire.characterization.productionSystem.options.pastureWithSupplementation",
+              )}
             </Text>
           </View>
         </TouchableOpacity>
@@ -65,7 +78,9 @@ const SistemaProducaoInput: React.FC<SistemaProducaoInputProps> = ({
           {renderRadioButton(sistemaProducao === "confinado_sem_pastagem")}
           <View style={{ flex: 1, marginRight: 1 }}>
             <Text style={[stylesCharacterization.questionsResponseText]}>
-              {t('questionnaire.characterization.productionSystem.options.confinedNoPasture')}
+              {t(
+                "questionnaire.characterization.productionSystem.options.confinedNoPasture",
+              )}
             </Text>
           </View>
         </TouchableOpacity>
@@ -79,7 +94,9 @@ const SistemaProducaoInput: React.FC<SistemaProducaoInputProps> = ({
           {renderRadioButton(sistemaProducao === "confinado_vacas_lactacao")}
           <View style={{ flex: 1, marginRight: 1 }}>
             <Text style={[stylesCharacterization.questionsResponseText]}>
-              {t('questionnaire.characterization.productionSystem.options.confinedLactatingCows')}
+              {t(
+                "questionnaire.characterization.productionSystem.options.confinedLactatingCows",
+              )}
             </Text>
           </View>
         </TouchableOpacity>
@@ -93,7 +110,9 @@ const SistemaProducaoInput: React.FC<SistemaProducaoInputProps> = ({
           {renderRadioButton(sistemaProducao === "outro")}
           <View style={{ flex: 1, marginRight: 1 }}>
             <Text style={[stylesCharacterization.questionsResponseText]}>
-              {t('questionnaire.characterization.productionSystem.options.other')}
+              {t(
+                "questionnaire.characterization.productionSystem.options.other",
+              )}
             </Text>
           </View>
         </TouchableOpacity>
@@ -102,7 +121,9 @@ const SistemaProducaoInput: React.FC<SistemaProducaoInputProps> = ({
             stylesCharacterization.textInput,
             { opacity: sistemaProducao === "outro" ? 1 : 0.5 },
           ]}
-          placeholder={t('questionnaire.characterization.productionSystem.otherPlaceholder')}
+          placeholder={t(
+            "questionnaire.characterization.productionSystem.otherPlaceholder",
+          )}
           value={outroSistemaProducao}
           onChangeText={setOutroSistemaProducao}
           editable={sistemaProducao === "outro"}

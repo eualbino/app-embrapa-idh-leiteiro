@@ -1,11 +1,18 @@
+// External Libraries
 import React, { useState, useMemo } from "react";
 import { View, Text } from "react-native";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import Toast from "react-native-toast-message";
+
+// Components
 import { Input } from "@/src/components/commons/Input";
 import { ButtonCommon } from "@/src/components/commons/Button";
+
+// Hooks
 import { useForgotPassword } from "@/src/components/pages/forgot-password/hooks/useForgotPassword/useForgotPassword";
+
+// Style
 import { styles } from "./styles";
 
 export default function ResetPasswordForgotPassword() {
@@ -34,8 +41,8 @@ export default function ResetPasswordForgotPassword() {
     if (!newPassword.trim()) {
       Toast.show({
         type: "error",
-        text1: t('common.error'),
-        text2: t('forgotPassword.errors.emptyPassword'),
+        text1: t("common.error"),
+        text2: t("forgotPassword.errors.emptyPassword"),
       });
       return;
     }
@@ -43,8 +50,8 @@ export default function ResetPasswordForgotPassword() {
     if (!isPasswordValid) {
       Toast.show({
         type: "error",
-        text1: t('common.error'),
-        text2: t('forgotPassword.errors.invalidPassword'),
+        text1: t("common.error"),
+        text2: t("forgotPassword.errors.invalidPassword"),
       });
       return;
     }
@@ -52,8 +59,8 @@ export default function ResetPasswordForgotPassword() {
     if (newPassword !== confirmPassword) {
       Toast.show({
         type: "error",
-        text1: t('common.error'),
-        text2: t('forgotPassword.errors.passwordMismatch'),
+        text1: t("common.error"),
+        text2: t("forgotPassword.errors.passwordMismatch"),
       });
       return;
     }
@@ -68,16 +75,18 @@ export default function ResetPasswordForgotPassword() {
   return (
     <View style={{ width: "100%" }}>
       <View style={styles.card}>
-        <Text style={styles.title}>{t('forgotPassword.resetPasswordTitle')}</Text>
+        <Text style={styles.title}>
+          {t("forgotPassword.resetPasswordTitle")}
+        </Text>
 
         <Text style={styles.description}>
-          {t('forgotPassword.resetPasswordDescription')}
+          {t("forgotPassword.resetPasswordDescription")}
         </Text>
 
         <View style={styles.inputContainer}>
           <Input
-            label={t('forgotPassword.newPassword')}
-            placeholder={t('forgotPassword.newPasswordPlaceholder')}
+            label={t("forgotPassword.newPassword")}
+            placeholder={t("forgotPassword.newPasswordPlaceholder")}
             value={newPassword}
             onChangeText={setNewPassword}
             secureTextEntry
@@ -88,42 +97,67 @@ export default function ResetPasswordForgotPassword() {
         </View>
 
         <View style={styles.passwordRequirements}>
-          <Text style={[
-            styles.requirementText,
-            passwordValidation.minLength ? styles.requirementMet : styles.requirementNotMet
-          ]}>
-            {passwordValidation.minLength ? "✓" : "○"} {t('forgotPassword.passwordRequirements.minLength')}
+          <Text
+            style={[
+              styles.requirementText,
+              passwordValidation.minLength
+                ? styles.requirementMet
+                : styles.requirementNotMet,
+            ]}
+          >
+            {passwordValidation.minLength ? "✓" : "○"}{" "}
+            {t("forgotPassword.passwordRequirements.minLength")}
           </Text>
-          <Text style={[
-            styles.requirementText,
-            passwordValidation.hasUpperCase ? styles.requirementMet : styles.requirementNotMet
-          ]}>
-            {passwordValidation.hasUpperCase ? "✓" : "○"} {t('forgotPassword.passwordRequirements.hasUpperCase')}
+          <Text
+            style={[
+              styles.requirementText,
+              passwordValidation.hasUpperCase
+                ? styles.requirementMet
+                : styles.requirementNotMet,
+            ]}
+          >
+            {passwordValidation.hasUpperCase ? "✓" : "○"}{" "}
+            {t("forgotPassword.passwordRequirements.hasUpperCase")}
           </Text>
-          <Text style={[
-            styles.requirementText,
-            passwordValidation.hasLowerCase ? styles.requirementMet : styles.requirementNotMet
-          ]}>
-            {passwordValidation.hasLowerCase ? "✓" : "○"} {t('forgotPassword.passwordRequirements.hasLowerCase')}
+          <Text
+            style={[
+              styles.requirementText,
+              passwordValidation.hasLowerCase
+                ? styles.requirementMet
+                : styles.requirementNotMet,
+            ]}
+          >
+            {passwordValidation.hasLowerCase ? "✓" : "○"}{" "}
+            {t("forgotPassword.passwordRequirements.hasLowerCase")}
           </Text>
-          <Text style={[
-            styles.requirementText,
-            passwordValidation.hasNumber ? styles.requirementMet : styles.requirementNotMet
-          ]}>
-            {passwordValidation.hasNumber ? "✓" : "○"} {t('forgotPassword.passwordRequirements.hasNumber')}
+          <Text
+            style={[
+              styles.requirementText,
+              passwordValidation.hasNumber
+                ? styles.requirementMet
+                : styles.requirementNotMet,
+            ]}
+          >
+            {passwordValidation.hasNumber ? "✓" : "○"}{" "}
+            {t("forgotPassword.passwordRequirements.hasNumber")}
           </Text>
-          <Text style={[
-            styles.requirementText,
-            passwordValidation.hasSpecialChar ? styles.requirementMet : styles.requirementNotMet
-          ]}>
-            {passwordValidation.hasSpecialChar ? "✓" : "○"} {t('forgotPassword.passwordRequirements.hasSpecialChar')}
+          <Text
+            style={[
+              styles.requirementText,
+              passwordValidation.hasSpecialChar
+                ? styles.requirementMet
+                : styles.requirementNotMet,
+            ]}
+          >
+            {passwordValidation.hasSpecialChar ? "✓" : "○"}{" "}
+            {t("forgotPassword.passwordRequirements.hasSpecialChar")}
           </Text>
         </View>
 
         <View style={styles.inputContainer}>
           <Input
-            label={t('forgotPassword.confirmPassword')}
-            placeholder={t('forgotPassword.confirmPasswordPlaceholder')}
+            label={t("forgotPassword.confirmPassword")}
+            placeholder={t("forgotPassword.confirmPasswordPlaceholder")}
             value={confirmPassword}
             onChangeText={setConfirmPassword}
             secureTextEntry
@@ -141,7 +175,9 @@ export default function ResetPasswordForgotPassword() {
               isLoading || !isPasswordValid || newPassword !== confirmPassword
             }
           >
-            {isLoading ? t('forgotPassword.resetting') : t('forgotPassword.resetPassword')}
+            {isLoading
+              ? t("forgotPassword.resetting")
+              : t("forgotPassword.resetPassword")}
           </ButtonCommon>
         </View>
 
@@ -151,7 +187,7 @@ export default function ResetPasswordForgotPassword() {
             variant="secondary"
             disabled={isLoading}
           >
-            {t('auth.backToLogin')}
+            {t("auth.backToLogin")}
           </ButtonCommon>
         </View>
       </View>

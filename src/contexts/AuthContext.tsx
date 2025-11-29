@@ -12,16 +12,19 @@ import Toast from "react-native-toast-message";
 
 // Services
 import { AuthService } from "@/src/services";
+import { UserService } from "@/src/services/api/user";
 
 // Types
 import type {
   LoginRequest,
   RegisterRequest,
 } from "@/src/services/api/auth/dtos";
+import type { UserProfile } from "@/src/services/api/user";
 
 interface AuthContextData {
   isLoading: boolean;
   isAuthenticated: boolean;
+  user: UserProfile | null;
   login: (credentials: LoginRequest) => Promise<void>;
   register: (data: RegisterRequest) => Promise<void>;
   logout: () => Promise<void>;
@@ -33,6 +36,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isInitializing, setIsInitializing] = useState(true);
+  const [user, setUser] = useState<UserProfile | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -43,10 +47,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       setIsInitializing(true);
       const token = await AsyncStorage.getItem("@app:token");
-      setIsAuthenticated(!!token);
+
+      if (token) {
+        try {
+          const response = await UserService.getMe();
+          setUser(response.user);
+          setIsAuthenticated(true);
+        } catch (error) {
+          console.error("Token inválido:", error);
+          await AsyncStorage.removeItem("@app:token");
+          setIsAuthenticated(false);
+          setUser(null);
+        }
+      } else {
+        setIsAuthenticated(false);
+        setUser(null);
+      }
     } catch (error) {
       console.error("Erro ao verificar autenticação:", error);
       setIsAuthenticated(false);
+      setUser(null);
     } finally {
       setIsInitializing(false);
     }
@@ -58,15 +78,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const response = await AuthService.login(credentials);
 
       await AsyncStorage.setItem("@app:token", response.token);
-      setIsAuthenticated(true);
 
-      Toast.show({
-        type: "success",
-        text1: "Login realizado!",
-        text2: "Bem-vindo de volta!",
-      });
+      try {
+        const userData = await UserService.getMe();
+        setUser(userData.user);
+        setIsAuthenticated(true);
 
-      router.replace({ pathname: "/(protected)/(tabs)/(home)" } as any);
+        Toast.show({
+          type: "success",
+          text1: "Login realizado!",
+          text2: "Bem-vindo de volta!",
+        });
+
+        router.replace({ pathname: "/(protected)/(tabs)/(home)" } as any);
+      } catch (error) {
+        console.error("Erro ao buscar dados do usuário:", error);
+
+        await AsyncStorage.removeItem("@app:token");
+
+        throw new Error("Não foi possível carregar dados do usuário");
+      }
     } catch (error: any) {
       console.error("Erro no login:", error);
       const status = error?.response?.status;
@@ -130,6 +161,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       await AsyncStorage.removeItem("@app:token");
 
       setIsAuthenticated(false);
+      setUser(null);
 
       router.replace("/login");
 
@@ -155,6 +187,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       value={{
         isLoading: isLoading || isInitializing,
         isAuthenticated,
+        user,
         login,
         register,
         logout,

@@ -10,7 +10,7 @@ module.exports = defineConfig([
       "import/resolver": {
         "babel-module": {
           alias: {
-            "@": "./src",
+            "@": ".",
           },
         },
       },

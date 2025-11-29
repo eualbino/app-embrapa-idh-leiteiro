@@ -1,15 +1,24 @@
+// External Libraries
 import React, { useEffect } from "react";
 import { View, Text, ScrollView } from "react-native";
 import { useTranslation } from "react-i18next";
+
+// Conxtext
 import {
   QuestionnaireProvider,
   useQuestionnaireContext,
 } from "@/src/contexts/QuestionnaireContext";
+
+// Components
 import { QuestionnaireHeader } from "./components/QuestionnaireHeader";
 import { QuestionGroup } from "./components/QuestionGroup";
 import { NavigationButtons } from "./components/NavigationButtons";
 import { FormularioQuestionario } from "./components/QuestionsCaracterizacao";
+
+// Mock Data
 import { questions } from "@/src/mock/questions";
+
+// Style
 import { stylesQuestionsPage } from "./styles";
 
 const data_quantidade_agua = questions.filter(

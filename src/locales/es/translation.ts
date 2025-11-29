@@ -21,6 +21,11 @@ export default {
       warning: "Atención",
       info: "Información",
       notApplicable: "No aplica",
+      logout: "Salir",
+      logoutTitle: "Cerrar Sesión",
+      logoutMessage: "¿Está seguro que desea cerrar sesión?",
+      logoutConfirm: "Salir",
+      logoutCancel: "Cancelar",
     },
 
     // Login & Register
@@ -574,9 +579,16 @@ export default {
 
     // History Page
     history: {
-      title: "Historial del resultado",
-      description: "Revise seus resultados anteriores.",
-      noRecords: "Não foi encontrado registros de resultados anteriores.",
+      title: "Historial de Resultados",
+      description: "Vea los resultados anteriores.",
+      noRecords: "No se encontraron resultados.",
+      userData: "Datos del Usuario",
+      userName: "Nombre",
+      userEmail: "Correo Electrónico",
+      userCpf: "CPF",
+      propertiesHistory: "Historial de Propiedades",
+      pullToRefresh: "Deslice hacia abajo para intentar nuevamente",
+      emptyMessage: "Complete el cuestionario para ver su historial",
     },
   },
 };

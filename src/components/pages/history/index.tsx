@@ -10,6 +10,7 @@ import {
 import { styles } from "./styles";
 import { useUserHistory } from "./hooks/useUserHistory";
 import { PropertyHistoryCard } from "./components/PropertyHistoryCard";
+import { formatCPF } from "@/src/utils";
 import { theme } from "@/src/config";
 
 export default function History() {
@@ -41,72 +42,74 @@ export default function History() {
       >
         <View style={styles.centerContainer}>
           <Text style={styles.errorText}>{error}</Text>
-          <Text style={styles.errorSubText}>
-            Puxe para baixo para tentar novamente
-          </Text>
+          <Text style={styles.errorSubText}>{t("history.pullToRefresh")}</Text>
         </View>
       </ScrollView>
     );
   }
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 20 }}
-      style={{ backgroundColor: "#ffffff" }}
-      refreshControl={
-        <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
-      }
-    >
-      <View style={styles.containerInfo}>
-        <Text style={styles.textHeader}>{t("history.title")}</Text>
-        <Text style={styles.textSubHeader}>{t("history.description")}</Text>
-      </View>
-
-      {user && (
-        <View style={styles.userInfoCard}>
-          <Text style={styles.userInfoTitle}>Dados do Usuário</Text>
-          <View style={styles.userInfoRow}>
-            <Text style={styles.userInfoLabel}>Nome:</Text>
-            <Text style={styles.userInfoValue}>{user.name}</Text>
-          </View>
-          <View style={styles.userInfoRow}>
-            <Text style={styles.userInfoLabel}>Email:</Text>
-            <Text style={styles.userInfoValue}>{user.email}</Text>
-          </View>
-          <View style={styles.userInfoRow}>
-            <Text style={styles.userInfoLabel}>CPF:</Text>
-            <Text style={styles.userInfoValue}>{user.cpf}</Text>
-          </View>
+    <>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 20 }}
+        style={{ backgroundColor: "#ffffff" }}
+        refreshControl={
+          <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
+        }
+      >
+        <View style={styles.containerInfo}>
+          <Text style={styles.textHeader}>{t("history.title")}</Text>
+          <Text style={styles.textSubHeader}>{t("history.description")}</Text>
         </View>
-      )}
 
-      <View style={styles.propertiesSection}>
-        <Text style={styles.propertiesTitle}>
-          Histórico de Propriedades ({properties.length})
-        </Text>
-
-        {properties.length === 0 ? (
-          <View style={styles.emptyContainer}>
-            <Text style={styles.emptyText}>{t("history.noRecords")}</Text>
-            <Text style={styles.emptySubText}>
-              Preencha o questionário para visualizar seu histórico
-            </Text>
-          </View>
-        ) : (
-          <View style={styles.propertiesList}>
-            {properties.map((property) => (
-              <PropertyHistoryCard
-                key={property.id}
-                property={property}
-                onPress={() => {
-                  console.log("Navegar para propriedade:", property.id);
-                }}
-              />
-            ))}
+        {user && (
+          <View style={styles.userInfoCard}>
+            <Text style={styles.userInfoTitle}>{t("history.userData")}</Text>
+            <View style={styles.userInfoRow}>
+              <Text style={styles.userInfoLabel}>{t("history.userName")}:</Text>
+              <Text style={styles.userInfoValue}>{user.name}</Text>
+            </View>
+            <View style={styles.userInfoRow}>
+              <Text style={styles.userInfoLabel}>
+                {t("history.userEmail")}:
+              </Text>
+              <Text style={styles.userInfoValue}>{user.email}</Text>
+            </View>
+            <View style={styles.userInfoRow}>
+              <Text style={styles.userInfoLabel}>{t("history.userCpf")}:</Text>
+              <Text style={styles.userInfoValue}>{formatCPF(user.cpf)}</Text>
+            </View>
           </View>
         )}
-      </View>
-    </ScrollView>
+
+        <View style={styles.propertiesSection}>
+          <Text style={styles.propertiesTitle}>
+            {t("history.propertiesHistory")} ({properties.length})
+          </Text>
+
+          {properties.length === 0 ? (
+            <View style={styles.emptyContainer}>
+              <Text style={styles.emptyText}>{t("history.noRecords")}</Text>
+              <Text style={styles.emptySubText}>
+                {t("history.emptyMessage")}
+              </Text>
+            </View>
+          ) : (
+            <View style={styles.propertiesList}>
+              {properties.map((property) => (
+                <PropertyHistoryCard
+                  key={property.id}
+                  property={property}
+                  onPress={() => {
+                    console.log("Navegar para propriedade:", property.id);
+                  }}
+                />
+              ))}
+            </View>
+          )}
+        </View>
+      </ScrollView>
+    </>
   );
 }

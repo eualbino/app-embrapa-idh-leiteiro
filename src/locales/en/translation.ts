@@ -21,6 +21,11 @@ export default {
       warning: "Warning",
       info: "Information",
       notApplicable: "Not applicable",
+      logout: "Logout",
+      logoutTitle: "Logout",
+      logoutMessage: "Are you sure you want to logout?",
+      logoutConfirm: "Logout",
+      logoutCancel: "Cancel",
     },
 
     // Login & Register
@@ -568,9 +573,16 @@ export default {
 
     // History Page
     history: {
-      title: "History of results",
-      description: "Review your past results.",
-      noRecords: "No results records found.",
+      title: "Results History",
+      description: "View your previous results.",
+      noRecords: "No results found.",
+      userData: "User Data",
+      userName: "Name",
+      userEmail: "Email",
+      userCpf: "CPF",
+      propertiesHistory: "Properties History",
+      pullToRefresh: "Pull down to try again",
+      emptyMessage: "Fill out the questionnaire to view your history",
     },
   },
 };

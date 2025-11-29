@@ -39,6 +39,7 @@ const ComposicaoLeiteInput: React.FC<ComposicaoLeiteInputProps> = ({
           placeholder={t(
             "questionnaire.characterization.milkComposition.fatPercentagePlaceholder",
           )}
+          placeholderTextColor="#999"
           value={percentualGordura}
           onChangeText={setPercentualGordura}
           keyboardType="numeric"
@@ -58,6 +59,7 @@ const ComposicaoLeiteInput: React.FC<ComposicaoLeiteInputProps> = ({
           placeholder={t(
             "questionnaire.characterization.milkComposition.proteinPercentagePlaceholder",
           )}
+          placeholderTextColor="#999"
           value={percentualProteina}
           onChangeText={setPercentualProteina}
           keyboardType="numeric"

@@ -37,6 +37,7 @@ const AreaInput: React.FC<AreaInputProps> = ({
           placeholder={t(
             "questionnaire.characterization.area.totalAreaPlaceholder",
           )}
+          placeholderTextColor="#999"
           value={areaPropriedade}
           onChangeText={setAreaPropriedade}
           keyboardType="numeric"
@@ -52,6 +53,7 @@ const AreaInput: React.FC<AreaInputProps> = ({
           placeholder={t(
             "questionnaire.characterization.area.pastureAreaPlaceholder",
           )}
+          placeholderTextColor="#999"
           value={areaPastagem}
           onChangeText={setAreaPastagem}
           keyboardType="numeric"
@@ -67,6 +69,7 @@ const AreaInput: React.FC<AreaInputProps> = ({
           placeholder={t(
             "questionnaire.characterization.area.silageAreaPlaceholder",
           )}
+          placeholderTextColor="#999"
           value={areaSilagem}
           onChangeText={setAreaSilagem}
           keyboardType="numeric"

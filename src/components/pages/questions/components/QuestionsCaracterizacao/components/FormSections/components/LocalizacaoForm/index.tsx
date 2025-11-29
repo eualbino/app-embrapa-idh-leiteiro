@@ -35,6 +35,7 @@ const LocalizacaoInput: React.FC<LocalizacaoInputProps> = ({
           placeholder={t(
             "questionnaire.characterization.location.countryPlaceholder",
           )}
+          placeholderTextColor="#999"
           value={pais}
           onChangeText={setPais}
         />
@@ -49,6 +50,7 @@ const LocalizacaoInput: React.FC<LocalizacaoInputProps> = ({
           placeholder={t(
             "questionnaire.characterization.location.cityPlaceholder",
           )}
+          placeholderTextColor="#999"
           value={cidade}
           onChangeText={setCidade}
         />

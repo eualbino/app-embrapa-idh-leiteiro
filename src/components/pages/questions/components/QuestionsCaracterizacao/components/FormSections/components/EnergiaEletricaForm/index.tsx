@@ -40,6 +40,7 @@ const EnergiaEletricaInput: React.FC<EnergiaEletricaInputProps> = ({
           placeholder={t(
             "questionnaire.characterization.electricEnergy.monthlyConsumptionPlaceholder",
           )}
+          placeholderTextColor="#999"
           value={consumoEnergia}
           onChangeText={setConsumoEnergia}
           keyboardType="numeric"

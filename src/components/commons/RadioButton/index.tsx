@@ -75,6 +75,7 @@ export const OptionWithInput: FC<OptionWithInputProps> = ({
         <TextInput
           style={[styles.textInput, { opacity: selected ? 1 : 0.5 }]}
           placeholder={inputPlaceholder}
+          placeholderTextColor="#999"
           value={inputValue}
           onChangeText={onChangeText}
           editable={selected}

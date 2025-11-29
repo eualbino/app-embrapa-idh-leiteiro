@@ -124,10 +124,10 @@ const SistemaProducaoInput: React.FC<SistemaProducaoInputProps> = ({
           placeholder={t(
             "questionnaire.characterization.productionSystem.otherPlaceholder",
           )}
+          placeholderTextColor="#999"
           value={outroSistemaProducao}
           onChangeText={setOutroSistemaProducao}
           editable={sistemaProducao === "outro"}
-          keyboardType="default"
         />
       </View>
     </View>

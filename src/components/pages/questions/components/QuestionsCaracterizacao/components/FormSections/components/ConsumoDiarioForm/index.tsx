@@ -44,6 +44,7 @@ const ConsumoDiarioInput: React.FC<ConsumoDiarioInputProps> = ({
           placeholder={t(
             "questionnaire.characterization.dailyConsumption.roughageConsumptionPlaceholder",
           )}
+          placeholderTextColor="#999"
           value={volumoso}
           onChangeText={setVolumoso}
           keyboardType="numeric"
@@ -63,6 +64,7 @@ const ConsumoDiarioInput: React.FC<ConsumoDiarioInputProps> = ({
           placeholder={t(
             "questionnaire.characterization.dailyConsumption.concentrateConsumptionPlaceholder",
           )}
+          placeholderTextColor="#999"
           value={concentrado}
           onChangeText={setConcentrado}
           keyboardType="numeric"

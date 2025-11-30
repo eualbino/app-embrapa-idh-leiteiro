@@ -13,6 +13,9 @@ import "@/src/locales/i18n";
 // Context
 import { AuthProvider, useAuthContext } from "@/src/contexts/AuthContext";
 
+// Components
+import { OfflineSyncMonitor } from "@/src/components/commons/OfflineSyncMonitor";
+
 function RootNavigator() {
   const { isAuthenticated, isLoading } = useAuthContext();
   const router = useRouter();
@@ -42,6 +45,7 @@ function RootNavigator() {
 
   return (
     <>
+      <OfflineSyncMonitor />
       <Stack
         screenOptions={{
           headerShown: false,

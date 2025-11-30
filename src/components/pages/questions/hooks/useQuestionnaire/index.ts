@@ -11,11 +11,14 @@ import { useProperty } from "@/src/components/pages/questions/hooks/useProperty/
 import { useWaterIndicator } from "@/src/components/pages/questions/hooks/useWaterIndicator";
 import { useWaterQualityConservation } from "@/src/components/pages/questions/hooks/useWaterQualityConservation";
 import { useWasteManagement } from "@/src/components/pages/questions/hooks/useWasteManagement";
+import { useNetworkStatus } from "@/src/hooks/useNetworkStatus";
+import { OfflineSyncService } from "@/src/services/offline/OfflineSyncService";
 
 export const useQuestionnaire = (): QuestionnaireState &
   QuestionnaireActions => {
   // Hooks
   const { t } = useTranslation();
+  const { isOnline } = useNetworkStatus();
   const { createProperty, isLoading: isCreatingProperty } = useProperty();
   const { createWaterIndicator, isLoading: isCreatingWaterIndicator } =
     useWaterIndicator();
@@ -66,6 +69,13 @@ export const useQuestionnaire = (): QuestionnaireState &
     }
   }, [answer2, answer14, answer22]);
 
+  // Salva as respostas no AsyncStorage sempre que mudarem (para modo offline)
+  useEffect(() => {
+    if (Object.keys(answers).length > 0) {
+      OfflineSyncService.saveOfflineAnswers(answers);
+    }
+  }, [answers]);
+
   const handleSelect = useCallback(
     (id: string | number, value: number | null) => {
       setAnswers((prev) => ({ ...prev, [id]: value }));
@@ -98,9 +108,29 @@ export const useQuestionnaire = (): QuestionnaireState &
         }
 
         try {
-          const response = await createProperty(formData);
-          if (response?.property?.id) {
-            setPropertyId(response.property.id);
+          if (isOnline) {
+            // Modo Online: Cria a propriedade normalmente
+            const response = await createProperty(formData);
+            if (response?.property?.id) {
+              setPropertyId(response.property.id);
+              await OfflineSyncService.saveOfflinePropertyId(
+                response.property.id,
+              );
+            }
+          } else {
+            // Modo Offline: Salva os dados localmente e gera ID temporário
+            await OfflineSyncService.saveOfflineProperty(formData);
+            const tempId = OfflineSyncService.generateTempPropertyId();
+            setPropertyId(tempId);
+            await OfflineSyncService.saveOfflinePropertyId(tempId);
+
+            Toast.show({
+              type: "info",
+              text1: "Modo Offline",
+              text2:
+                "Dados salvos localmente. Serão sincronizados quando houver conexão.",
+              visibilityTime: 5000,
+            });
           }
           setStep((prev) => prev + 1);
         } catch (error) {
@@ -164,23 +194,34 @@ export const useQuestionnaire = (): QuestionnaireState &
             return;
           }
 
-          try {
-            const response = await createWaterIndicator(answers, propertyId);
-            const score = response?.data?.finalScore?.toFixed(2) || "N/A";
-
+          // Se estiver offline ou com ID temporário, apenas avança
+          if (!isOnline || OfflineSyncService.isTempPropertyId(propertyId)) {
             Toast.show({
-              type: "score",
-              text1: t("questionnaire.questions.toasts.scoreTitle", {
-                groupName: translatedGroupName,
-              }),
-              text2: `${score}`,
-              position: "bottom",
-              visibilityTime: 5000,
-              bottomOffset: 200,
+              type: "info",
+              text1: "Modo Offline",
+              text2: "Respostas salvas. Aguarde conexão para ver a pontuação.",
+              visibilityTime: 3000,
             });
-          } catch (error) {
-            console.error("Erro ao criar Water Indicator:", error);
-            return;
+          } else {
+            // Modo Online: Envia normalmente
+            try {
+              const response = await createWaterIndicator(answers, propertyId);
+              const score = response?.data?.finalScore?.toFixed(2) || "N/A";
+
+              Toast.show({
+                type: "score",
+                text1: t("questionnaire.questions.toasts.scoreTitle", {
+                  groupName: translatedGroupName,
+                }),
+                text2: `${score}`,
+                position: "bottom",
+                visibilityTime: 5000,
+                bottomOffset: 200,
+              });
+            } catch (error) {
+              console.error("Erro ao criar Water Indicator:", error);
+              return;
+            }
           }
         }
 
@@ -196,26 +237,37 @@ export const useQuestionnaire = (): QuestionnaireState &
             return;
           }
 
-          try {
-            const response = await createWaterQualityConservation(
-              answers,
-              propertyId,
-            );
-            const score = response?.data?.finalScore?.toFixed(2) || "N/A";
-
+          // Se estiver offline ou com ID temporário, apenas avança
+          if (!isOnline || OfflineSyncService.isTempPropertyId(propertyId)) {
             Toast.show({
-              type: "score",
-              text1: t("questionnaire.questions.toasts.scoreTitle", {
-                groupName: translatedGroupName,
-              }),
-              text2: `${score}`,
-              position: "bottom",
-              visibilityTime: 5000,
-              bottomOffset: 200,
+              type: "info",
+              text1: "Modo Offline",
+              text2: "Respostas salvas. Aguarde conexão para ver a pontuação.",
+              visibilityTime: 3000,
             });
-          } catch (error) {
-            console.error("Erro ao criar Water Quality Conservation:", error);
-            return;
+          } else {
+            // Modo Online: Envia normalmente
+            try {
+              const response = await createWaterQualityConservation(
+                answers,
+                propertyId,
+              );
+              const score = response?.data?.finalScore?.toFixed(2) || "N/A";
+
+              Toast.show({
+                type: "score",
+                text1: t("questionnaire.questions.toasts.scoreTitle", {
+                  groupName: translatedGroupName,
+                }),
+                text2: `${score}`,
+                position: "bottom",
+                visibilityTime: 5000,
+                bottomOffset: 200,
+              });
+            } catch (error) {
+              console.error("Erro ao criar Water Quality Conservation:", error);
+              return;
+            }
           }
         }
       }
@@ -243,30 +295,49 @@ export const useQuestionnaire = (): QuestionnaireState &
         return;
       }
 
-      try {
-        const response = await createWasteManagement(answers, propertyId);
-        const score = response?.data?.finalScore?.toFixed(2) || "N/A";
+      // Se estiver offline ou com ID temporário
+      if (!isOnline || OfflineSyncService.isTempPropertyId(propertyId)) {
+        await OfflineSyncService.setPendingSync(true, true, propertyId);
 
         Toast.show({
-          type: "score",
-          text1: t("questionnaire.questions.toasts.scoreTitle", {
-            groupName: translatedGroupName,
-          }),
-          text2: `${score}`,
-          position: "bottom",
+          type: "success",
+          text1: "Formulário Completo",
+          text2:
+            "Dados salvos offline. Serão sincronizados quando houver conexão.",
           visibilityTime: 5000,
-          bottomOffset: 200,
         });
 
+        // Redireciona para home ou tela de aguardando sincronização
         setTimeout(() => {
-          router.push({
-            pathname: "/result",
-            params: { propertyId: propertyId },
+          router.push("/(protected)/(tabs)/(home)");
+        }, 3000);
+      } else {
+        // Modo Online: Envia normalmente
+        try {
+          const response = await createWasteManagement(answers, propertyId);
+          const score = response?.data?.finalScore?.toFixed(2) || "N/A";
+
+          Toast.show({
+            type: "score",
+            text1: t("questionnaire.questions.toasts.scoreTitle", {
+              groupName: translatedGroupName,
+            }),
+            text2: `${score}`,
+            position: "bottom",
+            visibilityTime: 5000,
+            bottomOffset: 200,
           });
-        }, 5000);
-      } catch (error) {
-        console.error("Erro ao criar Waste Management:", error);
-        return;
+
+          setTimeout(() => {
+            router.push({
+              pathname: "/result",
+              params: { propertyId: propertyId },
+            });
+          }, 5000);
+        } catch (error) {
+          console.error("Erro ao criar Waste Management:", error);
+          return;
+        }
       }
     }
   }, [
@@ -281,6 +352,7 @@ export const useQuestionnaire = (): QuestionnaireState &
     createWaterQualityConservation,
     createWasteManagement,
     propertyId,
+    isOnline,
   ]);
 
   const handlePrevious = useCallback(() => {

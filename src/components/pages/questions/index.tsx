@@ -15,6 +15,11 @@ import { QuestionGroup } from "./components/QuestionGroup";
 import { NavigationButtons } from "./components/NavigationButtons";
 import { FormularioQuestionario } from "./components/QuestionsCaracterizacao";
 import { LogoutButton } from "../../commons/LogoutButton";
+import { NetworkStatusBanner } from "../../commons/NetworkStatusBanner";
+
+// Hooks
+import { useNetworkStatus } from "@/src/hooks/useNetworkStatus";
+import { useOfflineSync } from "@/src/hooks/useOfflineSync";
 
 // Mock Data
 import { questions } from "@/src/mock/questions";
@@ -76,6 +81,8 @@ export default function AllQuestionsScore() {
 const QuestionnaireContentWrapper: React.FC = () => {
   const { t } = useTranslation();
   const { scrollRef, step } = useQuestionnaireContext();
+  const { isOffline } = useNetworkStatus();
+  const { isSyncing } = useOfflineSync();
 
   useEffect(() => {
     requestAnimationFrame(() => {
@@ -84,23 +91,27 @@ const QuestionnaireContentWrapper: React.FC = () => {
   }, [step, scrollRef]);
 
   return (
-    <ScrollView
-      ref={scrollRef}
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={{ paddingHorizontal: 20 }}
-      style={{ backgroundColor: "#ffffff" }}
-    >
-      <View style={stylesQuestionsPage.containerInfo}>
-        <Text style={stylesQuestionsPage.textHeader}>
-          {t("questionnaire.title")}
-        </Text>
-        <Text style={stylesQuestionsPage.textSubHeader}>
-          {t("questionnaire.subtitle")}
-        </Text>
-        <LogoutButton />
-      </View>
-      
-      <QuestionnaireContent />
-    </ScrollView>
+    <View style={{ flex: 1, backgroundColor: "#ffffff" }}>
+      <NetworkStatusBanner isOffline={isOffline} isSyncing={isSyncing} />
+
+      <ScrollView
+        ref={scrollRef}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingHorizontal: 20 }}
+        style={{ backgroundColor: "#ffffff" }}
+      >
+        <View style={stylesQuestionsPage.containerInfo}>
+          <Text style={stylesQuestionsPage.textHeader}>
+            {t("questionnaire.title")}
+          </Text>
+          <Text style={stylesQuestionsPage.textSubHeader}>
+            {t("questionnaire.subtitle")}
+          </Text>
+          <LogoutButton />
+        </View>
+
+        <QuestionnaireContent />
+      </ScrollView>
+    </View>
   );
 };

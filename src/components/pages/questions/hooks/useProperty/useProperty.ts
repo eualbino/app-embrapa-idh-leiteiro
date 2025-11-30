@@ -6,10 +6,13 @@ import {
 import { FormData } from "@/src/components/pages/questions/components/QuestionsCaracterizacao/types";
 import Toast from "react-native-toast-message";
 import { useTranslation } from "react-i18next";
+import { useNetworkStatus } from "@/src/hooks/useNetworkStatus";
+import { OfflineSyncService } from "@/src/services/offline/OfflineSyncService";
 
 export const useProperty = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation();
+  const { isOnline } = useNetworkStatus();
 
   const mapFormDataToPropertyRequest = (
     formData: FormData,
@@ -92,6 +95,29 @@ export const useProperty = () => {
   const createProperty = async (formData: FormData) => {
     setIsLoading(true);
     try {
+      // Verifica se está online
+      if (!isOnline) {
+        // Modo Offline: Salva os dados localmente
+        await OfflineSyncService.saveOfflineProperty(formData);
+        const tempId = OfflineSyncService.generateTempPropertyId();
+
+        Toast.show({
+          type: "info",
+          text1: t("common.offline"),
+          text2:
+            "Dados salvos localmente. Serão sincronizados quando houver conexão.",
+          visibilityTime: 4000,
+        });
+
+        // Retorna um objeto simulado com o ID temporário
+        return {
+          property: {
+            id: tempId,
+          },
+        };
+      }
+
+      // Modo Online: Cria a propriedade normalmente
       const propertyData = mapFormDataToPropertyRequest(formData);
       const response = await PropertyService.createProperty(propertyData);
 

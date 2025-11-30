@@ -111,13 +111,7 @@ export default function History() {
           ) : (
             <View style={styles.propertiesList}>
               {properties.map((property) => (
-                <PropertyHistoryCard
-                  key={property.id}
-                  property={property}
-                  onPress={() => {
-                    console.log("Navegar para propriedade:", property.id);
-                  }}
-                />
+                <PropertyHistoryCard key={property.id} property={property} />
               ))}
             </View>
           )}

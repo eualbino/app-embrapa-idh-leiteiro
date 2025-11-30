@@ -561,6 +561,96 @@ export default {
     result: {
       title: "Seu Score Total Foi",
       improvementSuggestions: "Sugestões de Melhorias",
+      improvementSubtitle:
+        "Para atingir a nota mínima, recomendamos as seguintes melhorias:",
+      categoryWaterQuantity: "Quantidade de Água",
+      categoryWaterQuality: "Qualidade da Água",
+      categoryWasteManagement: "Manejo de Resíduos",
+      approved: "Aprovado",
+      needsImprovement: "Precisa Melhorar",
+      minimumScore: "Mínimo",
+      congratulations: "Parabéns!",
+      congratulationsMessage:
+        "Sua propriedade atingiu todas as notas mínimas necessárias. Continue mantendo as boas práticas de sustentabilidade!",
+      loadingResults: "Carregando resultados...",
+      errorLoadingTitle: "Erro ao carregar resultados",
+      errorLoadingMessage: "Não foi possível carregar os dados da performance",
+      detailedScores: "Pontuações Detalhadas",
+      idhWater: "IDH Água",
+      didNotReachMinimum: "Não atingiu a nota mínima",
+      improvements: {
+        waterManagement: {
+          waterConsumption: {
+            title: "Mesoindicador Consumo de Água",
+            subtitle: "Para se obter a nota mínima é necessário:",
+            items: [
+              "Ter o mapa hidráulico da propriedade",
+              "Medir o consumo de água de no mínimo 25% dos pontos de consumo com periodicidade mensal",
+            ],
+          },
+          waterLosses: {
+            title: "Mesoindicador Perdas de Água",
+            subtitle: "Para se obter a nota mínima é necessário:",
+            items: [
+              "Ter controle de vazão nas mangueiras de lavagem",
+              "Boias de nível instaladas nos bebedouros e nas estruturas de armazenamentos de água",
+              "Verificar com periodicidade semanal a ocorrência de vazamentos",
+            ],
+          },
+          waterSecurity: {
+            title: "Mesoindicador Segurança Hídrica",
+            subtitle: "Para se obter a nota mínima é necessário:",
+            items: ["Ter alguma forma de reuso da água e/ou efluente"],
+          },
+        },
+        waterQuality: {
+          waterAnalysis: {
+            title: "Mesoindicador Análise de Água",
+            subtitle: "Para se obter a nota mínima é necessário:",
+            items: [
+              "Realizar a análise de água uma vez ao ano",
+              "Analisar a qualidade da água em no mínimo 25% dos pontos de consumo",
+              "Realizar a análise de Escherichia coli",
+            ],
+          },
+          waterConservation: {
+            title: "Mesoindicador Conservação da Água",
+            subtitle: "Para se obter a nota mínima é necessário:",
+            items: [
+              "Os animais não podem ter acesso a cursos de água naturais (rios, nascentes, lagoas, etc.)",
+              "Toda água é servida aos animais por bebedouros",
+              "Bebedouros limpos no mínimo duas vezes por semana",
+            ],
+          },
+        },
+        wasteManagement: {
+          wasteStructure: {
+            title: "Mesoindicador Estrutura para os dejetos",
+            subtitle: "Para se obter a nota mínima é necessário:",
+            items: [
+              "Estrutura de tratamento de resíduos impermeabilizada e sem vazamentos",
+            ],
+          },
+          wasteHandling: {
+            title: "Mesoindicador Manejo de dejetos",
+            subtitle: "Para se obter a nota mínima é necessário:",
+            items: [
+              "Não lavar o piso da ordenha após todas as ordenhas",
+              "Antes da lavagem se faz a raspagem do esterco",
+              "Lavagem é feita com água com pressão",
+            ],
+          },
+          fertilization: {
+            title: "Mesoindicador Adubação",
+            subtitle: "Para se obter a nota mínima é necessário:",
+            items: [
+              "Documenta todo o uso de fertilizantes químicos e orgânicos",
+              "Realiza a análise de solo das áreas no mínimo a cada dois anos",
+              "Fazer a aplicação do dejeto a cada quatro meses ou mais e de forma superficial",
+            ],
+          },
+        },
+      },
       suggestions: {
         water_monitoring:
           "Implemente um sistema de monitoramento contínuo do consumo de água com hidrômetros em todos os pontos críticos da propriedade.",
@@ -589,6 +679,8 @@ export default {
       propertiesHistory: "Histórico de Propriedades",
       pullToRefresh: "Puxe para baixo para tentar novamente",
       emptyMessage: "Preencha o questionário para visualizar seu histórico",
+      tapToViewDetails: "Toque para ver os detalhes",
+      viewingResults: "Visualizando resultados",
     },
   },
 };

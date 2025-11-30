@@ -561,6 +561,98 @@ export default {
     result: {
       title: "Su puntuación total fue:",
       improvementSuggestions: "Sugerencias de Mejora",
+      improvementSubtitle:
+        "Para alcanzar la puntuación mínima, recomendamos las siguientes mejoras:",
+      categoryWaterQuantity: "Cantidad de Agua",
+      categoryWaterQuality: "Calidad del Agua",
+      categoryWasteManagement: "Gestión de Residuos",
+      approved: "Aprobado",
+      needsImprovement: "Necesita Mejora",
+      minimumScore: "Mínimo",
+      congratulations: "¡Felicitaciones!",
+      congratulationsMessage:
+        "Su propiedad ha alcanzado todas las puntuaciones mínimas necesarias. ¡Continúe manteniendo buenas prácticas de sostenibilidad!",
+      loadingResults: "Cargando resultados...",
+      errorLoadingTitle: "Error al cargar resultados",
+      errorLoadingMessage: "No se pudieron cargar los datos de rendimiento",
+      detailedScores: "Puntuaciones Detalladas",
+      idhWater: "IDH Agua",
+      didNotReachMinimum: "No alcanzó la puntuación mínima",
+      improvements: {
+        waterManagement: {
+          waterConsumption: {
+            title: "Mesoindicador Consumo de Agua",
+            subtitle: "Para obtener la puntuación mínima es necesario:",
+            items: [
+              "Tener el mapa hidráulico de la propiedad",
+              "Medir el consumo de agua de al menos el 25% de los puntos de consumo con periodicidad mensual",
+            ],
+          },
+          waterLosses: {
+            title: "Mesoindicador Pérdidas de Agua",
+            subtitle: "Para obtener la puntuación mínima es necesario:",
+            items: [
+              "Tener control de flujo en las mangueras de lavado",
+              "Boyas de nivel instaladas en los bebederos y en las estructuras de almacenamiento de agua",
+              "Verificar con periodicidad semanal la ocurrencia de fugas",
+            ],
+          },
+          waterSecurity: {
+            title: "Mesoindicador Seguridad Hídrica",
+            subtitle: "Para obtener la puntuación mínima es necesario:",
+            items: [
+              "Tener alguna forma de reutilización del agua y/o efluente",
+            ],
+          },
+        },
+        waterQuality: {
+          waterAnalysis: {
+            title: "Mesoindicador Análisis de Agua",
+            subtitle: "Para obtener la puntuación mínima es necesario:",
+            items: [
+              "Realizar el análisis de agua una vez al año",
+              "Analizar la calidad del agua en al menos el 25% de los puntos de consumo",
+              "Realizar el análisis de Escherichia coli",
+            ],
+          },
+          waterConservation: {
+            title: "Mesoindicador Conservación del Agua",
+            subtitle: "Para obtener la puntuación mínima es necesario:",
+            items: [
+              "Los animales no pueden tener acceso a cursos de agua naturales (ríos, nacientes, lagunas, etc.)",
+              "Toda el agua es servida a los animales por bebederos",
+              "Bebederos limpios al menos dos veces por semana",
+            ],
+          },
+        },
+        wasteManagement: {
+          wasteStructure: {
+            title: "Mesoindicador Estructura para los desechos",
+            subtitle: "Para obtener la puntuación mínima es necesario:",
+            items: [
+              "Estructura de tratamiento de residuos impermeabilizada y sin fugas",
+            ],
+          },
+          wasteHandling: {
+            title: "Mesoindicador Manejo de desechos",
+            subtitle: "Para obtener la puntuación mínima es necesario:",
+            items: [
+              "No lavar el piso de la sala de ordeño después de cada ordeño",
+              "Antes del lavado se hace el raspado del estiércol",
+              "El lavado se realiza con agua a presión",
+            ],
+          },
+          fertilization: {
+            title: "Mesoindicador Fertilización",
+            subtitle: "Para obtener la puntuación mínima es necesario:",
+            items: [
+              "Documentar todo el uso de fertilizantes químicos y orgánicos",
+              "Realizar el análisis de suelo de las áreas al menos cada dos años",
+              "Hacer la aplicación del estiércol cada cuatro meses o más y de forma superficial",
+            ],
+          },
+        },
+      },
       suggestions: {
         water_monitoring:
           "Implemente un sistema de monitoreo continuo del consumo de agua con medidores en todos los puntos críticos de la propiedad.",
@@ -589,6 +681,8 @@ export default {
       propertiesHistory: "Historial de Propiedades",
       pullToRefresh: "Deslice hacia abajo para intentar nuevamente",
       emptyMessage: "Complete el cuestionario para ver su historial",
+      tapToViewDetails: "Toque para ver los detalles",
+      viewingResults: "Visualizando resultados",
     },
   },
 };

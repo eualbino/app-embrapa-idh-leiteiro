@@ -555,6 +555,94 @@ export default {
     result: {
       title: "Your total score was:",
       improvementSuggestions: "Improvement Suggestions",
+      improvementSubtitle:
+        "To reach the minimum score, we recommend the following improvements:",
+      categoryWaterQuantity: "Water Quantity",
+      categoryWaterQuality: "Water Quality",
+      categoryWasteManagement: "Waste Management",
+      approved: "Approved",
+      needsImprovement: "Needs Improvement",
+      minimumScore: "Minimum",
+      congratulations: "Congratulations!",
+      congratulationsMessage:
+        "Your property has achieved all the necessary minimum scores. Keep maintaining good sustainability practices!",
+      loadingResults: "Loading results...",
+      errorLoadingTitle: "Error loading results",
+      errorLoadingMessage: "Unable to load performance data",
+      detailedScores: "Detailed Scores",
+      idhWater: "Water HDI",
+      didNotReachMinimum: "Did not reach the minimum score",
+      improvements: {
+        waterManagement: {
+          waterConsumption: {
+            title: "Water Consumption Meso-indicator",
+            subtitle: "To obtain the minimum score, it is necessary to:",
+            items: [
+              "Have the property's hydraulic map",
+              "Measure water consumption at a minimum of 25% of consumption points on a monthly basis",
+            ],
+          },
+          waterLosses: {
+            title: "Water Losses Meso-indicator",
+            subtitle: "To obtain the minimum score, it is necessary to:",
+            items: [
+              "Have flow control on washing hoses",
+              "Level floats installed in drinkers and water storage structures",
+              "Check for leaks on a weekly basis",
+            ],
+          },
+          waterSecurity: {
+            title: "Water Security Meso-indicator",
+            subtitle: "To obtain the minimum score, it is necessary to:",
+            items: ["Have some form of water and/or effluent reuse"],
+          },
+        },
+        waterQuality: {
+          waterAnalysis: {
+            title: "Water Analysis Meso-indicator",
+            subtitle: "To obtain the minimum score, it is necessary to:",
+            items: [
+              "Perform water analysis once a year",
+              "Analyze water quality at a minimum of 25% of consumption points",
+              "Perform Escherichia coli analysis",
+            ],
+          },
+          waterConservation: {
+            title: "Water Conservation Meso-indicator",
+            subtitle: "To obtain the minimum score, it is necessary to:",
+            items: [
+              "Animals cannot have access to natural water courses (rivers, springs, ponds, etc.)",
+              "All water is served to animals through drinkers",
+              "Drinkers cleaned at least twice a week",
+            ],
+          },
+        },
+        wasteManagement: {
+          wasteStructure: {
+            title: "Waste Structure Meso-indicator",
+            subtitle: "To obtain the minimum score, it is necessary to:",
+            items: ["Waterproofed waste treatment structure without leaks"],
+          },
+          wasteHandling: {
+            title: "Waste Handling Meso-indicator",
+            subtitle: "To obtain the minimum score, it is necessary to:",
+            items: [
+              "Do not wash the milking parlor floor after every milking",
+              "Scrape manure before washing",
+              "Washing is done with pressurized water",
+            ],
+          },
+          fertilization: {
+            title: "Fertilization Meso-indicator",
+            subtitle: "To obtain the minimum score, it is necessary to:",
+            items: [
+              "Document all use of chemical and organic fertilizers",
+              "Perform soil analysis of areas at least every two years",
+              "Apply manure every four months or more and superficially",
+            ],
+          },
+        },
+      },
       suggestions: {
         water_monitoring:
           "Implement a continuous water consumption monitoring system with water meters at all critical points of the property.",
@@ -583,6 +671,8 @@ export default {
       propertiesHistory: "Properties History",
       pullToRefresh: "Pull down to try again",
       emptyMessage: "Fill out the questionnaire to view your history",
+      tapToViewDetails: "Tap to view details",
+      viewingResults: "Viewing results",
     },
   },
 };

@@ -259,7 +259,10 @@ export const useQuestionnaire = (): QuestionnaireState &
         });
 
         setTimeout(() => {
-          router.push("/result");
+          router.push({
+            pathname: "/result",
+            params: { propertyId: propertyId },
+          });
         }, 5000);
       } catch (error) {
         console.error("Erro ao criar Waste Management:", error);

@@ -1,23 +1,35 @@
-// External Libraries
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-
-// Config
+import { useRouter } from "expo-router";
 import { theme } from "@/src/config";
-
-// Types
 import { PropertySummary } from "@/src/services/api/user";
 
 interface PropertyHistoryCardProps {
   property: PropertySummary;
-  onPress?: () => void;
 }
 
 export const PropertyHistoryCard: React.FC<PropertyHistoryCardProps> = ({
   property,
-  onPress,
 }) => {
+  const router = useRouter();
+  const [isPressed, setIsPressed] = useState(false);
+
+  const handlePress = () => {
+    router.push({
+      pathname: "/result",
+      params: { propertyId: property.id },
+    });
+  };
+
+  const handlePressIn = () => {
+    setIsPressed(true);
+  };
+
+  const handlePressOut = () => {
+    setIsPressed(false);
+  };
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("pt-BR", {
@@ -57,113 +69,120 @@ export const PropertyHistoryCard: React.FC<PropertyHistoryCardProps> = ({
   };
 
   return (
-    <TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.7}>
-      <View style={styles.header}>
-        <View style={styles.locationContainer}>
-          <Ionicons
-            name="location-outline"
-            size={18}
-            color={theme.colors.primary.default}
-          />
-          <Text style={styles.location}>
-            {property.city}, {property.country}
-          </Text>
+    <TouchableOpacity
+      style={[styles.card, isPressed && styles.cardPressed]}
+      onPress={handlePress}
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}
+      activeOpacity={0.95}
+    >
+      <View style={styles.cardContent}>
+        <View style={styles.header}>
+          <View style={styles.locationContainer}>
+            <Ionicons
+              name="location-outline"
+              size={18}
+              color={theme.colors.primary.default}
+            />
+            <Text style={styles.location}>
+              {property.city}, {property.country}
+            </Text>
+          </View>
+          <View style={styles.headerRight}>
+            <Text style={styles.date}>{formatDate(property.createdAt)}</Text>
+            <Ionicons
+              name="chevron-forward"
+              size={20}
+              color={theme.colors.text.secondary}
+            />
+          </View>
         </View>
-        <Text style={styles.date}>{formatDate(property.createdAt)}</Text>
-      </View>
 
-      <View style={styles.infoRow}>
-        <Text style={styles.label}>Sistema:</Text>
-        <Text style={styles.value}>
-          {getProductionSystemLabel(property.productionSystem)}
-        </Text>
-      </View>
-
-      <View style={styles.infoRow}>
-        <Text style={styles.label}>Área Total:</Text>
-        <Text style={styles.value}>{property.totalAreaHa} ha</Text>
-      </View>
-
-      <View style={styles.divider} />
-
-      <Text style={styles.scoresTitle}>Pontuações:</Text>
-
-      <View style={styles.scoresContainer}>
-        <View style={styles.scoreItem}>
-          <Text style={styles.scoreLabel}>Quantidade de Água</Text>
-          <Text
-            style={[
-              styles.scoreValue,
-              {
-                color: getScoreColor(
-                  property.waterManagementScore,
-                  MINIMUM_SCORES.waterManagement,
-                ),
-              },
-            ]}
-          >
-            {formatScore(property.waterManagementScore)}
+        <View style={styles.infoRow}>
+          <Text style={styles.label}>Sistema:</Text>
+          <Text style={styles.value}>
+            {getProductionSystemLabel(property.productionSystem)}
           </Text>
         </View>
 
-        <View style={styles.scoreItem}>
-          <Text style={styles.scoreLabel}>Qualidade da Água</Text>
-          <Text
-            style={[
-              styles.scoreValue,
-              {
-                color: getScoreColor(
-                  property.waterQualityConservationScore,
-                  MINIMUM_SCORES.waterQuality,
-                ),
-              },
-            ]}
-          >
-            {formatScore(property.waterQualityConservationScore)}
-          </Text>
+        <View style={styles.infoRow}>
+          <Text style={styles.label}>Área Total:</Text>
+          <Text style={styles.value}>{property.totalAreaHa} ha</Text>
         </View>
 
-        <View style={styles.scoreItem}>
-          <Text style={styles.scoreLabel}>Manejo de Resíduos</Text>
-          <Text
-            style={[
-              styles.scoreValue,
-              {
-                color: getScoreColor(
-                  property.wasteManagementScore,
-                  MINIMUM_SCORES.wasteManagement,
-                ),
-              },
-            ]}
-          >
-            {formatScore(property.wasteManagementScore)}
-          </Text>
-        </View>
+        <View style={styles.divider} />
 
-        <View style={styles.scoreItem}>
-          <Text style={styles.scoreLabel}>IDH Água</Text>
-          <Text
-            style={[
-              styles.scoreValueLarge,
-              {
-                color: getScoreColor(
-                  property.waterPerformanceIndexScore,
-                  MINIMUM_SCORES.waterPerformanceIndex,
-                ),
-              },
-            ]}
-          >
-            {formatScore(property.waterPerformanceIndexScore)}
-          </Text>
-        </View>
-      </View>
+        <Text style={styles.scoresTitle}>Pontuações:</Text>
 
-      <View style={styles.footer}>
-        <Ionicons
-          name="chevron-forward"
-          size={20}
-          color={theme.colors.primary.default}
-        />
+        <View style={styles.scoresContainer}>
+          <View style={styles.scoreItem}>
+            <Text style={styles.scoreLabel}>Quantidade de Água</Text>
+            <Text
+              style={[
+                styles.scoreValue,
+                {
+                  color: getScoreColor(
+                    property.waterManagementScore,
+                    MINIMUM_SCORES.waterManagement,
+                  ),
+                },
+              ]}
+            >
+              {formatScore(property.waterManagementScore)}
+            </Text>
+          </View>
+
+          <View style={styles.scoreItem}>
+            <Text style={styles.scoreLabel}>Qualidade da Água</Text>
+            <Text
+              style={[
+                styles.scoreValue,
+                {
+                  color: getScoreColor(
+                    property.waterQualityConservationScore,
+                    MINIMUM_SCORES.waterQuality,
+                  ),
+                },
+              ]}
+            >
+              {formatScore(property.waterQualityConservationScore)}
+            </Text>
+          </View>
+
+          <View style={styles.scoreItem}>
+            <Text style={styles.scoreLabel}>Manejo de Resíduos</Text>
+            <Text
+              style={[
+                styles.scoreValue,
+                {
+                  color: getScoreColor(
+                    property.wasteManagementScore,
+                    MINIMUM_SCORES.wasteManagement,
+                  ),
+                },
+              ]}
+            >
+              {formatScore(property.wasteManagementScore)}
+            </Text>
+          </View>
+
+          <View style={styles.scoreItem}>
+            <Text style={styles.scoreLabel}>IDH Água</Text>
+            <Text
+              style={[
+                styles.scoreValueLarge,
+                {
+                  color: getScoreColor(
+                    property.waterPerformanceIndexScore,
+                    MINIMUM_SCORES.waterPerformanceIndex,
+                  ),
+                },
+              ]}
+            >
+              {formatScore(property.waterPerformanceIndexScore)}
+            </Text>
+          </View>
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -185,12 +204,26 @@ const styles = StyleSheet.create({
     elevation: 3,
     borderWidth: 1,
     borderColor: "#E5E5E5",
+    transform: [{ scale: 1 }],
+  },
+  cardPressed: {
+    backgroundColor: "#F9FAFB",
+    borderColor: theme.colors.primary.default,
+    transform: [{ scale: 0.98 }],
+  },
+  cardContent: {
+    flex: 1,
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
+    alignItems: "flex-start",
     marginBottom: 12,
+  },
+  headerRight: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
   },
   locationContainer: {
     flexDirection: "row",
@@ -253,9 +286,5 @@ const styles = StyleSheet.create({
   scoreValueLarge: {
     fontSize: 20,
     fontWeight: "700",
-  },
-  footer: {
-    alignItems: "flex-end",
-    marginTop: 8,
   },
 });

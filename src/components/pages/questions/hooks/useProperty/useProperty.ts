@@ -115,7 +115,6 @@ export const useProperty = () => {
       }
 
       const propertyData = mapFormDataToPropertyRequest(formData);
-      console.log("Property: ", propertyData)
       const response = await PropertyService.createProperty(propertyData);
 
       Toast.show({

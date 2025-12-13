@@ -140,8 +140,7 @@ export function useForgotPassword() {
         text1: "Erro",
         text2: errorMessage,
       });
-
-      // Se token expirou, limpar e redirecionar
+      
       if (status === 401) {
         await SecureStore.deleteItemAsync(RESET_TOKEN_KEY);
         await AsyncStorage.removeItem(RESET_EMAIL_KEY);

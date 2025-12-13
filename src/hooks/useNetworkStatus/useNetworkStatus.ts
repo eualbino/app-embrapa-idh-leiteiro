@@ -18,7 +18,6 @@ export const useNetworkStatus = () => {
   const [justReconnected, setJustReconnected] = useState<boolean>(false);
 
   useEffect(() => {
-    // Verifica o estado inicial da conexão
     const checkInitialConnection = async () => {
       const state = await NetInfo.fetch();
       const isConnected = state.isConnected ?? false;
@@ -34,7 +33,6 @@ export const useNetworkStatus = () => {
 
     checkInitialConnection();
 
-    // Monitora mudanças na conexão
     const unsubscribe = NetInfo.addEventListener((state) => {
       const isConnected = state.isConnected ?? false;
       const isInternetReachable = state.isInternetReachable ?? null;
@@ -46,12 +44,10 @@ export const useNetworkStatus = () => {
         type: state.type,
       });
 
-      // Detecta reconexão (estava offline e agora está online)
       if (!previousConnection && hasConnection) {
         setJustReconnected(true);
         console.log("🌐 Dispositivo reconectado à internet!");
 
-        // Reseta o flag após 5 segundos
         setTimeout(() => {
           setJustReconnected(false);
         }, 5000);

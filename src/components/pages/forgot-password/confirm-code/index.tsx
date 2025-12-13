@@ -69,7 +69,7 @@ export default function ConfirmCodeForgotPassword() {
   };
 
   return (
-    <View style={{ width: "100%" }}>
+    <View style={styles.container}>
       <View style={styles.card}>
         <Text style={styles.title}>{t("forgotPassword.confirmCodeTitle")}</Text>
 

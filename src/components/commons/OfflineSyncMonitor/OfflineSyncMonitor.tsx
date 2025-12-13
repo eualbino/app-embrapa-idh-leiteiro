@@ -12,8 +12,6 @@ export const OfflineSyncMonitor: React.FC = () => {
     useOfflineSync();
 
   useEffect(() => {
-    // Quando o componente monta, verifica se há dados pendentes
-    // e tenta sincronizar se estiver online
     if (isOnline && hasPendingData && !isSyncing) {
       console.log(
         "🔄 OfflineSyncMonitor: Tentando sincronizar dados pendentes...",
@@ -22,7 +20,6 @@ export const OfflineSyncMonitor: React.FC = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOnline, hasPendingData, isSyncing]);
-
-  // Este é um componente invisível que apenas monitora e sincroniza
+  
   return null;
 };

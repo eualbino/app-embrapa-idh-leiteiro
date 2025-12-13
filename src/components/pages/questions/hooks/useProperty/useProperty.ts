@@ -95,9 +95,7 @@ export const useProperty = () => {
   const createProperty = async (formData: FormData) => {
     setIsLoading(true);
     try {
-      // Verifica se está online
       if (!isOnline) {
-        // Modo Offline: Salva os dados localmente
         await OfflineSyncService.saveOfflineProperty(formData);
         const tempId = OfflineSyncService.generateTempPropertyId();
 
@@ -109,7 +107,6 @@ export const useProperty = () => {
           visibilityTime: 4000,
         });
 
-        // Retorna um objeto simulado com o ID temporário
         return {
           property: {
             id: tempId,
@@ -117,8 +114,8 @@ export const useProperty = () => {
         };
       }
 
-      // Modo Online: Cria a propriedade normalmente
       const propertyData = mapFormDataToPropertyRequest(formData);
+      console.log("Property: ", propertyData)
       const response = await PropertyService.createProperty(propertyData);
 
       Toast.show({

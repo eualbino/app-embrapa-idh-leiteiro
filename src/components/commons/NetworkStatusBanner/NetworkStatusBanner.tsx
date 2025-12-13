@@ -34,8 +34,8 @@ export const NetworkStatusBanner: React.FC<NetworkStatusBannerProps> = ({
   }
 
   const backgroundColor = isSyncing
-    ? "#3b82f6" // Azul para sincronizando
-    : "#ef4444"; // Vermelho para offline
+    ? "#3b82f6"
+    : "#ef4444";
 
   const icon = isSyncing ? "cloud-upload-outline" : "cloud-offline-outline";
   const text = isSyncing

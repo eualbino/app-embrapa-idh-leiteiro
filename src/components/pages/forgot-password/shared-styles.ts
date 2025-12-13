@@ -6,7 +6,16 @@ import { theme } from "@/src/config";
  * (send-email, confirm-code, reset-password)
  */
 export const sharedStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+  },
+
   card: {
+    width: "100%",
+    maxWidth: 500,
     borderRadius: theme.components.container.default.borderRadius,
     padding: theme.components.container.default.padding,
     backgroundColor: theme.components.container.default.backgroundColor,
@@ -16,7 +25,7 @@ export const sharedStyles = StyleSheet.create({
     shadowRadius: 15,
     elevation: 5,
   },
-  
+
   title: {
     fontSize: theme.typography.sizes.xxl,
     fontWeight: theme.typography.weights.bold,
@@ -24,7 +33,7 @@ export const sharedStyles = StyleSheet.create({
     marginBottom: theme.spacing.md,
     textAlign: "center",
   },
-  
+
   description: {
     fontSize: theme.typography.sizes.sm,
     fontWeight: theme.typography.weights.medium,
@@ -33,11 +42,11 @@ export const sharedStyles = StyleSheet.create({
     textAlign: "center",
     lineHeight: 20,
   },
-  
+
   inputContainer: {
     marginBottom: theme.spacing.md,
   },
-  
+
   buttonContainer: {
     marginTop: theme.spacing.md,
   },

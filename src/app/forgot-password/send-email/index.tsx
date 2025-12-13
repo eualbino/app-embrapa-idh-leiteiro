@@ -6,7 +6,13 @@ import SendEmailForgotPassword from "@/src/components/pages/forgot-password/send
 
 export default function ForgotPasswordPage() {
   return (
-    <PageWrapper>
+    <PageWrapper
+      contentContainerStyle={{
+        flex: 1,
+        justifyContent: "center",
+        paddingHorizontal: 20,
+      }}
+    >
       <SendEmailForgotPassword />
     </PageWrapper>
   );

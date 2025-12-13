@@ -1,6 +1,6 @@
 // External Libraries
 import { useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Image, ScrollView } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "expo-router";
 
@@ -123,7 +123,23 @@ export default function LoginRegister() {
   }
 
   return (
-    <View>
+    <ScrollView
+      contentContainerStyle={styles.scrollContainer}
+      showsVerticalScrollIndicator={false}
+      keyboardShouldPersistTaps="handled"
+    >
+      <View style={styles.logosContainer}>
+        <Image
+          source={require("@/src/assets/images/logo_embrapa.png")}
+          style={styles.logoEmbrapa}
+          resizeMode="contain"
+        />
+        <Image
+          source={require("@/src/assets/images/logo_IDH.png")}
+          style={styles.logoIDH}
+          resizeMode="contain"
+        />
+      </View>
       <LanguageSelector />
       <View style={styles.container}>
         <Text style={styles.textHeader}>{t("auth.systemTitle")}</Text>
@@ -167,6 +183,6 @@ export default function LoginRegister() {
               : t("auth.registerButton")}
         </ButtonCommon>
       </View>
-    </View>
+    </ScrollView>
   );
 }

@@ -2,6 +2,24 @@ import { theme } from "@/src/config";
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
+  scrollContainer: {
+    flexGrow: 1,
+    paddingHorizontal: 20,
+    paddingTop: 10,
+    paddingBottom: 30,
+  },
+  logosContainer: {
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  logoEmbrapa: {
+    width: 170,
+  },
+  logoIDH: {
+    width: 170,
+  },
   container: {
     borderRadius: theme.components.container.default.borderRadius,
     padding: theme.components.container.default.padding,

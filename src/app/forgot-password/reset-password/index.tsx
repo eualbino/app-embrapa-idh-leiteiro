@@ -6,7 +6,13 @@ import ResetPasswordForgotPassword from "@/src/components/pages/forgot-password/
 
 export default function ResetPasswordPage() {
   return (
-    <PageWrapper>
+    <PageWrapper
+      contentContainerStyle={{
+        flex: 1,
+        justifyContent: "center",
+        paddingHorizontal: 20,
+      }}
+    >
       <ResetPasswordForgotPassword />
     </PageWrapper>
   );

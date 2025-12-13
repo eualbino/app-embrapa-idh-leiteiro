@@ -69,7 +69,6 @@ export const useQuestionnaire = (): QuestionnaireState &
     }
   }, [answer2, answer14, answer22]);
 
-  // Salva as respostas no AsyncStorage sempre que mudarem (para modo offline)
   useEffect(() => {
     if (Object.keys(answers).length > 0) {
       OfflineSyncService.saveOfflineAnswers(answers);
@@ -109,7 +108,6 @@ export const useQuestionnaire = (): QuestionnaireState &
 
         try {
           if (isOnline) {
-            // Modo Online: Cria a propriedade normalmente
             const response = await createProperty(formData);
             if (response?.property?.id) {
               setPropertyId(response.property.id);
@@ -118,7 +116,6 @@ export const useQuestionnaire = (): QuestionnaireState &
               );
             }
           } else {
-            // Modo Offline: Salva os dados localmente e gera ID temporário
             await OfflineSyncService.saveOfflineProperty(formData);
             const tempId = OfflineSyncService.generateTempPropertyId();
             setPropertyId(tempId);
@@ -194,7 +191,6 @@ export const useQuestionnaire = (): QuestionnaireState &
             return;
           }
 
-          // Se estiver offline ou com ID temporário, apenas avança
           if (!isOnline || OfflineSyncService.isTempPropertyId(propertyId)) {
             Toast.show({
               type: "info",
@@ -203,7 +199,6 @@ export const useQuestionnaire = (): QuestionnaireState &
               visibilityTime: 3000,
             });
           } else {
-            // Modo Online: Envia normalmente
             try {
               const response = await createWaterIndicator(answers, propertyId);
               const score = response?.data?.finalScore?.toFixed(2) || "N/A";
@@ -237,7 +232,6 @@ export const useQuestionnaire = (): QuestionnaireState &
             return;
           }
 
-          // Se estiver offline ou com ID temporário, apenas avança
           if (!isOnline || OfflineSyncService.isTempPropertyId(propertyId)) {
             Toast.show({
               type: "info",
@@ -246,7 +240,6 @@ export const useQuestionnaire = (): QuestionnaireState &
               visibilityTime: 3000,
             });
           } else {
-            // Modo Online: Envia normalmente
             try {
               const response = await createWaterQualityConservation(
                 answers,
@@ -295,7 +288,6 @@ export const useQuestionnaire = (): QuestionnaireState &
         return;
       }
 
-      // Se estiver offline ou com ID temporário
       if (!isOnline || OfflineSyncService.isTempPropertyId(propertyId)) {
         await OfflineSyncService.setPendingSync(true, true, propertyId);
 
@@ -307,12 +299,10 @@ export const useQuestionnaire = (): QuestionnaireState &
           visibilityTime: 5000,
         });
 
-        // Redireciona para home ou tela de aguardando sincronização
         setTimeout(() => {
           router.push("/(protected)/(tabs)/(home)");
         }, 3000);
       } else {
-        // Modo Online: Envia normalmente
         try {
           const response = await createWasteManagement(answers, propertyId);
           const score = response?.data?.finalScore?.toFixed(2) || "N/A";

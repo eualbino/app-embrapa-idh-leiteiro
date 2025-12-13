@@ -53,7 +53,7 @@ export default function SendEmailForgotPassword() {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <View style={styles.card}>
         <Text style={styles.title}>{t("forgotPassword.sendEmailTitle")}</Text>
 

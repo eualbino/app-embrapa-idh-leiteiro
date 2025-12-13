@@ -13,12 +13,10 @@ export const useOfflineSync = () => {
   const [isSyncing, setIsSyncing] = useState(false);
   const [hasPendingData, setHasPendingData] = useState(false);
 
-  // Verifica se há dados pendentes ao iniciar
   useEffect(() => {
     checkPendingData();
   }, []);
 
-  // Quando reconectar, tenta sincronizar
   useEffect(() => {
     if (justReconnected && !isSyncing) {
       syncOfflineData();
@@ -51,7 +49,6 @@ export const useOfflineSync = () => {
 
       let propertyId = pendingSync.propertyId;
 
-      // Passo 1: Sincronizar a propriedade se necessário
       if (pendingSync.hasPropertyToSync) {
         const offlineProperty = await OfflineSyncService.getOfflineProperty();
 
@@ -84,7 +81,6 @@ export const useOfflineSync = () => {
         }
       }
 
-      // Passo 2: Sincronizar as respostas se houver um propertyId válido
       if (propertyId && !OfflineSyncService.isTempPropertyId(propertyId)) {
         const offlineAnswers = await OfflineSyncService.getOfflineAnswers();
 
@@ -103,7 +99,6 @@ export const useOfflineSync = () => {
               visibilityTime: 3000,
             });
 
-            // Limpa todos os dados offline após sucesso
             await OfflineSyncService.clearOfflineData();
             setHasPendingData(false);
           } catch (error) {
@@ -214,9 +209,6 @@ export const useOfflineSync = () => {
     answers: { [key: string]: number | null },
     propertyId: string,
   ) => {
-    // Identificar quais grupos de perguntas foram respondidos
-    // Você pode ajustar essa lógica conforme necessário
-
     // Water Indicator (perguntas 1-13)
     const hasWaterIndicator = Object.keys(answers).some(
       (key) => parseInt(key) >= 1 && parseInt(key) <= 13,

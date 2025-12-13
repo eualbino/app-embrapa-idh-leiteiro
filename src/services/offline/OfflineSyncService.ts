@@ -63,7 +63,6 @@ export class OfflineSyncService {
         JSON.stringify(data)
       );
 
-      console.log("✅ Respostas salvas offline");
     } catch (error) {
       console.error("❌ Erro ao salvar respostas offline:", error);
       throw error;
@@ -76,7 +75,6 @@ export class OfflineSyncService {
   static async saveOfflinePropertyId(propertyId: string): Promise<void> {
     try {
       await AsyncStorage.setItem(OFFLINE_PROPERTY_ID_KEY, propertyId);
-      console.log("✅ PropertyId salvo offline:", propertyId);
     } catch (error) {
       console.error("❌ Erro ao salvar propertyId offline:", error);
       throw error;

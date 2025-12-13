@@ -6,7 +6,13 @@ import ConfirmCodeForgotPassword from "@/src/components/pages/forgot-password/co
 
 export default function ConfirmCodePage() {
   return (
-    <PageWrapper>
+    <PageWrapper
+      contentContainerStyle={{
+        flex: 1,
+        justifyContent: "center",
+        paddingHorizontal: 20,
+      }}
+    >
       <ConfirmCodeForgotPassword />
     </PageWrapper>
   );

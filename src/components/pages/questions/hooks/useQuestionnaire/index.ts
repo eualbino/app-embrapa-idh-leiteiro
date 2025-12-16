@@ -201,7 +201,9 @@ export const useQuestionnaire = (): QuestionnaireState &
           } else {
             try {
               const response = await createWaterIndicator(answers, propertyId);
-              const score = response?.data?.finalScore?.toFixed(2) || "N/A";
+              const score =
+                response?.data?.finalScore?.toFixed(2).replace(".", ",") ||
+                "N/A";
 
               Toast.show({
                 type: "score",
@@ -245,7 +247,9 @@ export const useQuestionnaire = (): QuestionnaireState &
                 answers,
                 propertyId,
               );
-              const score = response?.data?.finalScore?.toFixed(2) || "N/A";
+              const score =
+                response?.data?.finalScore?.toFixed(2).replace(".", ",") ||
+                "N/A";
 
               Toast.show({
                 type: "score",
@@ -305,7 +309,8 @@ export const useQuestionnaire = (): QuestionnaireState &
       } else {
         try {
           const response = await createWasteManagement(answers, propertyId);
-          const score = response?.data?.finalScore?.toFixed(2) || "N/A";
+          const score =
+            response?.data?.finalScore?.toFixed(2).replace(".", ",") || "N/A";
 
           Toast.show({
             type: "score",

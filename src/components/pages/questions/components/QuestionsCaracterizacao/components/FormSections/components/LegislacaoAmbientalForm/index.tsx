@@ -27,16 +27,14 @@ const LegislacaoAmbientalInput: React.FC<LegislacaoAmbientalInputProps> = ({
     <View style={stylesCharacterization.containerResponses}>
       <View style={stylesCharacterization.containerQuestionInput}>
         <Text style={stylesCharacterization.questionText}>
-          <Text>
-            {t(
-              "questionnaire.characterization.environmentalLegislation.sectionTitle",
-            )}{" "}
-          </Text>
-          <Text>
-            {t(
-              "questionnaire.characterization.environmentalLegislation.hasEnvironmentalLicense",
-            )}
-          </Text>
+          {t(
+            "questionnaire.characterization.environmentalLegislation.sectionTitle",
+          )}{" "}
+        </Text>
+        <Text style={stylesCharacterization.questionText}>
+          {t(
+            "questionnaire.characterization.environmentalLegislation.hasEnvironmentalLicense",
+          )}
         </Text>
         <View>
           <TouchableOpacity

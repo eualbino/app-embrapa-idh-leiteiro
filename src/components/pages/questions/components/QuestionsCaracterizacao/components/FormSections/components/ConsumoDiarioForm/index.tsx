@@ -28,16 +28,14 @@ const ConsumoDiarioInput: React.FC<ConsumoDiarioInputProps> = ({
     <View style={stylesCharacterization.containerResponses}>
       <View style={stylesCharacterization.containerQuestionInput}>
         <Text style={stylesCharacterization.questionText}>
-          <Text>
-            {t(
-              "questionnaire.characterization.dailyConsumption.sectionTitle",
-            )}{" "}
-          </Text>
-          <Text>
-            {t(
-              "questionnaire.characterization.dailyConsumption.roughageConsumption",
-            )}
-          </Text>
+          {t(
+            "questionnaire.characterization.dailyConsumption.sectionTitle",
+          )}{" "}
+        </Text>
+        <Text style={stylesCharacterization.questionText}>
+          {t(
+            "questionnaire.characterization.dailyConsumption.roughageConsumption",
+          )}
         </Text>
         <TextInput
           style={stylesCharacterization.textInput}

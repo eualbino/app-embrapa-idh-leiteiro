@@ -25,14 +25,10 @@ const ProducaoLeiteiraInput: React.FC<ProducaoLeiteiraInputProps> = ({
     <View style={stylesCharacterization.containerResponses}>
       <View style={stylesCharacterization.containerQuestionInput}>
         <Text style={stylesCharacterization.questionText}>
-          <Text>
-            {t(
-              "questionnaire.characterization.milkProduction.sectionTitle",
-            )}{" "}
-          </Text>
-          <Text>
-            {t("questionnaire.characterization.milkProduction.dailyProduction")}
-          </Text>
+          {t("questionnaire.characterization.milkProduction.sectionTitle")}{" "}
+        </Text>
+        <Text style={stylesCharacterization.questionText}>
+          {t("questionnaire.characterization.milkProduction.dailyProduction")}
         </Text>
         <TextInput
           style={stylesCharacterization.textInput}

@@ -38,7 +38,10 @@ export const questions: Question[] = [
     id: 3,
     text: "questionnaire.questions.q3.text",
     option: [
-      { label: "questionnaire.questions.options.noMeasurementSystem", value: 0 },
+      {
+        label: "questionnaire.questions.options.noMeasurementSystem",
+        value: 0,
+      },
       { label: "questionnaire.questions.options.monthlyOrMore", value: 0.25 },
       { label: "questionnaire.questions.options.biweekly", value: 0.5 },
       { label: "questionnaire.questions.options.weekly", value: 0.75 },
@@ -52,7 +55,10 @@ export const questions: Question[] = [
     text: "questionnaire.questions.q4.text",
     observation: "questionnaire.questions.q4.observation",
     option: [
-      { label: "questionnaire.questions.options.noMeasurementSystem", value: 0 },
+      {
+        label: "questionnaire.questions.options.noMeasurementSystem",
+        value: 0,
+      },
       { label: "questionnaire.questions.options.lessThan25", value: 0.25 },
       { label: "questionnaire.questions.options.between26And50", value: 0.5 },
       { label: "questionnaire.questions.options.between51And79", value: 0.75 },
@@ -120,7 +126,10 @@ export const questions: Question[] = [
     text: "questionnaire.questions.q10.text",
     observation: "questionnaire.questions.q10.observation",
     option: [
-      { label: "questionnaire.questions.options.notApplicable", value: null },
+      {
+        label: "questionnaire.questions.options.doesNotIrrigation",
+        value: null,
+      },
       { label: "questionnaire.questions.options.no", value: 0 },
       { label: "questionnaire.questions.options.yes", value: 1 },
     ],
@@ -170,8 +179,14 @@ export const questions: Question[] = [
     text: "questionnaire.questions.q14.text",
     option: [
       { label: "questionnaire.questions.options.doesNotMonitor", value: 0 },
-      { label: "questionnaire.questions.options.analysisOncePerYear", value: 0.5 },
-      { label: "questionnaire.questions.options.analysisTwicePerYear", value: 1 },
+      {
+        label: "questionnaire.questions.options.analysisOncePerYear",
+        value: 0.5,
+      },
+      {
+        label: "questionnaire.questions.options.analysisTwicePerYear",
+        value: 1,
+      },
     ],
     groupMain: "qualidade-agua",
     group: "analise-agua",
@@ -274,7 +289,10 @@ export const questions: Question[] = [
     text: "questionnaire.questions.q21.text",
     option: [
       { label: "questionnaire.questions.options.doesNotClean", value: 0 },
-      { label: "questionnaire.questions.options.moreThanOncePerWeek", value: 0.25 },
+      {
+        label: "questionnaire.questions.options.moreThanOncePerWeek",
+        value: 0.25,
+      },
       { label: "questionnaire.questions.options.oncePerWeek", value: 0.5 },
       { label: "questionnaire.questions.options.twicePerWeek", value: 0.75 },
       { label: "questionnaire.questions.options.daily", value: 1 },
@@ -350,7 +368,10 @@ export const questions: Question[] = [
     text: "questionnaire.questions.q27.text",
     observation: "questionnaire.questions.q27.observation",
     option: [
-      { label: "questionnaire.questions.options.in100PercentMilkings", value: 0 },
+      {
+        label: "questionnaire.questions.options.in100PercentMilkings",
+        value: 0,
+      },
       {
         label: "questionnaire.questions.options.inLessThan100PercentMilkings",
         value: 1,
@@ -420,7 +441,10 @@ export const questions: Question[] = [
         label: "questionnaire.questions.options.analysisEvery3YearsOrMore",
         value: 0.333,
       },
-      { label: "questionnaire.questions.options.analysisEvery2Years", value: 0.666 },
+      {
+        label: "questionnaire.questions.options.analysisEvery2Years",
+        value: 0.666,
+      },
       { label: "questionnaire.questions.options.annualAnalysis", value: 1 },
     ],
     groupMain: "manejo-residuos-uso-fertilizantes",
@@ -435,9 +459,18 @@ export const questions: Question[] = [
         label: "questionnaire.questions.options.weeklyApplication",
         value: 0.2,
       },
-      { label: "questionnaire.questions.options.biweeklyApplication", value: 0.4 },
-      { label: "questionnaire.questions.options.monthlyApplication", value: 0.6 },
-      { label: "questionnaire.questions.options.quarterlyApplication", value: 0.8 },
+      {
+        label: "questionnaire.questions.options.biweeklyApplication",
+        value: 0.4,
+      },
+      {
+        label: "questionnaire.questions.options.monthlyApplication",
+        value: 0.6,
+      },
+      {
+        label: "questionnaire.questions.options.quarterlyApplication",
+        value: 0.8,
+      },
       { label: "questionnaire.questions.options.every4MonthsOrMore", value: 1 },
     ],
     groupMain: "manejo-residuos-uso-fertilizantes",
@@ -452,7 +485,10 @@ export const questions: Question[] = [
         label: "questionnaire.questions.options.surfaceApplication",
         value: 0.5,
       },
-      { label: "questionnaire.questions.options.incorporatedIntoSoil", value: 1 },
+      {
+        label: "questionnaire.questions.options.incorporatedIntoSoil",
+        value: 1,
+      },
     ],
     groupMain: "manejo-residuos-uso-fertilizantes",
     group: "adubacao",

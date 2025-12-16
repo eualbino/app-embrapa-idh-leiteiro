@@ -115,7 +115,7 @@ export default {
       titleQuality: "Dimensão – Qualidade da Água",
       titleWaste: "Dimensão – Manejo de Resíduos",
       subtitle:
-        "Responda o questionário e obtenha um score individual, indicando o nível de desempenho hídrico do sistema de produção leiteira.",
+        "Responda o questionário e obtenha um escore individual, indicando o nível de desempenho hídrico do sistema de produção leiteira.",
       date: "Data",
       identification: "Identificação",
       // Characterization (used across form sections)
@@ -128,7 +128,7 @@ export default {
           cityPlaceholder: "Digite a cidade",
         },
         productionSystem: {
-          sectionTitle: "A. SISTEMA DE PRODUÇÃO:",
+          sectionTitle: "SISTEMA DE PRODUÇÃO:",
           question: "Qual é o Sistema de Produção empregado pela propriedade?",
           options: {
             exclusivelyPasture: "Exclusivamente a pasto",
@@ -143,32 +143,32 @@ export default {
           otherPlaceholder: "Especifique outro sistema",
         },
         area: {
-          sectionTitle: "B. ÁREA:",
+          sectionTitle: "ÁREA:",
           totalArea:
             "Qual a área da propriedade utilizada na atividade leiteira, em hectares?",
-          totalAreaPlaceholder: "Área da Propriedade (ha)",
-          pastureArea: "Qual a área de pastagem, em hectares (ha)?",
-          pastureAreaPlaceholder: "Área de Pastagem (ha)",
-          silageArea: "Qual a área de silagem, em hectares (ha)?",
-          silageAreaPlaceholder: "Área de Silagem (ha)",
+          totalAreaPlaceholder: "Área da Propriedade",
+          pastureArea: "Qual a área de pastagem, em hectares?",
+          pastureAreaPlaceholder: "Área de Pastagem",
+          silageArea: "Qual a área de silagem, em hectares?",
+          silageAreaPlaceholder: "Área de Silagem",
         },
         herd: {
-          sectionTitle: "C. REBANHO: (em número de cabeças)",
+          sectionTitle: "REBANHO: (em número de cabeças)",
           lactatingCows: "Vacas em lactação",
           lactatingCowsPlaceholder: "Vacas em Lactação",
           dryCows: "Vacas secas",
           dryCowsPlaceholder: "Vacas Secas",
+          calves: "Bezerros (macho e fêmea)",
+          calvesPlaceholder: "Bezerros",
           heifers: "Novilhas",
           heifersPlaceholder: "Novilhas",
-          calves: "Bezerros",
-          calvesPlaceholder: "Bezerros",
           steers: "Garrotes",
           steersPlaceholder: "Garrotes",
           bulls: "Touros",
           bullsPlaceholder: "Touros",
         },
         milkProduction: {
-          sectionTitle: "D. PRODUÇÃO LEITEIRA:",
+          sectionTitle: "PRODUÇÃO LEITEIRA:",
           dailyProduction:
             "Qual a produção de leite diária da propriedade (litros/dia)?",
           dailyProductionPlaceholder: "Litros/dia da propriedade",
@@ -177,14 +177,14 @@ export default {
           productionPerCowPlaceholder: "Litros/vaca/dia",
         },
         milkComposition: {
-          sectionTitle: "E. COMPOSIÇÃO DO LEITE:",
+          sectionTitle: "COMPOSIÇÃO DO LEITE:",
           fatPercentage: "Qual o percentual de gordura do leite?",
           fatPercentagePlaceholder: "Percentual de Gordura (%)",
           proteinPercentage: "Qual o percentual de proteína do leite?",
           proteinPercentagePlaceholder: "Percentual de Proteína (%)",
         },
         dailyConsumption: {
-          sectionTitle: "F. CONSUMO DIÁRIO DE VACAS EM LACTAÇÃO:",
+          sectionTitle: "CONSUMO DIÁRIO DE VACAS EM LACTAÇÃO:",
           roughageConsumption:
             "Qual o consumo diário de volumoso por vaca (kg)?",
           roughageConsumptionPlaceholder: "Consumo de Volumoso",
@@ -196,14 +196,14 @@ export default {
           dryMatter: "Matéria Seca",
         },
         electricEnergy: {
-          sectionTitle: "G. ENERGIA ELÉTRICA:",
+          sectionTitle: "ENERGIA ELÉTRICA:",
           monthlyConsumption:
             "Qual o consumo mensal de energia elétrica (kWh/mês)?",
           monthlyConsumptionPlaceholder: "Consumo Mensal (kWh/mês)",
           hasSolarEnergy: "A propriedade possui energia fotovoltaica?",
         },
         environmentalLegislation: {
-          sectionTitle: "H. LEGISLAÇÃO AMBIENTAL:",
+          sectionTitle: "LEGISLAÇÃO AMBIENTAL:",
           hasEnvironmentalLicense:
             "A propriedade possui licença ambiental da atividade leiteira?",
           hasWaterGrant: "A propriedade possui outorga de uso da água?",
@@ -230,9 +230,9 @@ export default {
       // Area
       area: {
         title: "Área",
-        farmArea: "Área da propriedade utilizada na atividade leiteira (ha)",
-        pastureArea: "Área com pastagem (ha)",
-        silageArea: "Área usada para produção de silagem (ha)",
+        farmArea: "Área da propriedade utilizada na atividade leiteira",
+        pastureArea: "Área com pastagem",
+        silageArea: "Área usada para produção de silagem",
       },
 
       // Cattle Herd
@@ -318,7 +318,7 @@ export default {
           answerAllMessage: "Responda todas as perguntas antes de continuar.",
           completedTitle: "Sucesso",
           completedMessage: "Você finalizou todas as perguntas!",
-          scoreTitle: "Seu score em {{groupName}} foi de:",
+          scoreTitle: "Seu escore em {{groupName}} foi de:",
         },
         groups: {
           "quantidade-agua": "Quantidade de Água",
@@ -344,7 +344,7 @@ export default {
             "Identifique o total de pontos de consumo que existem na propriedade. Determine quantos deles possuem monitoramento com hidrômetro. Divida o número de pontos com monitoramento pelo número total e multiplique por 100.",
         },
         q5: {
-          text: "A atividade possui metas de redução do consumo ou perda da água?",
+          text: "A atividade possui metas de redução do consumo ou perda de água?",
           observation:
             "Um plano com metas para a redução do consumo de água ou das perdas deve conter uma etapa que descreva como isso será alcançado dentro do prazo previsto.",
         },
@@ -388,13 +388,13 @@ export default {
           text: "A propriedade faz ANÁLISE DE NITRATO na água?",
         },
         q17: {
-          text: "A propriedade faz ANÁLISE DE Escherichia Coli na água?",
+          text: "A propriedade faz ANÁLISE DE Escherichia coli na água?",
         },
         q18: {
           text: "Os animais tem ACESSO A CORPOS D'ÁGUA (rios, lagos, açudes, nascentes)?",
         },
         q19: {
-          text: "Toda ÁGUA DE CONSUMO DOS ANIMAIS é OFERECIDA por bebedouros?",
+          text: "Toda ÁGUA DE CONSUMO DOS ANIMAIS é OFERECIDA em bebedouros?",
         },
         q20: {
           text: "Áreas ao redor dos bebedouros apresentam acúmulo de ÁGUA ou LAMA?",
@@ -460,6 +460,7 @@ export default {
           doesNotPerform: "Não realiza",
           doesNotClean: "Não faz limpeza dos bebedouros",
           doesNotApply: "Não faz aplicação",
+          doesNotIrrigation: "Não faz irrigação",
           noMeasurementSystem: "Não possui sistema de medição",
           noQualityMonitoringSystem:
             "Não possui sistema de monitoramento de qualidade da água",
@@ -475,7 +476,7 @@ export default {
           monthly: "Mensal",
           oncePerWeek: "1 vez por semana",
           twicePerWeek: "2 vez por semana",
-          moreThanOncePerWeek: "Maior que 1 vez por semana",
+          moreThanOncePerWeek: "Menor que 1 vez por semana",
           lessThan25: "Menos de 25%",
           between26And50: "Entre 26% a 50%",
           between51And79: "Entre 51% a 79%",

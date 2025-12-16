@@ -35,7 +35,7 @@ export const formatScore = (
   t: (key: string) => string,
 ): string => {
   if (score === null) return t("common.notApplicable");
-  return score.toFixed(2);
+  return score.toFixed(2).replace(".", ",");
 };
 
 export const hasAnyImprovement = (

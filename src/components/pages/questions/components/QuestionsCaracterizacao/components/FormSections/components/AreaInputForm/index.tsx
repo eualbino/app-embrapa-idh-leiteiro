@@ -29,8 +29,10 @@ const AreaInput: React.FC<AreaInputProps> = ({
     <View style={stylesCharacterization.containerResponses}>
       <View style={stylesCharacterization.containerQuestionInput}>
         <Text style={stylesCharacterization.questionText}>
-          <Text>{t("questionnaire.characterization.area.sectionTitle")} </Text>
-          <Text>{t("questionnaire.characterization.area.totalArea")}</Text>
+          {t("questionnaire.characterization.area.sectionTitle")}{" "}
+        </Text>
+        <Text style={stylesCharacterization.questionText}>
+          {t("questionnaire.characterization.area.totalArea")}
         </Text>
         <TextInput
           style={stylesCharacterization.textInput}

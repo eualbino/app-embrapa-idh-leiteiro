@@ -25,10 +25,10 @@ const LocalizacaoInput: React.FC<LocalizacaoInputProps> = ({
     <View style={stylesCharacterization.containerResponses}>
       <View style={stylesCharacterization.containerQuestionInput}>
         <Text style={stylesCharacterization.questionText}>
-          <Text>
-            {t("questionnaire.characterization.location.sectionTitle")}{" "}
-          </Text>
-          <Text>{t("questionnaire.characterization.location.country")}</Text>
+          {t("questionnaire.characterization.location.sectionTitle")}{" "}
+        </Text>
+        <Text style={stylesCharacterization.questionText}>
+          {t("questionnaire.characterization.location.country")}
         </Text>
         <TextInput
           style={stylesCharacterization.textInput}

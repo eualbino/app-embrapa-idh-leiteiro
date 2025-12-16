@@ -127,7 +127,7 @@ export default {
           cityPlaceholder: "Enter city name",
         },
         productionSystem: {
-          sectionTitle: "A. PRODUCTION SYSTEM:",
+          sectionTitle: "PRODUCTION SYSTEM:",
           question: "What Production System is employed in the farm?",
           options: {
             exclusivelyPasture: "Exclusively pasture",
@@ -142,17 +142,17 @@ export default {
           otherPlaceholder: "Specify other system",
         },
         area: {
-          sectionTitle: "B. AREA:",
+          sectionTitle: "AREA:",
           totalArea:
             "What is the property area used in dairy activity, in hectares?",
-          totalAreaPlaceholder: "Farm Area (ha)",
-          pastureArea: "What is the pasture area, in hectares (ha)?",
-          pastureAreaPlaceholder: "Pasture Area (ha)",
-          silageArea: "What is the silage area, in hectares (ha)?",
-          silageAreaPlaceholder: "Silage Area (ha)",
+          totalAreaPlaceholder: "Farm Area",
+          pastureArea: "What is the pasture area, in hectares?",
+          pastureAreaPlaceholder: "Pasture Area",
+          silageArea: "What is the silage area, in hectares?",
+          silageAreaPlaceholder: "Silage Area",
         },
         herd: {
-          sectionTitle: "C. HERD: (in number of heads)",
+          sectionTitle: "HERD: (in number of heads)",
           lactatingCows: "Lactating cows",
           lactatingCowsPlaceholder: "Lactating cows",
           dryCows: "Dry cows",
@@ -167,7 +167,7 @@ export default {
           bullsPlaceholder: "Bulls",
         },
         milkProduction: {
-          sectionTitle: "D. MILK PRODUCTION:",
+          sectionTitle: "MILK PRODUCTION:",
           dailyProduction:
             "What is the farm's daily milk production (liters/day)?",
           dailyProductionPlaceholder: "Farm liters/day",
@@ -176,14 +176,14 @@ export default {
           productionPerCowPlaceholder: "Liters/cow/day",
         },
         milkComposition: {
-          sectionTitle: "E. MILK COMPOSITION:",
+          sectionTitle: "MILK COMPOSITION:",
           fatPercentage: "What is the milk fat percentage?",
           fatPercentagePlaceholder: "Fat Percentage (%)",
           proteinPercentage: "What is the milk protein percentage?",
           proteinPercentagePlaceholder: "Protein Percentage (%)",
         },
         dailyConsumption: {
-          sectionTitle: "F. DAILY CONSUMPTION OF LACTATING COWS:",
+          sectionTitle: "DAILY CONSUMPTION OF LACTATING COWS:",
           roughageConsumption:
             "What is the daily roughage consumption per cow (kg)?",
           roughageConsumptionPlaceholder: "Roughage Consumption",
@@ -195,14 +195,14 @@ export default {
           dryMatter: "Dry Matter",
         },
         electricEnergy: {
-          sectionTitle: "G. ELECTRIC ENERGY:",
+          sectionTitle: "ELECTRIC ENERGY:",
           monthlyConsumption:
             "What is the monthly electricity consumption (kWh/month)?",
           monthlyConsumptionPlaceholder: "Monthly Consumption (kWh/month)",
           hasSolarEnergy: "Does the farm have photovoltaic energy?",
         },
         environmentalLegislation: {
-          sectionTitle: "H. ENVIRONMENTAL LEGISLATION:",
+          sectionTitle: "ENVIRONMENTAL LEGISLATION:",
           hasEnvironmentalLicense:
             "Does the property have an environmental license for dairy activity?",
           hasWaterGrant: "Does the property have a water use grant?",
@@ -227,9 +227,9 @@ export default {
       // Area
       area: {
         title: "Area",
-        farmArea: "Farm area used in dairy system (ha)",
-        pastureArea: "Pasture area (ha)",
-        silageArea: "Area used for silage production (ha)",
+        farmArea: "Farm area used in dairy system",
+        pastureArea: "Pasture area",
+        silageArea: "Area used for silage production",
       },
 
       // Cattle Herd
@@ -389,7 +389,7 @@ export default {
           text: "Do animals have ACCESS TO WATER BODIES (rivers, lakes, dams, springs)?",
         },
         q19: {
-          text: "Is all ANIMAL DRINKING WATER OFFERED through water troughs?",
+          text: "Is all ANIMAL CONSUMPTION WATER OFFERED in water troughs?",
         },
         q20: {
           text: "Do areas around water troughs show accumulation of WATER or MUD?",
@@ -455,6 +455,7 @@ export default {
           doesNotPerform: "Does not perform",
           doesNotClean: "Does not clean water troughs",
           doesNotApply: "Does not apply",
+          doesNotIrrigation: "Does not irrigate",
           noMeasurementSystem: "Does not have a measurement system",
           noQualityMonitoringSystem:
             "Does not have water quality monitoring system",
@@ -468,7 +469,7 @@ export default {
           monthly: "Monthly",
           oncePerWeek: "1 time per week",
           twicePerWeek: "2 times per week",
-          moreThanOncePerWeek: "More than 1 time per month",
+          moreThanOncePerWeek: "Less than 1 time per week",
           lessThan25: "Less than 25%",
           between26And50: "Between 26% to 50%",
           between51And79: "Between 51% to 79%",

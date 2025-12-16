@@ -65,7 +65,7 @@ export const PropertyHistoryCard: React.FC<PropertyHistoryCardProps> = ({
 
   const formatScore = (score: number | null) => {
     if (score === null) return "N/A";
-    return score.toFixed(2);
+    return score.toFixed(2).replace(".", ",");
   };
 
   return (

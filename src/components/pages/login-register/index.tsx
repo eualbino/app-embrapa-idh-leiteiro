@@ -130,11 +130,6 @@ export default function LoginRegister() {
     >
       <View style={styles.logosContainer}>
         <Image
-          source={require("@/src/assets/images/logo_embrapa.png")}
-          style={styles.logoEmbrapa}
-          resizeMode="contain"
-        />
-        <Image
           source={require("@/src/assets/images/logo_IDH.png")}
           style={styles.logoIDH}
           resizeMode="contain"
@@ -180,6 +175,14 @@ export default function LoginRegister() {
               ? t("auth.loginButton")
               : t("auth.registerButton")}
         </ButtonCommon>
+      </View>
+      
+      <View style={[styles.logosContainer, { marginTop: 20 }]}>
+        <Image
+          source={require("@/src/assets/images/logo_embrapa.png")}
+          style={styles.logoEmbrapa}
+          resizeMode="contain"
+        />
       </View>
     </ScrollView>
   );

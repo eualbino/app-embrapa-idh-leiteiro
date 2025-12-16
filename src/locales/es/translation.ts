@@ -130,7 +130,7 @@ export default {
           cityPlaceholder: "Ingrese la ciudad",
         },
         productionSystem: {
-          sectionTitle: "A. SISTEMA DE PRODUCCIÓN:",
+          sectionTitle: "SISTEMA DE PRODUCCIÓN:",
           question: "¿Cuál es el sistema de producción empleado por la finca?",
           options: {
             exclusivelyPasture: "Exclusivamente a pasto",
@@ -145,17 +145,17 @@ export default {
           otherPlaceholder: "Especifique otro sistema",
         },
         area: {
-          sectionTitle: "B. ÁREA:",
+          sectionTitle: "ÁREA:",
           totalArea:
             "¿Cuál es el área de la propiedad utilizada en la actividad lechera, en hectáreas?",
-          totalAreaPlaceholder: "Área de la Finca (ha)",
-          pastureArea: "¿Cuál es el área de pastoreo, en hectáreas (ha)?",
-          pastureAreaPlaceholder: "Área de Pastoreo (ha)",
-          silageArea: "¿Cuál es el área de ensilaje, en hectáreas (ha)?",
-          silageAreaPlaceholder: "Área de Ensilaje (ha)",
+          totalAreaPlaceholder: "Área de la Finca",
+          pastureArea: "¿Cuál es el área de pastoreo, en hectáreas?",
+          pastureAreaPlaceholder: "Área de Pastoreo",
+          silageArea: "¿Cuál es el área de ensilaje, en hectáreas?",
+          silageAreaPlaceholder: "Área de Ensilaje",
         },
         herd: {
-          sectionTitle: "C. REBAÑO: (en número de cabezas)",
+          sectionTitle: "REBAÑO: (en número de cabezas)",
           lactatingCows: "Vacas en lactación",
           lactatingCowsPlaceholder: "Vacas en lactación",
           dryCows: "Vacas secas",
@@ -170,7 +170,7 @@ export default {
           bullsPlaceholder: "Toros",
         },
         milkProduction: {
-          sectionTitle: "D. PRODUCCIÓN LECHERA:",
+          sectionTitle: "PRODUCCIÓN LECHERA:",
           dailyProduction:
             "¿Cuál es la producción diaria de leche de la finca (litros/día)?",
           dailyProductionPlaceholder: "Litros/día de la finca",
@@ -179,14 +179,14 @@ export default {
           productionPerCowPlaceholder: "Litros/vaca/día",
         },
         milkComposition: {
-          sectionTitle: "E. COMPOSICIÓN DE LA LECHE:",
+          sectionTitle: "COMPOSICIÓN DE LA LECHE:",
           fatPercentage: "¿Cuál es el porcentaje de grasa de la leche?",
           fatPercentagePlaceholder: "Porcentaje de Grasa (%)",
           proteinPercentage: "¿Cuál es el porcentaje de proteína de la leche?",
           proteinPercentagePlaceholder: "Porcentaje de Proteína (%)",
         },
         dailyConsumption: {
-          sectionTitle: "F. CONSUMO DIARIO DE VACAS EN LACTACIÓN:",
+          sectionTitle: "CONSUMO DIARIO DE VACAS EN LACTACIÓN:",
           roughageConsumption:
             "¿Cuál es el consumo diario de forraje por vaca (kg)?",
           roughageConsumptionPlaceholder: "Consumo de Forraje",
@@ -198,14 +198,14 @@ export default {
           dryMatter: "Materia Seca",
         },
         electricEnergy: {
-          sectionTitle: "G. ENERGÍA ELÉCTRICA:",
+          sectionTitle: "ENERGÍA ELÉCTRICA:",
           monthlyConsumption:
             "¿Cuál es el consumo mensual de energía eléctrica (kWh/mes)?",
           monthlyConsumptionPlaceholder: "Consumo Mensual (kWh/mes)",
           hasSolarEnergy: "¿La finca posee energía fotovoltaica?",
         },
         environmentalLegislation: {
-          sectionTitle: "H. LEGISLACIÓN AMBIENTAL:",
+          sectionTitle: "LEGISLACIÓN AMBIENTAL:",
           hasEnvironmentalLicense:
             "¿La propiedad posee licencia ambiental de la actividad lechera?",
           hasWaterGrant: "¿La propiedad posee autorización de uso del agua?",
@@ -231,10 +231,9 @@ export default {
       // Area
       area: {
         title: "Área",
-        farmArea:
-          "Superficie de la finca utilizada para la actividad lechera (ha)",
-        pastureArea: "Superficie con pastoreo (ha)",
-        silageArea: "Superficie utilizada para la producción de ensilaje (ha)",
+        farmArea: "Superficie de la finca utilizada para la actividad lechera",
+        pastureArea: "Superficie con pastoreo",
+        silageArea: "Superficie utilizada para la producción de ensilaje",
       },
 
       // Cattle Herd
@@ -396,7 +395,7 @@ export default {
           text: "¿Los animales tienen ACCESO DIRECTO A CUERPOS DE AGUA (ríos, lagos, represas, manantiales)?",
         },
         q19: {
-          text: "¿Toda el AGUA DE CONSUMO ANIMAL se OFRECE mediante bebederos?",
+          text: "¿Toda el AGUA DE CONSUMO DE LOS ANIMALES es OFRECIDA en bebederos?",
         },
         q20: {
           text: "¿Las áreas alrededor de los bebederos presentan acumulación de AGUA o LODO?",
@@ -462,6 +461,7 @@ export default {
           doesNotPerform: "No realiza",
           doesNotClean: "No realiza limpieza de los bebederos",
           doesNotApply: "No realiza aplicación",
+          doesNotIrrigation: "No hace riego",
           noMeasurementSystem: "No posee sistema de medición",
           noQualityMonitoringSystem:
             "No posee sistema de monitoreo de calidad del agua",
@@ -475,7 +475,7 @@ export default {
           monthly: "Mensual",
           oncePerWeek: "1 vez por semana",
           twicePerWeek: "2 veces por semana",
-          moreThanOncePerWeek: "Menos de una vez al mes",
+          moreThanOncePerWeek: "Menos de 1 vez por semana",
           lessThan25: "Menos del 25%",
           between26And50: "Entre 26% y 50%",
           between51And79: "Entre 51% y 79%",

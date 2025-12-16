@@ -25,14 +25,12 @@ const ComposicaoLeiteInput: React.FC<ComposicaoLeiteInputProps> = ({
     <View style={stylesCharacterization.containerResponses}>
       <View style={stylesCharacterization.containerQuestionInput}>
         <Text style={stylesCharacterization.questionText}>
-          <Text>
-            {t(
-              "questionnaire.characterization.milkComposition.sectionTitle",
-            )}{" "}
-          </Text>
-          <Text>
-            {t("questionnaire.characterization.milkComposition.fatPercentage")}
-          </Text>
+          {t(
+            "questionnaire.characterization.milkComposition.sectionTitle",
+          )}{" "}
+        </Text>
+        <Text style={stylesCharacterization.questionText}>
+          {t("questionnaire.characterization.milkComposition.fatPercentage")}
         </Text>
         <TextInput
           style={stylesCharacterization.textInput}

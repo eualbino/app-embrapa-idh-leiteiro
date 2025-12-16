@@ -28,12 +28,26 @@ const QuestionItemComponent: React.FC<QuestionItemProps> = ({ question }) => {
 
   const isDisabled = questionDisabled(question.id);
 
+  const renderTextWithItalic = (text: string) => {
+    const parts = text.split(/(Escherichia coli)/gi);
+    return parts.map((part, index) => {
+      if (part.match(/Escherichia coli/i)) {
+        return (
+          <Text key={index} style={{ fontStyle: "italic" }}>
+            {part}
+          </Text>
+        );
+      }
+      return <Text key={index}>{part}</Text>;
+    });
+  };
+
   return (
     <View style={styles.container}>
       <View>
         <Text style={styles.questionText}>
           <Text>{question.id}. </Text>
-          <Text>{t(question.text)}</Text>
+          {renderTextWithItalic(t(question.text))}
         </Text>
       </View>
 
@@ -45,7 +59,9 @@ const QuestionItemComponent: React.FC<QuestionItemProps> = ({ question }) => {
             color="#006f36ff"
             style={{ textAlign: "center" }}
           />
-          <Text style={styles.observationText}>{t(question.observation)}</Text>
+          <Text style={styles.observationText}>
+            {renderTextWithItalic(t(question.observation))}
+          </Text>
         </View>
       )}
 

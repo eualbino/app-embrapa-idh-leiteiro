@@ -54,6 +54,20 @@ export default function ResultPage() {
     waterPerformanceIndex: data.finalScore,
   };
 
+  const renderTextWithItalic = (text: string) => {
+    const parts = text.split(/(Escherichia coli)/gi);
+    return parts.map((part, index) => {
+      if (part.match(/Escherichia coli/i)) {
+        return (
+          <Text key={index} style={{ fontStyle: "italic" }}>
+            {part}
+          </Text>
+        );
+      }
+      return <Text key={index}>{part}</Text>;
+    });
+  };
+
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <View style={styles.headerContainer}>
@@ -117,7 +131,7 @@ export default function ResultPage() {
           <View style={styles.scoreCardFooter}>
             <Text style={styles.scoreCardMinimum}>
               {t("result.minimumScore")}:{" "}
-              {MINIMUM_SCORES.waterManagement.toFixed(2)}
+              {MINIMUM_SCORES.waterManagement.toFixed(2).replace(".", ",")}
             </Text>
             <View
               style={[
@@ -186,7 +200,7 @@ export default function ResultPage() {
           <View style={styles.scoreCardFooter}>
             <Text style={styles.scoreCardMinimum}>
               {t("result.minimumScore")}:{" "}
-              {MINIMUM_SCORES.waterQuality.toFixed(2)}
+              {MINIMUM_SCORES.waterQuality.toFixed(2).replace(".", ",")}
             </Text>
             <View
               style={[
@@ -251,7 +265,7 @@ export default function ResultPage() {
           <View style={styles.scoreCardFooter}>
             <Text style={styles.scoreCardMinimum}>
               {t("result.minimumScore")}:{" "}
-              {MINIMUM_SCORES.wasteManagement.toFixed(2)}
+              {MINIMUM_SCORES.wasteManagement.toFixed(2).replace(".", ",")}
             </Text>
             <View
               style={[
@@ -323,7 +337,9 @@ export default function ResultPage() {
                   {improvement.items.map((item, itemIndex) => (
                     <View key={itemIndex} style={styles.improvementItem}>
                       <View style={styles.bulletPoint} />
-                      <Text style={styles.improvementItemText}>{item}</Text>
+                      <Text style={styles.improvementItemText}>
+                        {renderTextWithItalic(item)}
+                      </Text>
                     </View>
                   ))}
                 </View>
@@ -354,7 +370,9 @@ export default function ResultPage() {
                   {improvement.items.map((item, itemIndex) => (
                     <View key={itemIndex} style={styles.improvementItem}>
                       <View style={styles.bulletPoint} />
-                      <Text style={styles.improvementItemText}>{item}</Text>
+                      <Text style={styles.improvementItemText}>
+                        {renderTextWithItalic(item)}
+                      </Text>
                     </View>
                   ))}
                 </View>
@@ -385,7 +403,9 @@ export default function ResultPage() {
                   {improvement.items.map((item, itemIndex) => (
                     <View key={itemIndex} style={styles.improvementItem}>
                       <View style={styles.bulletPoint} />
-                      <Text style={styles.improvementItemText}>{item}</Text>
+                      <Text style={styles.improvementItemText}>
+                        {renderTextWithItalic(item)}
+                      </Text>
                     </View>
                   ))}
                 </View>

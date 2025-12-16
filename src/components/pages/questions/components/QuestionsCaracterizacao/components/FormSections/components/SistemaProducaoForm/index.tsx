@@ -27,14 +27,12 @@ const SistemaProducaoInput: React.FC<SistemaProducaoInputProps> = ({
     <View style={stylesCharacterization.containerResponses}>
       <View>
         <Text style={stylesCharacterization.questionText}>
-          <Text>
-            {t(
-              "questionnaire.characterization.productionSystem.sectionTitle",
-            )}{" "}
-          </Text>
-          <Text>
-            {t("questionnaire.characterization.productionSystem.question")}
-          </Text>
+          {t(
+            "questionnaire.characterization.productionSystem.sectionTitle",
+          )}{" "}
+        </Text>
+        <Text style={stylesCharacterization.questionText}>
+          {t("questionnaire.characterization.productionSystem.question")}
         </Text>
       </View>
 

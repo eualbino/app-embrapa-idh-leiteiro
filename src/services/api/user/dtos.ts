@@ -9,15 +9,36 @@ export interface UserProfile {
 
 export interface PropertySummary {
   id: string;
+  userId: string;
+  country: string;
+  city: string;
   productionSystem: string;
   totalAreaHa: number;
-  city: string;
-  country: string;
+  pastureAreaHa: number;
+  silageAreaHa: number;
+  lactatingCows: number;
+  dryCows: number;
+  heifersOver12M: number;
+  calvesUnder12M: number;
+  steers: number;
+  bulls: number;
+  milkLitersPerDayProperty: number;
+  milkLitersPerCowDay: number;
+  milkFatPercentage: number;
+  milkProteinPercentage: number;
+  roughageKgPerCow: number;
+  concentrateKgPerCow: number;
+  feedUnit: string;
+  monthlyEnergyKWh: number;
+  hasPhotovoltaicEnergy: boolean;
+  hasEnvironmentalLicense: string;
+  hasWaterGrant: string;
   createdAt: string;
-  waterManagementScore: number | null;
-  waterQualityConservationScore: number | null;
-  wasteManagementScore: number | null;
-  waterPerformanceIndexScore: number | null;
+  updatedAt: string;
+  waterManagementScore: number;
+  waterQualityConservationScore: number;
+  wasteManagementScore: number;
+  waterPerformanceIndexScore: number;
 }
 
 export interface GetMeResponse {

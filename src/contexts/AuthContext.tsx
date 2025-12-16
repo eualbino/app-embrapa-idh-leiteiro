@@ -19,12 +19,13 @@ import type {
   LoginRequest,
   RegisterRequest,
 } from "@/src/services/api/auth/dtos";
-import type { UserProfile } from "@/src/services/api/user";
+import type { UserProfile, PropertySummary } from "@/src/services/api/user";
 
 interface AuthContextData {
   isLoading: boolean;
   isAuthenticated: boolean;
   user: UserProfile | null;
+  properties: PropertySummary[];
   login: (credentials: LoginRequest) => Promise<void>;
   register: (data: RegisterRequest) => Promise<void>;
   logout: () => Promise<void>;
@@ -37,6 +38,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isInitializing, setIsInitializing] = useState(true);
   const [user, setUser] = useState<UserProfile | null>(null);
+  const [properties, setProperties] = useState<PropertySummary[]>([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -52,21 +54,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         try {
           const response = await UserService.getMe();
           setUser(response.user);
+          setProperties(response.properties || []);
           setIsAuthenticated(true);
         } catch (error) {
           console.error("Token inválido:", error);
           await AsyncStorage.removeItem("@app:token");
           setIsAuthenticated(false);
           setUser(null);
+          setProperties([]);
         }
       } else {
         setIsAuthenticated(false);
         setUser(null);
+        setProperties([]);
       }
     } catch (error) {
       console.error("Erro ao verificar autenticação:", error);
       setIsAuthenticated(false);
       setUser(null);
+      setProperties([]);
     } finally {
       setIsInitializing(false);
     }
@@ -82,6 +88,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       try {
         const userData = await UserService.getMe();
         setUser(userData.user);
+        setProperties(userData.properties || []);
         setIsAuthenticated(true);
 
         Toast.show({
@@ -162,6 +169,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       setIsAuthenticated(false);
       setUser(null);
+      setProperties([]);
 
       router.replace("/login");
 
@@ -188,6 +196,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         isLoading: isLoading || isInitializing,
         isAuthenticated,
         user,
+        properties,
         login,
         register,
         logout,

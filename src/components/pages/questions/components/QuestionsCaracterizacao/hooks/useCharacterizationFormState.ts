@@ -1,5 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FormData } from "../types";
+
+const toStringOrEmpty = (value: number | undefined): string => {
+  if (value === undefined || value === null || value === 0) {
+    return "";
+  }
+  return value.toString();
+};
 
 interface UseCharacterizationFormStateProps {
   initialData?: FormData | null;
@@ -26,57 +33,57 @@ export const useCharacterizationFormState = ({
 
   // Área
   const [areaPropriedade, setAreaPropriedade] = useState<string>(
-    initialData?.area.propriedade.toString() || "",
+    toStringOrEmpty(initialData?.area.propriedade),
   );
   const [areaPastagem, setAreaPastagem] = useState<string>(
-    initialData?.area.pastagem.toString() || "",
+    toStringOrEmpty(initialData?.area.pastagem),
   );
   const [areaSilagem, setAreaSilagem] = useState<string>(
-    initialData?.area.silagem.toString() || "",
+    toStringOrEmpty(initialData?.area.silagem),
   );
 
   // Rebanho
   const [vacasLactacao, setVacasLactacao] = useState<string>(
-    initialData?.rebanho.vacasLactacao.toString() || "",
+    toStringOrEmpty(initialData?.rebanho.vacasLactacao),
   );
   const [vacasSecas, setVacasSecas] = useState<string>(
-    initialData?.rebanho.vacasSecas.toString() || "",
+    toStringOrEmpty(initialData?.rebanho.vacasSecas),
   );
   const [novilhas, setNovilhas] = useState<string>(
-    initialData?.rebanho.novilhas.toString() || "",
+    toStringOrEmpty(initialData?.rebanho.novilhas),
   );
   const [bezerros, setBezerros] = useState<string>(
-    initialData?.rebanho.bezerros.toString() || "",
+    toStringOrEmpty(initialData?.rebanho.bezerros),
   );
   const [garrotes, setGarrotes] = useState<string>(
-    initialData?.rebanho.garrotes.toString() || "",
+    toStringOrEmpty(initialData?.rebanho.garrotes),
   );
   const [bulls, setBulls] = useState<string>(
-    initialData?.rebanho.bulls.toString() || "",
+    toStringOrEmpty(initialData?.rebanho.bulls),
   );
 
   // Produção Leiteira
   const [litrosDiaPropriedade, setLitrosDiaPropriedade] = useState<string>(
-    initialData?.producaoLeiteira.litrosDiaPropriedade.toString() || "",
+    toStringOrEmpty(initialData?.producaoLeiteira.litrosDiaPropriedade),
   );
   const [litrosVacaDia, setLitrosVacaDia] = useState<string>(
-    initialData?.producaoLeiteira.litrosVacaDia.toString() || "",
+    toStringOrEmpty(initialData?.producaoLeiteira.litrosVacaDia),
   );
 
   // Composição do Leite
   const [percentualGordura, setPercentualGordura] = useState<string>(
-    initialData?.composicaoLeite.percentualGordura.toString() || "",
+    toStringOrEmpty(initialData?.composicaoLeite.percentualGordura),
   );
   const [percentualProteina, setPercentualProteina] = useState<string>(
-    initialData?.composicaoLeite.percentualProteina.toString() || "",
+    toStringOrEmpty(initialData?.composicaoLeite.percentualProteina),
   );
 
   // Consumo Diário
   const [volumoso, setVolumoso] = useState<string>(
-    initialData?.consumoDiario.volumoso.toString() || "",
+    toStringOrEmpty(initialData?.consumoDiario.volumoso),
   );
   const [concentrado, setConcentrado] = useState<string>(
-    initialData?.consumoDiario.concentrado.toString() || "",
+    toStringOrEmpty(initialData?.consumoDiario.concentrado),
   );
   const [unidadeInformada, setUnidadeInformada] = useState<string>(
     initialData?.consumoDiario.unidadeInformada || "",
@@ -84,7 +91,7 @@ export const useCharacterizationFormState = ({
 
   // Energia Elétrica
   const [consumoEnergia, setConsumoEnergia] = useState<string>(
-    initialData?.energiaEletrica.consumoMensal.toString() || "",
+    toStringOrEmpty(initialData?.energiaEletrica.consumoMensal),
   );
   const [temEnergiaFotovoltaica, setTemEnergiaFotovoltaica] = useState<boolean>(
     initialData?.energiaEletrica.temEnergiaFotovoltaica || false,
@@ -97,6 +104,69 @@ export const useCharacterizationFormState = ({
   const [temOutorgaAgua, setTemOutorgaAgua] = useState<string>(
     initialData?.legislacaoAmbiental.temOutorgaAgua || "",
   );
+
+  useEffect(() => {
+    if (initialData) {
+
+      // Localização
+      setPais(initialData.localizacao?.pais || "");
+      setCidade(initialData.localizacao?.cidade || "");
+
+      // Sistema de Produção
+      setSistemaProducao(initialData.sistemaProducao?.tipo || "");
+      setOutroSistemaProducao(
+        initialData.sistemaProducao?.outroEspecificacao || "",
+      );
+
+      // Área
+      setAreaPropriedade(toStringOrEmpty(initialData.area?.propriedade));
+      setAreaPastagem(toStringOrEmpty(initialData.area?.pastagem));
+      setAreaSilagem(toStringOrEmpty(initialData.area?.silagem));
+
+      // Rebanho
+      setVacasLactacao(toStringOrEmpty(initialData.rebanho?.vacasLactacao));
+      setVacasSecas(toStringOrEmpty(initialData.rebanho?.vacasSecas));
+      setNovilhas(toStringOrEmpty(initialData.rebanho?.novilhas));
+      setBezerros(toStringOrEmpty(initialData.rebanho?.bezerros));
+      setGarrotes(toStringOrEmpty(initialData.rebanho?.garrotes));
+      setBulls(toStringOrEmpty(initialData.rebanho?.bulls));
+
+      // Produção Leiteira
+      setLitrosDiaPropriedade(
+        toStringOrEmpty(initialData.producaoLeiteira?.litrosDiaPropriedade),
+      );
+      setLitrosVacaDia(
+        toStringOrEmpty(initialData.producaoLeiteira?.litrosVacaDia),
+      );
+
+      // Composição do Leite
+      setPercentualGordura(
+        toStringOrEmpty(initialData.composicaoLeite?.percentualGordura),
+      );
+      setPercentualProteina(
+        toStringOrEmpty(initialData.composicaoLeite?.percentualProteina),
+      );
+
+      // Consumo Diário
+      setVolumoso(toStringOrEmpty(initialData.consumoDiario?.volumoso));
+      setConcentrado(toStringOrEmpty(initialData.consumoDiario?.concentrado));
+      setUnidadeInformada(initialData.consumoDiario?.unidadeInformada || "");
+
+      // Energia Elétrica
+      setConsumoEnergia(
+        toStringOrEmpty(initialData.energiaEletrica?.consumoMensal),
+      );
+      setTemEnergiaFotovoltaica(
+        initialData.energiaEletrica?.temEnergiaFotovoltaica || false,
+      );
+
+      // Legislação Ambiental
+      setTemLicencaAmbiental(
+        initialData.legislacaoAmbiental?.temLicencaAmbiental || "",
+      );
+      setTemOutorgaAgua(initialData.legislacaoAmbiental?.temOutorgaAgua || "");
+    }
+  }, [initialData]);
 
   return {
     // Localização

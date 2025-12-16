@@ -58,7 +58,7 @@ export default function ResultPage() {
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <View style={styles.headerContainer}>
         <Text style={styles.title}>{t("result.title")}</Text>
-        <Text style={styles.subtitle}>{t("result.idhWater")}</Text>
+        <Text style={styles.subtitle}>{t("result.idhMilk")}</Text>
 
         <View
           style={[
@@ -74,7 +74,7 @@ export default function ResultPage() {
           <Text style={styles.mainScoreValue}>
             {formatScore(scores.waterPerformanceIndex, t)}
           </Text>
-          <Text style={styles.mainScoreLabel}>{t("result.idhWater")}</Text>
+          <Text style={styles.mainScoreLabel}>{t("result.idhMilk")}</Text>
         </View>
 
         <View style={styles.statusBadge}>
@@ -299,9 +299,6 @@ export default function ResultPage() {
               {t("result.improvementSuggestions")}
             </Text>
           </View>
-          <Text style={styles.improvementSubtitle}>
-            {t("result.improvementSubtitle")}
-          </Text>
 
           {needsImprovement(
             scores.waterManagement,

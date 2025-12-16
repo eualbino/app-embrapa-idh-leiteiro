@@ -36,7 +36,6 @@ export default {
       loginButton: "Login",
       registerButton: "Register",
       backToLogin: "Back to Login",
-      systemTitle: "Dairy Water Assessment System",
     },
 
     // Forgot Password
@@ -108,7 +107,12 @@ export default {
 
     // Questionnaire
     questionnaire: {
-      title: "Questionnaire",
+      titleCaracterization: "Characterization",
+      subtitleCaracterization:
+        "First, let's characterize your production system.",
+      titleQuantity: "Dimension – Water Quantity",
+      titleQuality: "Dimension – Water Quality",
+      titleWaste: "Dimension – Waste Management",
       subtitle:
         "Answer the questionnaire to obtain an individual score indicating the water performance level of the dairy production system.",
       date: "Date",
@@ -139,7 +143,8 @@ export default {
         },
         area: {
           sectionTitle: "B. AREA:",
-          totalArea: "What is the total farm area, in hectares (ha)?",
+          totalArea:
+            "What is the property area used in dairy activity, in hectares?",
           totalAreaPlaceholder: "Farm Area (ha)",
           pastureArea: "What is the pasture area, in hectares (ha)?",
           pastureAreaPlaceholder: "Pasture Area (ha)",
@@ -147,7 +152,7 @@ export default {
           silageAreaPlaceholder: "Silage Area (ha)",
         },
         herd: {
-          sectionTitle: "C. HERD:",
+          sectionTitle: "C. HERD: (in number of heads)",
           lactatingCows: "Lactating cows",
           lactatingCowsPlaceholder: "Lactating cows",
           dryCows: "Dry cows",
@@ -178,12 +183,12 @@ export default {
           proteinPercentagePlaceholder: "Protein Percentage (%)",
         },
         dailyConsumption: {
-          sectionTitle: "F. DAILY CONSUMPTION:",
+          sectionTitle: "F. DAILY CONSUMPTION OF LACTATING COWS:",
           roughageConsumption:
-            "What is the daily roughage consumption per cow (Fresh Matter or Dry Matter)?",
+            "What is the daily roughage consumption per cow (kg)?",
           roughageConsumptionPlaceholder: "Roughage Consumption",
           concentrateConsumption:
-            "What is the daily concentrate consumption per cow (Fresh Matter or Dry Matter)?",
+            "What is the daily concentrate consumption per cow (kg)?",
           concentrateConsumptionPlaceholder: "Concentrate Consumption",
           unitInformed: "Unit provided:",
           naturalMatter: "Fresh Matter",
@@ -199,8 +204,8 @@ export default {
         environmentalLegislation: {
           sectionTitle: "H. ENVIRONMENTAL LEGISLATION:",
           hasEnvironmentalLicense:
-            "Does the farm have an environmental license?",
-          hasWaterGrant: "Does the farm have a water use grant?",
+            "Does the property have an environmental license for dairy activity?",
+          hasWaterGrant: "Does the property have a water use grant?",
         },
       },
       name: "Name",
@@ -351,20 +356,20 @@ export default {
           text: "What is the LEAK IDENTIFICATION ROUTINE?",
         },
         q10: {
-          text: "Does the farm have an IRRIGATION water use program?",
+          text: "Does the property have an IRRIGATION water use program?",
           observation:
-            "The irrigation program should include a calculation of the water to be applied based on technical parameters (climatic aspects, soil type, etc.). Does not apply when farms do not irrigate.",
+            "The irrigation program should contain the calculation of the water depth to be applied according to technical parameters (climatic aspects, soil moisture, etc.). Does not apply when properties do not irrigate.",
         },
         q11: {
           text: "Is the activation of the animal COOLING system based on technical parameters?",
           observation:
-            "The cooling system should be activated based on technical parameters (temperature and ambient humidity).",
+            "Cooling system that activates according to technical parameters (temperature and ambient humidity).",
         },
         q12: {
           text: "Does the farm have RAINWATER COLLECTION?",
         },
         q13: {
-          text: "Does the farm REUSE WATER OR EFFLUENTS? (e.g., water from washing troughs and equipment can be used for floor washing, effluent reuse in irrigation, etc.)",
+          text: "Does the property REUSE WATER OR EFFLUENTS? (e.g., use of water from washing troughs for floor washing, reuse of effluent for floor washing, reuse of effluent in irrigation, etc.)",
         },
         q14: {
           text: "Does the farm MONITOR WATER QUALITY?",
@@ -396,13 +401,13 @@ export default {
           text: "Does the farm have a TREATMENT SYSTEM for milking effluent? (E.g. manure pit, lagoon, biodigester, etc.)?",
         },
         q23: {
-          text: "Does the farm have a WATERPROOFED treatment SYSTEM?",
+          text: "Does the property have a WATERPROOFED waste treatment SYSTEM?",
         },
         q24: {
-          text: "Is RAINWATER that falls on the milking parlor floor and waiting area DIVERTED from the waste storage or treatment system?",
+          text: "Is RAINWATER that falls on the milking parlor floor and waiting area DIVERTED from the waste treatment system?",
         },
         q25: {
-          text: "Are there leaks in the treatment systems?",
+          text: "Are there LEAKS IN THE WASTE TREATMENT SYSTEMS?",
         },
         q26: {
           text: "Are there GUTTERS ON THE ROOF of the milking parlor?",
@@ -477,7 +482,7 @@ export default {
           analysisOncePerYear: "Analysis 1 time per year",
           analysisTwicePerYear: "Analysis 2 times per year",
           analysisEvery3YearsOrMore:
-            "Analysis every 3 years or more and sporadic",
+            "Performs analysis every 3 years or more or is sporadic",
           analysisEvery2Years: "Analysis every 2 years",
           annualAnalysis: "Annual analysis",
           in100PercentMilkings: "In 100% of milkings",
@@ -553,24 +558,22 @@ export default {
 
     // Result Page
     result: {
-      title: "Your total score was:",
-      improvementSuggestions: "Improvement Suggestions",
-      improvementSubtitle:
-        "To reach the minimum score, we recommend the following improvements:",
+      title: "Overall IDH_Milk Score",
+      improvementSuggestions: "Good Practices Suggestions",
       categoryWaterQuantity: "Water Quantity",
       categoryWaterQuality: "Water Quality",
       categoryWasteManagement: "Waste Management",
       approved: "Approved",
-      needsImprovement: "Needs Improvement",
+      needsImprovement: "How to Improve",
       minimumScore: "Minimum",
       congratulations: "Congratulations!",
       congratulationsMessage:
-        "Your property has achieved all the necessary minimum scores. Keep maintaining good sustainability practices!",
+        "Your property has reached all minimum scores for each Dimension of IDH_Milk. Continue maintaining good water use and waste management practices!",
       loadingResults: "Loading results...",
       errorLoadingTitle: "Error loading results",
       errorLoadingMessage: "Unable to load performance data",
       detailedScores: "Detailed Scores",
-      idhWater: "Water HDI",
+      idhMilk: "IDH_Milk",
       didNotReachMinimum: "Did not reach the minimum score",
       improvements: {
         waterManagement: {

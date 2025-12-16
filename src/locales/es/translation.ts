@@ -36,7 +36,6 @@ export default {
       loginButton: "Entrar",
       registerButton: "Registrarse",
       backToLogin: "Volver al inicio de sesión",
-      systemTitle: "Sistema de Evaluación Hídrica Lechera",
     },
 
     // Forgot Password
@@ -111,7 +110,12 @@ export default {
 
     // Questionnaire
     questionnaire: {
-      title: "Cuestionario",
+      titleCaracterization: "Caracterización",
+      subtitleCaracterization:
+        "Primero, caractericemos su sistema de producción.",
+      titleQuantity: "Dimensión – Cantidad de Agua",
+      titleQuality: "Dimensión – Calidad del Agua",
+      titleWaste: "Dimensión – Manejo de Residuos",
       subtitle:
         "Responda el cuestionario y obtenga una puntuación individual que indique el nivel de desempeño hídrico del sistema de producción lechera.",
       date: "Fecha",
@@ -142,7 +146,8 @@ export default {
         },
         area: {
           sectionTitle: "B. ÁREA:",
-          totalArea: "¿Cuál es el área total de la finca, en hectáreas (ha)?",
+          totalArea:
+            "¿Cuál es el área de la propiedad utilizada en la actividad lechera, en hectáreas?",
           totalAreaPlaceholder: "Área de la Finca (ha)",
           pastureArea: "¿Cuál es el área de pastoreo, en hectáreas (ha)?",
           pastureAreaPlaceholder: "Área de Pastoreo (ha)",
@@ -150,7 +155,7 @@ export default {
           silageAreaPlaceholder: "Área de Ensilaje (ha)",
         },
         herd: {
-          sectionTitle: "C. REBAÑO:",
+          sectionTitle: "C. REBAÑO: (en número de cabezas)",
           lactatingCows: "Vacas en lactación",
           lactatingCowsPlaceholder: "Vacas en lactación",
           dryCows: "Vacas secas",
@@ -181,12 +186,12 @@ export default {
           proteinPercentagePlaceholder: "Porcentaje de Proteína (%)",
         },
         dailyConsumption: {
-          sectionTitle: "F. CONSUMO DIARIO:",
+          sectionTitle: "F. CONSUMO DIARIO DE VACAS EN LACTACIÓN:",
           roughageConsumption:
-            "¿Cuál es el consumo diario de forraje por vaca (Materia Fresca o Materia Seca)?",
+            "¿Cuál es el consumo diario de forraje por vaca (kg)?",
           roughageConsumptionPlaceholder: "Consumo de Forraje",
           concentrateConsumption:
-            "¿Cuál es el consumo diario de concentrado por vaca (Materia Fresca o Materia Seca)?",
+            "¿Cuál es el consumo diario de concentrado por vaca (kg)?",
           concentrateConsumptionPlaceholder: "Consumo de Concentrado",
           unitInformed: "Unidad informada:",
           naturalMatter: "Materia Fresca",
@@ -201,8 +206,9 @@ export default {
         },
         environmentalLegislation: {
           sectionTitle: "H. LEGISLACIÓN AMBIENTAL:",
-          hasEnvironmentalLicense: "¿La finca posee licencia ambiental?",
-          hasWaterGrant: "¿La finca posee autorización de uso de agua?",
+          hasEnvironmentalLicense:
+            "¿La propiedad posee licencia ambiental de la actividad lechera?",
+          hasWaterGrant: "¿La propiedad posee autorización de uso del agua?",
         },
       },
       name: "Nombre",
@@ -357,20 +363,20 @@ export default {
           text: "¿Cuál es la RUTINA de IDENTIFICACIÓN DE FUGAS?",
         },
         q10: {
-          text: "¿La finca posee programa de uso de agua para RIEGO?",
+          text: "¿La propiedad posee programa de uso de agua de RIEGO?",
           observation:
-            "El Programa de riego debe incluir el cálculo de la lámina de agua a ser aplicada de acuerdo con los parámetros técnicos (clima, tipo de suelo, etc.). No se aplica cuando la finca no realiza riego.",
+            "El Programa de riego debe contener el cálculo de la lámina de agua a ser aplicada de acuerdo con los parámetros técnicos (aspectos climáticos, humedad del suelo, etc.). No se aplica cuando las propiedades no hacen riego.",
         },
         q11: {
           text: "¿El encendido del sistema de ENFRIAMIENTO de los animales se realiza con base en parámetros técnicos?",
           observation:
-            "Sistema de enfriamiento que acciona con base en control con parámetros técnicos (temperatura y humedad ambiente).",
+            "Sistema de enfriamiento que acciona de acuerdo con parámetros técnicos (temperatura y humedad ambiente).",
         },
         q12: {
           text: "¿La finca posee CAPTACIÓN DE AGUA DE LLUVIA?",
         },
         q13: {
-          text: "¿La finca realiza REUTILIZACIÓN DEL AGUA O EFLUENTES? (ej: agua de lavado de bebederos y equipos utilizada para limpieza de pisos, reuso de efluente para riego, etc.)",
+          text: "¿La propiedad realiza REUTILIZACIÓN DEL AGUA O DE EFLUENTES? (ej. uso del agua del lavado de bebederos para lavado del piso, reuso del efluente para lavado del piso, reuso del efluente en la irrigación, etc.)",
         },
         q14: {
           text: "¿La finca MONITOREA LA CALIDAD del agua?",
@@ -405,10 +411,10 @@ export default {
           text: "¿La finca posee SISTEMA de tratamiento de desechos IMPERMEABILIZADO?",
         },
         q24: {
-          text: "¿El AGUA DE LLUVIA que cae en el piso de la sala de ordeñe y área de espera es DESVIADA del sistema de almacenamiento o tratamiento de desechos?",
+          text: "¿El AGUA DE LLUVIA que cae en el piso de la sala de ordeñe y área de espera es DESVIADA del Sistema o tratamiento de desechos?",
         },
         q25: {
-          text: "¿Existen FUGAS EN LOS SISTEMAS de almacenamiento/tratamiento de desechos?",
+          text: "¿Hay ocurrencia de FUGAS EN LOS SISTEMAS de tratamiento de desechos?",
         },
         q26: {
           text: "¿Hay CANALETAS EN EL TECHO de la sala de ordeñe?",
@@ -482,7 +488,7 @@ export default {
           analysisOncePerYear: "Realiza análisis 1 vez por año",
           analysisTwicePerYear: "Realiza análisis 2 veces por año",
           analysisEvery3YearsOrMore:
-            "Realiza análisis cada 3 años o más y esporádico",
+            "Realiza análisis cada 3 años o más o es esporádico",
           analysisEvery2Years: "Realiza análisis cada 2 años",
           annualAnalysis: "Realiza análisis anual",
           in100PercentMilkings: "En 100% de los ordeñes",
@@ -559,25 +565,23 @@ export default {
 
     // Result Page
     result: {
-      title: "Su puntuación total fue:",
-      improvementSuggestions: "Sugerencias de Mejora",
-      improvementSubtitle:
-        "Para alcanzar la puntuación mínima, recomendamos las siguientes mejoras:",
+      title: "Puntuación General del IDH_Leche",
+      improvementSuggestions: "Sugerencias de Buenas Prácticas",
       categoryWaterQuantity: "Cantidad de Agua",
       categoryWaterQuality: "Calidad del Agua",
-      categoryWasteManagement: "Gestión de Residuos",
+      categoryWasteManagement: "Manejo de Residuos",
       approved: "Aprobado",
-      needsImprovement: "Necesita Mejora",
+      needsImprovement: "Cómo Mejorar",
       minimumScore: "Mínimo",
       congratulations: "¡Felicitaciones!",
       congratulationsMessage:
-        "Su propiedad ha alcanzado todas las puntuaciones mínimas necesarias. ¡Continúe manteniendo buenas prácticas de sostenibilidad!",
+        "Su propiedad alcanzó todas las notas mínimas para cada Dimensión del IDH_Leche. ¡Continúe manteniendo las buenas prácticas de uso del agua y manejo de residuos!",
       loadingResults: "Cargando resultados...",
       errorLoadingTitle: "Error al cargar resultados",
-      errorLoadingMessage: "No se pudieron cargar los datos de rendimiento",
+      errorLoadingMessage: "No fue posible cargar los datos de la performance",
       detailedScores: "Puntuaciones Detalladas",
-      idhWater: "IDH Agua",
-      didNotReachMinimum: "No alcanzó la puntuación mínima",
+      idhMilk: "IDH_Leche",
+      didNotReachMinimum: "No alcanzó la nota mínima",
       improvements: {
         waterManagement: {
           waterConsumption: {

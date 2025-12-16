@@ -120,7 +120,7 @@ export const questions: Question[] = [
     text: "questionnaire.questions.q10.text",
     observation: "questionnaire.questions.q10.observation",
     option: [
-      { label: "questionnaire.questions.options.doesNotHave", value: null },
+      { label: "questionnaire.questions.options.notApplicable", value: null },
       { label: "questionnaire.questions.options.no", value: 0 },
       { label: "questionnaire.questions.options.yes", value: 1 },
     ],

@@ -19,6 +19,8 @@ import { FormSectionsProps } from "./types";
 export const FormSections: React.FC<FormSectionsProps> = ({
   pais,
   setPais,
+  estado,
+  setEstado,
   cidade,
   setCidade,
 
@@ -89,6 +91,8 @@ export const FormSections: React.FC<FormSectionsProps> = ({
       <LocalizacaoInput
         pais={pais}
         setPais={setPais}
+        estado={estado}
+        setEstado={setEstado}
         cidade={cidade}
         setCidade={setCidade}
       />

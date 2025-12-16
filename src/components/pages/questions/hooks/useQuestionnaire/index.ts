@@ -41,7 +41,7 @@ export const useQuestionnaire = (): QuestionnaireState &
 
   useEffect(() => {
     if (properties && properties.length > 0 && !hasAutoFilled) {
-      const mostRecentProperty = properties[0];
+      const mostRecentProperty = properties[properties.length - 1];
       const initialFormData = propertyToFormData(mostRecentProperty);
       setFormData(initialFormData);
       setHasAutoFilled(true);

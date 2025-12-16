@@ -26,6 +26,7 @@ export function propertyToFormData(property: PropertySummary): FormData {
   return {
     localizacao: {
       pais: property.country || "",
+      estado: property.state || "",
       cidade: property.city || "",
     },
     sistemaProducao: {

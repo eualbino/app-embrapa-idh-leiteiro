@@ -7,14 +7,22 @@ export const validateCaracterizacaoForm = (
   const errors: string[] = [];
 
   // Localização
-  if (!data.localizacao?.cidade?.trim()) {
-    errors.push(t("questionnaire.validation.cidadeRequired"));
-  }
   if (!data.localizacao?.pais?.trim()) {
     errors.push(t("questionnaire.validation.paisRequired"));
   }
 
-  // Sistema de Produção
+  const isBrazil =
+    data.localizacao?.pais?.toLowerCase().trim() === "brasil" ||
+    data.localizacao?.pais?.toLowerCase().trim() === "brazil";
+
+  if (isBrazil && !data.localizacao?.estado?.trim()) {
+    errors.push(t("questionnaire.validation.estadoRequired"));
+  }
+
+  if (isBrazil && !data.localizacao?.cidade?.trim()) {
+    errors.push(t("questionnaire.validation.cidadeRequired"));
+  }
+
   if (!data.sistemaProducao.tipo) {
     errors.push(t("questionnaire.validation.productionSystemRequired"));
   }

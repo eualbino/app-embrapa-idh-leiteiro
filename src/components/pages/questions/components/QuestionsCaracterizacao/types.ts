@@ -5,6 +5,7 @@ export interface SistemaProducao {
 
 export interface Localizacao {
   pais: string;
+  estado: string;
   cidade: string;
 }
 

@@ -19,6 +19,9 @@ export const useCharacterizationFormState = ({
   const [pais, setPais] = useState<string>(
     initialData?.localizacao?.pais || "",
   );
+  const [estado, setEstado] = useState<string>(
+    initialData?.localizacao?.estado || "",
+  );
   const [cidade, setCidade] = useState<string>(
     initialData?.localizacao?.cidade || "",
   );
@@ -107,9 +110,9 @@ export const useCharacterizationFormState = ({
 
   useEffect(() => {
     if (initialData) {
-
       // Localização
       setPais(initialData.localizacao?.pais || "");
+      setEstado(initialData.localizacao?.estado || "");
       setCidade(initialData.localizacao?.cidade || "");
 
       // Sistema de Produção
@@ -172,6 +175,8 @@ export const useCharacterizationFormState = ({
     // Localização
     pais,
     setPais,
+    estado,
+    setEstado,
     cidade,
     setCidade,
 

@@ -124,6 +124,8 @@ export default {
           sectionTitle: "LOCALIZAÇÃO:",
           country: "País",
           countryPlaceholder: "Digite o país",
+          state: "Estado",
+          statePlaceholder: "Digite o estado",
           city: "Cidade",
           cityPlaceholder: "Digite a cidade",
         },
@@ -512,6 +514,7 @@ export default {
       validation: {
         // Localização
         cidadeRequired: "Cidade",
+        estadoRequired: "Estado",
         paisRequired: "País",
 
         productionSystemRequired: "Sistema de Produção",

@@ -1,5 +1,6 @@
 export interface CreatePropertyRequest {
   country: string;
+  state: string;
   city: string;
   productionSystem: ProductionSystemType;
   totalAreaHa: number;
@@ -28,6 +29,7 @@ export interface Property {
   id: string;
   userId: string;
   country: string;
+  state: string;
   city: string;
   productionSystem: string;
   totalAreaHa: number;

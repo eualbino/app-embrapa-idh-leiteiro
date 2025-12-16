@@ -122,9 +122,11 @@ export default {
         location: {
           sectionTitle: "LOCATION:",
           country: "Country",
-          countryPlaceholder: "Enter country name",
+          countryPlaceholder: "Enter country",
+          state: "State",
+          statePlaceholder: "Enter state",
           city: "City",
-          cityPlaceholder: "Enter city name",
+          cityPlaceholder: "Enter city",
         },
         productionSystem: {
           sectionTitle: "PRODUCTION SYSTEM:",
@@ -507,6 +509,7 @@ export default {
       validation: {
         // Location
         cidadeRequired: "City",
+        estadoRequired: "State",
         paisRequired: "Country",
 
         productionSystemRequired: "Production System",

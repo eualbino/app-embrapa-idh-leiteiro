@@ -4,6 +4,7 @@ import { FormData } from "@/src/components/pages/questions/components/QuestionsC
 interface UseCharacterizationFormLogicProps {
   // Localização
   pais: string;
+  estado: string;
   cidade: string;
 
   // Sistema de Produção
@@ -49,6 +50,7 @@ interface UseCharacterizationFormLogicProps {
 
 export const useCharacterizationFormLogic = ({
   pais,
+  estado,
   cidade,
   sistemaProducao,
   outroSistemaProducao,
@@ -79,6 +81,7 @@ export const useCharacterizationFormLogic = ({
     return {
       localizacao: {
         pais: pais,
+        estado: estado,
         cidade: cidade,
       },
       sistemaProducao: {
@@ -123,6 +126,7 @@ export const useCharacterizationFormLogic = ({
     };
   }, [
     pais,
+    estado,
     cidade,
     sistemaProducao,
     outroSistemaProducao,

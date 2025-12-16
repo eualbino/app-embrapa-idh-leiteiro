@@ -60,6 +60,7 @@ export const useProperty = () => {
 
     const mappedData = {
       country: formData.localizacao.pais,
+      state: formData.localizacao.estado,
       city: formData.localizacao.cidade,
       productionSystem,
       totalAreaHa: formData.area.propriedade,

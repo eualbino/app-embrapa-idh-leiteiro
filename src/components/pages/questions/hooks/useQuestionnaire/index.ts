@@ -13,12 +13,15 @@ import { useWaterQualityConservation } from "@/src/components/pages/questions/ho
 import { useWasteManagement } from "@/src/components/pages/questions/hooks/useWasteManagement";
 import { useNetworkStatus } from "@/src/hooks/useNetworkStatus";
 import { OfflineSyncService } from "@/src/services/offline/OfflineSyncService";
+import { useAuthContext } from "@/src/contexts/AuthContext";
+import { propertyToFormData } from "@/src/components/pages/questions/components/QuestionsCaracterizacao/utils/propertyToFormData";
 
 export const useQuestionnaire = (): QuestionnaireState &
   QuestionnaireActions => {
   // Hooks
   const { t } = useTranslation();
   const { isOnline } = useNetworkStatus();
+  const { properties } = useAuthContext();
   const { createProperty, isLoading: isCreatingProperty } = useProperty();
   const { createWaterIndicator, isLoading: isCreatingWaterIndicator } =
     useWaterIndicator();
@@ -34,6 +37,16 @@ export const useQuestionnaire = (): QuestionnaireState &
   const [propertyId, setPropertyId] = useState<string | null>(null);
   const [date, setDate] = useState(new Date());
   const [showPicker, setShowPicker] = useState<boolean>(false);
+  const [hasAutoFilled, setHasAutoFilled] = useState(false);
+
+  useEffect(() => {
+    if (properties && properties.length > 0 && !hasAutoFilled) {
+      const mostRecentProperty = properties[0];
+      const initialFormData = propertyToFormData(mostRecentProperty);
+      setFormData(initialFormData);
+      setHasAutoFilled(true);
+    }
+  }, [properties, hasAutoFilled]);
 
   const currentGroup = questionGroups[step];
 

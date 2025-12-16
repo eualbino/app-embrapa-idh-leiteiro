@@ -142,8 +142,6 @@ export default function LoginRegister() {
       </View>
       <LanguageSelector />
       <View style={styles.container}>
-        <Text style={styles.textHeader}>{t("auth.systemTitle")}</Text>
-
         <View style={styles.containerSelectView}>
           <ButtonCommon
             onPress={() => setView(VIEW_LOGIN_PAGE.LOGIN)}

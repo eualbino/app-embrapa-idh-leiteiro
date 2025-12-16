@@ -167,7 +167,7 @@ export const PropertyHistoryCard: React.FC<PropertyHistoryCardProps> = ({
           </View>
 
           <View style={styles.scoreItem}>
-            <Text style={styles.scoreLabel}>IDH Água</Text>
+            <Text style={styles.scoreLabel}>IDH_Leite</Text>
             <Text
               style={[
                 styles.scoreValueLarge,

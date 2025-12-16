@@ -102,10 +102,18 @@ const QuestionnaireContentWrapper: React.FC = () => {
       >
         <View style={stylesQuestionsPage.containerInfo}>
           <Text style={stylesQuestionsPage.textHeader}>
-            {t("questionnaire.title")}
+            {step === 0
+              ? t("questionnaire.titleCaracterization")
+              : step === 1
+                ? t("questionnaire.titleQuantity")
+                : step === 2
+                  ? t("questionnaire.titleQuality")
+                  : t("questionnaire.titleWaste")}
           </Text>
           <Text style={stylesQuestionsPage.textSubHeader}>
-            {t("questionnaire.subtitle")}
+            {step === 0
+              ? t("questionnaire.subtitleCaracterization")
+              : t("questionnaire.subtitle")}
           </Text>
           <LogoutButton />
         </View>

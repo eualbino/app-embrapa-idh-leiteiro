@@ -36,7 +36,6 @@ export default {
       loginButton: "Entrar",
       registerButton: "Registrar",
       backToLogin: "Voltar ao Login",
-      systemTitle: "Sistema de Avaliação Hídrica Leiteira",
     },
 
     // Forgot Password
@@ -109,7 +108,12 @@ export default {
 
     // Questionnaire
     questionnaire: {
-      title: "Questionário",
+      titleCaracterization: "Caracterização",
+      subtitleCaracterization:
+        "Primeiramente vamos caracterizar o seu sistema de produção.",
+      titleQuantity: "Dimensão – Quantidade de Água",
+      titleQuality: "Dimensão – Qualidade da Água",
+      titleWaste: "Dimensão – Manejo de Resíduos",
       subtitle:
         "Responda o questionário e obtenha um score individual, indicando o nível de desempenho hídrico do sistema de produção leiteira.",
       date: "Data",
@@ -140,7 +144,8 @@ export default {
         },
         area: {
           sectionTitle: "B. ÁREA:",
-          totalArea: "Qual a área total da propriedade, em hectares (ha)?",
+          totalArea:
+            "Qual a área da propriedade utilizada na atividade leiteira, em hectares?",
           totalAreaPlaceholder: "Área da Propriedade (ha)",
           pastureArea: "Qual a área de pastagem, em hectares (ha)?",
           pastureAreaPlaceholder: "Área de Pastagem (ha)",
@@ -148,7 +153,7 @@ export default {
           silageAreaPlaceholder: "Área de Silagem (ha)",
         },
         herd: {
-          sectionTitle: "C. REBANHO:",
+          sectionTitle: "C. REBANHO: (em número de cabeças)",
           lactatingCows: "Vacas em lactação",
           lactatingCowsPlaceholder: "Vacas em Lactação",
           dryCows: "Vacas secas",
@@ -179,12 +184,12 @@ export default {
           proteinPercentagePlaceholder: "Percentual de Proteína (%)",
         },
         dailyConsumption: {
-          sectionTitle: "F. CONSUMO DIÁRIO:",
+          sectionTitle: "F. CONSUMO DIÁRIO DE VACAS EM LACTAÇÃO:",
           roughageConsumption:
-            "Qual o consumo diário de volumoso por vaca (Matéria Natural ou Matéria Seca)?",
+            "Qual o consumo diário de volumoso por vaca (kg)?",
           roughageConsumptionPlaceholder: "Consumo de Volumoso",
           concentrateConsumption:
-            "Qual o consumo diário de concentrado por vaca (Matéria Natural ou Matéria Seca)?",
+            "Qual o consumo diário de concentrado por vaca (kg)?",
           concentrateConsumptionPlaceholder: "Consumo de Concentrado",
           unitInformed: "Unidade informada:",
           naturalMatter: "Matéria Natural",
@@ -199,8 +204,9 @@ export default {
         },
         environmentalLegislation: {
           sectionTitle: "H. LEGISLAÇÃO AMBIENTAL:",
-          hasEnvironmentalLicense: "A propriedade possui licença ambiental?",
-          hasWaterGrant: "A propriedade possui outorga de água?",
+          hasEnvironmentalLicense:
+            "A propriedade possui licença ambiental da atividade leiteira?",
+          hasWaterGrant: "A propriedade possui outorga de uso da água?",
         },
       },
       name: "Nome",
@@ -357,18 +363,18 @@ export default {
         q10: {
           text: "Propriedade possui programa de uso de água de IRRIGAÇÃO?",
           observation:
-            "O Programa de irrigação deve conter o cálculo da lâmina de água a ser aplicada de acordo com os parâmetros técnicos (aspectos climáticos, unidade do solo, etc.). Não se aplica quando as propriedades não fazem irrigação.",
+            "O Programa de irrigação deve conter o cálculo da lâmina de água a ser aplicada de acordo com os parâmetros técnicos (aspectos climáticos, umidade do solo, etc.). Não se aplica quando as propriedades não fazem irrigação.",
         },
         q11: {
           text: "O acionamento do sistema de RESFRIAMENTO dos animais é feito com base em parâmetros técnicos?",
           observation:
-            "Sistema de resfriamento que aciona com base em controle com parâmetros técnicos (temperatura e umidade ambiente).",
+            "Sistema de resfriamento que aciona de acordo com parâmetros técnicos (temperatura e umidade ambiente).",
         },
         q12: {
           text: "A propriedade possui CAPTAÇÃO DE ÁGUA DA CHUVA e armazenamento em CISTERNA?",
         },
         q13: {
-          text: "A propriedade faz REUSO DA ÁGUA OU DE EFLUENTES? (ex.: água de lavagem de bebedouros e equipamentos pode ser utilizada na lavagem de piso, reuso de efluente na irrigação, etc.)",
+          text: "A propriedade faz REUSO DA ÁGUA OU DE EFLUENTES? (ex. uso da água da lavagem de bebedouros para lavagem do piso, reuso do efluente para lavagem do piso, reuso do efluente na irrigação, etc.)",
         },
         q14: {
           text: "A propriedade MONITORA A QUALIDADE da água?",
@@ -400,13 +406,13 @@ export default {
           text: "A propriedade possui SISTEMA DE TRATAMENTO do DEJETO da ordenha? (EX. esterqueira, lagoa, biodigestor, etc.)?",
         },
         q23: {
-          text: "A propriedade possui SISTEMA de armazenamento ou tratamento de dejetos IMPERMEABILIZADO?",
+          text: "A propriedade possui SISTEMA ou tratamento de dejetos IMPERMEABILIZADO?",
         },
         q24: {
-          text: "As ÁGUAS DE CHUVA que caem no piso da ordenha e área de espera são DESVIADAS do Sistema de armazenamento ou tratamento dos dejetos?",
+          text: "As ÁGUAS DE CHUVA que caem no piso da ordenha e área de espera são DESVIADAS do Sistema ou tratamento dos dejetos?",
         },
         q25: {
-          text: "Há ocorrência de VAZAMENTOS NOS SISTEMAS de armazenamento/tratamento dos dejetos?",
+          text: "Há ocorrência de VAZAMENTOS NOS SISTEMAS de tratamento dos dejetos?",
         },
         q26: {
           text: "Há CALHAS NO TELHADO da ordenha?",
@@ -483,7 +489,7 @@ export default {
           analysisOncePerYear: "Realiza análise 1 vez por ano",
           analysisTwicePerYear: "Realiza análise 2 vezes por ano",
           analysisEvery3YearsOrMore:
-            "Realiza análise a cada 3 anos ou mais e esporádico",
+            "Realiza análise a cada 3 anos ou mais ou é esporádico",
           analysisEvery2Years: "Realiza análise a cada 2 anos",
           annualAnalysis: "Realiza análise anual",
           in100PercentMilkings: "Em 100% das ordenhas",
@@ -559,24 +565,22 @@ export default {
 
     // Result Page
     result: {
-      title: "Seu Score Total Foi",
-      improvementSuggestions: "Sugestões de Melhorias",
-      improvementSubtitle:
-        "Para atingir a nota mínima, recomendamos as seguintes melhorias:",
+      title: "Escore Geral do IDH_Leite",
+      improvementSuggestions: "Sugestões de Boas Práticas",
       categoryWaterQuantity: "Quantidade de Água",
       categoryWaterQuality: "Qualidade da Água",
       categoryWasteManagement: "Manejo de Resíduos",
       approved: "Aprovado",
-      needsImprovement: "Precisa Melhorar",
+      needsImprovement: "Como Melhorar",
       minimumScore: "Mínimo",
       congratulations: "Parabéns!",
       congratulationsMessage:
-        "Sua propriedade atingiu todas as notas mínimas necessárias. Continue mantendo as boas práticas de sustentabilidade!",
+        "Sua propriedade atingiu todas as notas mínimas para cada Dimensão do IDH_Leite. Continue mantendo as boas práticas de uso da água e manejo de resíduos!",
       loadingResults: "Carregando resultados...",
       errorLoadingTitle: "Erro ao carregar resultados",
       errorLoadingMessage: "Não foi possível carregar os dados da performance",
       detailedScores: "Pontuações Detalhadas",
-      idhWater: "IDH Água",
+      idhMilk: "IDH_Leite",
       didNotReachMinimum: "Não atingiu a nota mínima",
       improvements: {
         waterManagement: {

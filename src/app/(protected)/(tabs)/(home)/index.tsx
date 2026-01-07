@@ -1,16 +1,22 @@
 // External Libraries
-import { SafeAreaView } from "react-native-safe-area-context";
+import { View, StyleSheet } from "react-native";
 
 // Components
 import AllQuestionsScore from "@/src/components/pages/questions";
+import { AppBar } from "@/src/components/commons";
 
 export default function QuestionsPage() {
   return (
-    <SafeAreaView
-      style={{ flex: 1, backgroundColor: "#ffffff" }}
-      edges={["top"]}
-    >
+    <View style={styles.container}>
+      <AppBar title="IDH Leite" />
       <AllQuestionsScore />
-    </SafeAreaView>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#ffffff",
+  },
+});

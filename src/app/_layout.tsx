@@ -103,10 +103,10 @@ export default function RootLayout() {
       <SafeAreaProvider>
         <StatusBar
           translucent
-          backgroundColor="transparent"
-          barStyle="dark-content"
+          backgroundColor="#006f36"
+          barStyle="light-content"
         />
-        <SafeAreaView style={styles.safeArea} edges={["bottom"]}>
+        <SafeAreaView style={styles.safeArea} edges={[]}>
           <RootNavigator />
         </SafeAreaView>
       </SafeAreaProvider>

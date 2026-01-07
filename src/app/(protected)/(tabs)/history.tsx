@@ -1,16 +1,22 @@
 // External Libraries
-import { SafeAreaView } from "react-native-safe-area-context";
+import { View, StyleSheet } from "react-native";
 
 // Components
 import History from "@/src/components/pages/history";
+import { AppBar } from "@/src/components/commons";
 
 export default function HistoryPage() {
   return (
-    <SafeAreaView
-      style={{ flex: 1, backgroundColor: "#ffffff" }}
-      edges={["top"]}
-    >
+    <View style={styles.container}>
+      <AppBar title="Histórico" />
       <History />
-    </SafeAreaView>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#ffffff",
+  },
+});

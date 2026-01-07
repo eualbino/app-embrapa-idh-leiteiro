@@ -36,6 +36,19 @@ export default {
       loginButton: "Entrar",
       registerButton: "Registrar",
       backToLogin: "Voltar ao Login",
+      errors: {
+        invalidCredentials: "Dados de login inválidos.",
+        loginFailed: "Não foi possível fazer login. Tente novamente.",
+        invalidData: "Dados inválidos.",
+        registerFailed: "Não foi possível cadastrar. Tente novamente.",
+        emailOrCpfExists: "Email ou CPF já cadastrado.",
+      },
+      success: {
+        loginSuccess: "Login realizado!",
+        loginWelcome: "Bem-vindo de volta!",
+        registerSuccess: "Cadastro realizado!",
+        registerMessage: "Faça login para continuar.",
+      },
     },
 
     // Forgot Password

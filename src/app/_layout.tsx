@@ -1,10 +1,11 @@
 // External Libraries
-import { useEffect } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Stack, useRouter, usePathname } from "expo-router";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { StatusBar, StyleSheet, ActivityIndicator, View } from "react-native";
+import { StatusBar, StyleSheet, View } from "react-native";
 import Toast from "react-native-toast-message";
 import * as NavigationBar from "expo-navigation-bar";
+import * as SplashScreen from "expo-splash-screen";
 
 // Config
 import toastConfig from "@/src/config/toast";
@@ -16,10 +17,21 @@ import { AuthProvider, useAuthContext } from "@/src/contexts/AuthContext";
 // Components
 import { OfflineSyncMonitor } from "@/src/components/commons/OfflineSyncMonitor";
 
+SplashScreen.preventAutoHideAsync();
+
 function RootNavigator() {
   const { isAuthenticated, isLoading } = useAuthContext();
   const router = useRouter();
   const pathname = usePathname();
+  const [isSplashReady, setIsSplashReady] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsSplashReady(true);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     if (!isLoading) {
@@ -35,16 +47,18 @@ function RootNavigator() {
     }
   }, [isAuthenticated, isLoading, pathname, router]);
 
-  if (isLoading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#006f36" />
-      </View>
-    );
+  const onLayoutRootView = useCallback(async () => {
+    if (isSplashReady && !isLoading) {
+      await SplashScreen.hideAsync();
+    }
+  }, [isSplashReady, isLoading]);
+
+  if (!isSplashReady || isLoading) {
+    return null;
   }
 
   return (
-    <>
+    <View style={styles.container} onLayout={onLayoutRootView}>
       <OfflineSyncMonitor />
       <Stack
         screenOptions={{
@@ -77,7 +91,7 @@ function RootNavigator() {
         />
       </Stack>
       <Toast config={toastConfig} topOffset={100} />
-    </>
+    </View>
   );
 }
 
@@ -101,6 +115,9 @@ export default function RootLayout() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   safeArea: {
     flex: 1,
     backgroundColor: "#fff",

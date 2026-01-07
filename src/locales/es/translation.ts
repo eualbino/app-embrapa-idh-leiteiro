@@ -36,6 +36,19 @@ export default {
       loginButton: "Entrar",
       registerButton: "Registrarse",
       backToLogin: "Volver al inicio de sesión",
+      errors: {
+        invalidCredentials: "Datos de inicio de sesión inválidos.",
+        loginFailed: "No se pudo iniciar sesión. Inténtelo de nuevo.",
+        invalidData: "Datos inválidos.",
+        registerFailed: "No se pudo registrar. Inténtelo de nuevo.",
+        emailOrCpfExists: "El correo electrónico o CPF ya está registrado.",
+      },
+      success: {
+        loginSuccess: "¡Inicio de sesión exitoso!",
+        loginWelcome: "¡Bienvenido de nuevo!",
+        registerSuccess: "¡Registro exitoso!",
+        registerMessage: "Inicie sesión para continuar.",
+      },
     },
 
     // Forgot Password

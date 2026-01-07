@@ -20,7 +20,7 @@ import { OfflineSyncMonitor } from "@/src/components/commons/OfflineSyncMonitor"
 SplashScreen.preventAutoHideAsync();
 
 function RootNavigator() {
-  const { isAuthenticated, isLoading } = useAuthContext();
+  const { isAuthenticated, isInitializing } = useAuthContext();
   const router = useRouter();
   const pathname = usePathname();
   const [isSplashReady, setIsSplashReady] = useState(false);
@@ -34,7 +34,7 @@ function RootNavigator() {
   }, []);
 
   useEffect(() => {
-    if (!isLoading) {
+    if (!isInitializing) {
       const isProtectedRoute = pathname?.startsWith("/(protected)");
       const isAuthRoute =
         pathname === "/login" || pathname?.startsWith("/forgot-password");
@@ -45,15 +45,15 @@ function RootNavigator() {
         router.replace("/login");
       }
     }
-  }, [isAuthenticated, isLoading, pathname, router]);
+  }, [isAuthenticated, isInitializing, pathname, router]);
 
   const onLayoutRootView = useCallback(async () => {
-    if (isSplashReady && !isLoading) {
+    if (isSplashReady && !isInitializing) {
       await SplashScreen.hideAsync();
     }
-  }, [isSplashReady, isLoading]);
+  }, [isSplashReady, isInitializing]);
 
-  if (!isSplashReady || isLoading) {
+  if (!isSplashReady || isInitializing) {
     return null;
   }
 

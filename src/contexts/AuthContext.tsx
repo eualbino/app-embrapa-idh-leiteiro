@@ -9,6 +9,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import Toast from "react-native-toast-message";
+import { useTranslation } from "react-i18next";
 
 // Services
 import { AuthService } from "@/src/services";
@@ -23,6 +24,7 @@ import type { UserProfile, PropertySummary } from "@/src/services/api/user";
 
 interface AuthContextData {
   isLoading: boolean;
+  isInitializing: boolean;
   isAuthenticated: boolean;
   user: UserProfile | null;
   properties: PropertySummary[];
@@ -40,6 +42,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [properties, setProperties] = useState<PropertySummary[]>([]);
   const router = useRouter();
+  const { t } = useTranslation();
 
   useEffect(() => {
     checkAuth();
@@ -93,8 +96,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
         Toast.show({
           type: "success",
-          text1: "Login realizado!",
-          text2: "Bem-vindo de volta!",
+          text1: t("auth.success.loginSuccess"),
+          text2: t("auth.success.loginWelcome"),
         });
 
         router.replace({ pathname: "/(protected)/(tabs)/(home)" } as any);
@@ -108,17 +111,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } catch (error: any) {
       console.error("Erro no login:", error);
       const status = error?.response?.status;
-      let errorMessage = "Não foi possível fazer login. Tente novamente.";
+      let errorMessage = t("auth.errors.loginFailed");
 
       if (status === 401 || status === 404) {
-        errorMessage = "Email/CPF ou senha inválidos.";
+        errorMessage = t("auth.errors.invalidCredentials");
       } else if (status === 400) {
-        errorMessage = error?.response?.data?.message || "Dados inválidos.";
+        errorMessage =
+          error?.response?.data?.message || t("auth.errors.invalidData");
       }
 
       Toast.show({
         type: "error",
-        text1: "Erro no Login",
+        text1: t("common.error"),
         text2: errorMessage,
       });
     } finally {
@@ -133,8 +137,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       Toast.show({
         type: "success",
-        text1: "Cadastro realizado!",
-        text2: "Faça login para continuar.",
+        text1: t("auth.success.registerSuccess"),
+        text2: t("auth.success.registerMessage"),
       });
 
       await login({
@@ -144,16 +148,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } catch (error: any) {
       console.error("Erro no registro:", error);
       const status = error?.response?.status;
-      let errorMessage = "Não foi possível cadastrar. Tente novamente.";
+      let errorMessage = t("auth.errors.registerFailed");
 
       if (status === 400) {
         errorMessage =
-          error?.response?.data?.message || "Email ou CPF já cadastrado.";
+          error?.response?.data?.message || t("auth.errors.emailOrCpfExists");
       }
 
       Toast.show({
         type: "error",
-        text1: "Erro no Cadastro",
+        text1: t("common.error"),
         text2: errorMessage,
       });
     } finally {
@@ -175,15 +179,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       Toast.show({
         type: "success",
-        text1: "Logout realizado",
-        text2: "Até logo!",
+        text1: t("common.success"),
+        text2: t("common.logout"),
       });
     } catch (error) {
       console.error("Erro ao fazer logout:", error);
       Toast.show({
         type: "error",
-        text1: "Erro",
-        text2: "Não foi possível fazer logout.",
+        text1: t("common.error"),
+        text2: t("auth.errors.loginFailed"),
       });
     } finally {
       setIsLoading(false);
@@ -193,7 +197,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   return (
     <AuthContext.Provider
       value={{
-        isLoading: isLoading || isInitializing,
+        isLoading,
+        isInitializing,
         isAuthenticated,
         user,
         properties,

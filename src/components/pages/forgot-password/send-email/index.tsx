@@ -1,6 +1,12 @@
 // External Libraries
 import React, { useState } from "react";
-import { View, Text } from "react-native";
+import {
+  View,
+  Text,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
+} from "react-native";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import Toast from "react-native-toast-message";
@@ -53,49 +59,63 @@ export default function SendEmailForgotPassword() {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.card}>
-        <Text style={styles.title}>{t("forgotPassword.sendEmailTitle")}</Text>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
+    >
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.container}>
+          <View style={styles.card}>
+            <Text style={styles.title}>
+              {t("forgotPassword.sendEmailTitle")}
+            </Text>
 
-        <Text style={styles.description}>
-          {t("forgotPassword.sendEmailDescription")}
-        </Text>
+            <Text style={styles.description}>
+              {t("forgotPassword.sendEmailDescription")}
+            </Text>
 
-        <View style={styles.inputContainer}>
-          <Input
-            label={t("forgotPassword.email")}
-            type="email-address"
-            placeholder={t("forgotPassword.emailPlaceholder")}
-            value={email}
-            onChangeText={setEmail}
-            autoCapitalize="none"
-            autoCorrect={false}
-            editable={!isLoading}
-          />
+            <View style={styles.inputContainer}>
+              <Input
+                label={t("forgotPassword.email")}
+                type="email-address"
+                placeholder={t("forgotPassword.emailPlaceholder")}
+                value={email}
+                onChangeText={setEmail}
+                autoCapitalize="none"
+                autoCorrect={false}
+                editable={!isLoading}
+              />
+            </View>
+
+            <View style={styles.buttonContainer}>
+              <ButtonCommon
+                onPress={handleSendEmail}
+                variant="primary"
+                disabled={isLoading}
+              >
+                {isLoading
+                  ? t("forgotPassword.sending")
+                  : t("forgotPassword.sendCode")}
+              </ButtonCommon>
+            </View>
+
+            <View style={styles.buttonContainer}>
+              <ButtonCommon
+                onPress={handleBackToLogin}
+                variant="secondary"
+                disabled={isLoading}
+              >
+                {t("auth.backToLogin")}
+              </ButtonCommon>
+            </View>
+          </View>
         </View>
-
-        <View style={styles.buttonContainer}>
-          <ButtonCommon
-            onPress={handleSendEmail}
-            variant="primary"
-            disabled={isLoading}
-          >
-            {isLoading
-              ? t("forgotPassword.sending")
-              : t("forgotPassword.sendCode")}
-          </ButtonCommon>
-        </View>
-
-        <View style={styles.buttonContainer}>
-          <ButtonCommon
-            onPress={handleBackToLogin}
-            variant="secondary"
-            disabled={isLoading}
-          >
-            {t("auth.backToLogin")}
-          </ButtonCommon>
-        </View>
-      </View>
-    </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }

@@ -1,6 +1,13 @@
 // External Libraries
 import { useState } from "react";
-import { View, Text, Image, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "expo-router";
 
@@ -123,67 +130,73 @@ export default function LoginRegister() {
   }
 
   return (
-    <ScrollView
-      contentContainerStyle={styles.scrollContainer}
-      showsVerticalScrollIndicator={false}
-      keyboardShouldPersistTaps="handled"
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
     >
-      <View style={styles.logosContainer}>
-        <Image
-          source={require("@/src/assets/images/logo_IDH.png")}
-          style={styles.logoIDH}
-          resizeMode="contain"
-        />
-      </View>
-      <LanguageSelector />
-      <View style={styles.container}>
-        <View style={styles.containerSelectView}>
-          <ButtonCommon
-            onPress={() => setView(VIEW_LOGIN_PAGE.LOGIN)}
-            variant={view === VIEW_LOGIN_PAGE.LOGIN ? "primary" : "secondary"}
-            style={styles.buttonView}
-            isActive={view === VIEW_LOGIN_PAGE.LOGIN ? true : false}
-          >
-            {t("auth.login")}
-          </ButtonCommon>
-          <ButtonCommon
-            onPress={() => setView(VIEW_LOGIN_PAGE.REGISTER)}
-            variant={
-              view === VIEW_LOGIN_PAGE.REGISTER ? "primary" : "secondary"
-            }
-            style={styles.buttonView}
-            isActive={view === VIEW_LOGIN_PAGE.REGISTER ? true : false}
-          >
-            {t("auth.register")}
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+      >
+        <View style={styles.logosContainer}>
+          <Image
+            source={require("@/src/assets/images/logo_IDH.png")}
+            style={styles.logoIDH}
+            resizeMode="contain"
+          />
+        </View>
+        <LanguageSelector />
+        <View style={styles.container}>
+          <View style={styles.containerSelectView}>
+            <ButtonCommon
+              onPress={() => setView(VIEW_LOGIN_PAGE.LOGIN)}
+              variant={view === VIEW_LOGIN_PAGE.LOGIN ? "primary" : "secondary"}
+              style={styles.buttonView}
+              isActive={view === VIEW_LOGIN_PAGE.LOGIN ? true : false}
+            >
+              {t("auth.login")}
+            </ButtonCommon>
+            <ButtonCommon
+              onPress={() => setView(VIEW_LOGIN_PAGE.REGISTER)}
+              variant={
+                view === VIEW_LOGIN_PAGE.REGISTER ? "primary" : "secondary"
+              }
+              style={styles.buttonView}
+              isActive={view === VIEW_LOGIN_PAGE.REGISTER ? true : false}
+            >
+              {t("auth.register")}
+            </ButtonCommon>
+          </View>
+          {returnViewUser()}
+
+          {view === VIEW_LOGIN_PAGE.LOGIN && (
+            <Text
+              style={styles.forgotPasswordLink}
+              onPress={() => route.push("/forgot-password/send-email")}
+            >
+              {t("auth.forgotPassword")}
+            </Text>
+          )}
+
+          <ButtonCommon onPress={handleSubmit} disabled={isLoading}>
+            {isLoading
+              ? t("common.loading")
+              : view === VIEW_LOGIN_PAGE.LOGIN
+                ? t("auth.loginButton")
+                : t("auth.registerButton")}
           </ButtonCommon>
         </View>
-        {returnViewUser()}
 
-        {view === VIEW_LOGIN_PAGE.LOGIN && (
-          <Text
-            style={styles.forgotPasswordLink}
-            onPress={() => route.push("/forgot-password/send-email")}
-          >
-            {t("auth.forgotPassword")}
-          </Text>
-        )}
-
-        <ButtonCommon onPress={handleSubmit} disabled={isLoading}>
-          {isLoading
-            ? t("common.loading")
-            : view === VIEW_LOGIN_PAGE.LOGIN
-              ? t("auth.loginButton")
-              : t("auth.registerButton")}
-        </ButtonCommon>
-      </View>
-      
-      <View style={[styles.logosContainer, { marginTop: 20 }]}>
-        <Image
-          source={require("@/src/assets/images/logo_embrapa.png")}
-          style={styles.logoEmbrapa}
-          resizeMode="contain"
-        />
-      </View>
-    </ScrollView>
+        <View style={[styles.logosContainer, { marginTop: 20 }]}>
+          <Image
+            source={require("@/src/assets/images/logo_embrapa.png")}
+            style={styles.logoEmbrapa}
+            resizeMode="contain"
+          />
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }

@@ -1,6 +1,12 @@
 // External Libraries
 import React, { useState, useMemo } from "react";
-import { View, Text } from "react-native";
+import {
+  View,
+  Text,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
+} from "react-native";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import Toast from "react-native-toast-message";
@@ -73,124 +79,138 @@ export default function ResetPasswordForgotPassword() {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.card}>
-        <Text style={styles.title}>
-          {t("forgotPassword.resetPasswordTitle")}
-        </Text>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
+    >
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.container}>
+          <View style={styles.card}>
+            <Text style={styles.title}>
+              {t("forgotPassword.resetPasswordTitle")}
+            </Text>
 
-        <Text style={styles.description}>
-          {t("forgotPassword.resetPasswordDescription")}
-        </Text>
+            <Text style={styles.description}>
+              {t("forgotPassword.resetPasswordDescription")}
+            </Text>
 
-        <View style={styles.inputContainer}>
-          <Input
-            label={t("forgotPassword.newPassword")}
-            placeholder={t("forgotPassword.newPasswordPlaceholder")}
-            value={newPassword}
-            onChangeText={setNewPassword}
-            secureTextEntry
-            autoCapitalize="none"
-            autoCorrect={false}
-            editable={!isLoading}
-          />
+            <View style={styles.inputContainer}>
+              <Input
+                label={t("forgotPassword.newPassword")}
+                placeholder={t("forgotPassword.newPasswordPlaceholder")}
+                value={newPassword}
+                onChangeText={setNewPassword}
+                secureTextEntry
+                autoCapitalize="none"
+                autoCorrect={false}
+                editable={!isLoading}
+              />
+            </View>
+
+            <View style={styles.passwordRequirements}>
+              <Text
+                style={[
+                  styles.requirementText,
+                  passwordValidation.minLength
+                    ? styles.requirementMet
+                    : styles.requirementNotMet,
+                ]}
+              >
+                {passwordValidation.minLength ? "✓" : "○"}{" "}
+                {t("forgotPassword.passwordRequirements.minLength")}
+              </Text>
+              <Text
+                style={[
+                  styles.requirementText,
+                  passwordValidation.hasUpperCase
+                    ? styles.requirementMet
+                    : styles.requirementNotMet,
+                ]}
+              >
+                {passwordValidation.hasUpperCase ? "✓" : "○"}{" "}
+                {t("forgotPassword.passwordRequirements.hasUpperCase")}
+              </Text>
+              <Text
+                style={[
+                  styles.requirementText,
+                  passwordValidation.hasLowerCase
+                    ? styles.requirementMet
+                    : styles.requirementNotMet,
+                ]}
+              >
+                {passwordValidation.hasLowerCase ? "✓" : "○"}{" "}
+                {t("forgotPassword.passwordRequirements.hasLowerCase")}
+              </Text>
+              <Text
+                style={[
+                  styles.requirementText,
+                  passwordValidation.hasNumber
+                    ? styles.requirementMet
+                    : styles.requirementNotMet,
+                ]}
+              >
+                {passwordValidation.hasNumber ? "✓" : "○"}{" "}
+                {t("forgotPassword.passwordRequirements.hasNumber")}
+              </Text>
+              <Text
+                style={[
+                  styles.requirementText,
+                  passwordValidation.hasSpecialChar
+                    ? styles.requirementMet
+                    : styles.requirementNotMet,
+                ]}
+              >
+                {passwordValidation.hasSpecialChar ? "✓" : "○"}{" "}
+                {t("forgotPassword.passwordRequirements.hasSpecialChar")}
+              </Text>
+            </View>
+
+            <View style={styles.inputContainer}>
+              <Input
+                label={t("forgotPassword.confirmPassword")}
+                placeholder={t("forgotPassword.confirmPasswordPlaceholder")}
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+                secureTextEntry
+                autoCapitalize="none"
+                autoCorrect={false}
+                editable={!isLoading}
+              />
+            </View>
+
+            <View style={styles.buttonContainer}>
+              <ButtonCommon
+                onPress={handleResetPassword}
+                variant="primary"
+                disabled={
+                  isLoading ||
+                  !isPasswordValid ||
+                  newPassword !== confirmPassword
+                }
+              >
+                {isLoading
+                  ? t("forgotPassword.resetting")
+                  : t("forgotPassword.resetPassword")}
+              </ButtonCommon>
+            </View>
+
+            <View style={styles.buttonContainer}>
+              <ButtonCommon
+                onPress={handleBackToLogin}
+                variant="secondary"
+                disabled={isLoading}
+              >
+                {t("auth.backToLogin")}
+              </ButtonCommon>
+            </View>
+          </View>
         </View>
-
-        <View style={styles.passwordRequirements}>
-          <Text
-            style={[
-              styles.requirementText,
-              passwordValidation.minLength
-                ? styles.requirementMet
-                : styles.requirementNotMet,
-            ]}
-          >
-            {passwordValidation.minLength ? "✓" : "○"}{" "}
-            {t("forgotPassword.passwordRequirements.minLength")}
-          </Text>
-          <Text
-            style={[
-              styles.requirementText,
-              passwordValidation.hasUpperCase
-                ? styles.requirementMet
-                : styles.requirementNotMet,
-            ]}
-          >
-            {passwordValidation.hasUpperCase ? "✓" : "○"}{" "}
-            {t("forgotPassword.passwordRequirements.hasUpperCase")}
-          </Text>
-          <Text
-            style={[
-              styles.requirementText,
-              passwordValidation.hasLowerCase
-                ? styles.requirementMet
-                : styles.requirementNotMet,
-            ]}
-          >
-            {passwordValidation.hasLowerCase ? "✓" : "○"}{" "}
-            {t("forgotPassword.passwordRequirements.hasLowerCase")}
-          </Text>
-          <Text
-            style={[
-              styles.requirementText,
-              passwordValidation.hasNumber
-                ? styles.requirementMet
-                : styles.requirementNotMet,
-            ]}
-          >
-            {passwordValidation.hasNumber ? "✓" : "○"}{" "}
-            {t("forgotPassword.passwordRequirements.hasNumber")}
-          </Text>
-          <Text
-            style={[
-              styles.requirementText,
-              passwordValidation.hasSpecialChar
-                ? styles.requirementMet
-                : styles.requirementNotMet,
-            ]}
-          >
-            {passwordValidation.hasSpecialChar ? "✓" : "○"}{" "}
-            {t("forgotPassword.passwordRequirements.hasSpecialChar")}
-          </Text>
-        </View>
-
-        <View style={styles.inputContainer}>
-          <Input
-            label={t("forgotPassword.confirmPassword")}
-            placeholder={t("forgotPassword.confirmPasswordPlaceholder")}
-            value={confirmPassword}
-            onChangeText={setConfirmPassword}
-            secureTextEntry
-            autoCapitalize="none"
-            autoCorrect={false}
-            editable={!isLoading}
-          />
-        </View>
-
-        <View style={styles.buttonContainer}>
-          <ButtonCommon
-            onPress={handleResetPassword}
-            variant="primary"
-            disabled={
-              isLoading || !isPasswordValid || newPassword !== confirmPassword
-            }
-          >
-            {isLoading
-              ? t("forgotPassword.resetting")
-              : t("forgotPassword.resetPassword")}
-          </ButtonCommon>
-        </View>
-
-        <View style={styles.buttonContainer}>
-          <ButtonCommon
-            onPress={handleBackToLogin}
-            variant="secondary"
-            disabled={isLoading}
-          >
-            {t("auth.backToLogin")}
-          </ButtonCommon>
-        </View>
-      </View>
-    </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }

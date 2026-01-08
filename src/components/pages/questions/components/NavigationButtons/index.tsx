@@ -12,7 +12,13 @@ import { ButtonCommon } from "@/src/components/commons/Button";
 // Style
 import { styles } from "./styles";
 
-export const NavigationButtons: React.FC = () => {
+interface NavigationButtonsProps {
+  onNextClick?: () => void;
+}
+
+export const NavigationButtons: React.FC<NavigationButtonsProps> = ({
+  onNextClick,
+}) => {
   const { t } = useTranslation();
   const {
     step,
@@ -32,6 +38,14 @@ export const NavigationButtons: React.FC = () => {
     isCreatingWaterQuality ||
     isCreatingWasteManagement;
 
+  const handleNextButtonClick = () => {
+    if (onNextClick) {
+      onNextClick();
+    } else {
+      handleNext();
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View>
@@ -45,7 +59,7 @@ export const NavigationButtons: React.FC = () => {
       </View>
       <View>
         <ButtonCommon
-          onPress={() => handleNext()}
+          onPress={handleNextButtonClick}
           variant="primary"
           disabled={isLoading}
         >

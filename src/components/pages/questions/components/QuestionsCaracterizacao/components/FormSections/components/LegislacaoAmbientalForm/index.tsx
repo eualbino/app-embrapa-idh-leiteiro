@@ -7,8 +7,8 @@ import { useTranslation } from "react-i18next";
 import { stylesCharacterization } from "../../../../styles";
 
 interface LegislacaoAmbientalInputProps {
-  temLicencaAmbiental: string;
-  setTemLicencaAmbiental: (value: string) => void;
+  temLicencaAmbiental: string | null;
+  setTemLicencaAmbiental: (value: string | null) => void;
   temOutorgaAgua: string;
   setTemOutorgaAgua: (value: string) => void;
   renderRadioButton: (isSelected: boolean) => JSX.Element;

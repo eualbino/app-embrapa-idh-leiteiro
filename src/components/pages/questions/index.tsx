@@ -1,9 +1,9 @@
 // External Libraries
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView } from "react-native";
 import { useTranslation } from "react-i18next";
 
-// Conxtext
+// Context
 import {
   QuestionnaireProvider,
   useQuestionnaireContext,
@@ -24,6 +24,9 @@ import { useOfflineSync } from "@/src/hooks/useOfflineSync";
 // Mock Data
 import { questions } from "@/src/mock/questions";
 
+// Types
+import { FormData } from "./components/QuestionsCaracterizacao/types";
+
 // Style
 import { stylesQuestionsPage } from "./styles";
 
@@ -38,18 +41,27 @@ const data_manejo_residuos = questions.filter(
 );
 
 const groups = [
-  null, // Step 0 é o FormularioQuestionario
+  null,
   data_quantidade_agua,
   data_qualidade_agua,
   data_manejo_residuos,
 ];
 
 const QuestionnaireContent: React.FC = () => {
-  const { step, setFormData, formData } = useQuestionnaireContext();
+  const { step, formData, handleNext } = useQuestionnaireContext();
   const currentGroup = groups[step];
+  const [currentFormData, setCurrentFormData] = useState<FormData | null>(null);
 
-  const handleDataChange = (data: any) => {
-    setFormData(data);
+  const handleFormDataReady = (data: FormData) => {
+    setCurrentFormData(data);
+  };
+
+  const handleNextClick = () => {
+    if (step === 0 && currentFormData) {
+      handleNext(currentFormData);
+    } else {
+      handleNext();
+    }
   };
 
   return (
@@ -58,14 +70,14 @@ const QuestionnaireContent: React.FC = () => {
 
       {step === 0 ? (
         <FormularioQuestionario
-          onDataChange={handleDataChange}
           initialData={formData}
+          onFormDataReady={handleFormDataReady}
         />
       ) : (
         currentGroup && <QuestionGroup questions={currentGroup} />
       )}
 
-      <NavigationButtons />
+      <NavigationButtons onNextClick={handleNextClick} />
     </View>
   );
 };

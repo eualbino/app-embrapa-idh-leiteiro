@@ -1,5 +1,5 @@
 // External Libraries
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { View } from "react-native";
 
 // Components
@@ -16,15 +16,17 @@ import { FormData } from "@/src/components/pages/questions/components/QuestionsC
 import { stylesCharacterization } from "./styles";
 
 interface FormularioQuestionarioProps {
-  onDataChange: (data: FormData) => void;
   initialData?: FormData | null;
+  onFormDataReady?: (data: FormData) => void;
 }
 
 export const FormularioQuestionario: React.FC<FormularioQuestionarioProps> = ({
-  onDataChange,
   initialData,
+  onFormDataReady,
 }) => {
-  const formState = useCharacterizationFormState({ initialData });
+  const { form, handleFormChange } = useCharacterizationFormState({
+    initialData,
+  });
 
   const renderRadioButton = useCallback(
     (isSelected: boolean) => (
@@ -35,10 +37,19 @@ export const FormularioQuestionario: React.FC<FormularioQuestionarioProps> = ({
     [],
   );
 
-  useCharacterizationFormLogic({
-    ...formState,
-    onDataChange,
-  });
+  const formData = useCharacterizationFormLogic(form);
 
-  return <FormSections {...formState} renderRadioButton={renderRadioButton} />;
+  useEffect(() => {
+    if (onFormDataReady) {
+      onFormDataReady(formData);
+    }
+  }, [formData, onFormDataReady]);
+
+  return (
+    <FormSections
+      form={form}
+      handleFormChange={handleFormChange}
+      renderRadioButton={renderRadioButton}
+    />
+  );
 };

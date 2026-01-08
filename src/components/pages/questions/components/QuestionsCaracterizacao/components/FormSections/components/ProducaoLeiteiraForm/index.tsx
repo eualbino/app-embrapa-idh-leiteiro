@@ -38,7 +38,7 @@ const ProducaoLeiteiraInput: React.FC<ProducaoLeiteiraInputProps> = ({
           placeholderTextColor="#999"
           value={litrosDiaPropriedade}
           onChangeText={setLitrosDiaPropriedade}
-          keyboardType="numeric"
+          keyboardType="decimal-pad"
         />
       </View>
 
@@ -58,7 +58,7 @@ const ProducaoLeiteiraInput: React.FC<ProducaoLeiteiraInputProps> = ({
           placeholderTextColor="#999"
           value={litrosVacaDia}
           onChangeText={setLitrosVacaDia}
-          keyboardType="numeric"
+          keyboardType="decimal-pad"
         />
       </View>
     </View>

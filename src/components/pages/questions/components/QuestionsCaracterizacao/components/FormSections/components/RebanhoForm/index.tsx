@@ -54,7 +54,7 @@ const RebanhoInput: React.FC<RebanhoInputProps> = ({
           placeholderTextColor="#999"
           value={vacasLactacao}
           onChangeText={setVacasLactacao}
-          keyboardType="numeric"
+          keyboardType="decimal-pad"
         />
       </View>
 
@@ -70,7 +70,7 @@ const RebanhoInput: React.FC<RebanhoInputProps> = ({
           placeholderTextColor="#999"
           value={vacasSecas}
           onChangeText={setVacasSecas}
-          keyboardType="numeric"
+          keyboardType="decimal-pad"
         />
       </View>
 
@@ -86,7 +86,7 @@ const RebanhoInput: React.FC<RebanhoInputProps> = ({
           placeholderTextColor="#999"
           value={novilhas}
           onChangeText={setNovilhas}
-          keyboardType="numeric"
+          keyboardType="decimal-pad"
         />
       </View>
 
@@ -102,7 +102,7 @@ const RebanhoInput: React.FC<RebanhoInputProps> = ({
           placeholderTextColor="#999"
           value={bezerros}
           onChangeText={setBezerros}
-          keyboardType="numeric"
+          keyboardType="decimal-pad"
         />
       </View>
 
@@ -118,7 +118,7 @@ const RebanhoInput: React.FC<RebanhoInputProps> = ({
           placeholderTextColor="#999"
           value={garrotes}
           onChangeText={setGarrotes}
-          keyboardType="numeric"
+          keyboardType="decimal-pad"
         />
       </View>
 
@@ -134,7 +134,7 @@ const RebanhoInput: React.FC<RebanhoInputProps> = ({
           placeholderTextColor="#999"
           value={bulls}
           onChangeText={setBulls}
-          keyboardType="numeric"
+          keyboardType="decimal-pad"
         />
       </View>
     </View>

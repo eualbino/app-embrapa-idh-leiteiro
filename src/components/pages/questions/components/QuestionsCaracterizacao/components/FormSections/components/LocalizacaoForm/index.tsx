@@ -9,10 +9,10 @@ import { stylesCharacterization } from "../../../../styles";
 interface LocalizacaoInputProps {
   pais: string;
   setPais: (value: string) => void;
-  estado: string;
-  setEstado: (value: string) => void;
-  cidade: string;
-  setCidade: (value: string) => void;
+  estado: string | null;
+  setEstado: (value: string | null) => void;
+  cidade: string | null;
+  setCidade: (value: string | null) => void;
 }
 
 const LocalizacaoInput: React.FC<LocalizacaoInputProps> = ({
@@ -77,7 +77,7 @@ const LocalizacaoInput: React.FC<LocalizacaoInputProps> = ({
               "questionnaire.characterization.location.statePlaceholder",
             )}
             placeholderTextColor="#999"
-            value={estado}
+            value={estado || ""}
             onChangeText={setEstado}
           />
         </View>
@@ -94,7 +94,7 @@ const LocalizacaoInput: React.FC<LocalizacaoInputProps> = ({
               "questionnaire.characterization.location.cityPlaceholder",
             )}
             placeholderTextColor="#999"
-            value={cidade}
+            value={cidade || ""}
             onChangeText={setCidade}
           />
         </View>

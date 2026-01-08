@@ -102,86 +102,201 @@ export const useQuestionnaire = (): QuestionnaireState &
     [answers],
   );
 
-  const handleNext = useCallback(async () => {
-    if (step === 0) {
-      if (formData) {
-        const errors = validateCaracterizacaoForm(formData, t);
-        if (errors.length > 0) {
+  const handleNext = useCallback(
+    async (formDataOverride?: FormData | null) => {
+      if (step === 0) {
+        const dataToValidate = formDataOverride || formData;
+        if (dataToValidate) {
+          const errors = validateCaracterizacaoForm(dataToValidate, t);
+          if (errors.length > 0) {
+            Toast.show({
+              type: "error",
+              text1: t("questionnaire.questions.toasts.requiredFieldsTitle"),
+              text2: `${t(
+                "questionnaire.questions.toasts.fillFieldsPrefix",
+              )}\n\n• ${errors.join("\n• ")}`,
+              visibilityTime: 20000,
+              autoHide: true,
+            });
+            return;
+          }
+
+          try {
+            if (isOnline) {
+              const response = await createProperty(dataToValidate);
+              if (response?.property?.id) {
+                setPropertyId(response.property.id);
+                await OfflineSyncService.saveOfflinePropertyId(
+                  response.property.id,
+                );
+              }
+            } else {
+              await OfflineSyncService.saveOfflineProperty(dataToValidate);
+              const tempId = OfflineSyncService.generateTempPropertyId();
+              setPropertyId(tempId);
+              await OfflineSyncService.saveOfflinePropertyId(tempId);
+
+              Toast.show({
+                type: "info",
+                text1: "Modo Offline",
+                text2:
+                  "Dados salvos localmente. Serão sincronizados quando houver conexão.",
+                visibilityTime: 5000,
+              });
+            }
+            setFormData(dataToValidate);
+            setStep((prev) => prev + 1);
+          } catch (error) {
+            console.error(error);
+            return;
+          }
+        } else {
           Toast.show({
             type: "error",
-            text1: t("questionnaire.questions.toasts.requiredFieldsTitle"),
-            text2: `${t(
-              "questionnaire.questions.toasts.fillFieldsPrefix",
-            )}\n\n• ${errors.join("\n• ")}`,
-            visibilityTime: 20000,
-            autoHide: true,
+            text1: t("questionnaire.questions.toasts.missingFormDataTitle"),
+            text2: t("questionnaire.questions.toasts.missingFormDataMessage"),
+            visibilityTime: 5000,
           });
           return;
         }
+        return;
+      }
 
-        try {
-          if (isOnline) {
-            const response = await createProperty(formData);
-            if (response?.property?.id) {
-              setPropertyId(response.property.id);
-              await OfflineSyncService.saveOfflinePropertyId(
-                response.property.id,
-              );
-            }
-          } else {
-            await OfflineSyncService.saveOfflineProperty(formData);
-            const tempId = OfflineSyncService.generateTempPropertyId();
-            setPropertyId(tempId);
-            await OfflineSyncService.saveOfflinePropertyId(tempId);
+      if (step > 0 && currentGroup) {
+        const unansweredQuestions = currentGroup.filter((q) => {
+          const answer = answers[q.id];
+          const isAnswered = answer !== undefined || questionDisabled(q.id);
+          return !isAnswered;
+        });
 
-            Toast.show({
-              type: "info",
-              text1: "Modo Offline",
-              text2:
-                "Dados salvos localmente. Serão sincronizados quando houver conexão.",
-              visibilityTime: 5000,
-            });
-          }
-          setStep((prev) => prev + 1);
-        } catch (error) {
-          console.error(error);
+        if (unansweredQuestions.length > 0) {
+          const questionNumbers = unansweredQuestions
+            .map((q) => q.id)
+            .join(", ");
+          Toast.show({
+            type: "warning",
+            text1: t("questionnaire.questions.toasts.answerAllTitle"),
+            text2:
+              t("questionnaire.questions.toasts.answerAllMessage") +
+              ` (Perguntas: ${questionNumbers})`,
+            visibilityTime: 5000,
+          });
           return;
         }
+      }
+
+      if (step < questionGroups.length - 1) {
+        if (step >= 1) {
+          const groupNames: { [key: number]: string } = {
+            1: "quantidade-agua",
+            2: "qualidade-agua",
+            3: "manejo-residuos-uso-fertilizantes",
+          };
+
+          const groupName = groupNames[step];
+          const groupTranslationKey = `questionnaire.questions.groups.${groupName}`;
+          const translatedGroupName = t(groupTranslationKey);
+
+          if (step === 1) {
+            if (!propertyId) {
+              Toast.show({
+                type: "error",
+                text1: t("common.error"),
+                text2:
+                  "Property ID não encontrado. Por favor, reinicie o questionário.",
+                visibilityTime: 5000,
+              });
+              return;
+            }
+
+            if (!isOnline || OfflineSyncService.isTempPropertyId(propertyId)) {
+              Toast.show({
+                type: "info",
+                text1: "Modo Offline",
+                text2:
+                  "Respostas salvas. Aguarde conexão para ver a pontuação.",
+                visibilityTime: 3000,
+              });
+            } else {
+              try {
+                const response = await createWaterIndicator(
+                  answers,
+                  propertyId,
+                );
+                const score =
+                  response?.data?.finalScore?.toFixed(2).replace(".", ",") ||
+                  "N/A";
+
+                Toast.show({
+                  type: "score",
+                  text1: t("questionnaire.questions.toasts.scoreTitle", {
+                    groupName: translatedGroupName,
+                  }),
+                  text2: `${score}`,
+                  position: "bottom",
+                  visibilityTime: 5000,
+                  bottomOffset: 200,
+                });
+              } catch (error) {
+                console.error("Erro ao criar Water Indicator:", error);
+                return;
+              }
+            }
+          }
+
+          if (step === 2) {
+            if (!propertyId) {
+              Toast.show({
+                type: "error",
+                text1: t("common.error"),
+                text2:
+                  "Property ID não encontrado. Por favor, reinicie o questionário.",
+                visibilityTime: 5000,
+              });
+              return;
+            }
+
+            if (!isOnline || OfflineSyncService.isTempPropertyId(propertyId)) {
+              Toast.show({
+                type: "info",
+                text1: "Modo Offline",
+                text2:
+                  "Respostas salvas. Aguarde conexão para ver a pontuação.",
+                visibilityTime: 3000,
+              });
+            } else {
+              try {
+                const response = await createWaterQualityConservation(
+                  answers,
+                  propertyId,
+                );
+                const score =
+                  response?.data?.finalScore?.toFixed(2).replace(".", ",") ||
+                  "N/A";
+
+                Toast.show({
+                  type: "score",
+                  text1: t("questionnaire.questions.toasts.scoreTitle", {
+                    groupName: translatedGroupName,
+                  }),
+                  text2: `${score}`,
+                  position: "bottom",
+                  visibilityTime: 5000,
+                  bottomOffset: 200,
+                });
+              } catch (error) {
+                console.error(
+                  "Erro ao criar Water Quality Conservation:",
+                  error,
+                );
+                return;
+              }
+            }
+          }
+        }
+
+        setStep((prev) => prev + 1);
       } else {
-        Toast.show({
-          type: "error",
-          text1: t("questionnaire.questions.toasts.missingFormDataTitle"),
-          text2: t("questionnaire.questions.toasts.missingFormDataMessage"),
-          visibilityTime: 5000,
-        });
-        return;
-      }
-      return;
-    }
-
-    if (step > 0 && currentGroup) {
-      const unansweredQuestions = currentGroup.filter((q) => {
-        const answer = answers[q.id];
-        const isAnswered = answer !== undefined || questionDisabled(q.id);
-        return !isAnswered;
-      });
-
-      if (unansweredQuestions.length > 0) {
-        const questionNumbers = unansweredQuestions.map((q) => q.id).join(", ");
-        Toast.show({
-          type: "warning",
-          text1: t("questionnaire.questions.toasts.answerAllTitle"),
-          text2:
-            t("questionnaire.questions.toasts.answerAllMessage") +
-            ` (Perguntas: ${questionNumbers})`,
-          visibilityTime: 5000,
-        });
-        return;
-      }
-    }
-
-    if (step < questionGroups.length - 1) {
-      if (step >= 1) {
         const groupNames: { [key: number]: string } = {
           1: "quantidade-agua",
           2: "qualidade-agua",
@@ -192,176 +307,76 @@ export const useQuestionnaire = (): QuestionnaireState &
         const groupTranslationKey = `questionnaire.questions.groups.${groupName}`;
         const translatedGroupName = t(groupTranslationKey);
 
-        if (step === 1) {
-          if (!propertyId) {
-            Toast.show({
-              type: "error",
-              text1: t("common.error"),
-              text2:
-                "Property ID não encontrado. Por favor, reinicie o questionário.",
-              visibilityTime: 5000,
-            });
-            return;
-          }
-
-          if (!isOnline || OfflineSyncService.isTempPropertyId(propertyId)) {
-            Toast.show({
-              type: "info",
-              text1: "Modo Offline",
-              text2: "Respostas salvas. Aguarde conexão para ver a pontuação.",
-              visibilityTime: 3000,
-            });
-          } else {
-            try {
-              const response = await createWaterIndicator(answers, propertyId);
-              const score =
-                response?.data?.finalScore?.toFixed(2).replace(".", ",") ||
-                "N/A";
-
-              Toast.show({
-                type: "score",
-                text1: t("questionnaire.questions.toasts.scoreTitle", {
-                  groupName: translatedGroupName,
-                }),
-                text2: `${score}`,
-                position: "bottom",
-                visibilityTime: 5000,
-                bottomOffset: 200,
-              });
-            } catch (error) {
-              console.error("Erro ao criar Water Indicator:", error);
-              return;
-            }
-          }
+        if (!propertyId) {
+          Toast.show({
+            type: "error",
+            text1: t("common.error"),
+            text2:
+              "Property ID não encontrado. Por favor, reinicie o questionário.",
+            visibilityTime: 5000,
+          });
+          return;
         }
 
-        if (step === 2) {
-          if (!propertyId) {
-            Toast.show({
-              type: "error",
-              text1: t("common.error"),
-              text2:
-                "Property ID não encontrado. Por favor, reinicie o questionário.",
-              visibilityTime: 5000,
-            });
-            return;
-          }
-
-          if (!isOnline || OfflineSyncService.isTempPropertyId(propertyId)) {
-            Toast.show({
-              type: "info",
-              text1: "Modo Offline",
-              text2: "Respostas salvas. Aguarde conexão para ver a pontuação.",
-              visibilityTime: 3000,
-            });
-          } else {
-            try {
-              const response = await createWaterQualityConservation(
-                answers,
-                propertyId,
-              );
-              const score =
-                response?.data?.finalScore?.toFixed(2).replace(".", ",") ||
-                "N/A";
-
-              Toast.show({
-                type: "score",
-                text1: t("questionnaire.questions.toasts.scoreTitle", {
-                  groupName: translatedGroupName,
-                }),
-                text2: `${score}`,
-                position: "bottom",
-                visibilityTime: 5000,
-                bottomOffset: 200,
-              });
-            } catch (error) {
-              console.error("Erro ao criar Water Quality Conservation:", error);
-              return;
-            }
-          }
-        }
-      }
-
-      setStep((prev) => prev + 1);
-    } else {
-      const groupNames: { [key: number]: string } = {
-        1: "quantidade-agua",
-        2: "qualidade-agua",
-        3: "manejo-residuos-uso-fertilizantes",
-      };
-
-      const groupName = groupNames[step];
-      const groupTranslationKey = `questionnaire.questions.groups.${groupName}`;
-      const translatedGroupName = t(groupTranslationKey);
-
-      if (!propertyId) {
-        Toast.show({
-          type: "error",
-          text1: t("common.error"),
-          text2:
-            "Property ID não encontrado. Por favor, reinicie o questionário.",
-          visibilityTime: 5000,
-        });
-        return;
-      }
-
-      if (!isOnline || OfflineSyncService.isTempPropertyId(propertyId)) {
-        await OfflineSyncService.setPendingSync(true, true, propertyId);
-
-        Toast.show({
-          type: "success",
-          text1: "Formulário Completo",
-          text2:
-            "Dados salvos offline. Serão sincronizados quando houver conexão.",
-          visibilityTime: 5000,
-        });
-
-        setTimeout(() => {
-          router.push("/(protected)/(tabs)/(home)");
-        }, 3000);
-      } else {
-        try {
-          const response = await createWasteManagement(answers, propertyId);
-          const score =
-            response?.data?.finalScore?.toFixed(2).replace(".", ",") || "N/A";
+        if (!isOnline || OfflineSyncService.isTempPropertyId(propertyId)) {
+          await OfflineSyncService.setPendingSync(true, true, propertyId);
 
           Toast.show({
-            type: "score",
-            text1: t("questionnaire.questions.toasts.scoreTitle", {
-              groupName: translatedGroupName,
-            }),
-            text2: `${score}`,
-            position: "bottom",
+            type: "success",
+            text1: "Formulário Completo",
+            text2:
+              "Dados salvos offline. Serão sincronizados quando houver conexão.",
             visibilityTime: 5000,
-            bottomOffset: 200,
           });
 
           setTimeout(() => {
-            router.push({
-              pathname: "/result",
-              params: { propertyId: propertyId },
+            router.push("/(protected)/(tabs)/(home)");
+          }, 3000);
+        } else {
+          try {
+            const response = await createWasteManagement(answers, propertyId);
+            const score =
+              response?.data?.finalScore?.toFixed(2).replace(".", ",") || "N/A";
+
+            Toast.show({
+              type: "score",
+              text1: t("questionnaire.questions.toasts.scoreTitle", {
+                groupName: translatedGroupName,
+              }),
+              text2: `${score}`,
+              position: "bottom",
+              visibilityTime: 5000,
+              bottomOffset: 200,
             });
-          }, 5000);
-        } catch (error) {
-          console.error("Erro ao criar Waste Management:", error);
-          return;
+
+            setTimeout(() => {
+              router.push({
+                pathname: "/result",
+                params: { propertyId: propertyId },
+              });
+            }, 5000);
+          } catch (error) {
+            console.error("Erro ao criar Waste Management:", error);
+            return;
+          }
         }
       }
-    }
-  }, [
-    step,
-    formData,
-    currentGroup,
-    answers,
-    questionDisabled,
-    t,
-    createProperty,
-    createWaterIndicator,
-    createWaterQualityConservation,
-    createWasteManagement,
-    propertyId,
-    isOnline,
-  ]);
+    },
+    [
+      step,
+      formData,
+      currentGroup,
+      answers,
+      questionDisabled,
+      t,
+      createProperty,
+      createWaterIndicator,
+      createWaterQualityConservation,
+      createWasteManagement,
+      propertyId,
+      isOnline,
+    ],
+  );
 
   const handlePrevious = useCallback(() => {
     if (step > 0) {

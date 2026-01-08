@@ -5,8 +5,8 @@ export interface SistemaProducao {
 
 export interface Localizacao {
   pais: string;
-  estado: string;
-  cidade: string;
+  estado: string | null;
+  cidade: string | null;
 }
 
 export interface Area {
@@ -46,7 +46,7 @@ export interface EnergiaEletrica {
 }
 
 export interface LegislacaoAmbiental {
-  temLicencaAmbiental: string;
+  temLicencaAmbiental: string | null;
   temOutorgaAgua: string;
 }
 

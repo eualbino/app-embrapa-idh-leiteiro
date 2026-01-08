@@ -25,7 +25,7 @@ interface QuestionnaireContextType {
   setDate: (date: Date) => void;
   setShowPicker: (show: boolean) => void;
   handleSelect: (id: string | number, value: number | null) => void;
-  handleNext: () => void;
+  handleNext: (formDataOverride?: FormData | null) => void;
   handlePrevious: () => void;
   formatDate: (rawDate: Date) => string;
   questionDisabled: (questionId: string | number) => boolean;

@@ -42,7 +42,12 @@ export const useProperty = () => {
         ? "MATERIA_NATURAL"
         : "MATERIA_SECA";
 
-    const mapLicenseStatus = (status: string): "SIM" | "NAO" | "DISPENSA" => {
+    const mapLicenseStatus = (
+      status: string | null,
+    ): "SIM" | "NAO" | "DISPENSA" => {
+      if (!status) {
+        return "DISPENSA";
+      }
       const normalizedStatus = status.toLowerCase().trim();
 
       if (normalizedStatus === "sim") {
@@ -60,8 +65,8 @@ export const useProperty = () => {
 
     const mappedData = {
       country: formData.localizacao.pais,
-      state: formData.localizacao.estado,
-      city: formData.localizacao.cidade,
+      state: formData.localizacao.estado || "",
+      city: formData.localizacao.cidade || "",
       productionSystem,
       totalAreaHa: formData.area.propriedade,
       pastureAreaHa: formData.area.pastagem,

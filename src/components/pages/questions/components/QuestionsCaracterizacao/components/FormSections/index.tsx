@@ -17,155 +17,112 @@ import LocalizacaoInput from "./components/LocalizacaoForm";
 import { FormSectionsProps } from "./types";
 
 export const FormSections: React.FC<FormSectionsProps> = ({
-  pais,
-  setPais,
-  estado,
-  setEstado,
-  cidade,
-  setCidade,
-
-  // Sistema de Produção
-  sistemaProducao,
-  setSistemaProducao,
-  outroSistemaProducao,
-  setOutroSistemaProducao,
-
-  // Área
-  areaPropriedade,
-  setAreaPropriedade,
-  areaPastagem,
-  setAreaPastagem,
-  areaSilagem,
-  setAreaSilagem,
-
-  // Rebanho
-  vacasLactacao,
-  setVacasLactacao,
-  vacasSecas,
-  setVacasSecas,
-  novilhas,
-  setNovilhas,
-  bezerros,
-  setBezerros,
-  garrotes,
-  setGarrotes,
-  bulls,
-  setBulls,
-
-  // Produção Leiteira
-  litrosDiaPropriedade,
-  setLitrosDiaPropriedade,
-  litrosVacaDia,
-  setLitrosVacaDia,
-
-  // Composição do Leite
-  percentualGordura,
-  setPercentualGordura,
-  percentualProteina,
-  setPercentualProteina,
-
-  // Consumo Diário
-  volumoso,
-  setVolumoso,
-  concentrado,
-  setConcentrado,
-  unidadeInformada,
-  setUnidadeInformada,
-
-  // Energia Elétrica
-  consumoEnergia,
-  setConsumoEnergia,
-  temEnergiaFotovoltaica,
-  setTemEnergiaFotovoltaica,
-
-  // Legislação Ambiental
-  temLicencaAmbiental,
-  setTemLicencaAmbiental,
-  temOutorgaAgua,
-  setTemOutorgaAgua,
-
+  form,
+  handleFormChange,
   renderRadioButton,
 }) => {
   return (
     <View>
       <LocalizacaoInput
-        pais={pais}
-        setPais={setPais}
-        estado={estado}
-        setEstado={setEstado}
-        cidade={cidade}
-        setCidade={setCidade}
+        pais={form.pais}
+        setPais={(value) => handleFormChange({ pais: value })}
+        estado={form.estado}
+        setEstado={(value) => handleFormChange({ estado: value })}
+        cidade={form.cidade}
+        setCidade={(value) => handleFormChange({ cidade: value })}
       />
 
       <SistemaProducaoInput
-        sistemaProducao={sistemaProducao}
-        setSistemaProducao={setSistemaProducao}
-        outroSistemaProducao={outroSistemaProducao}
-        setOutroSistemaProducao={setOutroSistemaProducao}
+        sistemaProducao={form.sistemaProducao}
+        setSistemaProducao={(value) =>
+          handleFormChange({ sistemaProducao: value })
+        }
+        outroSistemaProducao={form.outroSistemaProducao}
+        setOutroSistemaProducao={(value) =>
+          handleFormChange({ outroSistemaProducao: value })
+        }
         renderRadioButton={renderRadioButton}
       />
 
       <AreaInput
-        areaPropriedade={areaPropriedade}
-        setAreaPropriedade={setAreaPropriedade}
-        areaPastagem={areaPastagem}
-        setAreaPastagem={setAreaPastagem}
-        areaSilagem={areaSilagem}
-        setAreaSilagem={setAreaSilagem}
+        areaPropriedade={form.areaPropriedade}
+        setAreaPropriedade={(value) =>
+          handleFormChange({ areaPropriedade: value })
+        }
+        areaPastagem={form.areaPastagem}
+        setAreaPastagem={(value) => handleFormChange({ areaPastagem: value })}
+        areaSilagem={form.areaSilagem}
+        setAreaSilagem={(value) => handleFormChange({ areaSilagem: value })}
       />
 
       <RebanhoInput
-        vacasLactacao={vacasLactacao}
-        setVacasLactacao={setVacasLactacao}
-        vacasSecas={vacasSecas}
-        setVacasSecas={setVacasSecas}
-        novilhas={novilhas}
-        setNovilhas={setNovilhas}
-        bezerros={bezerros}
-        setBezerros={setBezerros}
-        garrotes={garrotes}
-        setGarrotes={setGarrotes}
-        bulls={bulls}
-        setBulls={setBulls}
+        vacasLactacao={form.vacasLactacao}
+        setVacasLactacao={(value) => handleFormChange({ vacasLactacao: value })}
+        vacasSecas={form.vacasSecas}
+        setVacasSecas={(value) => handleFormChange({ vacasSecas: value })}
+        novilhas={form.novilhas}
+        setNovilhas={(value) => handleFormChange({ novilhas: value })}
+        bezerros={form.bezerros}
+        setBezerros={(value) => handleFormChange({ bezerros: value })}
+        garrotes={form.garrotes}
+        setGarrotes={(value) => handleFormChange({ garrotes: value })}
+        bulls={form.bulls}
+        setBulls={(value) => handleFormChange({ bulls: value })}
       />
 
       <ProducaoLeiteiraInput
-        litrosDiaPropriedade={litrosDiaPropriedade}
-        setLitrosDiaPropriedade={setLitrosDiaPropriedade}
-        litrosVacaDia={litrosVacaDia}
-        setLitrosVacaDia={setLitrosVacaDia}
+        litrosDiaPropriedade={form.litrosDiaPropriedade}
+        setLitrosDiaPropriedade={(value) =>
+          handleFormChange({ litrosDiaPropriedade: value })
+        }
+        litrosVacaDia={form.litrosVacaDia}
+        setLitrosVacaDia={(value) => handleFormChange({ litrosVacaDia: value })}
       />
 
       <ComposicaoLeiteInput
-        percentualGordura={percentualGordura}
-        setPercentualGordura={setPercentualGordura}
-        percentualProteina={percentualProteina}
-        setPercentualProteina={setPercentualProteina}
+        percentualGordura={form.percentualGordura}
+        setPercentualGordura={(value) =>
+          handleFormChange({ percentualGordura: value })
+        }
+        percentualProteina={form.percentualProteina}
+        setPercentualProteina={(value) =>
+          handleFormChange({ percentualProteina: value })
+        }
       />
 
       <ConsumoDiarioInput
-        volumoso={volumoso}
-        setVolumoso={setVolumoso}
-        concentrado={concentrado}
-        setConcentrado={setConcentrado}
-        unidadeInformada={unidadeInformada}
-        setUnidadeInformada={setUnidadeInformada}
+        volumoso={form.volumoso}
+        setVolumoso={(value) => handleFormChange({ volumoso: value })}
+        concentrado={form.concentrado}
+        setConcentrado={(value) => handleFormChange({ concentrado: value })}
+        unidadeInformada={form.unidadeInformada}
+        setUnidadeInformada={(value) =>
+          handleFormChange({ unidadeInformada: value })
+        }
         renderRadioButton={renderRadioButton}
       />
 
       <EnergiaEletricaInput
-        consumoEnergia={consumoEnergia}
-        setConsumoEnergia={setConsumoEnergia}
-        temEnergiaFotovoltaica={temEnergiaFotovoltaica}
-        setTemEnergiaFotovoltaica={setTemEnergiaFotovoltaica}
+        consumoEnergia={form.consumoEnergia}
+        setConsumoEnergia={(value) =>
+          handleFormChange({ consumoEnergia: value })
+        }
+        temEnergiaFotovoltaica={form.temEnergiaFotovoltaica}
+        setTemEnergiaFotovoltaica={(value) =>
+          handleFormChange({ temEnergiaFotovoltaica: value })
+        }
         renderRadioButton={renderRadioButton}
       />
 
       <LegislacaoAmbientalInput
-        temLicencaAmbiental={temLicencaAmbiental}
-        setTemLicencaAmbiental={setTemLicencaAmbiental}
-        temOutorgaAgua={temOutorgaAgua}
-        setTemOutorgaAgua={setTemOutorgaAgua}
+        temLicencaAmbiental={form.temLicencaAmbiental}
+        setTemLicencaAmbiental={(value) =>
+          handleFormChange({ temLicencaAmbiental: value })
+        }
+        temOutorgaAgua={form.temOutorgaAgua}
+        setTemOutorgaAgua={(value) =>
+          handleFormChange({ temOutorgaAgua: value })
+        }
         renderRadioButton={renderRadioButton}
       />
     </View>

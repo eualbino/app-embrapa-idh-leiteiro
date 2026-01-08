@@ -1,160 +1,85 @@
-import { useEffect, useCallback } from "react";
+// External Libraries
+import { useMemo } from "react";
+
+// Types
 import { FormData } from "@/src/components/pages/questions/components/QuestionsCaracterizacao/types";
+import { CharacterizationFormState } from "./useCharacterizationFormState";
 
-interface UseCharacterizationFormLogicProps {
-  // Localização
-  pais: string;
-  estado: string;
-  cidade: string;
-
-  // Sistema de Produção
-  sistemaProducao: string;
-  outroSistemaProducao: string;
-
-  // Área
-  areaPropriedade: string;
-  areaPastagem: string;
-  areaSilagem: string;
-
-  // Rebanho
-  vacasLactacao: string;
-  vacasSecas: string;
-  novilhas: string;
-  bezerros: string;
-  garrotes: string;
-  bulls: string;
-
-  // Produção Leiteira
-  litrosDiaPropriedade: string;
-  litrosVacaDia: string;
-
-  // Composição do Leite
-  percentualGordura: string;
-  percentualProteina: string;
-
-  // Consumo Diário
-  volumoso: string;
-  concentrado: string;
-  unidadeInformada: string;
-
-  // Energia Elétrica
-  consumoEnergia: string;
-  temEnergiaFotovoltaica: boolean;
-
-  // Legislação Ambiental
-  temLicencaAmbiental: string;
-  temOutorgaAgua: string;
-
-  onDataChange: (data: FormData) => void;
-}
-
-export const useCharacterizationFormLogic = ({
-  pais,
-  estado,
-  cidade,
-  sistemaProducao,
-  outroSistemaProducao,
-  areaPropriedade,
-  areaPastagem,
-  areaSilagem,
-  vacasLactacao,
-  vacasSecas,
-  novilhas,
-  bezerros,
-  garrotes,
-  bulls,
-  litrosDiaPropriedade,
-  litrosVacaDia,
-  percentualGordura,
-  percentualProteina,
-  volumoso,
-  concentrado,
-  unidadeInformada,
-  consumoEnergia,
-  temEnergiaFotovoltaica,
-  temLicencaAmbiental,
-  temOutorgaAgua,
-  onDataChange,
-}: UseCharacterizationFormLogicProps) => {
-  // Função para criar o objeto FormData
-  const createFormData = useCallback((): FormData => {
+export const useCharacterizationFormLogic = (
+  form: CharacterizationFormState,
+): FormData => {
+  return useMemo<FormData>(() => {
     return {
       localizacao: {
-        pais: pais,
-        estado: estado,
-        cidade: cidade,
+        pais: form.pais,
+        estado: form.estado,
+        cidade: form.cidade,
       },
       sistemaProducao: {
-        tipo: sistemaProducao,
+        tipo: form.sistemaProducao,
         outroEspecificacao:
-          sistemaProducao === "outro" ? outroSistemaProducao : null,
+          form.sistemaProducao === "outro" ? form.outroSistemaProducao : null,
       },
       area: {
-        propriedade: parseFloat(areaPropriedade) || 0,
-        pastagem: parseFloat(areaPastagem) || 0,
-        silagem: parseFloat(areaSilagem) || 0,
+        propriedade: parseFloat(form.areaPropriedade) || 0,
+        pastagem: parseFloat(form.areaPastagem) || 0,
+        silagem: parseFloat(form.areaSilagem) || 0,
       },
       rebanho: {
-        vacasLactacao: parseInt(vacasLactacao) || 0,
-        vacasSecas: parseInt(vacasSecas) || 0,
-        novilhas: parseInt(novilhas) || 0,
-        bezerros: parseInt(bezerros) || 0,
-        garrotes: parseInt(garrotes) || 0,
-        bulls: parseInt(bulls) || 0,
+        vacasLactacao: parseInt(form.vacasLactacao) || 0,
+        vacasSecas: parseInt(form.vacasSecas) || 0,
+        novilhas: parseInt(form.novilhas) || 0,
+        bezerros: parseInt(form.bezerros) || 0,
+        garrotes: parseInt(form.garrotes) || 0,
+        bulls: parseInt(form.bulls) || 0,
       },
       producaoLeiteira: {
-        litrosDiaPropriedade: parseFloat(litrosDiaPropriedade) || 0,
-        litrosVacaDia: parseFloat(litrosVacaDia) || 0,
+        litrosDiaPropriedade: parseFloat(form.litrosDiaPropriedade) || 0,
+        litrosVacaDia: parseFloat(form.litrosVacaDia) || 0,
       },
       composicaoLeite: {
-        percentualGordura: parseFloat(percentualGordura) || 0,
-        percentualProteina: parseFloat(percentualProteina) || 0,
+        percentualGordura: parseFloat(form.percentualGordura) || 0,
+        percentualProteina: parseFloat(form.percentualProteina) || 0,
       },
       consumoDiario: {
-        volumoso: parseFloat(volumoso) || 0,
-        concentrado: parseFloat(concentrado) || 0,
-        unidadeInformada: unidadeInformada,
+        volumoso: parseFloat(form.volumoso) || 0,
+        concentrado: parseFloat(form.concentrado) || 0,
+        unidadeInformada: form.unidadeInformada,
       },
       energiaEletrica: {
-        consumoMensal: parseFloat(consumoEnergia) || 0,
-        temEnergiaFotovoltaica: temEnergiaFotovoltaica,
+        consumoMensal: parseFloat(form.consumoEnergia) || 0,
+        temEnergiaFotovoltaica: form.temEnergiaFotovoltaica,
       },
       legislacaoAmbiental: {
-        temLicencaAmbiental: temLicencaAmbiental,
-        temOutorgaAgua: temOutorgaAgua,
+        temLicencaAmbiental: form.temLicencaAmbiental,
+        temOutorgaAgua: form.temOutorgaAgua,
       },
     };
   }, [
-    pais,
-    estado,
-    cidade,
-    sistemaProducao,
-    outroSistemaProducao,
-    areaPropriedade,
-    areaPastagem,
-    areaSilagem,
-    vacasLactacao,
-    vacasSecas,
-    novilhas,
-    bezerros,
-    garrotes,
-    bulls,
-    litrosDiaPropriedade,
-    litrosVacaDia,
-    percentualGordura,
-    percentualProteina,
-    volumoso,
-    concentrado,
-    unidadeInformada,
-    consumoEnergia,
-    temEnergiaFotovoltaica,
-    temLicencaAmbiental,
-    temOutorgaAgua,
+    form.pais,
+    form.estado,
+    form.cidade,
+    form.sistemaProducao,
+    form.outroSistemaProducao,
+    form.areaPropriedade,
+    form.areaPastagem,
+    form.areaSilagem,
+    form.vacasLactacao,
+    form.vacasSecas,
+    form.novilhas,
+    form.bezerros,
+    form.garrotes,
+    form.bulls,
+    form.litrosDiaPropriedade,
+    form.litrosVacaDia,
+    form.percentualGordura,
+    form.percentualProteina,
+    form.volumoso,
+    form.concentrado,
+    form.unidadeInformada,
+    form.consumoEnergia,
+    form.temEnergiaFotovoltaica,
+    form.temLicencaAmbiental,
+    form.temOutorgaAgua,
   ]);
-
-  // Atualizar dados quando qualquer campo mudar
-  useEffect(() => {
-    const formData = createFormData();
-    onDataChange(formData);
-  }, [createFormData, onDataChange]);
 };

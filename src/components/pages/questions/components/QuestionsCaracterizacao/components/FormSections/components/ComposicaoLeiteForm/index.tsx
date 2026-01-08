@@ -40,7 +40,7 @@ const ComposicaoLeiteInput: React.FC<ComposicaoLeiteInputProps> = ({
           placeholderTextColor="#999"
           value={percentualGordura}
           onChangeText={setPercentualGordura}
-          keyboardType="numeric"
+          keyboardType="decimal-pad"
         />
       </View>
 
@@ -60,7 +60,7 @@ const ComposicaoLeiteInput: React.FC<ComposicaoLeiteInputProps> = ({
           placeholderTextColor="#999"
           value={percentualProteina}
           onChangeText={setPercentualProteina}
-          keyboardType="numeric"
+          keyboardType="decimal-pad"
         />
       </View>
     </View>

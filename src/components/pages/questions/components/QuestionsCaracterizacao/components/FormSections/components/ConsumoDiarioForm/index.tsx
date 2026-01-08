@@ -45,7 +45,7 @@ const ConsumoDiarioInput: React.FC<ConsumoDiarioInputProps> = ({
           placeholderTextColor="#999"
           value={volumoso}
           onChangeText={setVolumoso}
-          keyboardType="numeric"
+          keyboardType="decimal-pad"
         />
       </View>
 
@@ -65,7 +65,7 @@ const ConsumoDiarioInput: React.FC<ConsumoDiarioInputProps> = ({
           placeholderTextColor="#999"
           value={concentrado}
           onChangeText={setConcentrado}
-          keyboardType="numeric"
+          keyboardType="decimal-pad"
         />
       </View>
 

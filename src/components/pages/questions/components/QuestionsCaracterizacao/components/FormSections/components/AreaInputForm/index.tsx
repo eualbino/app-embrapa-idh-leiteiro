@@ -42,7 +42,7 @@ const AreaInput: React.FC<AreaInputProps> = ({
           placeholderTextColor="#999"
           value={areaPropriedade}
           onChangeText={setAreaPropriedade}
-          keyboardType="numeric"
+          keyboardType="decimal-pad"
         />
       </View>
 
@@ -58,7 +58,7 @@ const AreaInput: React.FC<AreaInputProps> = ({
           placeholderTextColor="#999"
           value={areaPastagem}
           onChangeText={setAreaPastagem}
-          keyboardType="numeric"
+          keyboardType="decimal-pad"
         />
       </View>
 
@@ -74,7 +74,7 @@ const AreaInput: React.FC<AreaInputProps> = ({
           placeholderTextColor="#999"
           value={areaSilagem}
           onChangeText={setAreaSilagem}
-          keyboardType="numeric"
+          keyboardType="decimal-pad"
         />
       </View>
     </View>

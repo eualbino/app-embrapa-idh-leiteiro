@@ -39,7 +39,7 @@ const EnergiaEletricaInput: React.FC<EnergiaEletricaInputProps> = ({
           placeholderTextColor="#999"
           value={consumoEnergia}
           onChangeText={setConsumoEnergia}
-          keyboardType="numeric"
+          keyboardType="decimal-pad"
         />
       </View>
 

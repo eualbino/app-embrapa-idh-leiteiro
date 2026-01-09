@@ -142,7 +142,7 @@ export const validateCaracterizacaoForm = (
   }
 
   // Legislação Ambiental
-  if (!data.legislacaoAmbiental.temLicencaAmbiental) {
+  if (isBrazil && !data.legislacaoAmbiental.temLicencaAmbiental) {
     errors.push(t("questionnaire.validation.environmentalLicenseRequired"));
   }
   if (!data.legislacaoAmbiental.temOutorgaAgua) {

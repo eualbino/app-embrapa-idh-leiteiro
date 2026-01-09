@@ -582,7 +582,7 @@ export default {
 
     // Result Page
     result: {
-      title: "Escore Geral do IDH_Leite",
+      title: "Escore Geral do IDH Leite",
       improvementSuggestions: "Sugestões de Boas Práticas",
       categoryWaterQuantity: "Quantidade de Água",
       categoryWaterQuality: "Qualidade da Água",
@@ -592,12 +592,12 @@ export default {
       minimumScore: "Mínimo",
       congratulations: "Parabéns!",
       congratulationsMessage:
-        "Sua propriedade atingiu todas as notas mínimas para cada Dimensão do IDH_Leite. Continue mantendo as boas práticas de uso da água e manejo de resíduos!",
+        "Sua propriedade atingiu todas as notas mínimas para cada Dimensão do IDH Leite. Continue mantendo as boas práticas de uso da água e manejo de resíduos!",
       loadingResults: "Carregando resultados...",
       errorLoadingTitle: "Erro ao carregar resultados",
       errorLoadingMessage: "Não foi possível carregar os dados da performance",
       detailedScores: "Pontuações Detalhadas",
-      idhMilk: "IDH_Leite",
+      idhMilk: "IDH Leite",
       didNotReachMinimum: "Não atingiu a nota mínima",
       improvements: {
         waterManagement: {

@@ -21,63 +21,74 @@ const LegislacaoAmbientalInput: React.FC<LegislacaoAmbientalInputProps> = ({
   setTemOutorgaAgua,
   renderRadioButton,
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const currentLanguage = i18n.language;
+  const isBrazil = currentLanguage === "pt-BR";
 
   return (
     <View style={stylesCharacterization.containerResponses}>
-      <View style={stylesCharacterization.containerQuestionInput}>
-        <Text style={stylesCharacterization.questionText}>
-          {t(
-            "questionnaire.characterization.environmentalLegislation.sectionTitle",
-          )}{" "}
-        </Text>
-        <Text style={stylesCharacterization.questionText}>
-          {t(
-            "questionnaire.characterization.environmentalLegislation.hasEnvironmentalLicense",
-          )}
-        </Text>
-        <View>
-          <TouchableOpacity
-            style={stylesCharacterization.optionContainer}
-            onPress={() => setTemLicencaAmbiental("sim")}
-          >
-            {renderRadioButton(temLicencaAmbiental === "sim")}
-            <View style={{ flex: 1, marginRight: 1 }}>
-              <Text style={[stylesCharacterization.questionsResponseText]}>
-                {t("common.yes")}
-              </Text>
-            </View>
-          </TouchableOpacity>
+      {isBrazil && (
+        <View style={stylesCharacterization.containerQuestionInput}>
+          <Text style={stylesCharacterization.questionText}>
+            {t(
+              "questionnaire.characterization.environmentalLegislation.sectionTitle",
+            )}{" "}
+          </Text>
+          <Text style={stylesCharacterization.questionText}>
+            {t(
+              "questionnaire.characterization.environmentalLegislation.hasEnvironmentalLicense",
+            )}
+          </Text>
+          <View>
+            <TouchableOpacity
+              style={stylesCharacterization.optionContainer}
+              onPress={() => setTemLicencaAmbiental("sim")}
+            >
+              {renderRadioButton(temLicencaAmbiental === "sim")}
+              <View style={{ flex: 1, marginRight: 1 }}>
+                <Text style={[stylesCharacterization.questionsResponseText]}>
+                  {t("common.yes")}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <View>
+            <TouchableOpacity
+              style={stylesCharacterization.optionContainer}
+              onPress={() => setTemLicencaAmbiental("nao")}
+            >
+              {renderRadioButton(temLicencaAmbiental === "nao")}
+              <View style={{ flex: 1, marginRight: 1 }}>
+                <Text style={[stylesCharacterization.questionsResponseText]}>
+                  {t("common.no")}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <View>
+            <TouchableOpacity
+              style={stylesCharacterization.optionContainer}
+              onPress={() => setTemLicencaAmbiental("nao_se_aplica")}
+            >
+              {renderRadioButton(temLicencaAmbiental === "nao_se_aplica")}
+              <View style={{ flex: 1, marginRight: 1 }}>
+                <Text style={[stylesCharacterization.questionsResponseText]}>
+                  {t("common.notApplicable")}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
-        <View>
-          <TouchableOpacity
-            style={stylesCharacterization.optionContainer}
-            onPress={() => setTemLicencaAmbiental("nao")}
-          >
-            {renderRadioButton(temLicencaAmbiental === "nao")}
-            <View style={{ flex: 1, marginRight: 1 }}>
-              <Text style={[stylesCharacterization.questionsResponseText]}>
-                {t("common.no")}
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View>
-          <TouchableOpacity
-            style={stylesCharacterization.optionContainer}
-            onPress={() => setTemLicencaAmbiental("nao_se_aplica")}
-          >
-            {renderRadioButton(temLicencaAmbiental === "nao_se_aplica")}
-            <View style={{ flex: 1, marginRight: 1 }}>
-              <Text style={[stylesCharacterization.questionsResponseText]}>
-                {t("common.notApplicable")}
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      </View>
+      )}
 
-      <View>
+      <View style={stylesCharacterization.containerQuestionInput}>
+        {isBrazil && (
+          <Text style={stylesCharacterization.questionText}>
+            {t(
+              "questionnaire.characterization.environmentalLegislation.sectionTitle",
+            )}{" "}
+          </Text>
+        )}
         <Text style={stylesCharacterization.questionText}>
           <Text>
             {t(

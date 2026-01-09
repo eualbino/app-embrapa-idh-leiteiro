@@ -86,7 +86,7 @@ export const styles = StyleSheet.create({
   },
   menuItemText: {
     fontSize: theme.typography.sizes.md,
-    color: theme.colors.text.secondary,
+    color: "#666",
     marginLeft: theme.spacing.md,
     fontWeight: theme.typography.weights.medium,
   },

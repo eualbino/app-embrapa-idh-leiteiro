@@ -18,7 +18,7 @@ export default function PageWrapper({
 }: PageWrapperProps) {
   if (scrollable) {
     return (
-      <SafeAreaView style={[styles.container, style]} edges={["top"]}>
+      <SafeAreaView style={[styles.container, style]} edges={["top", "bottom"]}>
         <ScrollView
           style={styles.scrollView}
           contentContainerStyle={[
@@ -35,7 +35,7 @@ export default function PageWrapper({
   }
 
   return (
-    <SafeAreaView style={[styles.container, style]} edges={["top"]}>
+    <SafeAreaView style={[styles.container, style]} edges={["top", "bottom"]}>
       <View style={[styles.contentContainer, contentContainerStyle]}>
         {children}
       </View>

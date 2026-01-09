@@ -591,7 +591,7 @@ export default {
       errorLoadingMessage: "Unable to load performance data",
       detailedScores: "Detailed Scores",
       idhMilk: "IDH_Milk",
-      didNotReachMinimum: "Did not reach the minimum score",
+      didNotReachMinimum: "Your performance can improve",
       improvements: {
         waterManagement: {
           waterConsumption: {

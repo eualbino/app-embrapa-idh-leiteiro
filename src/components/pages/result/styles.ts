@@ -89,6 +89,12 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#E5E7EB",
   },
+  scoreCardClickable: {
+    borderColor: "#F59E0B",
+    borderWidth: 2,
+    shadowColor: "#F59E0B",
+    shadowOpacity: 0.1,
+  },
   scoreCardHeader: {
     flexDirection: "row",
     justifyContent: "space-between",

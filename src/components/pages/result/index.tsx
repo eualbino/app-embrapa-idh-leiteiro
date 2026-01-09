@@ -1,5 +1,11 @@
-import React, { useMemo } from "react";
-import { View, Text, ScrollView, ActivityIndicator } from "react-native";
+import React, { useMemo, useRef } from "react";
+import {
+  View,
+  Text,
+  ScrollView,
+  ActivityIndicator,
+  TouchableOpacity,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams } from "expo-router";
 import { useTranslation } from "react-i18next";
@@ -25,6 +31,23 @@ export default function ResultPage() {
   const { data, isLoading, error } = useWaterPerformance(propertyId);
 
   const IMPROVEMENTS = useMemo(() => getImprovements(t), [t]);
+
+  const scrollViewRef = useRef<ScrollView>(null);
+  const waterManagementRef = useRef<View>(null);
+  const waterQualityRef = useRef<View>(null);
+  const wasteManagementRef = useRef<View>(null);
+
+  const scrollToSection = (ref: React.RefObject<View | null>) => {
+    if (ref.current && scrollViewRef.current) {
+      ref.current.measureLayout(
+        scrollViewRef.current as any,
+        (x, y) => {
+          scrollViewRef.current?.scrollTo({ y: y - 20, animated: true });
+        },
+        () => {},
+      );
+    }
+  };
 
   if (isLoading) {
     return (
@@ -69,7 +92,11 @@ export default function ResultPage() {
   };
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <ScrollView
+      ref={scrollViewRef}
+      style={styles.container}
+      showsVerticalScrollIndicator={false}
+    >
       <View style={styles.headerContainer}>
         <Text style={styles.title}>{t("result.title")}</Text>
         <Text style={styles.subtitle}>{t("result.idhMilk")}</Text>
@@ -105,7 +132,28 @@ export default function ResultPage() {
       <View style={styles.scoresSection}>
         <Text style={styles.sectionTitle}>{t("result.detailedScores")}</Text>
 
-        <View style={styles.scoreCard}>
+        <TouchableOpacity
+          style={[
+            styles.scoreCard,
+            needsImprovement(
+              scores.waterManagement,
+              MINIMUM_SCORES.waterManagement,
+            ) && styles.scoreCardClickable,
+          ]}
+          onPress={() =>
+            needsImprovement(
+              scores.waterManagement,
+              MINIMUM_SCORES.waterManagement,
+            ) && scrollToSection(waterManagementRef)
+          }
+          disabled={
+            !needsImprovement(
+              scores.waterManagement,
+              MINIMUM_SCORES.waterManagement,
+            )
+          }
+          activeOpacity={0.7}
+        >
           <View style={styles.scoreCardHeader}>
             <View style={styles.scoreCardTitleContainer}>
               <Ionicons name="water-outline" size={24} color="#006f36" />
@@ -134,43 +182,75 @@ export default function ResultPage() {
               {MINIMUM_SCORES.waterManagement.toFixed(2).replace(".", ",")}
             </Text>
             <View
-              style={[
-                styles.scoreCardStatusBadge,
-                {
-                  backgroundColor: needsImprovement(
-                    scores.waterManagement,
-                    MINIMUM_SCORES.waterManagement,
-                  )
-                    ? "#FEE2E2"
-                    : "#D1FAE5",
-                },
-              ]}
+              style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
             >
-              <Text
+              <View
                 style={[
-                  styles.scoreCardStatusText,
+                  styles.scoreCardStatusBadge,
                   {
-                    color: needsImprovement(
+                    backgroundColor: needsImprovement(
                       scores.waterManagement,
                       MINIMUM_SCORES.waterManagement,
                     )
-                      ? "#DC2626"
-                      : "#059669",
+                      ? "#FEE2E2"
+                      : "#D1FAE5",
                   },
                 ]}
               >
-                {needsImprovement(
-                  scores.waterManagement,
-                  MINIMUM_SCORES.waterManagement,
-                )
-                  ? t("result.needsImprovement")
-                  : t("result.approved")}
-              </Text>
+                <Text
+                  style={[
+                    styles.scoreCardStatusText,
+                    {
+                      color: needsImprovement(
+                        scores.waterManagement,
+                        MINIMUM_SCORES.waterManagement,
+                      )
+                        ? "#DC2626"
+                        : "#059669",
+                    },
+                  ]}
+                >
+                  {needsImprovement(
+                    scores.waterManagement,
+                    MINIMUM_SCORES.waterManagement,
+                  )
+                    ? t("result.needsImprovement")
+                    : t("result.approved")}
+                </Text>
+              </View>
+              {needsImprovement(
+                scores.waterManagement,
+                MINIMUM_SCORES.waterManagement,
+              ) && (
+                <Ionicons
+                  name="chevron-down-outline"
+                  size={20}
+                  color="#F59E0B"
+                />
+              )}
             </View>
           </View>
-        </View>
+        </TouchableOpacity>
 
-        <View style={styles.scoreCard}>
+        <TouchableOpacity
+          style={[
+            styles.scoreCard,
+            needsImprovement(
+              scores.waterQuality,
+              MINIMUM_SCORES.waterQuality,
+            ) && styles.scoreCardClickable,
+          ]}
+          onPress={() =>
+            needsImprovement(
+              scores.waterQuality,
+              MINIMUM_SCORES.waterQuality,
+            ) && scrollToSection(waterQualityRef)
+          }
+          disabled={
+            !needsImprovement(scores.waterQuality, MINIMUM_SCORES.waterQuality)
+          }
+          activeOpacity={0.7}
+        >
           <View style={styles.scoreCardHeader}>
             <View style={styles.scoreCardTitleContainer}>
               <Ionicons
@@ -203,43 +283,78 @@ export default function ResultPage() {
               {MINIMUM_SCORES.waterQuality.toFixed(2).replace(".", ",")}
             </Text>
             <View
-              style={[
-                styles.scoreCardStatusBadge,
-                {
-                  backgroundColor: needsImprovement(
-                    scores.waterQuality,
-                    MINIMUM_SCORES.waterQuality,
-                  )
-                    ? "#FEE2E2"
-                    : "#D1FAE5",
-                },
-              ]}
+              style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
             >
-              <Text
+              <View
                 style={[
-                  styles.scoreCardStatusText,
+                  styles.scoreCardStatusBadge,
                   {
-                    color: needsImprovement(
+                    backgroundColor: needsImprovement(
                       scores.waterQuality,
                       MINIMUM_SCORES.waterQuality,
                     )
-                      ? "#DC2626"
-                      : "#059669",
+                      ? "#FEE2E2"
+                      : "#D1FAE5",
                   },
                 ]}
               >
-                {needsImprovement(
-                  scores.waterQuality,
-                  MINIMUM_SCORES.waterQuality,
-                )
-                  ? t("result.needsImprovement")
-                  : t("result.approved")}
-              </Text>
+                <Text
+                  style={[
+                    styles.scoreCardStatusText,
+                    {
+                      color: needsImprovement(
+                        scores.waterQuality,
+                        MINIMUM_SCORES.waterQuality,
+                      )
+                        ? "#DC2626"
+                        : "#059669",
+                    },
+                  ]}
+                >
+                  {needsImprovement(
+                    scores.waterQuality,
+                    MINIMUM_SCORES.waterQuality,
+                  )
+                    ? t("result.needsImprovement")
+                    : t("result.approved")}
+                </Text>
+              </View>
+              {needsImprovement(
+                scores.waterQuality,
+                MINIMUM_SCORES.waterQuality,
+              ) && (
+                <Ionicons
+                  name="chevron-down-outline"
+                  size={20}
+                  color="#F59E0B"
+                />
+              )}
             </View>
           </View>
-        </View>
+        </TouchableOpacity>
 
-        <View style={styles.scoreCard}>
+        <TouchableOpacity
+          style={[
+            styles.scoreCard,
+            needsImprovement(
+              scores.wasteManagement,
+              MINIMUM_SCORES.wasteManagement,
+            ) && styles.scoreCardClickable,
+          ]}
+          onPress={() =>
+            needsImprovement(
+              scores.wasteManagement,
+              MINIMUM_SCORES.wasteManagement,
+            ) && scrollToSection(wasteManagementRef)
+          }
+          disabled={
+            !needsImprovement(
+              scores.wasteManagement,
+              MINIMUM_SCORES.wasteManagement,
+            )
+          }
+          activeOpacity={0.7}
+        >
           <View style={styles.scoreCardHeader}>
             <View style={styles.scoreCardTitleContainer}>
               <Ionicons name="leaf-outline" size={24} color="#006f36" />
@@ -268,41 +383,55 @@ export default function ResultPage() {
               {MINIMUM_SCORES.wasteManagement.toFixed(2).replace(".", ",")}
             </Text>
             <View
-              style={[
-                styles.scoreCardStatusBadge,
-                {
-                  backgroundColor: needsImprovement(
-                    scores.wasteManagement,
-                    MINIMUM_SCORES.wasteManagement,
-                  )
-                    ? "#FEE2E2"
-                    : "#D1FAE5",
-                },
-              ]}
+              style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
             >
-              <Text
+              <View
                 style={[
-                  styles.scoreCardStatusText,
+                  styles.scoreCardStatusBadge,
                   {
-                    color: needsImprovement(
+                    backgroundColor: needsImprovement(
                       scores.wasteManagement,
                       MINIMUM_SCORES.wasteManagement,
                     )
-                      ? "#DC2626"
-                      : "#059669",
+                      ? "#FEE2E2"
+                      : "#D1FAE5",
                   },
                 ]}
               >
-                {needsImprovement(
-                  scores.wasteManagement,
-                  MINIMUM_SCORES.wasteManagement,
-                )
-                  ? t("result.needsImprovement")
-                  : t("result.approved")}
-              </Text>
+                <Text
+                  style={[
+                    styles.scoreCardStatusText,
+                    {
+                      color: needsImprovement(
+                        scores.wasteManagement,
+                        MINIMUM_SCORES.wasteManagement,
+                      )
+                        ? "#DC2626"
+                        : "#059669",
+                    },
+                  ]}
+                >
+                  {needsImprovement(
+                    scores.wasteManagement,
+                    MINIMUM_SCORES.wasteManagement,
+                  )
+                    ? t("result.needsImprovement")
+                    : t("result.approved")}
+                </Text>
+              </View>
+              {needsImprovement(
+                scores.wasteManagement,
+                MINIMUM_SCORES.wasteManagement,
+              ) && (
+                <Ionicons
+                  name="chevron-down-outline"
+                  size={20}
+                  color="#F59E0B"
+                />
+              )}
             </View>
           </View>
-        </View>
+        </TouchableOpacity>
       </View>
 
       {hasAnyImprovement(scores, MINIMUM_SCORES) && (
@@ -318,7 +447,7 @@ export default function ResultPage() {
             scores.waterManagement,
             MINIMUM_SCORES.waterManagement,
           ) && (
-            <View style={styles.improvementCategory}>
+            <View ref={waterManagementRef} style={styles.improvementCategory}>
               <View style={styles.categoryHeader}>
                 <Ionicons name="water" size={20} color="#EF4444" />
                 <Text style={styles.categoryTitle}>
@@ -351,7 +480,7 @@ export default function ResultPage() {
             scores.waterQuality,
             MINIMUM_SCORES.waterQuality,
           ) && (
-            <View style={styles.improvementCategory}>
+            <View ref={waterQualityRef} style={styles.improvementCategory}>
               <View style={styles.categoryHeader}>
                 <Ionicons name="checkmark-circle" size={20} color="#EF4444" />
                 <Text style={styles.categoryTitle}>
@@ -384,7 +513,7 @@ export default function ResultPage() {
             scores.wasteManagement,
             MINIMUM_SCORES.wasteManagement,
           ) && (
-            <View style={styles.improvementCategory}>
+            <View ref={wasteManagementRef} style={styles.improvementCategory}>
               <View style={styles.categoryHeader}>
                 <Ionicons name="leaf" size={20} color="#EF4444" />
                 <Text style={styles.categoryTitle}>

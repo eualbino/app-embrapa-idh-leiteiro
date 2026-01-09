@@ -597,7 +597,7 @@ export default {
       errorLoadingMessage: "No fue posible cargar los datos de la performance",
       detailedScores: "Puntuaciones Detalladas",
       idhMilk: "IDH_Leche",
-      didNotReachMinimum: "No alcanzó la nota mínima",
+      didNotReachMinimum: "Su desempeño puede mejorar",
       improvements: {
         waterManagement: {
           waterConsumption: {

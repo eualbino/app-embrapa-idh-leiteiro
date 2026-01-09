@@ -614,7 +614,7 @@ export default {
             subtitle: "Para se obter a nota mínima é necessário:",
             items: [
               "Ter controle de vazão nas mangueiras de lavagem",
-              "Boias de nível instaladas nos bebedouros e nas estruturas de armazenamentos de água",
+              "Boias de nível instaladas nos bebedouros e nas estruturas de armazenamento de água",
               "Verificar com periodicidade semanal a ocorrência de vazamentos",
             ],
           },

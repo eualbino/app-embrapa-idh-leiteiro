@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   languageName: {
     fontSize: theme.typography.sizes.sm,
     fontWeight: theme.typography.weights.medium,
-    color: theme.colors.text.primary,
+    color: "#666",
   },
   activeLanguageName: {
     color: theme.colors.text.inverse,

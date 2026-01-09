@@ -9,6 +9,10 @@ export const useCharacterizationFormLogic = (
   form: CharacterizationFormState,
 ): FormData => {
   return useMemo<FormData>(() => {
+    const isBrazil =
+      form.pais?.toLowerCase().trim() === "brasil" ||
+      form.pais?.toLowerCase().trim() === "brazil";
+
     return {
       localizacao: {
         pais: form.pais,
@@ -51,7 +55,9 @@ export const useCharacterizationFormLogic = (
         temEnergiaFotovoltaica: form.temEnergiaFotovoltaica,
       },
       legislacaoAmbiental: {
-        temLicencaAmbiental: form.temLicencaAmbiental,
+        temLicencaAmbiental: isBrazil
+          ? form.temLicencaAmbiental
+          : null,
         temOutorgaAgua: form.temOutorgaAgua,
       },
     };

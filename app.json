@@ -27,15 +27,15 @@
     },
     "plugins": [
       "expo-router",
+      "expo-font",
       [
         "expo-splash-screen",
         {
+          "backgroundColor": "#006F36",
           "image": "./src/assets/images/splash.png",
-          "backgroundColor": "#ffffff",
-          "imageWidth": 200
+          "resizeMode": "contain"
         }
       ],
-      "expo-font",
       "expo-web-browser",
       "expo-localization",
       "expo-secure-store"

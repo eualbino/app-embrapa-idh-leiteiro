@@ -1,4 +1,3 @@
-// External Libraries
 import { useEffect, useState, useCallback } from "react";
 import { Stack, useRouter, usePathname } from "expo-router";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
@@ -7,20 +6,23 @@ import Toast from "react-native-toast-message";
 import * as NavigationBar from "expo-navigation-bar";
 import * as SplashScreen from "expo-splash-screen";
 
-// Config
 import toastConfig from "@/src/config/toast";
 import "@/src/locales/i18n";
 
-// Context
 import { AuthProvider, useAuthContext } from "@/src/contexts/AuthContext";
+import {
+  OnboardingProvider,
+  useOnboardingContext,
+} from "@/src/contexts/OnboardingContext";
 
-// Components
 import { OfflineSyncMonitor } from "@/src/components/commons/OfflineSyncMonitor";
 
 SplashScreen.preventAutoHideAsync();
 
 function RootNavigator() {
   const { isAuthenticated, isInitializing } = useAuthContext();
+  const { hasSeenWelcome, isLoading: isOnboardingLoading } =
+    useOnboardingContext();
   const router = useRouter();
   const pathname = usePathname();
   const [isSplashReady, setIsSplashReady] = useState(false);
@@ -34,10 +36,21 @@ function RootNavigator() {
   }, []);
 
   useEffect(() => {
-    if (!isInitializing) {
+    if (!isInitializing && !isOnboardingLoading && hasSeenWelcome !== null) {
       const isProtectedRoute = pathname?.startsWith("/(protected)");
       const isAuthRoute =
         pathname === "/login" || pathname?.startsWith("/forgot-password");
+      const isWelcomeRoute = pathname === "/welcome";
+
+      if (!hasSeenWelcome && !isWelcomeRoute) {
+        router.replace("/welcome");
+        return;
+      }
+
+      if (hasSeenWelcome && isWelcomeRoute) {
+        router.replace("/login");
+        return;
+      }
 
       if (isAuthenticated && isAuthRoute) {
         router.replace("/(protected)/(tabs)/(home)" as any);
@@ -45,15 +58,32 @@ function RootNavigator() {
         router.replace("/login");
       }
     }
-  }, [isAuthenticated, isInitializing, pathname, router]);
+  }, [
+    isAuthenticated,
+    isInitializing,
+    isOnboardingLoading,
+    hasSeenWelcome,
+    pathname,
+    router,
+  ]);
 
   const onLayoutRootView = useCallback(async () => {
-    if (isSplashReady && !isInitializing) {
+    if (
+      isSplashReady &&
+      !isInitializing &&
+      !isOnboardingLoading &&
+      hasSeenWelcome !== null
+    ) {
       await SplashScreen.hideAsync();
     }
-  }, [isSplashReady, isInitializing]);
+  }, [isSplashReady, isInitializing, isOnboardingLoading, hasSeenWelcome]);
 
-  if (!isSplashReady || isInitializing) {
+  if (
+    !isSplashReady ||
+    isInitializing ||
+    isOnboardingLoading ||
+    hasSeenWelcome === null
+  ) {
     return null;
   }
 
@@ -66,6 +96,14 @@ function RootNavigator() {
           contentStyle: { backgroundColor: "#ffffff" },
         }}
       >
+        <Stack.Screen
+          name="welcome"
+          options={{
+            contentStyle: {
+              backgroundColor: "#ffffff",
+            },
+          }}
+        />
         <Stack.Screen
           name="login"
           options={{
@@ -99,18 +137,20 @@ export default function RootLayout() {
   NavigationBar.setButtonStyleAsync("dark");
 
   return (
-    <AuthProvider>
-      <SafeAreaProvider>
-        <StatusBar
-          translucent
-          backgroundColor="#006f36"
-          barStyle="light-content"
-        />
-        <SafeAreaView style={styles.safeArea} edges={[]}>
-          <RootNavigator />
-        </SafeAreaView>
-      </SafeAreaProvider>
-    </AuthProvider>
+    <OnboardingProvider>
+      <AuthProvider>
+        <SafeAreaProvider>
+          <StatusBar
+            translucent
+            backgroundColor="#006f36"
+            barStyle="light-content"
+          />
+          <SafeAreaView style={styles.safeArea} edges={[]}>
+            <RootNavigator />
+          </SafeAreaView>
+        </SafeAreaProvider>
+      </AuthProvider>
+    </OnboardingProvider>
   );
 }
 
@@ -121,11 +161,5 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: "#fff",
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#ffffff",
   },
 });

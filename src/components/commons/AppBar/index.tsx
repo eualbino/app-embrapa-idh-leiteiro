@@ -8,6 +8,7 @@ import {
   Pressable,
   Animated,
   Dimensions,
+  Image,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter, usePathname } from "expo-router";
@@ -78,6 +79,11 @@ export const AppBar: React.FC<AppBarProps> = ({ title = "IDH Leite" }) => {
           >
             <Ionicons name="menu" size={28} color="#ffffff" />
           </TouchableOpacity>
+          <Image
+            source={require("@/src/assets/images/icon-white.png")}
+            style={styles.logo}
+            resizeMode="contain"
+          />
           <Text style={styles.title}>{title}</Text>
           <View style={styles.placeholder} />
         </View>

@@ -19,12 +19,17 @@ export const styles = StyleSheet.create({
   menuButton: {
     padding: theme.spacing.xxs,
   },
+  logo: {
+    width: 40,
+    height: 40,
+    marginLeft: theme.spacing.sm,
+  },
   title: {
     fontSize: theme.typography.sizes.xxl,
     fontWeight: theme.typography.weights.bold,
     color: theme.colors.text.inverse,
     flex: 1,
-    marginLeft: theme.spacing.md,
+    marginLeft: theme.spacing.sm,
   },
   placeholder: {
     width: 36,

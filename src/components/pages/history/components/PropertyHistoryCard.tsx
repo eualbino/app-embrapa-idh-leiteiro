@@ -1,19 +1,34 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+  ActivityIndicator,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { theme } from "@/src/config";
 import { PropertySummary } from "@/src/services/api/user";
+import { generateAndSharePDF } from "@/src/utils/pdfGenerator";
 
 interface PropertyHistoryCardProps {
   property: PropertySummary;
+  userName: string;
+  userEmail: string;
+  userCpf: string;
 }
 
 export const PropertyHistoryCard: React.FC<PropertyHistoryCardProps> = ({
   property,
+  userName,
+  userEmail,
+  userCpf,
 }) => {
   const router = useRouter();
   const [isPressed, setIsPressed] = useState(false);
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
 
   const handlePress = () => {
     router.push({
@@ -28,6 +43,39 @@ export const PropertyHistoryCard: React.FC<PropertyHistoryCardProps> = ({
 
   const handlePressOut = () => {
     setIsPressed(false);
+  };
+
+  const handleDownloadPDF = async (event: any) => {
+    event.stopPropagation();
+
+    try {
+      setIsGeneratingPDF(true);
+
+      await generateAndSharePDF({
+        property: {
+          city: property.city,
+          country: property.country,
+          productionSystem: property.productionSystem,
+          totalAreaHa: property.totalAreaHa,
+          createdAt: property.createdAt,
+          waterManagementScore: property.waterManagementScore,
+          waterQualityConservationScore: property.waterQualityConservationScore,
+          wasteManagementScore: property.wasteManagementScore,
+          waterPerformanceIndexScore: property.waterPerformanceIndexScore,
+        },
+        userName,
+        userEmail,
+        userCpf,
+      });
+    } catch (error) {
+      console.error("Erro ao gerar PDF:", error);
+      Alert.alert(
+        "Erro",
+        "Não foi possível gerar o relatório. Tente novamente.",
+      );
+    } finally {
+      setIsGeneratingPDF(false);
+    }
   };
 
   const formatDate = (dateString: string) => {
@@ -89,6 +137,25 @@ export const PropertyHistoryCard: React.FC<PropertyHistoryCardProps> = ({
             </Text>
           </View>
           <View style={styles.headerRight}>
+            <TouchableOpacity
+              style={styles.downloadButton}
+              onPress={handleDownloadPDF}
+              disabled={isGeneratingPDF}
+              activeOpacity={0.7}
+            >
+              {isGeneratingPDF ? (
+                <ActivityIndicator
+                  size="small"
+                  color={theme.colors.primary.default}
+                />
+              ) : (
+                <Ionicons
+                  name="download-outline"
+                  size={22}
+                  color={theme.colors.primary.default}
+                />
+              )}
+            </TouchableOpacity>
             <Text style={styles.date}>{formatDate(property.createdAt)}</Text>
             <Ionicons
               name="chevron-forward"
@@ -224,6 +291,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
+  },
+  downloadButton: {
+    padding: 6,
+    borderRadius: 8,
+    backgroundColor: "#F0FDF4",
+    borderWidth: 1,
+    borderColor: theme.colors.primary.default + "30",
   },
   locationContainer: {
     flexDirection: "row",

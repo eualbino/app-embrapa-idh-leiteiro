@@ -111,7 +111,13 @@ export default function History() {
           ) : (
             <View style={styles.propertiesList}>
               {properties.map((property) => (
-                <PropertyHistoryCard key={property.id} property={property} />
+                <PropertyHistoryCard
+                  key={property.id}
+                  property={property}
+                  userName={user?.name || ""}
+                  userEmail={user?.email || ""}
+                  userCpf={user?.cpf || ""}
+                />
               ))}
             </View>
           )}

@@ -1,15 +1,18 @@
-import React, { useMemo, useRef } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import {
   View,
   Text,
   ScrollView,
   ActivityIndicator,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { useWaterPerformance } from "./hooks/useWaterPerformance";
+import { useResultPDFData } from "./hooks/useResultPDFData";
+import { generateAndSharePDF } from "@/src/utils/pdfGenerator";
 import {
   getScoreColor,
   getScoreStatus,
@@ -29,6 +32,15 @@ export default function ResultPage() {
   const propertyId = params.propertyId as string | null;
 
   const { data, isLoading, error } = useWaterPerformance(propertyId);
+  const {
+    userName,
+    userEmail,
+    userCpf,
+    property,
+    isLoading: isLoadingPDFData,
+  } = useResultPDFData(propertyId);
+
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
 
   const IMPROVEMENTS = useMemo(() => getImprovements(t), [t]);
 
@@ -46,6 +58,45 @@ export default function ResultPage() {
         },
         () => {},
       );
+    }
+  };
+
+  const handleDownloadPDF = async () => {
+    if (!property) {
+      Alert.alert(
+        "Erro",
+        "Dados da propriedade não disponíveis para gerar o relatório.",
+      );
+      return;
+    }
+
+    try {
+      setIsGeneratingPDF(true);
+
+      await generateAndSharePDF({
+        property: {
+          city: property.city,
+          country: property.country,
+          productionSystem: property.productionSystem,
+          totalAreaHa: property.totalAreaHa,
+          createdAt: property.createdAt,
+          waterManagementScore: property.waterManagementScore,
+          waterQualityConservationScore: property.waterQualityConservationScore,
+          wasteManagementScore: property.wasteManagementScore,
+          waterPerformanceIndexScore: property.waterPerformanceIndexScore,
+        },
+        userName,
+        userEmail,
+        userCpf,
+      });
+    } catch (error) {
+      console.error("Erro ao gerar PDF:", error);
+      Alert.alert(
+        "Erro",
+        "Não foi possível gerar o relatório. Tente novamente.",
+      );
+    } finally {
+      setIsGeneratingPDF(false);
     }
   };
 
@@ -127,6 +178,21 @@ export default function ResultPage() {
             )}
           </Text>
         </View>
+        
+        {!isLoadingPDFData && property && (
+          <TouchableOpacity
+            style={styles.downloadButton}
+            onPress={handleDownloadPDF}
+            disabled={isGeneratingPDF}
+            activeOpacity={0.7}
+          >
+            {isGeneratingPDF ? (
+              <ActivityIndicator size="small" color="#006f36" />
+            ) : (
+              <Ionicons name="download-outline" size={26} color="#006f36" />
+            )}
+          </TouchableOpacity>
+        )}
       </View>
 
       <View style={styles.scoresSection}>

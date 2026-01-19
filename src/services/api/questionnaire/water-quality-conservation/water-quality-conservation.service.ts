@@ -9,7 +9,7 @@ export class WaterQualityConservationService {
     data: CreateWaterQualityConservationRequest,
   ): Promise<CreateWaterQualityConservationResponse> {
     const response = await api.post<CreateWaterQualityConservationResponse>(
-      "/water-quality-conservation",
+      "forms/water-quality-conservation",
       data,
     );
     return response.data;

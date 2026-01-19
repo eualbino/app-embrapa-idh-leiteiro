@@ -46,7 +46,6 @@ export const useNetworkStatus = () => {
 
       if (!previousConnection && hasConnection) {
         setJustReconnected(true);
-        console.log("🌐 Dispositivo reconectado à internet!");
 
         setTimeout(() => {
           setJustReconnected(false);

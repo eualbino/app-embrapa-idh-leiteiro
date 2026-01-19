@@ -38,19 +38,12 @@ export class OfflineSyncService {
         JSON.stringify(data)
       );
 
-      // Marca que há dados pendentes de sincronização
       await this.setPendingSync(true, false);
-
-      console.log("✅ Dados da propriedade salvos offline");
     } catch (error) {
-      console.error("❌ Erro ao salvar propriedade offline:", error);
       throw error;
     }
   }
 
-  /**
-   * Salva as respostas do questionário no AsyncStorage
-   */
   static async saveOfflineAnswers(answers: { [key: string]: number | null }): Promise<void> {
     try {
       const data: OfflineAnswersData = {

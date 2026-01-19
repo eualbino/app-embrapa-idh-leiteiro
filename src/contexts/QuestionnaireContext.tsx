@@ -12,6 +12,7 @@ interface QuestionnaireContextType {
   // State
   step: number;
   answers: { [key: string]: number | null };
+  selectedIndexes: { [key: string]: number };
   formData: FormData | null;
   date: Date;
   showPicker: boolean;
@@ -24,7 +25,7 @@ interface QuestionnaireContextType {
   setFormData: (formData: FormData | null) => void;
   setDate: (date: Date) => void;
   setShowPicker: (show: boolean) => void;
-  handleSelect: (id: string | number, value: number | null) => void;
+  handleSelect: (id: string | number, value: number | null, idx: number) => void;
   handleNext: (formDataOverride?: FormData | null) => void;
   handlePrevious: () => void;
   formatDate: (rawDate: Date) => string;

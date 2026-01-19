@@ -9,7 +9,7 @@ export class WaterIndicatorService {
     data: CreateWaterIndicatorRequest,
   ): Promise<CreateWaterIndicatorResponse> {
     const response = await api.post<CreateWaterIndicatorResponse>(
-      "/water-indicator",
+      "forms/water-indicator",
       data,
     );
     return response.data;

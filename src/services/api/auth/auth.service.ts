@@ -7,12 +7,22 @@ import {
   ConfirmCodeRequest,
   ValidateOtpResponse,
   ResetPasswordRequest,
+  RefreshTokenResponse,
 } from './dtos';
 
 export class AuthService {
 
   static async login(credentials: LoginRequest): Promise<LoginResponse> {
     const response = await api.post<LoginResponse>('/sessions', credentials);
+    return response.data;
+  }
+
+  static async refreshToken(refreshToken: string): Promise<RefreshTokenResponse> {
+    const response = await api.patch<RefreshTokenResponse>('/token/refresh', null, {
+      headers: {
+        Cookie: `refreshToken=${refreshToken}`,
+      },
+    });
     return response.data;
   }
 

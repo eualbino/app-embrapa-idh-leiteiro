@@ -33,6 +33,7 @@ export const useQuestionnaire = (): QuestionnaireState &
   // State
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<{ [key: string]: number | null }>({});
+  const [selectedIndexes, setSelectedIndexes] = useState<{ [key: string]: number }>({});
   const [formData, setFormData] = useState<FormData | null>(null);
   const [propertyId, setPropertyId] = useState<string | null>(null);
   const [date, setDate] = useState(new Date());
@@ -51,7 +52,6 @@ export const useQuestionnaire = (): QuestionnaireState &
   const currentGroup = questionGroups[step];
 
   const answer2 = answers["2"];
-  const answer14 = answers["14"];
   const answer22 = answers["22"];
 
   useEffect(() => {
@@ -61,14 +61,10 @@ export const useQuestionnaire = (): QuestionnaireState &
         "3": 0,
         "4": 0,
       }));
-    }
-
-    if (answer14 === 0) {
-      setAnswers((prevAnswers) => ({
-        ...prevAnswers,
-        "15": null,
-        "16": null,
-        "17": null,
+      setSelectedIndexes((prevIndexes) => ({
+        ...prevIndexes,
+        "3": 0,
+        "4": 0,
       }));
     }
 
@@ -76,11 +72,13 @@ export const useQuestionnaire = (): QuestionnaireState &
       setAnswers((prevAnswers) => ({
         ...prevAnswers,
         "23": null,
-        "24": null,
-        "25": null,
+      }));
+      setSelectedIndexes((prevIndexes) => ({
+        ...prevIndexes,
+        "23": 0,
       }));
     }
-  }, [answer2, answer14, answer22]);
+  }, [answer2, answer22]);
 
   useEffect(() => {
     if (Object.keys(answers).length > 0) {
@@ -89,8 +87,17 @@ export const useQuestionnaire = (): QuestionnaireState &
   }, [answers]);
 
   const handleSelect = useCallback(
-    (id: string | number, value: number | null) => {
-      setAnswers((prev) => ({ ...prev, [id]: value }));
+    (id: string | number, value: number | null, index?: number) => {
+      setAnswers((prev) => ({
+        ...prev,
+        [id]: value,
+      }));
+      if (index !== undefined) {
+        setSelectedIndexes((prev) => ({
+          ...prev,
+          [id]: index,
+        }));
+      }
     },
     [],
   );
@@ -395,6 +402,7 @@ export const useQuestionnaire = (): QuestionnaireState &
     // State
     step,
     answers,
+    selectedIndexes,
     formData,
     date,
     showPicker,

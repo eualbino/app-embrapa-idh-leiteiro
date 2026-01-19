@@ -1,7 +1,7 @@
 export interface CreatePropertyRequest {
   country: string;
-  state: string;
-  city: string;
+  state: string | null;
+  city: string | null;
   productionSystem: ProductionSystemType;
   totalAreaHa: number;
   pastureAreaHa: number;
@@ -69,4 +69,4 @@ export type ProductionSystemType =
 
 export type FeedUnitType = "MATERIA_NATURAL" | "MATERIA_SECA";
 
-export type LicenseStatusType = "SIM" | "NAO" | "DISPENSA";
+export type LicenseStatusType = "SIM" | "NAO" | "DISPENSA" | null;

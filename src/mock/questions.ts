@@ -144,7 +144,7 @@ export const questions: Question[] = [
       { label: "questionnaire.questions.options.noCooling", value: null },
       {
         label: "questionnaire.questions.options.noBasedOnProducerDecision",
-        value: 0.5,
+        value: 0,
       },
       {
         label: "questionnaire.questions.options.yesBasedOnTechnicalParameters",
@@ -198,19 +198,19 @@ export const questions: Question[] = [
     option: [
       {
         label: "questionnaire.questions.options.noQualityMonitoringSystem",
-        value: null,
-      },
-      {
-        label: "questionnaire.questions.options.lessThan25AllPoints",
         value: 0,
       },
       {
+        label: "questionnaire.questions.options.lessThan25AllPoints",
+        value: 0.25,
+      },
+      {
         label: "questionnaire.questions.options.between26And50Points",
-        value: 0.333,
+        value: 0.5,
       },
       {
         label: "questionnaire.questions.options.between51And79Points",
-        value: 0.666,
+        value: 0.75,
       },
       {
         label: "questionnaire.questions.options.above80",
@@ -226,7 +226,7 @@ export const questions: Question[] = [
     option: [
       {
         label: "questionnaire.questions.options.noQualityMonitoringSystem",
-        value: null,
+        value: 0,
       },
       {
         label: "questionnaire.questions.options.no",
@@ -243,7 +243,7 @@ export const questions: Question[] = [
     option: [
       {
         label: "questionnaire.questions.options.noQualityMonitoringSystem",
-        value: null,
+        value: 0,
       },
       {
         label: "questionnaire.questions.options.no",

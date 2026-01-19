@@ -1,10 +1,6 @@
 import { StyleSheet } from "react-native";
 import { theme } from "@/src/config";
 
-/**
- * Estilos compartilhados entre as páginas de recuperação de senha
- * (send-email, confirm-code, reset-password)
- */
 export const sharedStyles = StyleSheet.create({
   container: {
     flex: 1,

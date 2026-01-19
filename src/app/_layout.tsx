@@ -26,6 +26,8 @@ function RootNavigator() {
   const router = useRouter();
   const pathname = usePathname();
   const [isSplashReady, setIsSplashReady] = useState(false);
+  const [initialRoute, setInitialRoute] = useState<string | null>(null);
+  const [hasNavigatedToInitial, setHasNavigatedToInitial] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -36,7 +38,28 @@ function RootNavigator() {
   }, []);
 
   useEffect(() => {
-    if (!isInitializing && !isOnboardingLoading && hasSeenWelcome !== null) {
+    if (!isInitializing && !isOnboardingLoading && hasSeenWelcome !== null && initialRoute === null) {
+      if (!hasSeenWelcome) {
+        setInitialRoute("/welcome");
+      } else if (isAuthenticated) {
+        setInitialRoute("/(protected)/(tabs)/(home)");
+      } else {
+        setInitialRoute("/login");
+      }
+    }
+  }, [isInitializing, isOnboardingLoading, hasSeenWelcome, isAuthenticated, initialRoute]);
+
+  // Navegar para a rota inicial assim que for determinada
+  useEffect(() => {
+    if (initialRoute !== null && !hasNavigatedToInitial && isSplashReady) {
+      router.replace(initialRoute as any);
+      setHasNavigatedToInitial(true);
+    }
+  }, [initialRoute, hasNavigatedToInitial, isSplashReady, router]);
+
+  // Gerenciar navegação após a rota inicial
+  useEffect(() => {
+    if (!isInitializing && !isOnboardingLoading && hasSeenWelcome !== null && hasNavigatedToInitial) {
       const isProtectedRoute = pathname?.startsWith("/(protected)");
       const isAuthRoute =
         pathname === "/login" || pathname?.startsWith("/forgot-password");
@@ -65,6 +88,7 @@ function RootNavigator() {
     hasSeenWelcome,
     pathname,
     router,
+    hasNavigatedToInitial,
   ]);
 
   const onLayoutRootView = useCallback(async () => {
@@ -72,17 +96,19 @@ function RootNavigator() {
       isSplashReady &&
       !isInitializing &&
       !isOnboardingLoading &&
-      hasSeenWelcome !== null
+      hasSeenWelcome !== null &&
+      initialRoute !== null
     ) {
       await SplashScreen.hideAsync();
     }
-  }, [isSplashReady, isInitializing, isOnboardingLoading, hasSeenWelcome]);
+  }, [isSplashReady, isInitializing, isOnboardingLoading, hasSeenWelcome, initialRoute]);
 
   if (
     !isSplashReady ||
     isInitializing ||
     isOnboardingLoading ||
-    hasSeenWelcome === null
+    hasSeenWelcome === null ||
+    initialRoute === null
   ) {
     return null;
   }

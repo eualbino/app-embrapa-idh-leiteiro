@@ -8,7 +8,7 @@ export class WaterPerformanceIndexService {
     params: GetWaterPerformanceIndexParams,
   ): Promise<GetWaterPerformanceIndexResponse> {
     const response = await api.get<GetWaterPerformanceIndexResponse>(
-      `/water-performance-index/${params.propertyId}`,
+      `forms/water-performance-index/${params.propertyId}`,
     );
     return response.data;
   }

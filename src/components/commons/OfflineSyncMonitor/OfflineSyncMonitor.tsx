@@ -1,21 +1,12 @@
 import React, { useEffect } from "react";
 import { useOfflineSync } from "@/src/hooks/useOfflineSync";
 
-/**
- * Componente que monitora a conexão e sincroniza dados automaticamente
- * quando a conexão é restaurada.
- *
- * Este componente deve ser montado no nível superior da aplicação.
- */
 export const OfflineSyncMonitor: React.FC = () => {
   const { syncOfflineData, isOnline, hasPendingData, isSyncing } =
     useOfflineSync();
 
   useEffect(() => {
     if (isOnline && hasPendingData && !isSyncing) {
-      console.log(
-        "🔄 OfflineSyncMonitor: Tentando sincronizar dados pendentes...",
-      );
       syncOfflineData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

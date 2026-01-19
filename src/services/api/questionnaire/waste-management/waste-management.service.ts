@@ -9,7 +9,7 @@ export class WasteManagementService {
     data: CreateWasteManagementRequest
   ): Promise<CreateWasteManagementResponse> {
     const response = await api.post<CreateWasteManagementResponse>(
-      "/waste-management",
+      "forms/waste-management",
       data
     );
     return response.data;

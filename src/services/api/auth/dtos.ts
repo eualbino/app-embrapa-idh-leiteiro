@@ -34,9 +34,14 @@ export interface User {
 
 export interface LoginResponse {
   token: string;
+  refreshToken?: string;
 }
 
 export interface ValidateOtpResponse {
+  token: string;
+}
+
+export interface RefreshTokenResponse {
   token: string;
 }
 

@@ -10,12 +10,6 @@ export function formatCPF(cpf: string | undefined | null): string {
   return cleanCPF.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
 }
 
-/**
- * Formata um CPF progressivamente durante a digitação
- * Útil para inputs onde o usuário está digitando o CPF
- * @param cpf - CPF parcial ou completo
- * @returns CPF formatado progressivamente
- */
 export function formatCPFInput(cpf: string): string {
   const numbers = cpf.replace(/\D/g, "");
 
@@ -30,11 +24,6 @@ export function formatCPFInput(cpf: string): string {
   }
 }
 
-/**
- * Remove a formatação do CPF, deixando apenas os números
- * @param cpf - CPF formatado
- * @returns CPF apenas com números
- */
 export function unformatCPF(cpf: string): string {
   return cpf.replace(/\D/g, "");
 }

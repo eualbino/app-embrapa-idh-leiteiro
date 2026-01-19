@@ -24,9 +24,14 @@ interface QuestionItemProps {
 
 const QuestionItemComponent: React.FC<QuestionItemProps> = ({ question }) => {
   const { t } = useTranslation();
-  const { answers, handleSelect, questionDisabled } = useQuestionnaireContext();
+  const { selectedIndexes, handleSelect, questionDisabled } = useQuestionnaireContext();
 
   const isDisabled = questionDisabled(question.id);
+
+  const selectedIndex = selectedIndexes[question.id];
+
+  const actualSelectedIndex =
+    selectedIndex !== undefined ? selectedIndex : -1;
 
   const renderTextWithItalic = (text: string) => {
     const parts = text.split(/(Escherichia coli)/gi);
@@ -66,18 +71,22 @@ const QuestionItemComponent: React.FC<QuestionItemProps> = ({ question }) => {
       )}
 
       <View style={styles.optionsContainer}>
-        {question.option.map((opt, idx) => (
-          <OptionWithInput
-            key={`${question.id}-${idx}`}
-            label={t(opt.label)}
-            selected={answers[question.id] === opt.value}
-            onPress={() => handleSelect(question.id, opt.value)}
-            disabled={isDisabled}
-          />
-        ))}
+        {question.option.map((opt, idx) => {
+          const isSelected = actualSelectedIndex === idx;
+          
+          return (
+            <OptionWithInput
+              key={`${question.id}-${idx}`}
+              label={t(opt.label)}
+              selected={isSelected}
+              onPress={() => handleSelect(question.id, opt.value, idx)}
+              disabled={isDisabled}
+            />
+          );
+        })}
       </View>
     </View>
   );
 };
 
-export const QuestionItem = memo(QuestionItemComponent);
+export const QuestionItem = QuestionItemComponent;

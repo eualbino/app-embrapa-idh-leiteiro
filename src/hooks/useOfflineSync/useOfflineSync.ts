@@ -42,7 +42,6 @@ export const useOfflineSync = () => {
       const pendingSync = await OfflineSyncService.getPendingSync();
 
       if (!pendingSync) {
-        console.log("Nenhum dado pendente para sincronizar");
         setIsSyncing(false);
         return;
       }
@@ -53,7 +52,6 @@ export const useOfflineSync = () => {
         const offlineProperty = await OfflineSyncService.getOfflineProperty();
 
         if (offlineProperty) {
-          console.log("🔄 Sincronizando propriedade...");
 
           try {
             const response = await createPropertyFromFormData(
@@ -64,8 +62,6 @@ export const useOfflineSync = () => {
               propertyId = response.property.id;
               await OfflineSyncService.saveOfflinePropertyId(propertyId);
               await OfflineSyncService.clearOfflineProperty();
-
-              console.log("✅ Propriedade sincronizada com sucesso!");
 
               Toast.show({
                 type: "success",
@@ -82,15 +78,12 @@ export const useOfflineSync = () => {
       }
 
       if (propertyId && !OfflineSyncService.isTempPropertyId(propertyId)) {
+        const validPropertyId = propertyId;
         const offlineAnswers = await OfflineSyncService.getOfflineAnswers();
 
         if (offlineAnswers) {
-          console.log("🔄 Sincronizando respostas...");
-
           try {
-            await syncAllQuestionnaires(offlineAnswers.answers, propertyId);
-
-            console.log("✅ Respostas sincronizadas com sucesso!");
+            await syncAllQuestionnaires(offlineAnswers.answers, validPropertyId);
 
             Toast.show({
               type: "success",
@@ -157,8 +150,8 @@ export const useOfflineSync = () => {
         ? "MATERIA_NATURAL"
         : "MATERIA_SECA";
 
-    const mapLicenseStatus = (status: string): "SIM" | "NAO" | "DISPENSA" => {
-      const normalizedStatus = status.toLowerCase().trim();
+    const mapLicenseStatus = (status: string | null): "SIM" | "NAO" | "DISPENSA" | null => {
+      const normalizedStatus = status?.toLowerCase().trim();
 
       if (normalizedStatus === "sim") {
         return "SIM";

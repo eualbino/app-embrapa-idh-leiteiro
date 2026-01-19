@@ -61,7 +61,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           setIsAuthenticated(true);
         } catch (error) {
           console.error("Token inválido:", error);
-          await AsyncStorage.removeItem("@app:token");
+          await AsyncStorage.multiRemove(["@app:token", "@app:refreshToken"]);
           setIsAuthenticated(false);
           setUser(null);
           setProperties([]);
@@ -87,6 +87,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const response = await AuthService.login(credentials);
 
       await AsyncStorage.setItem("@app:token", response.token);
+      
+      if (response.refreshToken) {
+        await AsyncStorage.setItem("@app:refreshToken", response.refreshToken);
+      }
 
       try {
         const userData = await UserService.getMe();
@@ -104,7 +108,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       } catch (error) {
         console.error("Erro ao buscar dados do usuário:", error);
 
-        await AsyncStorage.removeItem("@app:token");
+        await AsyncStorage.multiRemove(["@app:token", "@app:refreshToken"]);
 
         throw new Error("Não foi possível carregar dados do usuário");
       }
@@ -169,7 +173,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       setIsLoading(true);
 
-      await AsyncStorage.removeItem("@app:token");
+      await AsyncStorage.multiRemove(["@app:token", "@app:refreshToken"]);
 
       setIsAuthenticated(false);
       setUser(null);

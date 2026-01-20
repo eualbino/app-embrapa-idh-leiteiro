@@ -62,7 +62,7 @@ export default function LoginRegister() {
         <View>
           <Input
             label={t("common.email") + " ou CPF"}
-            placeholder="email@gmail.com ou 123.456.789-00"
+            placeholder="email@gmail.com"
             value={email || cpf}
             onChangeText={(text) => {
               if (text.includes("@") || /[a-zA-Z]/.test(text)) {

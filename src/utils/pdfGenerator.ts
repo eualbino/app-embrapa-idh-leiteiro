@@ -35,17 +35,6 @@ const MINIMUM_SCORES = {
   waterPerformanceIndex: 0.64,
 };
 
-const getProductionSystemLabel = (system: string): string => {
-  const systems: { [key: string]: string } = {
-    PASTO: "Pasto",
-    PASTO_SUPLEMENTACAO: "Pasto com Suplementação",
-    CONFINADO: "Confinado",
-    CONFINADO_MISTO: "Confinado Misto",
-    OUTRO: "Outro",
-  };
-  return systems[system] || system;
-};
-
 const formatDate = (dateString: string): string => {
   const date = new Date(dateString);
   return date.toLocaleDateString("pt-BR", {
@@ -54,6 +43,15 @@ const formatDate = (dateString: string): string => {
     year: "numeric",
     hour: "2-digit",
     minute: "2-digit",
+  });
+};
+
+const formatDateOnly = (dateString: string): string => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
   });
 };
 
@@ -70,7 +68,7 @@ const getScoreColor = (score: number | null, minimum: number): string => {
 
 const getScoreStatus = (score: number | null, minimum: number): string => {
   if (score === null) return "Não Avaliado";
-  if (score >= minimum) return "Aprovado ✓";
+  if (score >= minimum) return "";
   return "Requer Melhorias";
 };
 
@@ -194,10 +192,6 @@ const generateHTMLContent = (options: PDFGeneratorOptions): string => {
     mainScore,
     MINIMUM_SCORES.waterPerformanceIndex,
   );
-  const mainScoreStatus = getScoreStatus(
-    mainScore,
-    MINIMUM_SCORES.waterPerformanceIndex,
-  );
 
   return `
     <!DOCTYPE html>
@@ -253,12 +247,6 @@ const generateHTMLContent = (options: PDFGeneratorOptions): string => {
           margin-bottom: 8px;
         }
 
-        .subtitle {
-          font-size: 16px;
-          color: #6B7280;
-          margin-bottom: 15px;
-        }
-
         .date-generated {
           font-size: 12px;
           color: #9CA3AF;
@@ -266,11 +254,14 @@ const generateHTMLContent = (options: PDFGeneratorOptions): string => {
         }
 
         .main-score-section {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 15px;
           background: linear-gradient(135deg, ${mainScoreColor}15 0%, ${mainScoreColor}05 100%);
           border: 2px solid ${mainScoreColor};
           border-radius: 12px;
-          padding: 25px;
-          text-align: center;
+          padding: 12px 40px;
           margin: 25px 0;
         }
 
@@ -285,17 +276,6 @@ const generateHTMLContent = (options: PDFGeneratorOptions): string => {
           font-size: 18px;
           color: #374151;
           font-weight: 600;
-        }
-
-        .status-badge {
-          display: inline-block;
-          padding: 8px 20px;
-          background: ${mainScoreColor}20;
-          color: ${mainScoreColor};
-          border-radius: 20px;
-          font-weight: 600;
-          font-size: 14px;
-          margin-top: 15px;
         }
 
         .section {
@@ -394,11 +374,6 @@ const generateHTMLContent = (options: PDFGeneratorOptions): string => {
           border-radius: 14px;
           font-size: 12px;
           font-weight: 600;
-        }
-
-        .score-status.approved {
-          background: #D1FAE5;
-          color: #059669;
         }
 
         .score-status.needs-improvement {
@@ -534,54 +509,26 @@ const generateHTMLContent = (options: PDFGeneratorOptions): string => {
         class="header-logo-left"
       />
     
-      <h1>Relatório de Desempenho Hídrico</h1>
-      <div class="subtitle">
-        Índice de Desempenho Hídrico da Produção Leiteira (IDH Leite)
-      </div>
+      <h1>Relatório dos Resultados do IDH Leite</h1>
       <div class="date-generated">
-        Gerado em: ${formatDate(new Date().toISOString())}
+        Data de avaliação: ${formatDateOnly(property.createdAt)} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Gerado em: ${formatDateOnly(new Date().toISOString())}
       </div>
     </div>
 
       <div class="main-score-section">
         <div class="main-score-label">IDH Leite</div>
         <div class="main-score-value">${formatScore(mainScore)}</div>
-        <div class="status-badge">${mainScoreStatus}</div>
       </div>
 
       <div class="section">
-        <h2 class="section-title">👤 Dados do Usuário</h2>
+        <h2 class="section-title">👤 Informações</h2>
         <div class="info-row">
           <span class="info-label">Nome:</span>
           <span class="info-value">${userName}</span>
         </div>
         <div class="info-row">
-          <span class="info-label">E-mail:</span>
-          <span class="info-value">${userEmail}</span>
-        </div>
-        <div class="info-row">
-          <span class="info-label">CPF:</span>
-          <span class="info-value">${userCpf}</span>
-        </div>
-      </div>
-
-      <div class="section">
-        <h2 class="section-title">🏞️ Informações da Propriedade</h2>
-        <div class="info-row">
           <span class="info-label">Localização:</span>
           <span class="info-value">${property.city}, ${property.country}</span>
-        </div>
-        <div class="info-row">
-          <span class="info-label">Sistema de Produção:</span>
-          <span class="info-value">${getProductionSystemLabel(property.productionSystem)}</span>
-        </div>
-        <div class="info-row">
-          <span class="info-label">Área Total:</span>
-          <span class="info-value">${property.totalAreaHa} hectares</span>
-        </div>
-        <div class="info-row">
-          <span class="info-label">Data da Avaliação:</span>
-          <span class="info-value">${formatDate(property.createdAt)}</span>
         </div>
       </div>
 
@@ -597,7 +544,7 @@ const generateHTMLContent = (options: PDFGeneratorOptions): string => {
           </div>
           <div class="score-card-footer">
             <div class="score-minimum">Pontuação Mínima: ${MINIMUM_SCORES.waterManagement.toFixed(2).replace(".", ",")}</div>
-            <div class="score-status ${property.waterManagementScore !== null && property.waterManagementScore >= MINIMUM_SCORES.waterManagement ? "approved" : "needs-improvement"}">
+            <div class="score-status ${property.waterManagementScore !== null && property.waterManagementScore >= MINIMUM_SCORES.waterManagement ? "" : "needs-improvement"}">
               ${getScoreStatus(property.waterManagementScore, MINIMUM_SCORES.waterManagement)}
             </div>
           </div>
@@ -612,7 +559,7 @@ const generateHTMLContent = (options: PDFGeneratorOptions): string => {
           </div>
           <div class="score-card-footer">
             <div class="score-minimum">Pontuação Mínima: ${MINIMUM_SCORES.waterQuality.toFixed(2).replace(".", ",")}</div>
-            <div class="score-status ${property.waterQualityConservationScore !== null && property.waterQualityConservationScore >= MINIMUM_SCORES.waterQuality ? "approved" : "needs-improvement"}">
+            <div class="score-status ${property.waterQualityConservationScore !== null && property.waterQualityConservationScore >= MINIMUM_SCORES.waterQuality ? "apprved" : "needs-improvement"}">
               ${getScoreStatus(property.waterQualityConservationScore, MINIMUM_SCORES.waterQuality)}
             </div>
           </div>
@@ -627,7 +574,7 @@ const generateHTMLContent = (options: PDFGeneratorOptions): string => {
           </div>
           <div class="score-card-footer">
             <div class="score-minimum">Pontuação Mínima: ${MINIMUM_SCORES.wasteManagement.toFixed(2).replace(".", ",")}</div>
-            <div class="score-status ${property.wasteManagementScore !== null && property.wasteManagementScore >= MINIMUM_SCORES.wasteManagement ? "approved" : "needs-improvement"}">
+            <div class="score-status ${property.wasteManagementScore !== null && property.wasteManagementScore >= MINIMUM_SCORES.wasteManagement ? "" : "needs-improvement"}">
               ${getScoreStatus(property.wasteManagementScore, MINIMUM_SCORES.wasteManagement)}
             </div>
           </div>
@@ -676,7 +623,7 @@ const generateHTMLContent = (options: PDFGeneratorOptions): string => {
             MINIMUM_SCORES.waterQuality,
           )
             ? renderImprovementSection(
-                "✓ Qualidade da Água",
+                "Qualidade da Água",
                 "✓",
                 getWaterQualityImprovements(),
               )

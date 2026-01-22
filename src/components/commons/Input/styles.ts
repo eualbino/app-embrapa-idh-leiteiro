@@ -20,6 +20,7 @@ export const style = () => {
       paddingVertical: theme.spacing.sm,
       fontSize: theme.typography.sizes.md,
       backgroundColor: theme.colors.background.default,
+      color: theme.colors.text.primary,
     },
   });
 };

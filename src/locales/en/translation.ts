@@ -123,6 +123,10 @@ export default {
       titleCaracterization: "Characterization",
       subtitleCaracterization:
         "First, let's characterize your production system.",
+      subtitleCaracterizationUpdate:
+        "Let's update your system information.",
+      propertyCreatedSuccess: "Property created successfully!",
+      propertyUpdatedSuccess: "Data updated successfully!",
       titleQuantity: "Dimension – Water Quantity",
       titleQuality: "Dimension – Water Quality",
       titleWaste: "Dimension – Waste Management",
@@ -484,7 +488,7 @@ export default {
           monthly: "Monthly",
           oncePerWeek: "1 time per week",
           twicePerWeek: "2 times per week",
-          moreThanOncePerWeek: "Less than 1 time per week",
+          moreThanOncePerWeek: "More than 1 time per week",
           lessThan25: "Less than 25%",
           between26And50: "Between 26% to 50%",
           between51And79: "Between 51% to 79%",
@@ -576,6 +580,7 @@ export default {
     // Result Page
     result: {
       title: "Overall IDH_Milk Score",
+      downloadReport: "Download report",
       improvementSuggestions: "Good Practices Suggestions",
       categoryWaterQuantity: "Water Quantity",
       categoryWaterQuality: "Water Quality",

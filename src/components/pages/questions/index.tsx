@@ -8,6 +8,7 @@ import {
   QuestionnaireProvider,
   useQuestionnaireContext,
 } from "@/src/contexts/QuestionnaireContext";
+import { useAuthContext } from "@/src/contexts/AuthContext";
 
 // Components
 import { QuestionnaireHeader } from "./components/QuestionnaireHeader";
@@ -95,6 +96,9 @@ const QuestionnaireContentWrapper: React.FC = () => {
   const { scrollRef, step } = useQuestionnaireContext();
   const { isOffline } = useNetworkStatus();
   const { isSyncing } = useOfflineSync();
+  const { properties } = useAuthContext();
+
+  const hasExistingProperty = properties && properties.length > 0;
 
   useEffect(() => {
     requestAnimationFrame(() => {
@@ -124,7 +128,9 @@ const QuestionnaireContentWrapper: React.FC = () => {
           </Text>
           <Text style={stylesQuestionsPage.textSubHeader}>
             {step === 0
-              ? t("questionnaire.subtitleCaracterization")
+              ? hasExistingProperty
+                ? t("questionnaire.subtitleCaracterizationUpdate")
+                : t("questionnaire.subtitleCaracterization")
               : t("questionnaire.subtitle")}
           </Text>
           <LogoutButton />

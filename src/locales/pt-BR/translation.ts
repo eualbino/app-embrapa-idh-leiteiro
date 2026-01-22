@@ -124,6 +124,10 @@ export default {
       titleCaracterization: "Caracterização",
       subtitleCaracterization:
         "Primeiramente vamos caracterizar o seu sistema de produção.",
+      subtitleCaracterizationUpdate:
+        "Vamos atualizar as informações do seu sistema.",
+      propertyCreatedSuccess: "Propriedade criada com sucesso!",
+      propertyUpdatedSuccess: "Dados atualizados com sucesso!",
       titleQuantity: "Dimensão – Quantidade de Água",
       titleQuality: "Dimensão – Qualidade da Água",
       titleWaste: "Dimensão – Manejo de Resíduos",
@@ -491,7 +495,7 @@ export default {
           monthly: "Mensal",
           oncePerWeek: "1 vez por semana",
           twicePerWeek: "2 vez por semana",
-          moreThanOncePerWeek: "Menor que 1 vez por semana",
+          moreThanOncePerWeek: "Maior que 1 vez por semana",
           lessThan25: "Menos de 25%",
           between26And50: "Entre 26% a 50%",
           between51And79: "Entre 51% a 79%",
@@ -583,6 +587,7 @@ export default {
     // Result Page
     result: {
       title: "Escore Geral do IDH Leite",
+      downloadReport: "Baixar relatório",
       improvementSuggestions: "Sugestões de Boas Práticas",
       categoryWaterQuantity: "Quantidade de Água",
       categoryWaterQuality: "Qualidade da Água",

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useNetworkStatus } from "@/src/hooks/useNetworkStatus";
 import { OfflineSyncService } from "@/src/services/offline/OfflineSyncService";
 import { PropertyService } from "@/src/services/api/property";
@@ -7,22 +7,36 @@ import { WaterQualityConservationService } from "@/src/services/api/questionnair
 import { WasteManagementService } from "@/src/services/api/questionnaire/waste-management";
 import Toast from "react-native-toast-message";
 import { FormData } from "@/src/components/pages/questions/components/QuestionsCaracterizacao/types";
+import { useTranslation } from "react-i18next";
+import { useAuthContext } from "@/src/contexts/AuthContext";
+
+let globalIsSyncing = false;
 
 export const useOfflineSync = () => {
   const { isOnline, justReconnected } = useNetworkStatus();
   const [isSyncing, setIsSyncing] = useState(false);
   const [hasPendingData, setHasPendingData] = useState(false);
+  const { t } = useTranslation();
+  const { properties } = useAuthContext();
+  const hasSyncedRef = useRef(false);
+
+  const hasExistingProperty = properties && properties.length > 0;
 
   useEffect(() => {
     checkPendingData();
   }, []);
 
   useEffect(() => {
-    if (justReconnected && !isSyncing) {
+    if (justReconnected && !isSyncing && !globalIsSyncing && !hasSyncedRef.current) {
+      hasSyncedRef.current = true;
       syncOfflineData();
     }
+
+    if (!isOnline) {
+      hasSyncedRef.current = false;
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [justReconnected, isSyncing]);
+  }, [justReconnected, isSyncing, isOnline]);
 
   const checkPendingData = async () => {
     const pendingSync = await OfflineSyncService.getPendingSync();
@@ -32,17 +46,19 @@ export const useOfflineSync = () => {
   };
 
   const syncOfflineData = async () => {
-    if (!isOnline || isSyncing) {
+    if (!isOnline || isSyncing || globalIsSyncing) {
       return;
     }
 
     setIsSyncing(true);
+    globalIsSyncing = true;
 
     try {
       const pendingSync = await OfflineSyncService.getPendingSync();
 
       if (!pendingSync) {
         setIsSyncing(false);
+        globalIsSyncing = false;;
         return;
       }
 
@@ -66,7 +82,9 @@ export const useOfflineSync = () => {
               Toast.show({
                 type: "success",
                 text1: "Sincronização",
-                text2: "Propriedade criada com sucesso!",
+                text2: hasExistingProperty 
+                  ? t("questionnaire.propertyUpdatedSuccess")
+                  : t("questionnaire.propertyCreatedSuccess"),
                 visibilityTime: 3000,
               });
             }
@@ -111,6 +129,7 @@ export const useOfflineSync = () => {
       });
     } finally {
       setIsSyncing(false);
+      globalIsSyncing = false;
     }
   };
 

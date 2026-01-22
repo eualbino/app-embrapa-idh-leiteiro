@@ -126,6 +126,10 @@ export default {
       titleCaracterization: "Caracterización",
       subtitleCaracterization:
         "Primero, caractericemos su sistema de producción.",
+      subtitleCaracterizationUpdate:
+        "Actualicemos la información de su sistema.",
+      propertyCreatedSuccess: "¡Propiedad creada con éxito!",
+      propertyUpdatedSuccess: "¡Datos actualizados con éxito!",
       titleQuantity: "Dimensión – Cantidad de Agua",
       titleQuality: "Dimensión – Calidad del Agua",
       titleWaste: "Dimensión – Manejo de Residuos",
@@ -490,7 +494,7 @@ export default {
           monthly: "Mensual",
           oncePerWeek: "1 vez por semana",
           twicePerWeek: "2 veces por semana",
-          moreThanOncePerWeek: "Menos de 1 vez por semana",
+          moreThanOncePerWeek: "Más de 1 vez por semana",
           lessThan25: "Menos del 25%",
           between26And50: "Entre 26% y 50%",
           between51And79: "Entre 51% y 79%",
@@ -582,6 +586,7 @@ export default {
     // Result Page
     result: {
       title: "Puntuación General del IDH_Leche",
+      downloadReport: "Descargar informe",
       improvementSuggestions: "Sugerencias de Buenas Prácticas",
       categoryWaterQuantity: "Cantidad de Agua",
       categoryWaterQuality: "Calidad del Agua",

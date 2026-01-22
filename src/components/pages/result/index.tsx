@@ -180,18 +180,23 @@ export default function ResultPage() {
         </View>
         
         {!isLoadingPDFData && property && (
-          <TouchableOpacity
-            style={styles.downloadButton}
-            onPress={handleDownloadPDF}
-            disabled={isGeneratingPDF}
-            activeOpacity={0.7}
-          >
-            {isGeneratingPDF ? (
-              <ActivityIndicator size="small" color="#006f36" />
-            ) : (
-              <Ionicons name="download-outline" size={26} color="#006f36" />
-            )}
-          </TouchableOpacity>
+          <View style={styles.downloadContainer}>
+            <TouchableOpacity
+              style={styles.downloadButton}
+              onPress={handleDownloadPDF}
+              disabled={isGeneratingPDF}
+              activeOpacity={0.7}
+            >
+              {isGeneratingPDF ? (
+                <ActivityIndicator size="small" color="#006f36" />
+              ) : (
+                <Ionicons name="download-outline" size={26} color="#006f36" />
+              )}
+            </TouchableOpacity>
+            <Text style={styles.downloadText}>
+              {t("result.downloadReport")}
+            </Text>
+          </View>
         )}
       </View>
 
@@ -263,26 +268,19 @@ export default function ResultPage() {
                   },
                 ]}
               >
-                <Text
-                  style={[
-                    styles.scoreCardStatusText,
-                    {
-                      color: needsImprovement(
-                        scores.waterManagement,
-                        MINIMUM_SCORES.waterManagement,
-                      )
-                        ? "#DC2626"
-                        : "#059669",
-                    },
-                  ]}
-                >
-                  {needsImprovement(
-                    scores.waterManagement,
-                    MINIMUM_SCORES.waterManagement,
-                  )
-                    ? t("result.needsImprovement")
-                    : t("result.approved")}
-                </Text>
+                {needsImprovement(
+                  scores.waterManagement,
+                  MINIMUM_SCORES.waterManagement,
+                ) && (
+                  <Text
+                    style={[
+                      styles.scoreStatus,
+                      { color: "#DC2626" },
+                    ]}
+                  >
+                    {t("result.needsImprovement")}
+                  </Text>
+                )}
               </View>
               {needsImprovement(
                 scores.waterManagement,
@@ -364,26 +362,19 @@ export default function ResultPage() {
                   },
                 ]}
               >
-                <Text
-                  style={[
-                    styles.scoreCardStatusText,
-                    {
-                      color: needsImprovement(
-                        scores.waterQuality,
-                        MINIMUM_SCORES.waterQuality,
-                      )
-                        ? "#DC2626"
-                        : "#059669",
-                    },
-                  ]}
-                >
-                  {needsImprovement(
-                    scores.waterQuality,
-                    MINIMUM_SCORES.waterQuality,
-                  )
-                    ? t("result.needsImprovement")
-                    : t("result.approved")}
-                </Text>
+                {needsImprovement(
+                  scores.waterQuality,
+                  MINIMUM_SCORES.waterQuality,
+                ) && (
+                  <Text
+                    style={[
+                      styles.scoreStatus,
+                      { color: "#DC2626" },
+                    ]}
+                  >
+                    {t("result.needsImprovement")}
+                  </Text>
+                )}
               </View>
               {needsImprovement(
                 scores.waterQuality,
@@ -464,26 +455,19 @@ export default function ResultPage() {
                   },
                 ]}
               >
-                <Text
-                  style={[
-                    styles.scoreCardStatusText,
-                    {
-                      color: needsImprovement(
-                        scores.wasteManagement,
-                        MINIMUM_SCORES.wasteManagement,
-                      )
-                        ? "#DC2626"
-                        : "#059669",
-                    },
-                  ]}
-                >
-                  {needsImprovement(
-                    scores.wasteManagement,
-                    MINIMUM_SCORES.wasteManagement,
-                  )
-                    ? t("result.needsImprovement")
-                    : t("result.approved")}
-                </Text>
+                {needsImprovement(
+                  scores.wasteManagement,
+                  MINIMUM_SCORES.wasteManagement,
+                ) && (
+                  <Text
+                    style={[
+                      styles.scoreStatus,
+                      { color: "#DC2626" },
+                    ]}
+                  >
+                    {t("result.needsImprovement")}
+                  </Text>
+                )}
               </View>
               {needsImprovement(
                 scores.wasteManagement,

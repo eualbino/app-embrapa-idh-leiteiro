@@ -33,7 +33,7 @@ export default function WelcomeScreen() {
           <View style={styles.content}>
             <View style={styles.logoContainer}>
               <Image
-                source={require("@/src/assets/images/logo_IDH.png")}
+                source={require("@/src/assets/images/icon.png")}
                 style={styles.logo}
                 resizeMode="contain"
               />

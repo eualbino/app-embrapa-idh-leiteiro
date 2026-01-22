@@ -142,7 +142,7 @@ export default function LoginRegister() {
       >
         <View style={styles.logosContainer}>
           <Image
-            source={require("@/src/assets/images/logo_IDH.png")}
+            source={require("@/src/assets/images/icon.png")}
             style={styles.logoIDH}
             resizeMode="contain"
           />

@@ -8,11 +8,15 @@ import Toast from "react-native-toast-message";
 import { useTranslation } from "react-i18next";
 import { useNetworkStatus } from "@/src/hooks/useNetworkStatus";
 import { OfflineSyncService } from "@/src/services/offline/OfflineSyncService";
+import { useAuthContext } from "@/src/contexts/AuthContext";
 
 export const useProperty = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation();
   const { isOnline } = useNetworkStatus();
+  const { properties } = useAuthContext();
+
+  const hasExistingProperty = properties && properties.length > 0;
 
   const mapFormDataToPropertyRequest = (
     formData: FormData,
@@ -126,7 +130,9 @@ export const useProperty = () => {
       Toast.show({
         type: "success",
         text1: t("common.success"),
-        text2: "Propriedade criada com sucesso!",
+        text2: hasExistingProperty 
+          ? t("questionnaire.propertyUpdatedSuccess")
+          : t("questionnaire.propertyCreatedSuccess"),
       });
 
       return response;

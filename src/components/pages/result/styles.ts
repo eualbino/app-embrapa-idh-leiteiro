@@ -21,6 +21,10 @@ export const styles = StyleSheet.create({
     width: "100%",
     marginBottom: 24,
   },
+  downloadContainer: {
+    alignItems: "center",
+    marginTop: 8,
+  },
   downloadButton: {
     padding: 10,
     borderRadius: 12,
@@ -32,6 +36,12 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
+  },
+  downloadText: {
+    fontSize: 12,
+    color: "#6B7280",
+    marginTop: 6,
+    textAlign: "center",
   },
   title: {
     fontSize: 28,
@@ -155,6 +165,10 @@ export const styles = StyleSheet.create({
     paddingVertical: 4,
     paddingHorizontal: 12,
     borderRadius: 12,
+  },
+  scoreStatus: {
+    fontSize: 12,
+    fontWeight: "600",
   },
   scoreCardStatusText: {
     fontSize: 12,

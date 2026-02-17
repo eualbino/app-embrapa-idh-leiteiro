@@ -19,6 +19,8 @@ export const styles = StyleSheet.create({
   },
   logoIDH: {
     width: 170,
+    height: 150,
+    marginBottom: 18,
   },
   container: {
     borderRadius: theme.components.container.default.borderRadius,

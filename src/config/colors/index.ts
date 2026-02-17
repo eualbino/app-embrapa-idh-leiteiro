@@ -1,7 +1,7 @@
 export const COLORS = {
   primary: {
     default: "#006f36",
-    dark: "#006f35", 
+    dark: "#006f35",
     light: "#006f36d2",
     muted: "#006f36e0",
     disabled: "#006f36ab",
@@ -9,7 +9,7 @@ export const COLORS = {
 
   background: {
     default: "#ffffff",
-    muted: "#e2e2e2ff", 
+    muted: "#e2e2e2ff",
     light: "#f9f9f9",
   },
 
@@ -30,5 +30,6 @@ export const COLORS = {
     secondary: "#006f36e0",
     disabled: "#006f36ab",
     inverse: "#ffffff",
+    input: "#000000",
   },
 } as const;

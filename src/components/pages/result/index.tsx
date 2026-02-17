@@ -31,7 +31,8 @@ export default function ResultPage() {
   const params = useLocalSearchParams();
   const propertyId = params.propertyId as string | null;
 
-  const { data, isLoading, error } = useWaterPerformance(propertyId);
+  const { data, isLoading, error, isOfflineData } =
+    useWaterPerformance(propertyId);
   const {
     userName,
     userEmail,
@@ -62,7 +63,7 @@ export default function ResultPage() {
   };
 
   const handleDownloadPDF = async () => {
-    if (!property) {
+    if (!property && !data) {
       Alert.alert(
         "Erro",
         "Dados da propriedade não disponíveis para gerar o relatório.",
@@ -75,15 +76,25 @@ export default function ResultPage() {
 
       await generateAndSharePDF({
         property: {
-          city: property.city,
-          country: property.country,
-          productionSystem: property.productionSystem,
-          totalAreaHa: property.totalAreaHa,
-          createdAt: property.createdAt,
-          waterManagementScore: property.waterManagementScore,
-          waterQualityConservationScore: property.waterQualityConservationScore,
-          wasteManagementScore: property.wasteManagementScore,
-          waterPerformanceIndexScore: property.waterPerformanceIndexScore,
+          city: property?.city ?? "",
+          country: property?.country ?? "",
+          productionSystem: property?.productionSystem ?? "",
+          totalAreaHa: property?.totalAreaHa ?? 0,
+          createdAt: property?.createdAt ?? new Date().toISOString(),
+          waterManagementScore:
+            data?.macroIndicators?.quantidadeAgua ??
+            property?.waterManagementScore ??
+            null,
+          waterQualityConservationScore:
+            data?.macroIndicators?.qualidadeAgua ??
+            property?.waterQualityConservationScore ??
+            null,
+          wasteManagementScore:
+            data?.macroIndicators?.manejoResiduos ??
+            property?.wasteManagementScore ??
+            null,
+          waterPerformanceIndexScore:
+            data?.finalScore ?? property?.waterPerformanceIndexScore ?? null,
         },
         userName,
         userEmail,
@@ -148,6 +159,31 @@ export default function ResultPage() {
       style={styles.container}
       showsVerticalScrollIndicator={false}
     >
+      {isOfflineData && (
+        <View
+          style={{
+            backgroundColor: "#FEF3C7",
+            padding: 12,
+            marginHorizontal: 20,
+            marginTop: 10,
+            borderRadius: 8,
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 8,
+          }}
+        >
+          <Ionicons name="cloud-offline-outline" size={20} color="#92400E" />
+          <View style={{ flex: 1 }}>
+            <Text style={{ fontWeight: "600", color: "#92400E", fontSize: 14 }}>
+              {t("result.offlineMode")}
+            </Text>
+            <Text style={{ color: "#A16207", fontSize: 12 }}>
+              {t("result.offlineModeMessage")}
+            </Text>
+          </View>
+        </View>
+      )}
+
       <View style={styles.headerContainer}>
         <Text style={styles.title}>{t("result.title")}</Text>
         <Text style={styles.subtitle}>{t("result.idhMilk")}</Text>
@@ -178,8 +214,8 @@ export default function ResultPage() {
             )}
           </Text>
         </View>
-        
-        {!isLoadingPDFData && property && (
+
+        {!isLoadingPDFData && (property || data) && (
           <View style={styles.downloadContainer}>
             <TouchableOpacity
               style={styles.downloadButton}
@@ -264,7 +300,7 @@ export default function ResultPage() {
                       MINIMUM_SCORES.waterManagement,
                     )
                       ? "#FEE2E2"
-                      : "#D1FAE5",
+                      : "",
                   },
                 ]}
               >
@@ -272,12 +308,7 @@ export default function ResultPage() {
                   scores.waterManagement,
                   MINIMUM_SCORES.waterManagement,
                 ) && (
-                  <Text
-                    style={[
-                      styles.scoreStatus,
-                      { color: "#DC2626" },
-                    ]}
-                  >
+                  <Text style={[styles.scoreStatus, { color: "#DC2626" }]}>
                     {t("result.needsImprovement")}
                   </Text>
                 )}
@@ -358,7 +389,7 @@ export default function ResultPage() {
                       MINIMUM_SCORES.waterQuality,
                     )
                       ? "#FEE2E2"
-                      : "#D1FAE5",
+                      : "",
                   },
                 ]}
               >
@@ -366,12 +397,7 @@ export default function ResultPage() {
                   scores.waterQuality,
                   MINIMUM_SCORES.waterQuality,
                 ) && (
-                  <Text
-                    style={[
-                      styles.scoreStatus,
-                      { color: "#DC2626" },
-                    ]}
-                  >
+                  <Text style={[styles.scoreStatus, { color: "#DC2626" }]}>
                     {t("result.needsImprovement")}
                   </Text>
                 )}
@@ -451,7 +477,7 @@ export default function ResultPage() {
                       MINIMUM_SCORES.wasteManagement,
                     )
                       ? "#FEE2E2"
-                      : "#D1FAE5",
+                      : "",
                   },
                 ]}
               >
@@ -459,12 +485,7 @@ export default function ResultPage() {
                   scores.wasteManagement,
                   MINIMUM_SCORES.wasteManagement,
                 ) && (
-                  <Text
-                    style={[
-                      styles.scoreStatus,
-                      { color: "#DC2626" },
-                    ]}
-                  >
+                  <Text style={[styles.scoreStatus, { color: "#DC2626" }]}>
                     {t("result.needsImprovement")}
                   </Text>
                 )}

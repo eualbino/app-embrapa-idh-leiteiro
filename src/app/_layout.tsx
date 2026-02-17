@@ -16,8 +16,10 @@ import {
 } from "@/src/contexts/OnboardingContext";
 
 import { OfflineSyncMonitor } from "@/src/components/commons/OfflineSyncMonitor";
+import { CustomSplashScreen } from "@/src/components/commons/CustomSplashScreen";
 
-SplashScreen.preventAutoHideAsync();
+// Esconde a splash nativa imediatamente para usar a customizada
+SplashScreen.hideAsync();
 
 function RootNavigator() {
   const { isAuthenticated, isInitializing } = useAuthContext();
@@ -26,6 +28,7 @@ function RootNavigator() {
   const router = useRouter();
   const pathname = usePathname();
   const [isSplashReady, setIsSplashReady] = useState(false);
+  const [showCustomSplash, setShowCustomSplash] = useState(true);
   const [initialRoute, setInitialRoute] = useState<string | null>(null);
   const [hasNavigatedToInitial, setHasNavigatedToInitial] = useState(false);
 
@@ -38,7 +41,12 @@ function RootNavigator() {
   }, []);
 
   useEffect(() => {
-    if (!isInitializing && !isOnboardingLoading && hasSeenWelcome !== null && initialRoute === null) {
+    if (
+      !isInitializing &&
+      !isOnboardingLoading &&
+      hasSeenWelcome !== null &&
+      initialRoute === null
+    ) {
       if (!hasSeenWelcome) {
         setInitialRoute("/welcome");
       } else if (isAuthenticated) {
@@ -47,7 +55,13 @@ function RootNavigator() {
         setInitialRoute("/login");
       }
     }
-  }, [isInitializing, isOnboardingLoading, hasSeenWelcome, isAuthenticated, initialRoute]);
+  }, [
+    isInitializing,
+    isOnboardingLoading,
+    hasSeenWelcome,
+    isAuthenticated,
+    initialRoute,
+  ]);
 
   // Navegar para a rota inicial assim que for determinada
   useEffect(() => {
@@ -59,7 +73,12 @@ function RootNavigator() {
 
   // Gerenciar navegação após a rota inicial
   useEffect(() => {
-    if (!isInitializing && !isOnboardingLoading && hasSeenWelcome !== null && hasNavigatedToInitial) {
+    if (
+      !isInitializing &&
+      !isOnboardingLoading &&
+      hasSeenWelcome !== null &&
+      hasNavigatedToInitial
+    ) {
       const isProtectedRoute = pathname?.startsWith("/(protected)");
       const isAuthRoute =
         pathname === "/login" || pathname?.startsWith("/forgot-password");
@@ -91,30 +110,20 @@ function RootNavigator() {
     hasNavigatedToInitial,
   ]);
 
-  const onLayoutRootView = useCallback(async () => {
-    if (
-      isSplashReady &&
-      !isInitializing &&
-      !isOnboardingLoading &&
-      hasSeenWelcome !== null &&
-      initialRoute !== null
-    ) {
-      await SplashScreen.hideAsync();
-    }
-  }, [isSplashReady, isInitializing, isOnboardingLoading, hasSeenWelcome, initialRoute]);
+  // Determinar quando esconder a splash customizada
+  const shouldHideSplash =
+    isSplashReady &&
+    !isInitializing &&
+    !isOnboardingLoading &&
+    hasSeenWelcome !== null &&
+    initialRoute !== null;
 
-  if (
-    !isSplashReady ||
-    isInitializing ||
-    isOnboardingLoading ||
-    hasSeenWelcome === null ||
-    initialRoute === null
-  ) {
-    return null;
-  }
+  const handleSplashAnimationEnd = useCallback(() => {
+    setShowCustomSplash(false);
+  }, []);
 
   return (
-    <View style={styles.container} onLayout={onLayoutRootView}>
+    <View style={styles.container}>
       <OfflineSyncMonitor />
       <Stack
         screenOptions={{
@@ -155,6 +164,13 @@ function RootNavigator() {
         />
       </Stack>
       <Toast config={toastConfig} topOffset={100} />
+
+      {showCustomSplash && (
+        <CustomSplashScreen
+          isVisible={!shouldHideSplash}
+          onAnimationEnd={handleSplashAnimationEnd}
+        />
+      )}
     </View>
   );
 }

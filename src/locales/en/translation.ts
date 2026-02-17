@@ -123,9 +123,8 @@ export default {
       titleCaracterization: "Characterization",
       subtitleCaracterization:
         "First, let's characterize your production system.",
-      subtitleCaracterizationUpdate:
-        "Let's update your system information.",
-      propertyCreatedSuccess: "Property created successfully!",
+      subtitleCaracterizationUpdate: "Let's update your system information.",
+      propertyCreatedSuccess: "Property registered successfully!",
       propertyUpdatedSuccess: "Data updated successfully!",
       titleQuantity: "Dimension – Water Quantity",
       titleQuality: "Dimension – Water Quality",
@@ -313,7 +312,7 @@ export default {
 
       questions: {
         progress: "Progress",
-        category: "Category {{current}} of {{total}}",
+        category: "Block {{current}}/{{total}}",
         characterizationTitle: "Property / Herd / System Characterization",
         waterQuantityTitle: "Water Quantity",
         waterQualityTitle: "Water Quality",
@@ -581,6 +580,8 @@ export default {
     result: {
       title: "Overall IDH_Milk Score",
       downloadReport: "Download report",
+      offlineMode: "Offline mode",
+      offlineModeMessage: "You are viewing locally saved data.",
       improvementSuggestions: "Good Practices Suggestions",
       categoryWaterQuantity: "Water Quantity",
       categoryWaterQuality: "Water Quality",

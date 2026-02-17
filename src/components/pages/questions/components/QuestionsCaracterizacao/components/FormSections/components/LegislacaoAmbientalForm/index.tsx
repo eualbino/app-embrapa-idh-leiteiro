@@ -82,13 +82,6 @@ const LegislacaoAmbientalInput: React.FC<LegislacaoAmbientalInputProps> = ({
       )}
 
       <View style={stylesCharacterization.containerQuestionInput}>
-        {isBrazil && (
-          <Text style={stylesCharacterization.questionText}>
-            {t(
-              "questionnaire.characterization.environmentalLegislation.sectionTitle",
-            )}{" "}
-          </Text>
-        )}
         <Text style={stylesCharacterization.questionText}>
           <Text>
             {t(

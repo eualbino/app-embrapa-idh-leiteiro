@@ -5,6 +5,7 @@ const OFFLINE_PROPERTY_KEY = "@app:offline_property";
 const OFFLINE_ANSWERS_KEY = "@app:offline_answers";
 const OFFLINE_PROPERTY_ID_KEY = "@app:offline_property_id";
 const PENDING_SYNC_KEY = "@app:pending_sync";
+const OFFLINE_SCORES_KEY = "@app:offline_scores";
 
 export interface OfflinePropertyData {
   formData: FormData;
@@ -22,6 +23,23 @@ export interface PendingSyncData {
   propertyId?: string;
 }
 
+export interface OfflineScoresData {
+  propertyId: string;
+  finalScore: number;
+  macroIndicators: {
+    quantidadeAgua: number;
+    qualidadeAgua: number;
+    manejoResiduos: number;
+  };
+  weights?: {
+    quantidadeAgua: number;
+    qualidadeAgua: number;
+    manejoResiduos: number;
+  };
+  details?: any;
+  timestamp: number;
+}
+
 export class OfflineSyncService {
   /**
    * Salva os dados da propriedade no AsyncStorage
@@ -33,10 +51,7 @@ export class OfflineSyncService {
         timestamp: Date.now(),
       };
 
-      await AsyncStorage.setItem(
-        OFFLINE_PROPERTY_KEY,
-        JSON.stringify(data)
-      );
+      await AsyncStorage.setItem(OFFLINE_PROPERTY_KEY, JSON.stringify(data));
 
       await this.setPendingSync(true, false);
     } catch (error) {
@@ -44,18 +59,16 @@ export class OfflineSyncService {
     }
   }
 
-  static async saveOfflineAnswers(answers: { [key: string]: number | null }): Promise<void> {
+  static async saveOfflineAnswers(answers: {
+    [key: string]: number | null;
+  }): Promise<void> {
     try {
       const data: OfflineAnswersData = {
         answers,
         timestamp: Date.now(),
       };
 
-      await AsyncStorage.setItem(
-        OFFLINE_ANSWERS_KEY,
-        JSON.stringify(data)
-      );
-
+      await AsyncStorage.setItem(OFFLINE_ANSWERS_KEY, JSON.stringify(data));
     } catch (error) {
       console.error("❌ Erro ao salvar respostas offline:", error);
       throw error;
@@ -117,12 +130,74 @@ export class OfflineSyncService {
   }
 
   /**
+   * Salva os scores (resultados do IDH) no AsyncStorage para uso offline
+   */
+  static async saveOfflineScores(
+    propertyId: string,
+    finalScore: number,
+    macroIndicators: {
+      quantidadeAgua: number;
+      qualidadeAgua: number;
+      manejoResiduos: number;
+    },
+    weights?: {
+      quantidadeAgua: number;
+      qualidadeAgua: number;
+      manejoResiduos: number;
+    },
+    details?: any,
+  ): Promise<void> {
+    try {
+      const data: OfflineScoresData = {
+        propertyId,
+        finalScore,
+        macroIndicators,
+        weights,
+        details,
+        timestamp: Date.now(),
+      };
+
+      await AsyncStorage.setItem(OFFLINE_SCORES_KEY, JSON.stringify(data));
+    } catch (error) {
+      console.error("❌ Erro ao salvar scores offline:", error);
+      throw error;
+    }
+  }
+
+  /**
+   * Recupera os scores salvos offline
+   */
+  static async getOfflineScores(): Promise<OfflineScoresData | null> {
+    try {
+      const data = await AsyncStorage.getItem(OFFLINE_SCORES_KEY);
+      if (!data) return null;
+
+      return JSON.parse(data) as OfflineScoresData;
+    } catch (error) {
+      console.error("❌ Erro ao recuperar scores offline:", error);
+      return null;
+    }
+  }
+
+  /**
+   * Limpa os scores salvos offline
+   */
+  static async clearOfflineScores(): Promise<void> {
+    try {
+      await AsyncStorage.removeItem(OFFLINE_SCORES_KEY);
+    } catch (error) {
+      console.error("❌ Erro ao limpar scores offline:", error);
+      throw error;
+    }
+  }
+
+  /**
    * Marca se há dados pendentes de sincronização
    */
   static async setPendingSync(
     hasPropertyToSync: boolean,
     hasAnswersToSync: boolean,
-    propertyId?: string
+    propertyId?: string,
   ): Promise<void> {
     try {
       const data: PendingSyncData = {
@@ -163,9 +238,9 @@ export class OfflineSyncService {
         OFFLINE_ANSWERS_KEY,
         OFFLINE_PROPERTY_ID_KEY,
         PENDING_SYNC_KEY,
+        OFFLINE_SCORES_KEY,
       ]);
 
-      console.log("✅ Dados offline limpos com sucesso");
     } catch (error) {
       console.error("❌ Erro ao limpar dados offline:", error);
       throw error;
@@ -178,7 +253,6 @@ export class OfflineSyncService {
   static async clearOfflineProperty(): Promise<void> {
     try {
       await AsyncStorage.removeItem(OFFLINE_PROPERTY_KEY);
-      console.log("✅ Dados da propriedade offline limpos");
     } catch (error) {
       console.error("❌ Erro ao limpar propriedade offline:", error);
       throw error;

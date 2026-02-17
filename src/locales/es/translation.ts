@@ -128,7 +128,7 @@ export default {
         "Primero, caractericemos su sistema de producción.",
       subtitleCaracterizationUpdate:
         "Actualicemos la información de su sistema.",
-      propertyCreatedSuccess: "¡Propiedad creada con éxito!",
+      propertyCreatedSuccess: "¡Propiedad registrada con éxito!",
       propertyUpdatedSuccess: "¡Datos actualizados con éxito!",
       titleQuantity: "Dimensión – Cantidad de Agua",
       titleQuality: "Dimensión – Calidad del Agua",
@@ -317,7 +317,7 @@ export default {
 
       questions: {
         progress: "Progreso",
-        category: "Categoría {{current}} de {{total}}",
+        category: "Bloque {{current}}/{{total}}",
         characterizationTitle:
           "Caracterización de la Propiedad / Rebaño / Sistema",
         waterQuantityTitle: "Cantidad de Agua",
@@ -587,6 +587,8 @@ export default {
     result: {
       title: "Puntuación General del IDH_Leche",
       downloadReport: "Descargar informe",
+      offlineMode: "Modo sin conexión",
+      offlineModeMessage: "Está visualizando datos guardados localmente.",
       improvementSuggestions: "Sugerencias de Buenas Prácticas",
       categoryWaterQuantity: "Cantidad de Agua",
       categoryWaterQuality: "Calidad del Agua",

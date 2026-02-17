@@ -12,7 +12,10 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.anonymous.appembrapaidh",
       "icon": "./src/assets/images/ios-light.png",
-      "darkIcon": "./src/assets/images/ios-dark.png"
+      "darkIcon": "./src/assets/images/ios-dark.png",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {

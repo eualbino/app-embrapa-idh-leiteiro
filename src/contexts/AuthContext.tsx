@@ -14,6 +14,8 @@ import { useTranslation } from "react-i18next";
 // Services
 import { AuthService } from "@/src/services";
 import { UserService } from "@/src/services/api/user";
+import { OfflineSyncService } from "@/src/services/offline/OfflineSyncService";
+import { NotificationService } from "@/src/services/notifications";
 
 // Types
 import type {
@@ -31,6 +33,7 @@ interface AuthContextData {
   login: (credentials: LoginRequest) => Promise<void>;
   register: (data: RegisterRequest) => Promise<void>;
   logout: () => Promise<void>;
+  refetchUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -81,13 +84,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const refetchUser = async () => {
+    try {
+      const token = await AsyncStorage.getItem("@app:token");
+      if (token && isAuthenticated) {
+        const response = await UserService.getMe();
+        setUser(response.user);
+        setProperties(response.properties || []);
+      }
+    } catch (error) {
+      console.error("Erro ao atualizar dados do usuário:", error);
+    }
+  };
+
   const login = async (credentials: LoginRequest) => {
     try {
       setIsLoading(true);
       const response = await AuthService.login(credentials);
 
       await AsyncStorage.setItem("@app:token", response.token);
-      
+
       if (response.refreshToken) {
         await AsyncStorage.setItem("@app:refreshToken", response.refreshToken);
       }
@@ -98,11 +114,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setProperties(userData.properties || []);
         setIsAuthenticated(true);
 
-        Toast.show({
-          type: "success",
-          text1: t("auth.success.loginSuccess"),
-          text2: t("auth.success.loginWelcome"),
-        });
+        // Exit offline mode after successful login
+        // IMPORTANTE: Não limpar formCompletedOffline aqui!
+        // O useOfflineSync vai limpar essas flags APÓS a sincronização bem-sucedida
+        await OfflineSyncService.setOfflineMode(false);
+        // Apenas limpa a flag de notificação agendada, pois o usuário já fez login
+        await NotificationService.clearNotificationScheduled();
+
+        // Verificar se tem dados pendentes para informar o usuário
+        const pendingSync = await OfflineSyncService.getPendingSync();
+        const hasPendingData =
+          pendingSync?.hasPropertyToSync || pendingSync?.hasAnswersToSync;
+
+        if (hasPendingData) {
+          Toast.show({
+            type: "success",
+            text1: t("auth.success.loginSuccess"),
+            text2: "Sincronizando dados pendentes...",
+          });
+        } else {
+          Toast.show({
+            type: "success",
+            text1: t("auth.success.loginSuccess"),
+            text2: t("auth.success.loginWelcome"),
+          });
+        }
 
         router.replace({ pathname: "/(protected)/(tabs)/(home)" } as any);
       } catch (error) {
@@ -209,6 +245,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         login,
         register,
         logout,
+        refetchUser,
       }}
     >
       {children}

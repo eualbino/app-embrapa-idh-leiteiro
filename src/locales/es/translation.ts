@@ -26,6 +26,8 @@ export default {
       logoutMessage: "¿Está seguro que desea cerrar sesión?",
       logoutConfirm: "Salir",
       logoutCancel: "Cancelar",
+      later: "Después",
+      login: "Iniciar Sesión",
     },
 
     // Login & Register
@@ -42,6 +44,8 @@ export default {
         invalidData: "Datos inválidos.",
         registerFailed: "No se pudo registrar. Inténtelo de nuevo.",
         emailOrCpfExists: "El correo electrónico o CPF ya está registrado.",
+        invalidPassword: "La contraseña no cumple con los requisitos mínimos.",
+        passwordMismatch: "Las contraseñas no coinciden.",
       },
       success: {
         loginSuccess: "¡Inicio de sesión exitoso!",
@@ -49,6 +53,24 @@ export default {
         registerSuccess: "¡Registro exitoso!",
         registerMessage: "Inicie sesión para continuar.",
       },
+      confirmPassword: "Confirmar Contraseña",
+      passwordRequirements: {
+        minLength: "Mínimo de 8 caracteres",
+        hasUpperCase: "Al menos una letra mayúscula",
+        hasLowerCase: "Al menos una letra minúscula",
+        hasNumber: "Al menos un número",
+        hasSpecialChar: "Al menos un carácter especial",
+      },
+    },
+
+    // Auth Landing
+    authLanding: {
+      welcome: "¡Bienvenido!",
+      description:
+        "Acceda a su cuenta o regístrese gratis y comience a usar la aplicación",
+      accessAccount: "ACCEDER A MI CUENTA",
+      register: "REGÍSTRESE",
+      forgotPassword: "Olvidé mi contraseña",
     },
 
     // Forgot Password
@@ -710,6 +732,28 @@ export default {
       emptyMessage: "Complete el cuestionario para ver su historial",
       tapToViewDetails: "Toque para ver los detalles",
       viewingResults: "Visualizando resultados",
+    },
+
+    notifications: {
+      syncReminder: {
+        title: "📱 ¡Datos listos para sincronizar!",
+        body: "Completó el formulario sin conexión. Abra la aplicación e inicie sesión para sincronizar sus datos.",
+      },
+      permissionDenied: "Permiso de notificación no concedido",
+    },
+
+    offlineMode: {
+      title: "Modo Sin Conexión",
+      dataSavedLocally:
+        "Datos guardados localmente. Se sincronizarán cuando haya conexión.",
+      formCompleteOffline:
+        "Formulario completo. Inicie sesión cuando tenga internet para sincronizar.",
+      enteringOfflineMode: "Entrando en modo sin conexión...",
+      syncWhenOnline:
+        "Los datos se sincronizarán cuando inicie sesión con acceso a internet.",
+      connectionRestored: "Conexión Restaurada",
+      loginToSync:
+        "¡Volvió el internet! Inicie sesión para sincronizar sus datos offline.",
     },
   },
 };

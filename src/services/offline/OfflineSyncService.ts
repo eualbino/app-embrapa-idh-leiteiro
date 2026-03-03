@@ -1,11 +1,11 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { DatabaseService } from "@/src/services/database";
 import { FormData } from "@/src/components/pages/questions/components/QuestionsCaracterizacao/types";
 
-const OFFLINE_PROPERTY_KEY = "@app:offline_property";
-const OFFLINE_ANSWERS_KEY = "@app:offline_answers";
-const OFFLINE_PROPERTY_ID_KEY = "@app:offline_property_id";
-const PENDING_SYNC_KEY = "@app:pending_sync";
-const OFFLINE_SCORES_KEY = "@app:offline_scores";
+// Keys para armazenamento genérico (compatibilidade)
+const OFFLINE_PROPERTY_ID_KEY = "offline_property_id";
+const PENDING_SYNC_KEY = "pending_sync";
+const FORM_COMPLETED_OFFLINE_KEY = "form_completed_offline";
+const OFFLINE_MODE_KEY = "offline_mode";
 
 export interface OfflinePropertyData {
   formData: FormData;
@@ -40,35 +40,34 @@ export interface OfflineScoresData {
   timestamp: number;
 }
 
+/**
+ * Serviço de sincronização offline usando SQLite
+ * Os dados são persistidos em banco de dados local que NÃO é apagado ao limpar cache do app
+ */
 export class OfflineSyncService {
   /**
-   * Salva os dados da propriedade no AsyncStorage
+   * Salva os dados da propriedade no SQLite
    */
   static async saveOfflineProperty(formData: FormData): Promise<void> {
     try {
-      const data: OfflinePropertyData = {
-        formData,
-        timestamp: Date.now(),
-      };
-
-      await AsyncStorage.setItem(OFFLINE_PROPERTY_KEY, JSON.stringify(data));
-
+      const timestamp = Date.now();
+      await DatabaseService.saveProperty(JSON.stringify(formData), timestamp);
       await this.setPendingSync(true, false);
     } catch (error) {
+      console.error("❌ Erro ao salvar propriedade offline:", error);
       throw error;
     }
   }
 
+  /**
+   * Salva as respostas do questionário no SQLite
+   */
   static async saveOfflineAnswers(answers: {
     [key: string]: number | null;
   }): Promise<void> {
     try {
-      const data: OfflineAnswersData = {
-        answers,
-        timestamp: Date.now(),
-      };
-
-      await AsyncStorage.setItem(OFFLINE_ANSWERS_KEY, JSON.stringify(data));
+      const timestamp = Date.now();
+      await DatabaseService.saveAnswers(JSON.stringify(answers), timestamp);
     } catch (error) {
       console.error("❌ Erro ao salvar respostas offline:", error);
       throw error;
@@ -80,7 +79,7 @@ export class OfflineSyncService {
    */
   static async saveOfflinePropertyId(propertyId: string): Promise<void> {
     try {
-      await AsyncStorage.setItem(OFFLINE_PROPERTY_ID_KEY, propertyId);
+      await DatabaseService.setItem(OFFLINE_PROPERTY_ID_KEY, propertyId);
     } catch (error) {
       console.error("❌ Erro ao salvar propertyId offline:", error);
       throw error;
@@ -92,10 +91,13 @@ export class OfflineSyncService {
    */
   static async getOfflineProperty(): Promise<OfflinePropertyData | null> {
     try {
-      const data = await AsyncStorage.getItem(OFFLINE_PROPERTY_KEY);
-      if (!data) return null;
+      const result = await DatabaseService.getProperty();
+      if (!result) return null;
 
-      return JSON.parse(data) as OfflinePropertyData;
+      return {
+        formData: JSON.parse(result.formData) as FormData,
+        timestamp: result.timestamp,
+      };
     } catch (error) {
       console.error("❌ Erro ao recuperar propriedade offline:", error);
       return null;
@@ -107,10 +109,13 @@ export class OfflineSyncService {
    */
   static async getOfflineAnswers(): Promise<OfflineAnswersData | null> {
     try {
-      const data = await AsyncStorage.getItem(OFFLINE_ANSWERS_KEY);
-      if (!data) return null;
+      const result = await DatabaseService.getAnswers();
+      if (!result) return null;
 
-      return JSON.parse(data) as OfflineAnswersData;
+      return {
+        answers: JSON.parse(result.answers) as { [key: string]: number | null },
+        timestamp: result.timestamp,
+      };
     } catch (error) {
       console.error("❌ Erro ao recuperar respostas offline:", error);
       return null;
@@ -122,7 +127,7 @@ export class OfflineSyncService {
    */
   static async getOfflinePropertyId(): Promise<string | null> {
     try {
-      return await AsyncStorage.getItem(OFFLINE_PROPERTY_ID_KEY);
+      return await DatabaseService.getItem(OFFLINE_PROPERTY_ID_KEY);
     } catch (error) {
       console.error("❌ Erro ao recuperar propertyId offline:", error);
       return null;
@@ -130,7 +135,7 @@ export class OfflineSyncService {
   }
 
   /**
-   * Salva os scores (resultados do IDH) no AsyncStorage para uso offline
+   * Salva os scores (resultados do IDH) no SQLite para uso offline
    */
   static async saveOfflineScores(
     propertyId: string,
@@ -148,16 +153,14 @@ export class OfflineSyncService {
     details?: any,
   ): Promise<void> {
     try {
-      const data: OfflineScoresData = {
+      await DatabaseService.saveScores(
         propertyId,
         finalScore,
-        macroIndicators,
-        weights,
-        details,
-        timestamp: Date.now(),
-      };
-
-      await AsyncStorage.setItem(OFFLINE_SCORES_KEY, JSON.stringify(data));
+        JSON.stringify(macroIndicators),
+        weights ? JSON.stringify(weights) : null,
+        details ? JSON.stringify(details) : null,
+        Date.now()
+      );
     } catch (error) {
       console.error("❌ Erro ao salvar scores offline:", error);
       throw error;
@@ -169,10 +172,17 @@ export class OfflineSyncService {
    */
   static async getOfflineScores(): Promise<OfflineScoresData | null> {
     try {
-      const data = await AsyncStorage.getItem(OFFLINE_SCORES_KEY);
-      if (!data) return null;
+      const result = await DatabaseService.getScores();
+      if (!result) return null;
 
-      return JSON.parse(data) as OfflineScoresData;
+      return {
+        propertyId: result.propertyId,
+        finalScore: result.finalScore,
+        macroIndicators: JSON.parse(result.macroIndicators),
+        weights: result.weights ? JSON.parse(result.weights) : undefined,
+        details: result.details ? JSON.parse(result.details) : undefined,
+        timestamp: result.timestamp,
+      };
     } catch (error) {
       console.error("❌ Erro ao recuperar scores offline:", error);
       return null;
@@ -184,7 +194,7 @@ export class OfflineSyncService {
    */
   static async clearOfflineScores(): Promise<void> {
     try {
-      await AsyncStorage.removeItem(OFFLINE_SCORES_KEY);
+      await DatabaseService.clearScores();
     } catch (error) {
       console.error("❌ Erro ao limpar scores offline:", error);
       throw error;
@@ -205,8 +215,7 @@ export class OfflineSyncService {
         hasAnswersToSync,
         propertyId,
       };
-
-      await AsyncStorage.setItem(PENDING_SYNC_KEY, JSON.stringify(data));
+      await DatabaseService.setItem(PENDING_SYNC_KEY, JSON.stringify(data));
     } catch (error) {
       console.error("❌ Erro ao marcar pending sync:", error);
       throw error;
@@ -218,12 +227,11 @@ export class OfflineSyncService {
    */
   static async getPendingSync(): Promise<PendingSyncData | null> {
     try {
-      const data = await AsyncStorage.getItem(PENDING_SYNC_KEY);
+      const data = await DatabaseService.getItem(PENDING_SYNC_KEY);
       if (!data) return null;
 
       return JSON.parse(data) as PendingSyncData;
     } catch (error) {
-      console.error("❌ Erro ao verificar pending sync:", error);
       return null;
     }
   }
@@ -233,14 +241,11 @@ export class OfflineSyncService {
    */
   static async clearOfflineData(): Promise<void> {
     try {
-      await AsyncStorage.multiRemove([
-        OFFLINE_PROPERTY_KEY,
-        OFFLINE_ANSWERS_KEY,
+      await DatabaseService.clearAllOfflineData();
+      await DatabaseService.multiRemove([
         OFFLINE_PROPERTY_ID_KEY,
         PENDING_SYNC_KEY,
-        OFFLINE_SCORES_KEY,
       ]);
-
     } catch (error) {
       console.error("❌ Erro ao limpar dados offline:", error);
       throw error;
@@ -252,7 +257,7 @@ export class OfflineSyncService {
    */
   static async clearOfflineProperty(): Promise<void> {
     try {
-      await AsyncStorage.removeItem(OFFLINE_PROPERTY_KEY);
+      await DatabaseService.clearProperty();
     } catch (error) {
       console.error("❌ Erro ao limpar propriedade offline:", error);
       throw error;
@@ -271,5 +276,66 @@ export class OfflineSyncService {
    */
   static isTempPropertyId(propertyId: string): boolean {
     return propertyId.startsWith("temp_");
+  }
+
+  /**
+   * Marca que o formulário foi completado enquanto offline
+   */
+  static async markFormCompletedOffline(): Promise<void> {
+    try {
+      await DatabaseService.setSetting(FORM_COMPLETED_OFFLINE_KEY, "true");
+    } catch (error) {
+      console.error("❌ Erro ao marcar formulário completado offline:", error);
+    }
+  }
+
+  /**
+   * Verifica se o formulário foi completado offline
+   */
+  static async wasFormCompletedOffline(): Promise<boolean> {
+    try {
+      const value = await DatabaseService.getSetting(FORM_COMPLETED_OFFLINE_KEY);
+      return value === "true";
+    } catch (error) {
+      return false;
+    }
+  }
+
+  /**
+   * Limpa a flag de formulário completado offline
+   */
+  static async clearFormCompletedOffline(): Promise<void> {
+    try {
+      await DatabaseService.removeSetting(FORM_COMPLETED_OFFLINE_KEY);
+    } catch (error) {
+      console.error("❌ Erro ao limpar flag de formulário completado:", error);
+    }
+  }
+
+  /**
+   * Marca que o usuário está em modo offline (não logado)
+   */
+  static async setOfflineMode(isOffline: boolean): Promise<void> {
+    try {
+      if (isOffline) {
+        await DatabaseService.setSetting(OFFLINE_MODE_KEY, "true");
+      } else {
+        await DatabaseService.removeSetting(OFFLINE_MODE_KEY);
+      }
+    } catch (error) {
+      console.error("Erro ao definir modo offline:", error);
+    }
+  }
+
+  /**
+   * Verifica se o usuário está em modo offline
+   */
+  static async isInOfflineMode(): Promise<boolean> {
+    try {
+      const value = await DatabaseService.getSetting(OFFLINE_MODE_KEY);
+      return value === "true";
+    } catch (error) {
+      return false;
+    }
   }
 }

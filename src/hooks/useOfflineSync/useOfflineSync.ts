@@ -5,6 +5,7 @@ import { PropertyService } from "@/src/services/api/property";
 import { WaterIndicatorService } from "@/src/services/api/questionnaire/water-indicator";
 import { WaterQualityConservationService } from "@/src/services/api/questionnaire/water-quality-conservation";
 import { WasteManagementService } from "@/src/services/api/questionnaire/waste-management";
+import { NotificationService } from "@/src/services/notifications";
 import Toast from "react-native-toast-message";
 import { FormData } from "@/src/components/pages/questions/components/QuestionsCaracterizacao/types";
 import { useTranslation } from "react-i18next";
@@ -17,7 +18,7 @@ export const useOfflineSync = () => {
   const [isSyncing, setIsSyncing] = useState(false);
   const [hasPendingData, setHasPendingData] = useState(false);
   const { t } = useTranslation();
-  const { properties } = useAuthContext();
+  const { properties, isAuthenticated, refetchUser } = useAuthContext();
   const hasSyncedRef = useRef(false);
 
   const hasExistingProperty = properties && properties.length > 0;
@@ -26,17 +27,55 @@ export const useOfflineSync = () => {
     checkPendingData();
   }, []);
 
+  // Quando a internet voltar, verificar se deve sincronizar ou notificar
   useEffect(() => {
-    if (justReconnected && !isSyncing && !globalIsSyncing && !hasSyncedRef.current) {
-      hasSyncedRef.current = true;
-      syncOfflineData();
+    if (justReconnected && !hasSyncedRef.current) {
+      handleReconnection();
     }
 
     if (!isOnline) {
       hasSyncedRef.current = false;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [justReconnected, isSyncing, isOnline]);
+  }, [justReconnected, isOnline, isAuthenticated]);
+
+  // Quando o usuário fizer login, tentar sincronizar dados pendentes
+  // IMPORTANTE: Só sincroniza se REALMENTE estiver autenticado
+  useEffect(() => {
+    const attemptSyncAfterLogin = async () => {
+      if (!isAuthenticated || !isOnline) return;
+
+      const pendingSync = await OfflineSyncService.getPendingSync();
+      const hasDataToSync =
+        pendingSync?.hasPropertyToSync || pendingSync?.hasAnswersToSync;
+
+      if (!hasDataToSync) return;
+
+      syncOfflineData();
+    };
+
+    if (isAuthenticated && isOnline && hasPendingData) {
+      attemptSyncAfterLogin();
+    }
+  }, [isAuthenticated, isOnline, hasPendingData]);
+
+  const handleReconnection = async () => {
+    const pendingSync = await OfflineSyncService.getPendingSync();
+    const hasDataToSync =
+      pendingSync?.hasPropertyToSync || pendingSync?.hasAnswersToSync;
+
+    if (!hasDataToSync) return;
+
+    // Se não autenticado, apenas retorna - a notificação será tratada pelo useSyncNotification
+    if (!isAuthenticated) {
+      return;
+    }
+
+    if (!isSyncing && !globalIsSyncing) {
+      hasSyncedRef.current = true;
+      syncOfflineData();
+    }
+  };
 
   const checkPendingData = async () => {
     const pendingSync = await OfflineSyncService.getPendingSync();
@@ -46,9 +85,20 @@ export const useOfflineSync = () => {
   };
 
   const syncOfflineData = async () => {
-    if (!isOnline || isSyncing || globalIsSyncing) {
+    if (!isOnline) return;
+    
+    if (!isAuthenticated) {
+      Toast.show({
+        type: "warning",
+        text1: "Login necessário",
+        text2: "Faça login para sincronizar seus dados.",
+        visibilityTime: 3000,
+      });
+      
       return;
     }
+
+    if (isSyncing || globalIsSyncing) return;
 
     setIsSyncing(true);
     globalIsSyncing = true;
@@ -58,7 +108,13 @@ export const useOfflineSync = () => {
 
       if (!pendingSync) {
         setIsSyncing(false);
-        globalIsSyncing = false;;
+        globalIsSyncing = false;
+        return;
+      }
+
+      if (!isAuthenticated) {
+        setIsSyncing(false);
+        globalIsSyncing = false;
         return;
       }
 
@@ -68,7 +124,6 @@ export const useOfflineSync = () => {
         const offlineProperty = await OfflineSyncService.getOfflineProperty();
 
         if (offlineProperty) {
-
           try {
             const response = await createPropertyFromFormData(
               offlineProperty.formData,
@@ -82,7 +137,7 @@ export const useOfflineSync = () => {
               Toast.show({
                 type: "success",
                 text1: "Sincronização",
-                text2: hasExistingProperty 
+                text2: hasExistingProperty
                   ? t("questionnaire.propertyUpdatedSuccess")
                   : t("questionnaire.propertyCreatedSuccess"),
                 visibilityTime: 3000,
@@ -101,7 +156,10 @@ export const useOfflineSync = () => {
 
         if (offlineAnswers) {
           try {
-            await syncAllQuestionnaires(offlineAnswers.answers, validPropertyId);
+            await syncAllQuestionnaires(
+              offlineAnswers.answers,
+              validPropertyId,
+            );
 
             Toast.show({
               type: "success",
@@ -111,16 +169,17 @@ export const useOfflineSync = () => {
             });
 
             await OfflineSyncService.clearOfflineData();
+            await OfflineSyncService.clearFormCompletedOffline();
+            await NotificationService.clearNotificationScheduled();
             setHasPendingData(false);
+
+            await refetchUser();
           } catch (error) {
-            console.error("❌ Erro ao sincronizar respostas:", error);
             throw error;
           }
         }
       }
     } catch (error) {
-      console.error("❌ Erro durante sincronização:", error);
-
       Toast.show({
         type: "error",
         text1: "Erro na Sincronização",
@@ -169,7 +228,9 @@ export const useOfflineSync = () => {
         ? "MATERIA_NATURAL"
         : "MATERIA_SECA";
 
-    const mapLicenseStatus = (status: string | null): "SIM" | "NAO" | "DISPENSA" | null => {
+    const mapLicenseStatus = (
+      status: string | null,
+    ): "SIM" | "NAO" | "DISPENSA" | null => {
       const normalizedStatus = status?.toLowerCase().trim();
 
       if (normalizedStatus === "sim") {
@@ -222,17 +283,14 @@ export const useOfflineSync = () => {
     answers: { [key: string]: number | null },
     propertyId: string,
   ) => {
-    // Water Indicator (perguntas 1-13)
     const hasWaterIndicator = Object.keys(answers).some(
       (key) => parseInt(key) >= 1 && parseInt(key) <= 13,
     );
 
-    // Water Quality Conservation (perguntas 14-21)
     const hasWaterQuality = Object.keys(answers).some(
       (key) => parseInt(key) >= 14 && parseInt(key) <= 21,
     );
 
-    // Waste Management (perguntas 22+)
     const hasWasteManagement = Object.keys(answers).some(
       (key) => parseInt(key) >= 22,
     );
@@ -319,18 +377,28 @@ export const useOfflineSync = () => {
   };
 
   const forceSyncNow = useCallback(() => {
-    if (isOnline) {
-      syncOfflineData();
-    } else {
+    if (!isAuthenticated) {
+      Toast.show({
+        type: "warning",
+        text1: "Login necessário",
+        text2: "Faça login para sincronizar seus dados.",
+        visibilityTime: 3000,
+      });
+      return;
+    }
+
+    if (!isOnline) {
       Toast.show({
         type: "warning",
         text1: "Sem conexão",
         text2: "Conecte-se à internet para sincronizar",
         visibilityTime: 3000,
       });
+      return;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOnline]);
+
+    syncOfflineData();
+  }, [isOnline, isAuthenticated]);
 
   return {
     isSyncing,
@@ -338,5 +406,6 @@ export const useOfflineSync = () => {
     syncOfflineData,
     forceSyncNow,
     isOnline,
+    isAuthenticated,
   };
 };

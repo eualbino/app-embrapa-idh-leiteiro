@@ -7,6 +7,7 @@ export const sharedStyles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
+    paddingHorizontal: 10,
   },
 
   card: {

@@ -2,6 +2,22 @@ import { theme } from "@/src/config";
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
+  passwordRequirements: {
+    marginTop: theme.spacing.xs,
+    marginBottom: theme.spacing.md,
+  },
+  requirementText: {
+    fontSize: theme.typography.sizes.xs,
+    fontWeight: theme.typography.weights.regular,
+    color: theme.colors.text.secondary,
+    marginBottom: theme.spacing.xxs,
+  },
+  requirementMet: {
+    color: theme.colors.state.success,
+  },
+  requirementNotMet: {
+    color: theme.colors.state.error,
+  },
   scrollContainer: {
     flexGrow: 1,
     paddingHorizontal: 20,

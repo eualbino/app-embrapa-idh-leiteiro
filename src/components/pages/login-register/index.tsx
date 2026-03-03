@@ -1,5 +1,5 @@
 // External Libraries
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
   View,
   Text,
@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "expo-router";
+import Toast from "react-native-toast-message";
 
 // Context
 import { useAuthContext } from "@/src/contexts/AuthContext";
@@ -28,16 +29,43 @@ import { VIEW_LOGIN_PAGE } from "./contants";
 // Style
 import { styles } from "./styles";
 
-export default function LoginRegister() {
+interface LoginRegisterProps {
+  initialMode?: VIEW_LOGIN_PAGE;
+}
+
+export default function LoginRegister({
+  initialMode = VIEW_LOGIN_PAGE.LOGIN,
+}: LoginRegisterProps) {
   const { t } = useTranslation();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [cpf, setCpf] = useState("");
   const [password, setPassword] = useState("");
-  const [view, setView] = useState<VIEW_LOGIN_PAGE>(VIEW_LOGIN_PAGE.LOGIN);
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [view, setView] = useState<VIEW_LOGIN_PAGE>(initialMode);
 
   const route = useRouter();
   const { login, register, isLoading } = useAuthContext();
+
+  // Atualiza o view quando initialMode muda
+  useEffect(() => {
+    setView(initialMode);
+  }, [initialMode]);
+
+  // Validação de senha
+  const passwordValidation = useMemo(() => {
+    return {
+      minLength: password.length >= 8,
+      hasUpperCase: /[A-Z]/.test(password),
+      hasLowerCase: /[a-z]/.test(password),
+      hasNumber: /[0-9]/.test(password),
+      hasSpecialChar: /[!@#$%^&*(),.?":{}|<>]/.test(password),
+    };
+  }, [password]);
+
+  const isPasswordValid = useMemo(() => {
+    return Object.values(passwordValidation).every(Boolean);
+  }, [passwordValidation]);
 
   const handleSubmit = async () => {
     if (view === VIEW_LOGIN_PAGE.LOGIN) {
@@ -47,6 +75,25 @@ export default function LoginRegister() {
         password,
       });
     } else {
+      // Validação de senha no cadastro
+      if (!isPasswordValid) {
+        Toast.show({
+          type: "error",
+          text1: t("common.error"),
+          text2: t("auth.errors.invalidPassword"),
+        });
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        Toast.show({
+          type: "error",
+          text1: t("common.error"),
+          text2: t("auth.errors.passwordMismatch"),
+        });
+        return;
+      }
+
       await register({
         name,
         email,
@@ -125,6 +172,73 @@ export default function LoginRegister() {
           secureTextEntry
           autoComplete="password"
         />
+
+        <View style={styles.passwordRequirements}>
+          <Text
+            style={[
+              styles.requirementText,
+              passwordValidation.minLength
+                ? styles.requirementMet
+                : styles.requirementNotMet,
+            ]}
+          >
+            {passwordValidation.minLength ? "✓" : "○"}{" "}
+            {t("auth.passwordRequirements.minLength")}
+          </Text>
+          <Text
+            style={[
+              styles.requirementText,
+              passwordValidation.hasUpperCase
+                ? styles.requirementMet
+                : styles.requirementNotMet,
+            ]}
+          >
+            {passwordValidation.hasUpperCase ? "✓" : "○"}{" "}
+            {t("auth.passwordRequirements.hasUpperCase")}
+          </Text>
+          <Text
+            style={[
+              styles.requirementText,
+              passwordValidation.hasLowerCase
+                ? styles.requirementMet
+                : styles.requirementNotMet,
+            ]}
+          >
+            {passwordValidation.hasLowerCase ? "✓" : "○"}{" "}
+            {t("auth.passwordRequirements.hasLowerCase")}
+          </Text>
+          <Text
+            style={[
+              styles.requirementText,
+              passwordValidation.hasNumber
+                ? styles.requirementMet
+                : styles.requirementNotMet,
+            ]}
+          >
+            {passwordValidation.hasNumber ? "✓" : "○"}{" "}
+            {t("auth.passwordRequirements.hasNumber")}
+          </Text>
+          <Text
+            style={[
+              styles.requirementText,
+              passwordValidation.hasSpecialChar
+                ? styles.requirementMet
+                : styles.requirementNotMet,
+            ]}
+          >
+            {passwordValidation.hasSpecialChar ? "✓" : "○"}{" "}
+            {t("auth.passwordRequirements.hasSpecialChar")}
+          </Text>
+        </View>
+
+        <Input
+          label={t("auth.confirmPassword")}
+          placeholder="********"
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+          secureTextEntry
+          autoComplete="password"
+        />
       </View>
     );
   }
@@ -180,7 +294,14 @@ export default function LoginRegister() {
             </Text>
           )}
 
-          <ButtonCommon onPress={handleSubmit} disabled={isLoading}>
+          <ButtonCommon
+            onPress={handleSubmit}
+            disabled={
+              isLoading ||
+              (view === VIEW_LOGIN_PAGE.REGISTER &&
+                (!isPasswordValid || password !== confirmPassword))
+            }
+          >
             {isLoading
               ? t("common.loading")
               : view === VIEW_LOGIN_PAGE.LOGIN

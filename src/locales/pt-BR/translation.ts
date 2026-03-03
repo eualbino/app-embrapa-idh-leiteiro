@@ -26,6 +26,8 @@ export default {
       logoutMessage: "Tem certeza que deseja sair da sua conta?",
       logoutConfirm: "Sair",
       logoutCancel: "Cancelar",
+      later: "Depois",
+      login: "Login",
     },
 
     // Login & Register
@@ -42,6 +44,8 @@ export default {
         invalidData: "Dados inválidos.",
         registerFailed: "Não foi possível cadastrar. Tente novamente.",
         emailOrCpfExists: "Email ou CPF já cadastrado.",
+        invalidPassword: "A senha não atende aos requisitos mínimos.",
+        passwordMismatch: "As senhas não coincidem.",
       },
       success: {
         loginSuccess: "Login realizado!",
@@ -49,6 +53,24 @@ export default {
         registerSuccess: "Cadastro realizado!",
         registerMessage: "Faça login para continuar.",
       },
+      confirmPassword: "Confirmar Senha",
+      passwordRequirements: {
+        minLength: "Mínimo de 8 caracteres",
+        hasUpperCase: "Pelo menos uma letra maiúscula",
+        hasLowerCase: "Pelo menos uma letra minúscula",
+        hasNumber: "Pelo menos um número",
+        hasSpecialChar: "Pelo menos um caractere especial",
+      },
+    },
+
+    // Auth Landing
+    authLanding: {
+      welcome: "Seja Bem-Vindo!",
+      description:
+        "Acesse a sua conta ou faça o seu cadastro gratuito e comece a usar o aplicativo",
+      accessAccount: "ACESSAR MINHA CONTA",
+      register: "CADASTRE-SE",
+      forgotPassword: "Esqueci minha senha",
     },
 
     // Forgot Password
@@ -709,6 +731,28 @@ export default {
       emptyMessage: "Preencha o questionário para visualizar seu histórico",
       tapToViewDetails: "Toque para ver os detalhes",
       viewingResults: "Visualizando resultados",
+    },
+
+    notifications: {
+      syncReminder: {
+        title: "📱 Dados prontos para sincronizar!",
+        body: "Você completou o formulário offline. Abra o app e faça login para sincronizar seus dados.",
+      },
+      permissionDenied: "Permissão de notificação não concedida",
+    },
+
+    offlineMode: {
+      title: "Modo Offline",
+      dataSavedLocally:
+        "Dados salvos localmente. Serão sincronizados quando houver conexão.",
+      formCompleteOffline:
+        "Formulário completo. Faça login quando tiver internet para sincronizar.",
+      enteringOfflineMode: "Entrando em modo offline...",
+      syncWhenOnline:
+        "Os dados serão sincronizados quando você fizer login com internet.",
+      connectionRestored: "Conexão Restaurada",
+      loginToSync:
+        "A internet voltou! Faça login para sincronizar seus dados preenchidos offline.",
     },
   },
 };

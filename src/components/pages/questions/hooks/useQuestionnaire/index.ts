@@ -15,13 +15,14 @@ import { useNetworkStatus } from "@/src/hooks/useNetworkStatus";
 import { OfflineSyncService } from "@/src/services/offline/OfflineSyncService";
 import { useAuthContext } from "@/src/contexts/AuthContext";
 import { propertyToFormData } from "@/src/components/pages/questions/components/QuestionsCaracterizacao/utils/propertyToFormData";
+import { NotificationService } from "@/src/services/notifications";
 
 export const useQuestionnaire = (): QuestionnaireState &
   QuestionnaireActions => {
   // Hooks
   const { t } = useTranslation();
   const { isOnline } = useNetworkStatus();
-  const { properties } = useAuthContext();
+  const { properties, isAuthenticated } = useAuthContext();
   const { createProperty, isLoading: isCreatingProperty } = useProperty();
   const { createWaterIndicator, isLoading: isCreatingWaterIndicator } =
     useWaterIndicator();
@@ -33,7 +34,9 @@ export const useQuestionnaire = (): QuestionnaireState &
   // State
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<{ [key: string]: number | null }>({});
-  const [selectedIndexes, setSelectedIndexes] = useState<{ [key: string]: number }>({});
+  const [selectedIndexes, setSelectedIndexes] = useState<{
+    [key: string]: number;
+  }>({});
   const [formData, setFormData] = useState<FormData | null>(null);
   const [propertyId, setPropertyId] = useState<string | null>(null);
   const [date, setDate] = useState(new Date());
@@ -216,7 +219,12 @@ export const useQuestionnaire = (): QuestionnaireState &
               return;
             }
 
-            if (!isOnline || OfflineSyncService.isTempPropertyId(propertyId)) {
+            const canSendToServer =
+              isOnline &&
+              isAuthenticated &&
+              !OfflineSyncService.isTempPropertyId(propertyId);
+
+            if (!canSendToServer) {
               Toast.show({
                 type: "info",
                 text1: "Modo Offline",
@@ -263,7 +271,13 @@ export const useQuestionnaire = (): QuestionnaireState &
               return;
             }
 
-            if (!isOnline || OfflineSyncService.isTempPropertyId(propertyId)) {
+            // Verificar se pode enviar: precisa estar online, autenticado E com ID válido (não temporário)
+            const canSendWaterQuality =
+              isOnline &&
+              isAuthenticated &&
+              !OfflineSyncService.isTempPropertyId(propertyId);
+
+            if (!canSendWaterQuality) {
               Toast.show({
                 type: "info",
                 text1: "Modo Offline",
@@ -325,14 +339,28 @@ export const useQuestionnaire = (): QuestionnaireState &
           return;
         }
 
-        if (!isOnline || OfflineSyncService.isTempPropertyId(propertyId)) {
-          await OfflineSyncService.setPendingSync(true, true, propertyId);
+        const canSendWasteManagement =
+          isOnline &&
+          isAuthenticated &&
+          !OfflineSyncService.isTempPropertyId(propertyId!);
+
+        if (!canSendWasteManagement) {
+
+          await OfflineSyncService.setPendingSync(true, true, propertyId!);
+          await OfflineSyncService.markFormCompletedOffline();
+          
+          if (!isAuthenticated) {
+            await OfflineSyncService.setOfflineMode(true);
+          }
+
+          await NotificationService.requestPermissions();
 
           Toast.show({
             type: "success",
             text1: "Formulário Completo",
-            text2:
-              "Dados salvos offline. Serão sincronizados quando houver conexão.",
+            text2: !isAuthenticated
+              ? "Dados salvos. Faça login para sincronizar com o servidor."
+              : "Dados salvos offline. Serão sincronizados quando houver conexão.",
             visibilityTime: 5000,
           });
 
@@ -341,7 +369,7 @@ export const useQuestionnaire = (): QuestionnaireState &
           }, 3000);
         } else {
           try {
-            const response = await createWasteManagement(answers, propertyId);
+            const response = await createWasteManagement(answers, propertyId!);
             const score =
               response?.data?.finalScore?.toFixed(2).replace(".", ",") || "N/A";
 
@@ -359,7 +387,7 @@ export const useQuestionnaire = (): QuestionnaireState &
             setTimeout(() => {
               router.push({
                 pathname: "/result",
-                params: { propertyId: propertyId },
+                params: { propertyId: propertyId! },
               });
             }, 5000);
           } catch (error) {
@@ -382,6 +410,7 @@ export const useQuestionnaire = (): QuestionnaireState &
       createWasteManagement,
       propertyId,
       isOnline,
+      isAuthenticated,
     ],
   );
 

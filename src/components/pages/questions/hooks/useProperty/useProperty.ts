@@ -14,7 +14,7 @@ export const useProperty = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation();
   const { isOnline } = useNetworkStatus();
-  const { properties } = useAuthContext();
+  const { properties, isAuthenticated } = useAuthContext();
 
   const hasExistingProperty = properties && properties.length > 0;
 
@@ -105,15 +105,19 @@ export const useProperty = () => {
   const createProperty = async (formData: FormData) => {
     setIsLoading(true);
     try {
-      if (!isOnline) {
+      if (!isOnline || !isAuthenticated) {
+
         await OfflineSyncService.saveOfflineProperty(formData);
         const tempId = OfflineSyncService.generateTempPropertyId();
+
+        if (!isAuthenticated) {
+          await OfflineSyncService.setOfflineMode(true);
+        }
 
         Toast.show({
           type: "info",
           text1: t("common.offline"),
-          text2:
-            "Dados salvos localmente. Serão sincronizados quando houver conexão.",
+          text2: "Dados salvos localmente. Serão sincronizados quando houver conexão.",
           visibilityTime: 4000,
         });
 
@@ -121,7 +125,7 @@ export const useProperty = () => {
           property: {
             id: tempId,
           },
-        };
+        }
       }
 
       const propertyData = mapFormDataToPropertyRequest(formData);
@@ -130,7 +134,7 @@ export const useProperty = () => {
       Toast.show({
         type: "success",
         text1: t("common.success"),
-        text2: hasExistingProperty 
+        text2: hasExistingProperty
           ? t("questionnaire.propertyUpdatedSuccess")
           : t("questionnaire.propertyCreatedSuccess"),
       });
@@ -138,6 +142,27 @@ export const useProperty = () => {
       return response;
     } catch (error: any) {
       console.error("Erro ao criar propriedade:", error);
+
+      // Se deu erro de autenticação (401/403), salvar offline
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        await OfflineSyncService.saveOfflineProperty(formData);
+        const tempId = OfflineSyncService.generateTempPropertyId();
+        await OfflineSyncService.setOfflineMode(true);
+
+        Toast.show({
+          type: "warning",
+          text1: "Sessão expirada",
+          text2:
+            "Dados salvos localmente. Faça login novamente para sincronizar.",
+          visibilityTime: 5000,
+        });
+
+        return {
+          property: {
+            id: tempId,
+          },
+        };
+      }
 
       Toast.show({
         type: "error",

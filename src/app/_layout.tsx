@@ -4,8 +4,6 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar, StyleSheet, View } from "react-native";
 import Toast from "react-native-toast-message";
 import * as NavigationBar from "expo-navigation-bar";
-import * as SplashScreen from "expo-splash-screen";
-
 import toastConfig from "@/src/config/toast";
 import "@/src/locales/i18n";
 
@@ -14,17 +12,21 @@ import {
   OnboardingProvider,
   useOnboardingContext,
 } from "@/src/contexts/OnboardingContext";
+import {
+  OfflineModeProvider,
+  useOfflineModeContext,
+} from "@/src/contexts/OfflineModeContext";
+import { useNetworkStatus } from "@/src/hooks/useNetworkStatus";
 
 import { OfflineSyncMonitor } from "@/src/components/commons/OfflineSyncMonitor";
 import { CustomSplashScreen } from "@/src/components/commons/CustomSplashScreen";
-
-// Esconde a splash nativa imediatamente para usar a customizada
-SplashScreen.hideAsync();
 
 function RootNavigator() {
   const { isAuthenticated, isInitializing } = useAuthContext();
   const { hasSeenWelcome, isLoading: isOnboardingLoading } =
     useOnboardingContext();
+  const { isOfflineMode, isCheckingOfflineMode } = useOfflineModeContext();
+  const { isOffline } = useNetworkStatus();
   const router = useRouter();
   const pathname = usePathname();
   const [isSplashReady, setIsSplashReady] = useState(false);
@@ -44,6 +46,7 @@ function RootNavigator() {
     if (
       !isInitializing &&
       !isOnboardingLoading &&
+      !isCheckingOfflineMode &&
       hasSeenWelcome !== null &&
       initialRoute === null
     ) {
@@ -51,15 +54,21 @@ function RootNavigator() {
         setInitialRoute("/welcome");
       } else if (isAuthenticated) {
         setInitialRoute("/(protected)/(tabs)/(home)");
+      } else if (isOfflineMode || isOffline) {
+        // Se está em modo offline ou está sem internet, vai direto para o app
+        setInitialRoute("/(protected)/(tabs)/(home)");
       } else {
-        setInitialRoute("/login");
+        setInitialRoute("/auth-landing");
       }
     }
   }, [
     isInitializing,
     isOnboardingLoading,
+    isCheckingOfflineMode,
     hasSeenWelcome,
     isAuthenticated,
+    isOfflineMode,
+    isOffline,
     initialRoute,
   ]);
 
@@ -76,12 +85,15 @@ function RootNavigator() {
     if (
       !isInitializing &&
       !isOnboardingLoading &&
+      !isCheckingOfflineMode &&
       hasSeenWelcome !== null &&
       hasNavigatedToInitial
     ) {
       const isProtectedRoute = pathname?.startsWith("/(protected)");
       const isAuthRoute =
-        pathname === "/login" || pathname?.startsWith("/forgot-password");
+        pathname === "/login" || 
+        pathname === "/auth-landing" || 
+        pathname?.startsWith("/forgot-password");
       const isWelcomeRoute = pathname === "/welcome";
 
       if (!hasSeenWelcome && !isWelcomeRoute) {
@@ -90,24 +102,36 @@ function RootNavigator() {
       }
 
       if (hasSeenWelcome && isWelcomeRoute) {
-        router.replace("/login");
+        router.replace("/auth-landing" as any);
         return;
       }
 
+      // Se autenticado e em rota de auth, vai para home
       if (isAuthenticated && isAuthRoute) {
         router.replace("/(protected)/(tabs)/(home)" as any);
-      } else if (!isAuthenticated && isProtectedRoute) {
-        router.replace("/login");
       }
+      // Se não autenticado, não está em modo offline e não está offline, redireciona para auth-landing
+      else if (
+        !isAuthenticated &&
+        isProtectedRoute &&
+        !isOfflineMode &&
+        !isOffline
+      ) {
+        router.replace("/auth-landing" as any);
+      }
+      // Se está offline ou em modo offline, permite acesso às rotas protegidas
     }
   }, [
     isAuthenticated,
     isInitializing,
     isOnboardingLoading,
+    isCheckingOfflineMode,
     hasSeenWelcome,
     pathname,
     router,
     hasNavigatedToInitial,
+    isOfflineMode,
+    isOffline,
   ]);
 
   // Determinar quando esconder a splash customizada
@@ -115,6 +139,7 @@ function RootNavigator() {
     isSplashReady &&
     !isInitializing &&
     !isOnboardingLoading &&
+    !isCheckingOfflineMode &&
     hasSeenWelcome !== null &&
     initialRoute !== null;
 
@@ -181,16 +206,18 @@ export default function RootLayout() {
   return (
     <OnboardingProvider>
       <AuthProvider>
-        <SafeAreaProvider>
-          <StatusBar
-            translucent
-            backgroundColor="#006f36"
-            barStyle="light-content"
-          />
-          <SafeAreaView style={styles.safeArea} edges={[]}>
-            <RootNavigator />
-          </SafeAreaView>
-        </SafeAreaProvider>
+        <OfflineModeProvider>
+          <SafeAreaProvider>
+            <StatusBar
+              translucent
+              backgroundColor="#006f36"
+              barStyle="light-content"
+            />
+            <SafeAreaView style={styles.safeArea} edges={[]}>
+              <RootNavigator />
+            </SafeAreaView>
+          </SafeAreaProvider>
+        </OfflineModeProvider>
       </AuthProvider>
     </OnboardingProvider>
   );

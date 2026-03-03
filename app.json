@@ -8,6 +8,11 @@
     "scheme": "appembrapaidh",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "splash": {
+      "image": "./src/assets/images/icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#097E47"
+    },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.anonymous.appembrapaidh",
@@ -15,6 +20,11 @@
       "darkIcon": "./src/assets/images/ios-dark.png",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
+      },
+      "splash": {
+        "image": "./src/assets/images/icon.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#097E47"
       }
     },
     "android": {
@@ -24,7 +34,12 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.anonymous.appembrapaidh"
+      "package": "com.anonymous.appembrapaidh",
+      "splash": {
+        "image": "./src/assets/images/icon-white.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#097E47"
+      }
     },
     "plugins": [
       "expo-router",
@@ -32,12 +47,8 @@
       "expo-web-browser",
       "expo-localization",
       "expo-secure-store",
-      [
-        "expo-splash-screen",
-        {
-          "backgroundColor": "#097E47"
-        }
-      ]
+      "expo-notifications",
+      "expo-sqlite"
     ],
     "experiments": {
       "typedRoutes": true,

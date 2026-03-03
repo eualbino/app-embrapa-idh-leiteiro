@@ -25,7 +25,7 @@ export function CustomSplashScreen({
     if (!isVisible) {
       Animated.timing(fadeAnim, {
         toValue: 0,
-        duration: 300,
+        duration: 3000,
         useNativeDriver: true,
       }).start(() => {
         onAnimationEnd?.();

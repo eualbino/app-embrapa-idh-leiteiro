@@ -26,6 +26,8 @@ export default {
       logoutMessage: "Are you sure you want to logout?",
       logoutConfirm: "Logout",
       logoutCancel: "Cancel",
+      later: "Later",
+      login: "Login",
     },
 
     // Login & Register
@@ -42,6 +44,8 @@ export default {
         invalidData: "Invalid data.",
         registerFailed: "Unable to register. Please try again.",
         emailOrCpfExists: "Email or CPF already registered.",
+        invalidPassword: "Password does not meet the minimum requirements.",
+        passwordMismatch: "Passwords do not match.",
       },
       success: {
         loginSuccess: "Login successful!",
@@ -49,6 +53,24 @@ export default {
         registerSuccess: "Registration successful!",
         registerMessage: "Please login to continue.",
       },
+      confirmPassword: "Confirm Password",
+      passwordRequirements: {
+        minLength: "Minimum of 8 characters",
+        hasUpperCase: "At least one uppercase letter",
+        hasLowerCase: "At least one lowercase letter",
+        hasNumber: "At least one number",
+        hasSpecialChar: "At least one special character",
+      },
+    },
+
+    // Auth Landing
+    authLanding: {
+      welcome: "Welcome!",
+      description:
+        "Access your account or sign up for free and start using the app",
+      accessAccount: "ACCESS MY ACCOUNT",
+      register: "SIGN UP",
+      forgotPassword: "Forgot my password",
     },
 
     // Forgot Password
@@ -699,6 +721,27 @@ export default {
       emptyMessage: "Fill out the questionnaire to view your history",
       tapToViewDetails: "Tap to view details",
       viewingResults: "Viewing results",
+    },
+
+    notifications: {
+      syncReminder: {
+        title: "📱 Data ready to sync!",
+        body: "You completed the form offline. Open the app and log in to sync your data.",
+      },
+      permissionDenied: "Notification permission not granted",
+    },
+
+    offlineMode: {
+      title: "Offline Mode",
+      dataSavedLocally:
+        "Data saved locally. It will be synced when you have a connection.",
+      formCompleteOffline:
+        "Form complete. Log in when you have internet to sync.",
+      enteringOfflineMode: "Entering offline mode...",
+      syncWhenOnline:
+        "Data will be synced when you log in with internet access.",
+      connectionRestored: "Connection Restored",
+      loginToSync: "Internet is back! Log in to sync your offline data.",
     },
   },
 };

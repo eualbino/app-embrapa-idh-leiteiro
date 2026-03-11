@@ -35,6 +35,8 @@
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "package": "com.anonymous.appembrapaidh",
+      "minSdkVersion": 29,
+      "allowBackup": false,
       "splash": {
         "image": "./src/assets/images/icon-white.png",
         "resizeMode": "contain",

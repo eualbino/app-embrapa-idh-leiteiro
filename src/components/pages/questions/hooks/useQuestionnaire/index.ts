@@ -345,7 +345,6 @@ export const useQuestionnaire = (): QuestionnaireState &
           !OfflineSyncService.isTempPropertyId(propertyId!);
 
         if (!canSendWasteManagement) {
-
           await OfflineSyncService.setPendingSync(true, true, propertyId!);
           await OfflineSyncService.markFormCompletedOffline();
           

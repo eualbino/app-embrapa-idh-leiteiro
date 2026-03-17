@@ -17,7 +17,6 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.anonymous.appembrapaidh",
       "icon": "./src/assets/images/ios-light.png",
-      "darkIcon": "./src/assets/images/ios-dark.png",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       },
@@ -35,7 +34,6 @@
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "package": "com.anonymous.appembrapaidh",
-      "minSdkVersion": 29,
       "allowBackup": false,
       "splash": {
         "image": "./src/assets/images/icon-white.png",
@@ -50,7 +48,16 @@
       "expo-localization",
       "expo-secure-store",
       "expo-notifications",
-      "expo-sqlite"
+      "expo-sqlite",
+      "expo-asset",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "minSdkVersion": 26
+          }
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

@@ -84,4 +84,45 @@ export const styles = StyleSheet.create({
     textDecorationLine: "underline",
     marginTop: -20,
   },
+  checkboxContainer: {
+    marginTop: 16,
+    gap: 12,
+  },
+  checkboxRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: 10,
+  },
+  checkbox: {
+    width: 20,
+    height: 20,
+    borderRadius: 4,
+    borderWidth: 2,
+    borderColor: "#ccc",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 1,
+    flexShrink: 0,
+  },
+  checkboxChecked: {
+    backgroundColor: theme.colors.primary.default,
+    borderColor: theme.colors.primary.default,
+  },
+  checkboxMark: {
+    color: theme.colors.text.inverse,
+    fontSize: 12,
+    fontWeight: "700",
+    lineHeight: 14,
+  },
+  checkboxLabel: {
+    flex: 1,
+    fontSize: 13,
+    color: "#555",
+    lineHeight: 20,
+  },
+  checkboxLink: {
+    color: theme.colors.primary.default,
+    textDecorationLine: "underline",
+    fontWeight: "500",
+  },
 });

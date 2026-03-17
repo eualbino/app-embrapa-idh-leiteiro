@@ -106,7 +106,6 @@ export const useProperty = () => {
     setIsLoading(true);
     try {
       if (!isOnline || !isAuthenticated) {
-
         await OfflineSyncService.saveOfflineProperty(formData);
         const tempId = OfflineSyncService.generateTempPropertyId();
 
@@ -117,7 +116,8 @@ export const useProperty = () => {
         Toast.show({
           type: "info",
           text1: t("common.offline"),
-          text2: "Dados salvos localmente. Serão sincronizados quando houver conexão.",
+          text2:
+            "Dados salvos localmente. Serão sincronizados quando houver conexão.",
           visibilityTime: 4000,
         });
 
@@ -125,7 +125,7 @@ export const useProperty = () => {
           property: {
             id: tempId,
           },
-        }
+        };
       }
 
       const propertyData = mapFormDataToPropertyRequest(formData);

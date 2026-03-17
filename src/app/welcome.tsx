@@ -41,6 +41,9 @@ export default function WelcomeScreen() {
 
             <View style={styles.titleContainer}>
               <Text style={styles.title}>Seja bem-vindo!</Text>
+              <View style={styles.betaBadge}>
+                <Text style={styles.betaText}>VERSÃO BETA</Text>
+              </View>
             </View>
 
             <View style={styles.textContainer}>
@@ -68,7 +71,7 @@ export default function WelcomeScreen() {
                 alcançada!
               </Text>
             </View>
-            
+
             <View style={styles.logoContainer}>
               <Image
                 source={require("@/src/assets/images/logo_embrapa.png")}
@@ -126,6 +129,20 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     marginBottom: 24,
+    alignItems: "center",
+  },
+  betaBadge: {
+    backgroundColor: "#FFA000",
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 16,
+    marginTop: 8,
+  },
+  betaText: {
+    color: "#ffffff",
+    fontSize: 12,
+    fontWeight: "bold",
+    letterSpacing: 1,
   },
   title: {
     fontSize: 28,

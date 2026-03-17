@@ -7,10 +7,14 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
+  TouchableOpacity,
 } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "expo-router";
 import Toast from "react-native-toast-message";
+import * as Sharing from "expo-sharing";
+import * as FileSystem from "expo-file-system";
+import { Asset } from "expo-asset";
 
 // Context
 import { useAuthContext } from "@/src/contexts/AuthContext";
@@ -33,6 +37,39 @@ interface LoginRegisterProps {
   initialMode?: VIEW_LOGIN_PAGE;
 }
 
+async function openPdf(moduleId: number, fileName: string) {
+  try {
+    const asset = Asset.fromModule(moduleId);
+    await asset.downloadAsync();
+
+    if (!asset.localUri) throw new Error();
+
+    const destUri = new FileSystem.File(FileSystem.Paths.cache, fileName);
+
+    await new FileSystem.File(asset.localUri).copy(destUri);
+
+    const canShare = await Sharing.isAvailableAsync();
+    if (canShare) {
+      await Sharing.shareAsync(destUri.uri, {
+        mimeType: "application/pdf",
+        UTI: "com.adobe.pdf",
+      });
+    } else {
+      Toast.show({
+        type: "error",
+        text1: "Erro",
+        text2: "Não foi possível abrir o arquivo.",
+      });
+    }
+  } catch {
+    Toast.show({
+      type: "error",
+      text1: "Erro",
+      text2: "Não foi possível abrir o documento.",
+    });
+  }
+}
+
 export default function LoginRegister({
   initialMode = VIEW_LOGIN_PAGE.LOGIN,
 }: LoginRegisterProps) {
@@ -43,16 +80,19 @@ export default function LoginRegister({
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [view, setView] = useState<VIEW_LOGIN_PAGE>(initialMode);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   const route = useRouter();
   const { login, register, isLoading } = useAuthContext();
 
-  // Atualiza o view quando initialMode muda
   useEffect(() => {
     setView(initialMode);
   }, [initialMode]);
 
-  // Validação de senha
+  useEffect(() => {
+    setAcceptedTerms(false);
+  }, [view]);
+
   const passwordValidation = useMemo(() => {
     return {
       minLength: password.length >= 8,
@@ -75,7 +115,15 @@ export default function LoginRegister({
         password,
       });
     } else {
-      // Validação de senha no cadastro
+      if (!acceptedTerms) {
+        Toast.show({
+          type: "error",
+          text1: t("common.error"),
+          text2: "Você precisa aceitar os termos para se cadastrar.",
+        });
+        return;
+      }
+
       if (!isPasswordValid) {
         Toast.show({
           type: "error",
@@ -239,6 +287,47 @@ export default function LoginRegister({
           secureTextEntry
           autoComplete="password"
         />
+
+        <View style={styles.checkboxContainer}>
+          <TouchableOpacity
+            style={styles.checkboxRow}
+            onPress={() => setAcceptedTerms((prev) => !prev)}
+            activeOpacity={0.7}
+          >
+            <View
+              style={[styles.checkbox, acceptedTerms && styles.checkboxChecked]}
+            >
+              {acceptedTerms && <Text style={styles.checkboxMark}>✓</Text>}
+            </View>
+
+            <Text style={styles.checkboxLabel}>
+              {"Li e aceito o "}
+              <Text
+                style={styles.checkboxLink}
+                onPress={() =>
+                  openPdf(
+                    require("@/src/assets/documents/IDH_Termo_Uso_Privacidade.pdf"),
+                    "IDH_Termo_Uso_Privacidade.pdf",
+                  )
+                }
+              >
+                Termo de Uso e Privacidade
+              </Text>
+              {" e o "}
+              <Text
+                style={styles.checkboxLink}
+                onPress={() =>
+                  openPdf(
+                    require("@/src/assets/documents/IDH_Aviso_Privacidade.pdf"),
+                    "IDH_Aviso_Privacidade.pdf",
+                  )
+                }
+              >
+                Aviso de Privacidade
+              </Text>
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -299,7 +388,9 @@ export default function LoginRegister({
             disabled={
               isLoading ||
               (view === VIEW_LOGIN_PAGE.REGISTER &&
-                (!isPasswordValid || password !== confirmPassword))
+                (!isPasswordValid ||
+                  password !== confirmPassword ||
+                  !acceptedTerms))
             }
           >
             {isLoading

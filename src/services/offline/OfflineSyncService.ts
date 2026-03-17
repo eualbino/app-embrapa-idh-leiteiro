@@ -1,5 +1,6 @@
 import { DatabaseService } from "@/src/services/database";
 import { FormData } from "@/src/components/pages/questions/components/QuestionsCaracterizacao/types";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Keys para armazenamento genérico (compatibilidade)
 const OFFLINE_PROPERTY_ID_KEY = "offline_property_id";
@@ -54,7 +55,7 @@ export class OfflineSyncService {
       await DatabaseService.saveProperty(JSON.stringify(formData), timestamp);
       await this.setPendingSync(true, false);
     } catch (error) {
-      console.error("❌ Erro ao salvar propriedade offline:", error);
+      console.error("Erro ao salvar propriedade offline:", error);
       throw error;
     }
   }
@@ -69,7 +70,7 @@ export class OfflineSyncService {
       const timestamp = Date.now();
       await DatabaseService.saveAnswers(JSON.stringify(answers), timestamp);
     } catch (error) {
-      console.error("❌ Erro ao salvar respostas offline:", error);
+      console.error("Erro ao salvar respostas offline:", error);
       throw error;
     }
   }
@@ -81,7 +82,7 @@ export class OfflineSyncService {
     try {
       await DatabaseService.setItem(OFFLINE_PROPERTY_ID_KEY, propertyId);
     } catch (error) {
-      console.error("❌ Erro ao salvar propertyId offline:", error);
+      console.error("Erro ao salvar propertyId offline:", error);
       throw error;
     }
   }
@@ -99,7 +100,7 @@ export class OfflineSyncService {
         timestamp: result.timestamp,
       };
     } catch (error) {
-      console.error("❌ Erro ao recuperar propriedade offline:", error);
+      console.error("Erro ao recuperar propriedade offline:", error);
       return null;
     }
   }
@@ -117,7 +118,7 @@ export class OfflineSyncService {
         timestamp: result.timestamp,
       };
     } catch (error) {
-      console.error("❌ Erro ao recuperar respostas offline:", error);
+      console.error("Erro ao recuperar respostas offline:", error);
       return null;
     }
   }
@@ -129,7 +130,7 @@ export class OfflineSyncService {
     try {
       return await DatabaseService.getItem(OFFLINE_PROPERTY_ID_KEY);
     } catch (error) {
-      console.error("❌ Erro ao recuperar propertyId offline:", error);
+      console.error("Erro ao recuperar propertyId offline:", error);
       return null;
     }
   }
@@ -159,10 +160,10 @@ export class OfflineSyncService {
         JSON.stringify(macroIndicators),
         weights ? JSON.stringify(weights) : null,
         details ? JSON.stringify(details) : null,
-        Date.now()
+        Date.now(),
       );
     } catch (error) {
-      console.error("❌ Erro ao salvar scores offline:", error);
+      console.error("Erro ao salvar scores offline:", error);
       throw error;
     }
   }
@@ -184,7 +185,7 @@ export class OfflineSyncService {
         timestamp: result.timestamp,
       };
     } catch (error) {
-      console.error("❌ Erro ao recuperar scores offline:", error);
+      console.error("Erro ao recuperar scores offline:", error);
       return null;
     }
   }
@@ -196,7 +197,7 @@ export class OfflineSyncService {
     try {
       await DatabaseService.clearScores();
     } catch (error) {
-      console.error("❌ Erro ao limpar scores offline:", error);
+      console.error("Erro ao limpar scores offline:", error);
       throw error;
     }
   }
@@ -217,7 +218,7 @@ export class OfflineSyncService {
       };
       await DatabaseService.setItem(PENDING_SYNC_KEY, JSON.stringify(data));
     } catch (error) {
-      console.error("❌ Erro ao marcar pending sync:", error);
+      console.error("Erro ao marcar pending sync:", error);
       throw error;
     }
   }
@@ -247,7 +248,7 @@ export class OfflineSyncService {
         PENDING_SYNC_KEY,
       ]);
     } catch (error) {
-      console.error("❌ Erro ao limpar dados offline:", error);
+      console.error("Erro ao limpar dados offline:", error);
       throw error;
     }
   }
@@ -259,7 +260,7 @@ export class OfflineSyncService {
     try {
       await DatabaseService.clearProperty();
     } catch (error) {
-      console.error("❌ Erro ao limpar propriedade offline:", error);
+      console.error("Erro ao limpar propriedade offline:", error);
       throw error;
     }
   }
@@ -285,7 +286,7 @@ export class OfflineSyncService {
     try {
       await DatabaseService.setSetting(FORM_COMPLETED_OFFLINE_KEY, "true");
     } catch (error) {
-      console.error("❌ Erro ao marcar formulário completado offline:", error);
+      console.error("Erro ao marcar formulário completado offline:", error);
     }
   }
 
@@ -294,7 +295,9 @@ export class OfflineSyncService {
    */
   static async wasFormCompletedOffline(): Promise<boolean> {
     try {
-      const value = await DatabaseService.getSetting(FORM_COMPLETED_OFFLINE_KEY);
+      const value = await DatabaseService.getSetting(
+        FORM_COMPLETED_OFFLINE_KEY,
+      );
       return value === "true";
     } catch (error) {
       return false;
@@ -308,7 +311,7 @@ export class OfflineSyncService {
     try {
       await DatabaseService.removeSetting(FORM_COMPLETED_OFFLINE_KEY);
     } catch (error) {
-      console.error("❌ Erro ao limpar flag de formulário completado:", error);
+      console.error("Erro ao limpar flag de formulário completado:", error);
     }
   }
 
@@ -323,7 +326,23 @@ export class OfflineSyncService {
         await DatabaseService.removeSetting(OFFLINE_MODE_KEY);
       }
     } catch (error) {
-      console.error("Erro ao definir modo offline:", error);
+      // Log detailed error for diagnosis
+      console.error("Erro ao definir modo offline (DatabaseService):", error);
+
+      // Fallback: persist the offline flag in AsyncStorage to avoid native SQLite failures
+      try {
+        if (isOffline) {
+          await AsyncStorage.setItem(OFFLINE_MODE_KEY, "true");
+        } else {
+          await AsyncStorage.removeItem(OFFLINE_MODE_KEY);
+        }
+        console.warn("Offline mode persisted via AsyncStorage fallback.");
+      } catch (asError) {
+        console.error(
+          "Erro no fallback ao definir modo offline com AsyncStorage:",
+          asError,
+        );
+      }
     }
   }
 

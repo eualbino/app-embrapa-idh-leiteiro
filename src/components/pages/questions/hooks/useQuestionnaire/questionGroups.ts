@@ -1,15 +1,15 @@
-import { questions } from "@/src/mock/questions";
+import { questions, GROUP_MAIN } from "@/src/mock/questions";
 
 export const data_quantidade_agua = questions.filter(
-  (question) => question.groupMain === "quantidade-agua"
+  (question) => question.groupMain === GROUP_MAIN.waterIndicator,
 );
 
 export const data_qualidade_agua = questions.filter(
-  (question) => question.groupMain === "qualidade-agua"
+  (question) => question.groupMain === GROUP_MAIN.waterQuality,
 );
 
 export const data_manejo_residuos = questions.filter(
-  (question) => question.groupMain === "manejo-residuos-uso-fertilizantes"
+  (question) => question.groupMain === GROUP_MAIN.wasteManagement,
 );
 
 export const questionGroups = [

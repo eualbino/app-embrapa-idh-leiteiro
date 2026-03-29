@@ -20,9 +20,9 @@ import { Asset } from "expo-asset";
 import { useAuthContext } from "@/src/contexts/AuthContext";
 
 // Components
-import { Input } from "../../commons/Input";
-import { ButtonCommon } from "../../commons/Button";
-import { LanguageSelector } from "../../commons/LanguageSelector";
+import { Input } from "@/src/components/commons/Input";
+import { ButtonCommon } from "@/src/components/commons/Button";
+import { LanguageSelector } from "@/src/components/commons/LanguageSelector";
 
 // Utils
 import { formatCPFInput, unformatCPF } from "@/src/utils";
@@ -70,38 +70,51 @@ async function openPdf(moduleId: number, fileName: string) {
   }
 }
 
+const makeInitialForm = () => ({
+  name: "",
+  email: "",
+  cpf: "",
+  password: "",
+  confirmPassword: "",
+  acceptedTerms: false,
+});
+
+type LoginForm = ReturnType<typeof makeInitialForm>;
+
 export default function LoginRegister({
   initialMode = VIEW_LOGIN_PAGE.LOGIN,
 }: LoginRegisterProps) {
   const { t } = useTranslation();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [cpf, setCpf] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [form, setForm] = useState<LoginForm>(makeInitialForm());
   const [view, setView] = useState<VIEW_LOGIN_PAGE>(initialMode);
-  const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   const route = useRouter();
   const { login, register, isLoading } = useAuthContext();
+
+  const handleFormChange = <K extends keyof LoginForm>(
+    field: K,
+    value: LoginForm[K],
+  ) => {
+    setForm((prev) => ({ ...prev, [field]: value }));
+  };
 
   useEffect(() => {
     setView(initialMode);
   }, [initialMode]);
 
   useEffect(() => {
-    setAcceptedTerms(false);
+    handleFormChange("acceptedTerms", false);
   }, [view]);
 
   const passwordValidation = useMemo(() => {
     return {
-      minLength: password.length >= 8,
-      hasUpperCase: /[A-Z]/.test(password),
-      hasLowerCase: /[a-z]/.test(password),
-      hasNumber: /[0-9]/.test(password),
-      hasSpecialChar: /[!@#$%^&*(),.?":{}|<>]/.test(password),
+      minLength: form.password.length >= 8,
+      hasUpperCase: /[A-Z]/.test(form.password),
+      hasLowerCase: /[a-z]/.test(form.password),
+      hasNumber: /[0-9]/.test(form.password),
+      hasSpecialChar: /[!@#$%^&*(),.?":{}|<>]/.test(form.password),
     };
-  }, [password]);
+  }, [form.password]);
 
   const isPasswordValid = useMemo(() => {
     return Object.values(passwordValidation).every(Boolean);
@@ -110,12 +123,12 @@ export default function LoginRegister({
   const handleSubmit = async () => {
     if (view === VIEW_LOGIN_PAGE.LOGIN) {
       await login({
-        email: email || undefined,
-        cpf: cpf ? unformatCPF(cpf) : undefined,
-        password,
+        email: form.email || undefined,
+        cpf: form.cpf ? unformatCPF(form.cpf) : undefined,
+        password: form.password,
       });
     } else {
-      if (!acceptedTerms) {
+      if (!form.acceptedTerms) {
         Toast.show({
           type: "error",
           text1: t("common.error"),
@@ -133,7 +146,7 @@ export default function LoginRegister({
         return;
       }
 
-      if (password !== confirmPassword) {
+      if (form.password !== form.confirmPassword) {
         Toast.show({
           type: "error",
           text1: t("common.error"),
@@ -143,10 +156,10 @@ export default function LoginRegister({
       }
 
       await register({
-        name,
-        email,
-        cpf: unformatCPF(cpf),
-        password,
+        name: form.name,
+        email: form.email,
+        cpf: unformatCPF(form.cpf),
+        password: form.password,
       });
     }
   };
@@ -158,15 +171,16 @@ export default function LoginRegister({
           <Input
             label={t("common.email") + " ou CPF"}
             placeholder="email@gmail.com"
-            value={email || cpf}
+            value={form.email || form.cpf}
             onChangeText={(text) => {
               if (text.includes("@") || /[a-zA-Z]/.test(text)) {
-                setEmail(text);
-                setCpf("");
+                setForm((prev) => ({ ...prev, email: text, cpf: "" }));
               } else {
-                const maskedCpf = formatCPFInput(text);
-                setCpf(maskedCpf);
-                setEmail("");
+                setForm((prev) => ({
+                  ...prev,
+                  cpf: formatCPFInput(text),
+                  email: "",
+                }));
               }
             }}
             autoComplete="email"
@@ -175,8 +189,8 @@ export default function LoginRegister({
           <Input
             label={t("common.password")}
             placeholder="********"
-            value={password}
-            onChangeText={setPassword}
+            value={form.password}
+            onChangeText={(text) => handleFormChange("password", text)}
             secureTextEntry
             autoComplete="password"
           />
@@ -189,34 +203,31 @@ export default function LoginRegister({
         <Input
           label={t("common.name")}
           placeholder="Marcelo Souza"
-          value={name}
-          onChangeText={setName}
+          value={form.name}
+          onChangeText={(text) => handleFormChange("name", text)}
           autoComplete="name"
         />
         <Input
           label={t("common.email")}
           placeholder="email@gmail.com.br"
-          value={email}
-          onChangeText={setEmail}
+          value={form.email}
+          onChangeText={(text) => handleFormChange("email", text)}
           keyboardType="email-address"
           autoComplete="email"
         />
         <Input
           label="CPF"
           placeholder="123.456.789-00"
-          value={cpf}
-          onChangeText={(text) => {
-            const maskedCpf = formatCPFInput(text);
-            setCpf(maskedCpf);
-          }}
+          value={form.cpf}
+          onChangeText={(text) => handleFormChange("cpf", formatCPFInput(text))}
           keyboardType="numeric"
           maxLength={14}
         />
         <Input
           label={t("common.password")}
           placeholder="********"
-          value={password}
-          onChangeText={setPassword}
+          value={form.password}
+          onChangeText={(text) => handleFormChange("password", text)}
           secureTextEntry
           autoComplete="password"
         />
@@ -282,8 +293,8 @@ export default function LoginRegister({
         <Input
           label={t("auth.confirmPassword")}
           placeholder="********"
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
+          value={form.confirmPassword}
+          onChangeText={(text) => handleFormChange("confirmPassword", text)}
           secureTextEntry
           autoComplete="password"
         />
@@ -291,13 +302,18 @@ export default function LoginRegister({
         <View style={styles.checkboxContainer}>
           <TouchableOpacity
             style={styles.checkboxRow}
-            onPress={() => setAcceptedTerms((prev) => !prev)}
+            onPress={() =>
+              handleFormChange("acceptedTerms", !form.acceptedTerms)
+            }
             activeOpacity={0.7}
           >
             <View
-              style={[styles.checkbox, acceptedTerms && styles.checkboxChecked]}
+              style={[
+                styles.checkbox,
+                form.acceptedTerms && styles.checkboxChecked,
+              ]}
             >
-              {acceptedTerms && <Text style={styles.checkboxMark}>✓</Text>}
+              {form.acceptedTerms && <Text style={styles.checkboxMark}>✓</Text>}
             </View>
 
             <Text style={styles.checkboxLabel}>
@@ -357,7 +373,7 @@ export default function LoginRegister({
               onPress={() => setView(VIEW_LOGIN_PAGE.LOGIN)}
               variant={view === VIEW_LOGIN_PAGE.LOGIN ? "primary" : "secondary"}
               style={styles.buttonView}
-              isActive={view === VIEW_LOGIN_PAGE.LOGIN ? true : false}
+              isActive={view === VIEW_LOGIN_PAGE.LOGIN}
             >
               {t("auth.login")}
             </ButtonCommon>
@@ -367,7 +383,7 @@ export default function LoginRegister({
                 view === VIEW_LOGIN_PAGE.REGISTER ? "primary" : "secondary"
               }
               style={styles.buttonView}
-              isActive={view === VIEW_LOGIN_PAGE.REGISTER ? true : false}
+              isActive={view === VIEW_LOGIN_PAGE.REGISTER}
             >
               {t("auth.register")}
             </ButtonCommon>
@@ -389,8 +405,8 @@ export default function LoginRegister({
               isLoading ||
               (view === VIEW_LOGIN_PAGE.REGISTER &&
                 (!isPasswordValid ||
-                  password !== confirmPassword ||
-                  !acceptedTerms))
+                  form.password !== form.confirmPassword ||
+                  !form.acceptedTerms))
             }
           >
             {isLoading

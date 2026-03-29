@@ -12,6 +12,12 @@ type Question = {
   group: string;
 };
 
+export const GROUP_MAIN = {
+  waterIndicator: "quantidade-agua",
+  waterQuality: "qualidade-agua",
+  wasteManagement: "manejo-residuos-uso-fertilizantes",
+} as const;
+
 export const questions: Question[] = [
   {
     id: 1,
@@ -494,3 +500,15 @@ export const questions: Question[] = [
     group: "adubacao",
   },
 ];
+
+export const QUESTION_IDS = {
+  waterIndicator: new Set(
+    questions.filter((q) => q.groupMain === GROUP_MAIN.waterIndicator).map((q) => String(q.id)),
+  ),
+  waterQuality: new Set(
+    questions.filter((q) => q.groupMain === GROUP_MAIN.waterQuality).map((q) => String(q.id)),
+  ),
+  wasteManagement: new Set(
+    questions.filter((q) => q.groupMain === GROUP_MAIN.wasteManagement).map((q) => String(q.id)),
+  ),
+};

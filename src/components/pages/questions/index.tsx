@@ -22,8 +22,8 @@ import { NetworkStatusBanner } from "../../commons/NetworkStatusBanner";
 import { useNetworkStatus } from "@/src/hooks/useNetworkStatus";
 import { useOfflineSync } from "@/src/hooks/useOfflineSync";
 
-// Mock Data
-import { questions } from "@/src/mock/questions";
+// Hooks/Data
+import { questionGroups } from "./hooks/useQuestionnaire/questionGroups";
 
 // Types
 import { FormData } from "./components/QuestionsCaracterizacao/types";
@@ -31,26 +31,10 @@ import { FormData } from "./components/QuestionsCaracterizacao/types";
 // Style
 import { stylesQuestionsPage } from "./styles";
 
-const data_quantidade_agua = questions.filter(
-  (question) => question.groupMain === "quantidade-agua",
-);
-const data_qualidade_agua = questions.filter(
-  (question) => question.groupMain === "qualidade-agua",
-);
-const data_manejo_residuos = questions.filter(
-  (question) => question.groupMain === "manejo-residuos-uso-fertilizantes",
-);
-
-const groups = [
-  null,
-  data_quantidade_agua,
-  data_qualidade_agua,
-  data_manejo_residuos,
-];
 
 const QuestionnaireContent: React.FC = () => {
   const { step, formData, handleNext } = useQuestionnaireContext();
-  const currentGroup = groups[step];
+  const currentGroup = questionGroups[step];
   const [currentFormData, setCurrentFormData] = useState<FormData | null>(null);
 
   const handleFormDataReady = (data: FormData) => {

@@ -21,16 +21,20 @@ export const useUserHistory = () => {
     }
   }, []);
 
-  // Refetch quando a tela ganha foco (ex: após sincronização e navegar para histórico)
+  // Refetch when the screen gains focus (e.g., after sync and navigating to history)
   useFocusEffect(
     useCallback(() => {
       fetchUserData();
     }, [fetchUserData])
   );
 
+  const properties = [...(data?.properties || [])].sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  );
+
   return {
     user: data?.user || null,
-    properties: data?.properties || [],
+    properties,
     isLoading,
     error,
     refetch: fetchUserData,

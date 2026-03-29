@@ -1,21 +1,35 @@
+// External Libraries
 import { useState, useEffect, useCallback } from "react";
-import { useTranslation } from "react-i18next";
 import Toast from "react-native-toast-message";
+import { useTranslation } from "react-i18next";
 import { router } from "expo-router";
-import { FormData } from "@/src/components/pages/questions/components/QuestionsCaracterizacao/types";
-import { questionGroups } from "./questionGroups";
-import { validateCaracterizacaoForm } from "./validation";
-import { shouldDisableQuestion } from "./questionDisabling";
-import { QuestionnaireState, QuestionnaireActions } from "./types";
+
+// Contexts
+import { useAuthContext } from "@/src/contexts/AuthContext";
+
+// Hooks
+import { useNetworkStatus } from "@/src/hooks/useNetworkStatus";
 import { useProperty } from "@/src/components/pages/questions/hooks/useProperty/useProperty";
 import { useWaterIndicator } from "@/src/components/pages/questions/hooks/useWaterIndicator";
 import { useWaterQualityConservation } from "@/src/components/pages/questions/hooks/useWaterQualityConservation";
 import { useWasteManagement } from "@/src/components/pages/questions/hooks/useWasteManagement";
-import { useNetworkStatus } from "@/src/hooks/useNetworkStatus";
+
+// Services
 import { OfflineSyncService } from "@/src/services/offline/OfflineSyncService";
-import { useAuthContext } from "@/src/contexts/AuthContext";
-import { propertyToFormData } from "@/src/components/pages/questions/components/QuestionsCaracterizacao/utils/propertyToFormData";
 import { NotificationService } from "@/src/services/notifications";
+
+// Mock
+import { GROUP_MAIN } from "@/src/mock/questions";
+
+// Utils
+import { propertyToFormData } from "@/src/components/pages/questions/components/QuestionsCaracterizacao/utils/propertyToFormData";
+import { validateCaracterizacaoForm } from "./validation";
+import { shouldDisableQuestion } from "./questionDisabling";
+import { questionGroups } from "./questionGroups";
+
+// Types
+import type { FormData } from "@/src/components/pages/questions/components/QuestionsCaracterizacao/types";
+import type { QuestionnaireState, QuestionnaireActions } from "./types";
 
 export const useQuestionnaire = (): QuestionnaireState &
   QuestionnaireActions => {
@@ -198,9 +212,9 @@ export const useQuestionnaire = (): QuestionnaireState &
       if (step < questionGroups.length - 1) {
         if (step >= 1) {
           const groupNames: { [key: number]: string } = {
-            1: "quantidade-agua",
-            2: "qualidade-agua",
-            3: "manejo-residuos-uso-fertilizantes",
+            1: GROUP_MAIN.waterIndicator,
+            2: GROUP_MAIN.waterQuality,
+            3: GROUP_MAIN.wasteManagement,
           };
 
           const groupName = groupNames[step];
@@ -271,7 +285,7 @@ export const useQuestionnaire = (): QuestionnaireState &
               return;
             }
 
-            // Verificar se pode enviar: precisa estar online, autenticado E com ID válido (não temporário)
+            // Check if can submit: must be online, authenticated AND have a valid ID (not temporary)
             const canSendWaterQuality =
               isOnline &&
               isAuthenticated &&
@@ -319,9 +333,9 @@ export const useQuestionnaire = (): QuestionnaireState &
         setStep((prev) => prev + 1);
       } else {
         const groupNames: { [key: number]: string } = {
-          1: "quantidade-agua",
-          2: "qualidade-agua",
-          3: "manejo-residuos-uso-fertilizantes",
+          1: GROUP_MAIN.waterIndicator,
+          2: GROUP_MAIN.waterQuality,
+          3: GROUP_MAIN.wasteManagement,
         };
 
         const groupName = groupNames[step];
@@ -420,9 +434,9 @@ export const useQuestionnaire = (): QuestionnaireState &
   }, [step]);
 
   const formatDate = useCallback((rawDate: Date) => {
-    let day = rawDate.getDate().toString().padStart(2, "0");
-    let month = (rawDate.getMonth() + 1).toString().padStart(2, "0");
-    let year = rawDate.getFullYear();
+    const day = rawDate.getDate().toString().padStart(2, "0");
+    const month = (rawDate.getMonth() + 1).toString().padStart(2, "0");
+    const year = rawDate.getFullYear();
     return `${day}/${month}/${year}`;
   }, []);
 

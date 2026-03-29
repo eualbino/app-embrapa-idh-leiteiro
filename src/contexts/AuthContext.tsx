@@ -108,46 +108,43 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         await AsyncStorage.setItem("@app:refreshToken", response.refreshToken);
       }
 
+      let hasPendingData = false;
       try {
         const userData = await UserService.getMe();
         setUser(userData.user);
         setProperties(userData.properties || []);
-        setIsAuthenticated(true);
-
-        // Exit offline mode after successful login
-        // IMPORTANTE: Não limpar formCompletedOffline aqui!
-        // O useOfflineSync vai limpar essas flags APÓS a sincronização bem-sucedida
-        await OfflineSyncService.setOfflineMode(false);
-        // Apenas limpa a flag de notificação agendada, pois o usuário já fez login
-        await NotificationService.clearNotificationScheduled();
-
-        // Verificar se tem dados pendentes para informar o usuário
-        const pendingSync = await OfflineSyncService.getPendingSync();
-        const hasPendingData =
-          pendingSync?.hasPropertyToSync || pendingSync?.hasAnswersToSync;
-
-        if (hasPendingData) {
-          Toast.show({
-            type: "success",
-            text1: t("auth.success.loginSuccess"),
-            text2: "Sincronizando dados pendentes...",
-          });
-        } else {
-          Toast.show({
-            type: "success",
-            text1: t("auth.success.loginSuccess"),
-            text2: t("auth.success.loginWelcome"),
-          });
-        }
-
-        router.replace({ pathname: "/(protected)/(tabs)/(home)" } as any);
       } catch (error) {
-        console.error("Erro ao buscar dados do usuário:", error);
-
-        await AsyncStorage.multiRemove(["@app:token", "@app:refreshToken"]);
-
-        throw new Error("Não foi possível carregar dados do usuário");
+        console.error("Erro ao buscar dados do usuário após login:", error);
       }
+
+      try {
+        await OfflineSyncService.setOfflineMode(false);
+        await NotificationService.clearNotificationScheduled();
+        const pendingSync = await OfflineSyncService.getPendingSync();
+        hasPendingData =
+          (pendingSync?.hasPropertyToSync || pendingSync?.hasAnswersToSync) ??
+          false;
+      } catch (error) {
+        console.error("Erro ao configurar estado pós-login:", error);
+      }
+
+      setIsAuthenticated(true);
+
+      if (hasPendingData) {
+        Toast.show({
+          type: "success",
+          text1: t("auth.success.loginSuccess"),
+          text2: "Sincronizando dados pendentes...",
+        });
+      } else {
+        Toast.show({
+          type: "success",
+          text1: t("auth.success.loginSuccess"),
+          text2: t("auth.success.loginWelcome"),
+        });
+      }
+
+      router.replace({ pathname: "/(protected)/(tabs)/(home)" } as any);
     } catch (error: any) {
       console.error("Erro no login:", error);
       const status = error?.response?.status;

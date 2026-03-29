@@ -15,8 +15,8 @@ export default function ProtectedLayout() {
   const router = useRouter();
 
   useEffect(() => {
-    // Se não está carregando, não está autenticado, não está em modo offline e tem internet
-    // então redireciona para login
+    // If not loading, not authenticated, not in offline mode and has internet
+    // then redirect to login
     if (
       !isLoading &&
       !isCheckingOfflineMode &&
@@ -50,7 +50,7 @@ export default function ProtectedLayout() {
     );
   }
 
-  // Permite acesso se autenticado OU em modo offline OU sem internet
+  // Allow access if authenticated OR in offline mode OR no internet
   if (!isAuthenticated && !isOfflineMode && !isOffline) {
     return null;
   }

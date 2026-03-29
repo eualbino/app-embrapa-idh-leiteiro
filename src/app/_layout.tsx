@@ -1,12 +1,16 @@
+// External Libraries
 import { useEffect, useState, useCallback } from "react";
+import { StatusBar, View } from "react-native";
 import { Stack, useRouter, usePathname } from "expo-router";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { StatusBar, StyleSheet, View } from "react-native";
 import Toast from "react-native-toast-message";
 import * as NavigationBar from "expo-navigation-bar";
+
+// Config
 import toastConfig from "@/src/config/toast";
 import "@/src/locales/i18n";
 
+// Contexts
 import { AuthProvider, useAuthContext } from "@/src/contexts/AuthContext";
 import {
   OnboardingProvider,
@@ -16,10 +20,16 @@ import {
   OfflineModeProvider,
   useOfflineModeContext,
 } from "@/src/contexts/OfflineModeContext";
+
+// Hooks
 import { useNetworkStatus } from "@/src/hooks/useNetworkStatus";
 
+// Components
 import { OfflineSyncMonitor } from "@/src/components/commons/OfflineSyncMonitor";
 import { CustomSplashScreen } from "@/src/components/commons/CustomSplashScreen";
+
+// Styles
+import { styles } from "@/src/styles/_layout.styles";
 
 function RootNavigator() {
   const { isAuthenticated, isInitializing } = useAuthContext();
@@ -55,7 +65,7 @@ function RootNavigator() {
       } else if (isAuthenticated) {
         setInitialRoute("/(protected)/(tabs)/(home)");
       } else if (isOfflineMode || isOffline) {
-        // Se está em modo offline ou está sem internet, vai direto para o app
+        // If in offline mode or no internet, go directly to the app
         setInitialRoute("/(protected)/(tabs)/(home)");
       } else {
         setInitialRoute("/auth-landing");
@@ -72,7 +82,7 @@ function RootNavigator() {
     initialRoute,
   ]);
 
-  // Navegar para a rota inicial assim que for determinada
+  // Navigate to the initial route as soon as it is determined
   useEffect(() => {
     if (initialRoute !== null && !hasNavigatedToInitial && isSplashReady) {
       router.replace(initialRoute as any);
@@ -80,7 +90,7 @@ function RootNavigator() {
     }
   }, [initialRoute, hasNavigatedToInitial, isSplashReady, router]);
 
-  // Gerenciar navegação após a rota inicial
+  // Manage navigation after the initial route
   useEffect(() => {
     if (
       !isInitializing &&
@@ -91,8 +101,8 @@ function RootNavigator() {
     ) {
       const isProtectedRoute = pathname?.startsWith("/(protected)");
       const isAuthRoute =
-        pathname === "/login" || 
-        pathname === "/auth-landing" || 
+        pathname === "/login" ||
+        pathname === "/auth-landing" ||
         pathname?.startsWith("/forgot-password");
       const isWelcomeRoute = pathname === "/welcome";
 
@@ -106,11 +116,11 @@ function RootNavigator() {
         return;
       }
 
-      // Se autenticado e em rota de auth, vai para home
+      // If authenticated and on an auth route, go to home
       if (isAuthenticated && isAuthRoute) {
         router.replace("/(protected)/(tabs)/(home)" as any);
       }
-      // Se não autenticado, não está em modo offline e não está offline, redireciona para auth-landing
+      // If not authenticated, not in offline mode and not offline, redirect to auth-landing
       else if (
         !isAuthenticated &&
         isProtectedRoute &&
@@ -119,7 +129,7 @@ function RootNavigator() {
       ) {
         router.replace("/auth-landing" as any);
       }
-      // Se está offline ou em modo offline, permite acesso às rotas protegidas
+      // If offline or in offline mode, allow access to protected routes
     }
   }, [
     isAuthenticated,
@@ -134,7 +144,7 @@ function RootNavigator() {
     isOffline,
   ]);
 
-  // Determinar quando esconder a splash customizada
+  // Determine when to hide the custom splash screen
   const shouldHideSplash =
     isSplashReady &&
     !isInitializing &&
@@ -156,14 +166,8 @@ function RootNavigator() {
           contentStyle: { backgroundColor: "#ffffff" },
         }}
       >
-        <Stack.Screen
-          name="welcome"
-          options={{
-            contentStyle: {
-              backgroundColor: "#ffffff",
-            },
-          }}
-        />
+        <Stack.Screen name="welcome" />
+        <Stack.Screen name="auth-landing" />
         <Stack.Screen
           name="login"
           options={{
@@ -173,20 +177,8 @@ function RootNavigator() {
             },
           }}
         />
-        <Stack.Screen
-          name="forgot-password"
-          options={{
-            contentStyle: {
-              backgroundColor: "#ffffff",
-            },
-          }}
-        />
-        <Stack.Screen
-          name="(protected)"
-          options={{
-            contentStyle: { backgroundColor: "#ffffff" },
-          }}
-        />
+        <Stack.Screen name="forgot-password" />
+        <Stack.Screen name="(protected)" />
       </Stack>
       <Toast config={toastConfig} topOffset={100} />
 
@@ -222,13 +214,3 @@ export default function RootLayout() {
     </OnboardingProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  safeArea: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
-});

@@ -1,20 +1,22 @@
 // External Libraries
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams } from "expo-router";
 
 // Components
-import LoginRegister from "../components/pages/login-register";
+import LoginRegister from "@/src/components/pages/login-register";
 
 // Types
-import { VIEW_LOGIN_PAGE } from "../components/pages/login-register/contants";
+import { VIEW_LOGIN_PAGE } from "@/src/components/pages/login-register/contants";
 
-export default function ModalScreen() {
+// Styles
+import { styles } from "@/src/styles/login.styles";
+
+export default function LoginScreen() {
   const { mode } = useLocalSearchParams<{ mode?: string }>();
-  
-  const initialMode = mode === "register" 
-    ? VIEW_LOGIN_PAGE.REGISTER 
-    : VIEW_LOGIN_PAGE.LOGIN;
+
+  const initialMode =
+    mode === "register" ? VIEW_LOGIN_PAGE.REGISTER : VIEW_LOGIN_PAGE.LOGIN;
 
   return (
     <View style={styles.container}>
@@ -24,12 +26,3 @@ export default function ModalScreen() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  safeArea: {
-    flex: 1,
-  },
-});

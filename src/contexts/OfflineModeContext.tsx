@@ -8,9 +8,10 @@ import {
   useCallback,
   useRef,
 } from "react";
-import { useRouter } from "expo-router";
 import { Alert } from "react-native";
+import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
+import NetInfo from "@react-native-community/netinfo";
 
 // Services
 import { OfflineSyncService } from "@/src/services/offline/OfflineSyncService";
@@ -21,7 +22,6 @@ interface OfflineModeContextData {
   isCheckingOfflineMode: boolean;
   enterOfflineMode: () => Promise<void>;
   exitOfflineMode: () => Promise<void>;
-  shouldRedirectToLogin: boolean;
 }
 
 const OfflineModeContext = createContext<OfflineModeContextData>(
@@ -31,7 +31,6 @@ const OfflineModeContext = createContext<OfflineModeContextData>(
 export function OfflineModeProvider({ children }: { children: ReactNode }) {
   const [isOfflineMode, setIsOfflineMode] = useState(false);
   const [isCheckingOfflineMode, setIsCheckingOfflineMode] = useState(true);
-  const [shouldRedirectToLogin, setShouldRedirectToLogin] = useState(false);
   const { isOffline, justReconnected } = useNetworkStatus();
   const router = useRouter();
   const { t } = useTranslation();
@@ -43,7 +42,24 @@ export function OfflineModeProvider({ children }: { children: ReactNode }) {
       try {
         setIsCheckingOfflineMode(true);
         const wasInOfflineMode = await OfflineSyncService.isInOfflineMode();
-        setIsOfflineMode(wasInOfflineMode);
+
+        if (wasInOfflineMode) {
+          // If the app restarted with internet, exit offline mode so _layout
+          // redirects to login instead of letting the user in unauthenticated
+          const networkState = await NetInfo.fetch();
+          const hasInternet =
+            (networkState.isConnected ?? false) &&
+            networkState.isInternetReachable !== false;
+
+          if (hasInternet) {
+            await OfflineSyncService.setOfflineMode(false);
+            setIsOfflineMode(false);
+          } else {
+            setIsOfflineMode(true);
+          }
+        } else {
+          setIsOfflineMode(false);
+        }
       } catch (error) {
         console.error("Error checking offline mode:", error);
         setIsOfflineMode(false);
@@ -108,7 +124,6 @@ export function OfflineModeProvider({ children }: { children: ReactNode }) {
       await OfflineSyncService.setOfflineMode(true);
       setIsOfflineMode(true);
 
-      // Navigate to home/questionnaire
       router.replace("/(protected)/(tabs)/(home)" as any);
     } catch (error) {
       console.error("Error entering offline mode:", error);
@@ -134,7 +149,6 @@ export function OfflineModeProvider({ children }: { children: ReactNode }) {
         isCheckingOfflineMode,
         enterOfflineMode,
         exitOfflineMode,
-        shouldRedirectToLogin,
       }}
     >
       {children}

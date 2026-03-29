@@ -1,7 +1,7 @@
 import * as Print from "expo-print";
+import { Alert } from "react-native";
 import * as Sharing from "expo-sharing";
 import { Paths, File } from "expo-file-system";
-import { Alert } from "react-native";
 
 interface PropertyData {
   city: string;
@@ -169,8 +169,8 @@ const renderImprovementSection = (
         <h3 class="improvement-category-title">${title}</h3>
       </div>
       ${improvements
-        .map(
-          (improvement) => `
+      .map(
+        (improvement) => `
         <div class="improvement-card">
           <h4 class="improvement-card-title">${improvement.title}</h4>
           <p class="improvement-card-subtitle">${improvement.subtitle}</p>
@@ -179,8 +179,8 @@ const renderImprovementSection = (
           </ul>
         </div>
       `,
-        )
-        .join("")}
+      )
+      .join("")}
     </div>
   `;
 };
@@ -581,20 +581,19 @@ const generateHTMLContent = (options: PDFGeneratorOptions): string => {
         </div>
       </div>
 
-      ${
-        needsImprovement(
-          property.waterManagementScore,
-          MINIMUM_SCORES.waterManagement,
-        ) ||
-        needsImprovement(
-          property.waterQualityConservationScore,
-          MINIMUM_SCORES.waterQuality,
-        ) ||
-        needsImprovement(
-          property.wasteManagementScore,
-          MINIMUM_SCORES.wasteManagement,
-        )
-          ? `
+      ${needsImprovement(
+    property.waterManagementScore,
+    MINIMUM_SCORES.waterManagement,
+  ) ||
+      needsImprovement(
+        property.waterQualityConservationScore,
+        MINIMUM_SCORES.waterQuality,
+      ) ||
+      needsImprovement(
+        property.wasteManagementScore,
+        MINIMUM_SCORES.wasteManagement,
+      )
+      ? `
       <div class="improvements-section">
         <div class="improvements-header">
           <span class="improvements-header-icon">💡</span>
@@ -604,48 +603,45 @@ const generateHTMLContent = (options: PDFGeneratorOptions): string => {
           As seguintes sugestões podem ajudar a melhorar as pontuações abaixo do mínimo exigido:
         </p>
 
-        ${
-          needsImprovement(
-            property.waterManagementScore,
-            MINIMUM_SCORES.waterManagement,
-          )
-            ? renderImprovementSection(
-                "💧 Quantidade de Água",
-                "💧",
-                getWaterManagementImprovements(),
-              )
-            : ""
-        }
+        ${needsImprovement(
+        property.waterManagementScore,
+        MINIMUM_SCORES.waterManagement,
+      )
+        ? renderImprovementSection(
+          "💧 Quantidade de Água",
+          "💧",
+          getWaterManagementImprovements(),
+        )
+        : ""
+      }
 
-        ${
-          needsImprovement(
-            property.waterQualityConservationScore,
-            MINIMUM_SCORES.waterQuality,
-          )
-            ? renderImprovementSection(
-                "Qualidade da Água",
-                "✓",
-                getWaterQualityImprovements(),
-              )
-            : ""
-        }
+        ${needsImprovement(
+        property.waterQualityConservationScore,
+        MINIMUM_SCORES.waterQuality,
+      )
+        ? renderImprovementSection(
+          "Qualidade da Água",
+          "✓",
+          getWaterQualityImprovements(),
+        )
+        : ""
+      }
 
-        ${
-          needsImprovement(
-            property.wasteManagementScore,
-            MINIMUM_SCORES.wasteManagement,
-          )
-            ? renderImprovementSection(
-                "♻️ Manejo de Resíduos",
-                "♻️",
-                getWasteManagementImprovements(),
-              )
-            : ""
-        }
+        ${needsImprovement(
+        property.wasteManagementScore,
+        MINIMUM_SCORES.wasteManagement,
+      )
+        ? renderImprovementSection(
+          "♻️ Manejo de Resíduos",
+          "♻️",
+          getWasteManagementImprovements(),
+        )
+        : ""
+      }
       </div>
       `
-          : ""
-      }
+      : ""
+    }
 
       <div class="footer">
         <strong>EMBRAPA - Empresa Brasileira de Pesquisa Agropecuária</strong>
@@ -664,7 +660,7 @@ export const generateAndSharePDF = async (
   options: PDFGeneratorOptions,
 ): Promise<void> => {
   try {
-    // Verifica se o compartilhamento está disponível
+    // Check if sharing is available
     const isAvailable = await Sharing.isAvailableAsync();
     if (!isAvailable) {
       Alert.alert(
@@ -691,10 +687,10 @@ export const generateAndSharePDF = async (
     const tempFile = new File(uri);
     const pdfFile = new File(Paths.document, fileName);
 
-    // Copia o arquivo temporário para o diretório de documentos
+    // Copy the temporary file to the documents directory
     tempFile.copy(pdfFile);
 
-    // Compartilha o PDF (isso abre a barra de compartilhamento nativa)
+    // Share the PDF (this opens the native share sheet)
     await Sharing.shareAsync(pdfFile.uri, {
       mimeType: "application/pdf",
       dialogTitle: "Compartilhar Relatório IDH Leite",

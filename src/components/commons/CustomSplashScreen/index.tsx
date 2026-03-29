@@ -1,14 +1,8 @@
 import React, { useEffect, useRef } from "react";
-import {
-  View,
-  Image,
-  StyleSheet,
-  Dimensions,
-  Animated,
-  StatusBar,
-} from "react-native";
+import { Image, Animated, StatusBar } from "react-native";
 
-const { width, height } = Dimensions.get("window");
+// Styles
+import { styles } from "./styles";
 
 interface CustomSplashScreenProps {
   isVisible: boolean;
@@ -52,18 +46,3 @@ export function CustomSplashScreen({
     </Animated.View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    ...StyleSheet.absoluteFillObject,
-    zIndex: 9999,
-    backgroundColor: "#097E47",
-  },
-  image: {
-    width: width,
-    height: height + (StatusBar.currentHeight || 0),
-    position: "absolute",
-    top: 0,
-    left: 0,
-  },
-});

@@ -79,7 +79,7 @@ export const validateCaracterizacaoForm = (
     errors.push(t("questionnaire.validation.steersRequired"));
   }
 
-  // Produção Leiteira
+  // Milk Production
   if (
     data.producaoLeiteira.litrosDiaPropriedade === undefined ||
     data.producaoLeiteira.litrosDiaPropriedade === null ||
@@ -98,7 +98,7 @@ export const validateCaracterizacaoForm = (
     errors.push(t("questionnaire.validation.productionPerCowMinimum"));
   }
 
-  // Composição do Leite
+  // Milk Composition
   if (
     data.composicaoLeite.percentualGordura === undefined ||
     data.composicaoLeite.percentualGordura === null ||
@@ -115,7 +115,7 @@ export const validateCaracterizacaoForm = (
     errors.push(t("questionnaire.validation.proteinPercentageRequired"));
   }
 
-  // Consumo Diário
+  // Daily Consumption
   if (
     data.consumoDiario.volumoso === undefined ||
     data.consumoDiario.volumoso === null
@@ -132,7 +132,7 @@ export const validateCaracterizacaoForm = (
     errors.push(t("questionnaire.validation.consumptionUnitRequired"));
   }
 
-  // Energia Elétrica
+  // Electrical Energy
   if (
     data.energiaEletrica.consumoMensal === undefined ||
     data.energiaEletrica.consumoMensal === null ||
@@ -141,7 +141,7 @@ export const validateCaracterizacaoForm = (
     errors.push(t("questionnaire.validation.electricityConsumptionRequired"));
   }
 
-  // Legislação Ambiental
+  // Environmental Legislation
   if (isBrazil && !data.legislacaoAmbiental.temLicencaAmbiental) {
     errors.push(t("questionnaire.validation.environmentalLicenseRequired"));
   }

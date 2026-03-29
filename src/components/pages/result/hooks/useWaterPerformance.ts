@@ -37,28 +37,19 @@ export const useWaterPerformance = (
             propertyId,
           });
         setData(response.data);
-
-        // Salvar scores offline para uso futuro
-        await OfflineSyncService.saveOfflineScores(
-          response.data.propertyId,
-          response.data.finalScore,
-          response.data.macroIndicators,
-          response.data.weights,
-          response.data.details,
-        );
       } catch (err: any) {
         console.error("Erro ao buscar dados de performance:", err);
 
-        // Tentar carregar dados offline como fallback
+        // Try to load offline data as fallback
         try {
           const offlineScores = await OfflineSyncService.getOfflineScores();
           const offlinePropertyId =
             await OfflineSyncService.getOfflinePropertyId();
 
-          // Aceitar scores offline se:
-          // 1. O propertyId coincidir exatamente, OU
-          // 2. O propertyId salvo offline coincidir (para casos de sync pendente), OU
-          // 3. Existem scores offline recentes (últimas 24h) como fallback
+          // Accept offline scores if:
+          // 1. The propertyId matches exactly, OR
+          // 2. The offline-saved propertyId matches (for pending sync cases), OR
+          // 3. There are recent offline scores (last 24h) as fallback
           const isMatchingPropertyId =
             offlineScores?.propertyId === propertyId ||
             offlinePropertyId === propertyId ||
@@ -88,7 +79,7 @@ export const useWaterPerformance = (
             setIsOfflineData(true);
             setError(null);
           } else {
-            // Não há dados offline disponíveis para esta propriedade
+            // No offline data available for this property
             setError(
               err?.response?.data?.message ||
                 "Erro ao carregar dados de performance. Verifique sua conexão.",
@@ -128,28 +119,19 @@ export const useWaterPerformance = (
           propertyId,
         });
       setData(response.data);
-
-      // Salvar scores offline para uso futuro
-      await OfflineSyncService.saveOfflineScores(
-        response.data.propertyId,
-        response.data.finalScore,
-        response.data.macroIndicators,
-        response.data.weights,
-        response.data.details,
-      );
     } catch (err: any) {
       console.error("Erro ao buscar dados de performance:", err);
 
-      // Tentar carregar dados offline como fallback
+      // Try to load offline data as fallback
       try {
         const offlineScores = await OfflineSyncService.getOfflineScores();
         const offlinePropertyId =
           await OfflineSyncService.getOfflinePropertyId();
 
-        // Aceitar scores offline se:
-        // 1. O propertyId coincidir exatamente, OU
-        // 2. O propertyId salvo offline coincidir (para casos de sync pendente), OU
-        // 3. Existem scores offline recentes (últimas 24h) como fallback
+        // Accept offline scores if:
+        // 1. The propertyId matches exactly, OR
+        // 2. The offline-saved propertyId matches (for pending sync cases), OR
+        // 3. There are recent offline scores (last 24h) as fallback
         const isMatchingPropertyId =
           offlineScores?.propertyId === propertyId ||
           offlinePropertyId === propertyId ||

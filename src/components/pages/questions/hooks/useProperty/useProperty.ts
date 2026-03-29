@@ -1,14 +1,23 @@
+// External Libraries
 import { useState } from "react";
+import Toast from "react-native-toast-message";
+import { useTranslation } from "react-i18next";
+
+// Contexts
+import { useAuthContext } from "@/src/contexts/AuthContext";
+
+// Hooks
+import { useNetworkStatus } from "@/src/hooks/useNetworkStatus";
+
+// Services
 import {
   PropertyService,
   CreatePropertyRequest,
 } from "@/src/services/api/property";
-import { FormData } from "@/src/components/pages/questions/components/QuestionsCaracterizacao/types";
-import Toast from "react-native-toast-message";
-import { useTranslation } from "react-i18next";
-import { useNetworkStatus } from "@/src/hooks/useNetworkStatus";
 import { OfflineSyncService } from "@/src/services/offline/OfflineSyncService";
-import { useAuthContext } from "@/src/contexts/AuthContext";
+
+// Types
+import type { FormData } from "@/src/components/pages/questions/components/QuestionsCaracterizacao/types";
 
 export const useProperty = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -67,7 +76,7 @@ export const useProperty = () => {
       return "DISPENSA";
     };
 
-    const mappedData = {
+    return {
       country: formData.localizacao.pais,
       state: formData.localizacao.estado || "",
       city: formData.localizacao.cidade || "",
@@ -98,8 +107,6 @@ export const useProperty = () => {
         formData.legislacaoAmbiental.temOutorgaAgua,
       ),
     };
-
-    return mappedData;
   };
 
   const createProperty = async (formData: FormData) => {
@@ -143,7 +150,7 @@ export const useProperty = () => {
     } catch (error: any) {
       console.error("Erro ao criar propriedade:", error);
 
-      // Se deu erro de autenticação (401/403), salvar offline
+      // If authentication error (401/403), save offline
       if (error.response?.status === 401 || error.response?.status === 403) {
         await OfflineSyncService.saveOfflineProperty(formData);
         const tempId = OfflineSyncService.generateTempPropertyId();

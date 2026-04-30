@@ -1,5 +1,6 @@
 // External Libraries
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 
 // Types
 import { FormData } from "@/src/components/pages/questions/components/QuestionsCaracterizacao/types";
@@ -8,10 +9,10 @@ import { CharacterizationFormState } from "./useCharacterizationFormState";
 export const useCharacterizationFormLogic = (
   form: CharacterizationFormState,
 ): FormData => {
+  const { i18n } = useTranslation();
+
   return useMemo<FormData>(() => {
-    const isBrazil =
-      form.pais?.toLowerCase().trim() === "brasil" ||
-      form.pais?.toLowerCase().trim() === "brazil";
+    const isBrazil = i18n.language === "pt-BR";
 
     return {
       localizacao: {
@@ -62,6 +63,7 @@ export const useCharacterizationFormLogic = (
       },
     };
   }, [
+    i18n.language,
     form.pais,
     form.estado,
     form.cidade,

@@ -45,7 +45,6 @@ async function loadData(
     };
   }
 
-  // Sem dados locais: tenta a API (histórico)
   const response = await WaterPerformanceIndexService.getWaterPerformanceIndex({
     propertyId,
   });

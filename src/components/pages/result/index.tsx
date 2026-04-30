@@ -31,7 +31,7 @@ export default function ResultPage() {
   const params = useLocalSearchParams();
   const propertyId = params.propertyId as string | null;
 
-  const { data, isLoading, error, isOfflineData } =
+  const { data, isLoading, error } =
     useWaterPerformance(propertyId);
   const {
     userName,
@@ -159,30 +159,6 @@ export default function ResultPage() {
       style={styles.container}
       showsVerticalScrollIndicator={false}
     >
-      {isOfflineData && (
-        <View
-          style={{
-            backgroundColor: "#FEF3C7",
-            padding: 12,
-            marginHorizontal: 20,
-            marginTop: 10,
-            borderRadius: 8,
-            flexDirection: "row",
-            alignItems: "center",
-            gap: 8,
-          }}
-        >
-          <Ionicons name="cloud-offline-outline" size={20} color="#92400E" />
-          <View style={{ flex: 1 }}>
-            <Text style={{ fontWeight: "600", color: "#92400E", fontSize: 14 }}>
-              {t("result.offlineMode")}
-            </Text>
-            <Text style={{ color: "#A16207", fontSize: 12 }}>
-              {t("result.offlineModeMessage")}
-            </Text>
-          </View>
-        </View>
-      )}
 
       <View style={styles.headerContainer}>
         <Text style={styles.title}>{t("result.title")}</Text>

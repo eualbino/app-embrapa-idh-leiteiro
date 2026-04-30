@@ -1,3 +1,4 @@
+// External Libraries
 import { useState, useEffect } from "react";
 import NetInfo from "@react-native-community/netinfo";
 
@@ -60,8 +61,9 @@ export const useNetworkStatus = () => {
     };
   }, [previousConnection]);
 
-  const isOnline = networkStatus.isConnected &&
-                   networkStatus.isInternetReachable !== false;
+  // isInternetReachable can return false on Android even with a valid connection,
+  // so we rely only on isConnected to avoid false offline negatives.
+  const isOnline = networkStatus.isConnected ?? false;
 
   return {
     isOnline,

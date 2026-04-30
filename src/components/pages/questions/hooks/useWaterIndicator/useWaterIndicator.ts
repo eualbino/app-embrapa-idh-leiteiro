@@ -1,10 +1,8 @@
 import { useState } from "react";
-import {
-  WaterIndicatorService,
-  CreateWaterIndicatorRequest,
-} from "@/src/services/api/questionnaire/water-indicator";
-import Toast from "react-native-toast-message";
 import { useTranslation } from "react-i18next";
+import Toast from "react-native-toast-message";
+import { calculateWaterIndicator } from "@/src/utils/calculations";
+import type { CreateWaterIndicatorRequest } from "@/src/services/api/questionnaire/water-indicator/dtos";
 
 export const useWaterIndicator = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -38,28 +36,24 @@ export const useWaterIndicator = () => {
   ) => {
     setIsLoading(true);
     try {
-      const waterIndicatorData = mapAnswersToWaterIndicator(
-        answers,
-        propertyId,
-      );
-      const response =
-        await WaterIndicatorService.createWaterIndicator(waterIndicatorData);
+      const request = mapAnswersToWaterIndicator(answers, propertyId);
+      const { propertyId: _pid, ...input } = request;
+      const result = calculateWaterIndicator(input);
 
       Toast.show({
         type: "success",
         text1: t("common.success"),
-        text2: response.message || "Indicador de água criado com sucesso!",
+        text2: t("questionnaire.messages.waterIndicatorSuccess") || "Indicador de água calculado com sucesso!",
       });
 
-      return response;
+      return { message: "ok", data: { propertyId, ...result } };
     } catch (error: any) {
-      console.error("Erro ao criar indicador de água:", error);
+      console.error("Erro ao calcular indicador de água:", error);
 
       Toast.show({
         type: "error",
         text1: t("common.error"),
-        text2:
-          error.response?.data?.message || "Erro ao criar indicador de água",
+        text2: error?.message || "Erro ao calcular indicador de água",
       });
 
       throw error;

@@ -1,8 +1,10 @@
+// Types
 import { FormData } from "@/src/components/pages/questions/components/QuestionsCaracterizacao/types";
 
 export const validateCaracterizacaoForm = (
   data: FormData,
   t: (key: string) => string,
+  language: string,
 ): string[] => {
   const errors: string[] = [];
 
@@ -141,8 +143,8 @@ export const validateCaracterizacaoForm = (
     errors.push(t("questionnaire.validation.electricityConsumptionRequired"));
   }
 
-  // Environmental Legislation
-  if (isBrazil && !data.legislacaoAmbiental.temLicencaAmbiental) {
+  // Environmental Legislation — only required when the app is in pt-BR (Brazilian context)
+  if (language === "pt-BR" && !data.legislacaoAmbiental.temLicencaAmbiental) {
     errors.push(t("questionnaire.validation.environmentalLicenseRequired"));
   }
   if (!data.legislacaoAmbiental.temOutorgaAgua) {

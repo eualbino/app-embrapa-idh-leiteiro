@@ -3,8 +3,15 @@ export interface UserProfile {
   name: string;
   email: string;
   cpf: string;
+  phone?: string;
   role: string;
   createdAt: string;
+}
+
+export interface UpdateProfileRequest {
+  name: string;
+  email: string;
+  phone: string;
 }
 
 export interface PropertySummary {

@@ -25,7 +25,7 @@ import { ButtonCommon } from "@/src/components/commons/Button";
 import { LanguageSelector } from "@/src/components/commons/LanguageSelector";
 
 // Utils
-import { formatCPFInput, unformatCPF } from "@/src/utils";
+import { formatCPFInput, formatPhoneInput, unformatCPF } from "@/src/utils";
 
 // Types
 import { VIEW_LOGIN_PAGE } from "./contants";
@@ -74,6 +74,7 @@ const makeInitialForm = () => ({
   name: "",
   email: "",
   cpf: "",
+  phone: "",
   password: "",
   confirmPassword: "",
   acceptedTerms: false,
@@ -159,6 +160,7 @@ export default function LoginRegister({
         name: form.name,
         email: form.email,
         cpf: unformatCPF(form.cpf),
+        phone: form.phone.replace(/\D/g, ""),
         password: form.password,
       });
     }
@@ -222,6 +224,14 @@ export default function LoginRegister({
           onChangeText={(text) => handleFormChange("cpf", formatCPFInput(text))}
           keyboardType="numeric"
           maxLength={14}
+        />
+        <Input
+          label={t("common.phone")}
+          placeholder="(11) 99999-9999"
+          value={form.phone}
+          onChangeText={(text) => handleFormChange("phone", formatPhoneInput(text))}
+          keyboardType="phone-pad"
+          maxLength={15}
         />
         <Input
           label={t("common.password")}

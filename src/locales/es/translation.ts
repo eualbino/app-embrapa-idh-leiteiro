@@ -5,6 +5,7 @@ export default {
       email: "Correo electrónico",
       password: "Contraseña",
       name: "Nombre",
+      phone: "Teléfono",
       confirm: "Confirmar",
       cancel: "Cancelar",
       save: "Guardar",
@@ -28,6 +29,15 @@ export default {
       logoutCancel: "Cancelar",
       later: "Después",
       login: "Iniciar Sesión",
+    },
+
+    // Profile
+    profile: {
+      title: "Mi Perfil",
+      edit: "Editar Perfil",
+      updateSuccess: "¡Perfil actualizado con éxito!",
+      updateError: "Error al actualizar el perfil. Inténtalo de nuevo.",
+      cpfReadOnly: "El CPF no se puede cambiar.",
     },
 
     // Login & Register

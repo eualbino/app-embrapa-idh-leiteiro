@@ -22,7 +22,7 @@ import type {
   LoginRequest,
   RegisterRequest,
 } from "@/src/services/api/auth/dtos";
-import type { UserProfile, PropertySummary } from "@/src/services/api/user";
+import type { UserProfile, PropertySummary, UpdateProfileRequest } from "@/src/services/api/user";
 
 interface AuthContextData {
   isLoading: boolean;
@@ -34,6 +34,7 @@ interface AuthContextData {
   register: (data: RegisterRequest) => Promise<void>;
   logout: () => Promise<void>;
   refetchUser: () => Promise<void>;
+  updateProfile: (data: UpdateProfileRequest) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -202,6 +203,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const updateProfile = async (data: UpdateProfileRequest) => {
+    try {
+      setIsLoading(true);
+      const updatedUser = await UserService.updateProfile(data);
+      setUser(updatedUser);
+      Toast.show({
+        type: "success",
+        text1: t("common.success"),
+        text2: t("profile.updateSuccess"),
+      });
+    } catch (error: any) {
+      const message = error?.response?.data?.message || t("profile.updateError");
+      Toast.show({
+        type: "error",
+        text1: t("common.error"),
+        text2: message,
+      });
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const logout = async () => {
     try {
       setIsLoading(true);
@@ -243,6 +267,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         register,
         logout,
         refetchUser,
+        updateProfile,
       }}
     >
       {children}

@@ -56,6 +56,7 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+    flexDirection: "column",
   },
   drawerHeader: {
     flexDirection: "row",
@@ -75,6 +76,7 @@ export const styles = StyleSheet.create({
     padding: theme.spacing.xxs,
   },
   menuItems: {
+    flex: 1,
     paddingTop: theme.spacing.lg,
   },
   menuItem: {
@@ -98,5 +100,64 @@ export const styles = StyleSheet.create({
   menuItemTextActive: {
     color: theme.colors.primary.default,
     fontWeight: theme.typography.weights.semibold,
+  },
+
+  drawerFooter: {
+    paddingHorizontal: theme.spacing.md,
+    paddingBottom: theme.spacing.sm,
+  },
+  footerDivider: {
+    height: 1,
+    backgroundColor: theme.colors.border.light,
+    marginBottom: theme.spacing.md,
+  },
+  userInfo: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    marginBottom: theme.spacing.sm,
+  },
+  userAvatar: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: theme.colors.primary.default,
+    alignItems: "center",
+    justifyContent: "center",
+    flexShrink: 0,
+  },
+  userAvatarText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "700",
+  },
+  userDetails: {
+    flex: 1,
+  },
+  userName: {
+    fontSize: theme.typography.sizes.sm,
+    fontWeight: theme.typography.weights.semibold,
+    color: theme.colors.text.primary,
+  },
+  userEmail: {
+    fontSize: 11,
+    color: "#999",
+    marginTop: 1,
+  },
+  editProfileButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: theme.colors.primary.default,
+    marginBottom: theme.spacing.xs,
+  },
+  editProfileText: {
+    fontSize: theme.typography.sizes.sm,
+    fontWeight: theme.typography.weights.semibold,
+    color: theme.colors.primary.default,
   },
 });

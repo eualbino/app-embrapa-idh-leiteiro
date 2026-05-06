@@ -13,6 +13,14 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter, usePathname } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useTranslation } from "react-i18next";
+
+// Context
+import { useAuthContext } from "@/src/contexts/AuthContext";
+
+// Components
+import { ProfileEditModal } from "@/src/components/commons/ProfileEditModal";
+import { LogoutButton } from "@/src/components/commons/LogoutButton";
 
 // Styles
 import { styles } from "./styles";
@@ -24,10 +32,13 @@ interface AppBarProps {
 export const AppBar: React.FC<AppBarProps> = ({ title = "IDH Leite" }) => {
   const { width } = Dimensions.get("window");
   const [menuVisible, setMenuVisible] = useState(false);
+  const [profileModalVisible, setProfileModalVisible] = useState(false);
   const [slideAnim] = useState(new Animated.Value(-width * 0.75));
   const router = useRouter();
   const pathname = usePathname();
   const insets = useSafeAreaInsets();
+  const { t } = useTranslation();
+  const { user } = useAuthContext();
 
   const openMenu = () => {
     setMenuVisible(true);
@@ -55,18 +66,27 @@ export const AppBar: React.FC<AppBarProps> = ({ title = "IDH Leite" }) => {
     }, 300);
   };
 
-  const isActive = (route: string) => {
-    if (route === "home") {
-      const active = !pathname?.includes("history");
-      return active;
-    }
+  const handleOpenProfile = () => {
+    closeMenu();
+    setTimeout(() => {
+      setProfileModalVisible(true);
+    }, 320);
+  };
 
-    if (route === "history") {
-      const active = pathname?.includes("history");
-      return active;
-    }
+  const isActive = (route: string) => {
+    if (route === "home") return !pathname?.includes("history");
+    if (route === "history") return pathname?.includes("history");
     return false;
   };
+
+  const avatarInitials = user?.name
+    ? user.name
+        .split(" ")
+        .slice(0, 2)
+        .map((w) => w[0])
+        .join("")
+        .toUpperCase()
+    : "?";
 
   return (
     <>
@@ -103,6 +123,7 @@ export const AppBar: React.FC<AppBarProps> = ({ title = "IDH Leite" }) => {
               {
                 transform: [{ translateX: slideAnim }],
                 paddingTop: insets.top,
+                paddingBottom: insets.bottom || 16,
               },
             ]}
           >
@@ -160,9 +181,41 @@ export const AppBar: React.FC<AppBarProps> = ({ title = "IDH Leite" }) => {
                 </Text>
               </TouchableOpacity>
             </View>
+
+            <View style={styles.drawerFooter}>
+              <View style={styles.footerDivider} />
+
+              <View style={styles.userInfo}>
+                <View style={styles.userAvatar}>
+                  <Text style={styles.userAvatarText}>{avatarInitials}</Text>
+                </View>
+                <View style={styles.userDetails}>
+                  <Text style={styles.userName} numberOfLines={1}>
+                    {user?.name || "—"}
+                  </Text>
+                  <Text style={styles.userEmail} numberOfLines={1}>
+                    {user?.email || "—"}
+                  </Text>
+                </View>
+              </View>
+
+              <TouchableOpacity
+                style={styles.editProfileButton}
+                onPress={handleOpenProfile}
+                activeOpacity={0.7}
+              >
+                <Ionicons name="pencil-outline" size={18} color="#006f36" />
+                <Text style={styles.editProfileText}>{t("profile.edit")}</Text>
+              </TouchableOpacity>
+            </View>
           </Animated.View>
         </View>
       </Modal>
+
+      <ProfileEditModal
+        visible={profileModalVisible}
+        onClose={() => setProfileModalVisible(false)}
+      />
     </>
   );
 };

@@ -28,6 +28,20 @@ export function unformatCPF(cpf: string): string {
   return cpf.replace(/\D/g, "");
 }
 
+export function formatPhoneInput(phone: string): string {
+  const numbers = phone.replace(/\D/g, "");
+
+  if (numbers.length <= 2) {
+    return numbers;
+  } else if (numbers.length <= 7) {
+    return `(${numbers.slice(0, 2)}) ${numbers.slice(2)}`;
+  } else if (numbers.length <= 10) {
+    return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 6)}-${numbers.slice(6)}`;
+  } else {
+    return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 7)}-${numbers.slice(7, 11)}`;
+  }
+}
+
 export function formatPhone(phone: string | undefined | null): string {
   if (!phone) return "";
 

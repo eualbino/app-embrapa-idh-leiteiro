@@ -2,6 +2,7 @@ import type {
   CreateWaterQualityConservationRequest,
   WaterQualityConservationData,
 } from "@/src/services/api/questionnaire/water-quality-conservation/dtos";
+import { roundToTwo } from "./roundToTwo";
 
 type WaterQualityInput = Omit<
   CreateWaterQualityConservationRequest,
@@ -35,8 +36,11 @@ export function calculateWaterQualityConservation(
   const finalScore = qualidadeAgua * 0.48 + conservacaoAgua * 0.52;
 
   return {
-    finalScore,
-    mesoIndicators: { qualidadeAgua, conservacaoAgua },
+    finalScore: roundToTwo(finalScore) as number,
+    mesoIndicators: {
+      qualidadeAgua: roundToTwo(qualidadeAgua) as number,
+      conservacaoAgua: roundToTwo(conservacaoAgua) as number,
+    },
     scores: {
       monitorsQualityScore: data.monitorsQuality,
       monitoredWaterPointsPercentScore: data.monitoredWaterPointsPercent,

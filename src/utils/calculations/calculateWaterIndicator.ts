@@ -2,6 +2,7 @@ import type {
   CreateWaterIndicatorRequest,
   WaterIndicatorData,
 } from "@/src/services/api/questionnaire/water-indicator/dtos";
+import { roundToTwo } from "./roundToTwo";
 
 function redistributeWeights(
   weights: Record<string, number>,
@@ -63,8 +64,12 @@ export function calculateWaterIndicator(
     consumoAgua * 0.337 + perdasAgua * 0.34 + segurancaHidrica * 0.323;
 
   return {
-    finalScore,
-    mesoIndicators: { consumoAgua, perdasAgua, segurancaHidrica },
+    finalScore: roundToTwo(finalScore) as number,
+    mesoIndicators: {
+      consumoAgua: roundToTwo(consumoAgua) as number,
+      perdasAgua: roundToTwo(perdasAgua) as number,
+      segurancaHidrica: roundToTwo(segurancaHidrica) as number,
+    },
     scores: {
       hasHydraulicMapScore: data.hasHydraulicMap,
       hasWaterMeasurementScore: data.hasWaterMeasurement,

@@ -2,6 +2,7 @@ import type {
   CreateWasteManagementRequest,
   WasteManagementData,
 } from "@/src/services/api/questionnaire/waste-management/dtos";
+import { roundToTwo } from "./roundToTwo";
 
 function getEstruturaWeights(impermeabilizedSystem: number): {
   wasteStorageSystem: number;
@@ -74,8 +75,12 @@ export function calculateWasteManagement(
     estrutura * 0.302 + manejoResiduo * 0.401 + adubacao * 0.297;
 
   return {
-    finalScore,
-    mesoIndicators: { estrutura, manejoResiduo, adubacao },
+    finalScore: roundToTwo(finalScore) as number,
+    mesoIndicators: {
+      estrutura: roundToTwo(estrutura) as number,
+      manejoResiduo: roundToTwo(manejoResiduo) as number,
+      adubacao: roundToTwo(adubacao) as number,
+    },
     scores: {
       wasteStorageSystemScore: data.wasteStorageSystem,
       impermeabilizedSystemScore: data.impermeabilizedSystem,

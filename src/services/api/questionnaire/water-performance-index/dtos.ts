@@ -32,7 +32,7 @@ export interface WaterPerformanceDetails {
 }
 
 export interface WaterPerformanceIndexData {
-  propertyId: string | number;
+  propertyId: number;
   finalScore: number;
   macroIndicators: WaterPerformanceMacroIndicators;
   weights: WaterPerformanceWeights;

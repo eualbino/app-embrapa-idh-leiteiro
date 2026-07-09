@@ -1,5 +1,17 @@
+export interface UsuarioResponse {
+  idt: number;
+  usersId: number;
+  matricula: string;
+  nome: string;
+  email: string;
+  ststrabalhaembrapa: boolean;
+  permissoes: string[];
+  grupos: string[];
+}
+
 export interface UserProfile {
-  id: string;
+  id: number;
+  usuariosCadastroId?: number;
   name: string;
   email: string;
   cpf: string;
@@ -11,12 +23,12 @@ export interface UserProfile {
 export interface UpdateProfileRequest {
   name: string;
   email: string;
-  phone: string;
+  phone?: string;
 }
 
 export interface PropertySummary {
-  id: string;
-  userId: string;
+  id: number;
+  userId: number;
   country: string;
   state: string;
   city: string;
@@ -37,16 +49,16 @@ export interface PropertySummary {
   roughageKgPerCow: number;
   concentrateKgPerCow: number;
   feedUnit: string;
-  monthlyEnergyKWh: number;
+  monthlyEnergyKwh: number;
   hasPhotovoltaicEnergy: boolean;
   hasEnvironmentalLicense: string;
   hasWaterGrant: string;
   createdAt: string;
   updatedAt: string;
-  waterManagementScore: number;
-  waterQualityConservationScore: number;
-  wasteManagementScore: number;
-  waterPerformanceIndexScore: number;
+  waterManagementScore?: number;
+  waterQualityConservationScore?: number;
+  wasteManagementScore?: number;
+  waterPerformanceIndexScore?: number;
 }
 
 export interface GetMeResponse {

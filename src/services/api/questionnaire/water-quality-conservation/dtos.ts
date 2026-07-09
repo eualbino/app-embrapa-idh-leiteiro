@@ -1,5 +1,5 @@
 export interface CreateWaterQualityConservationRequest {
-  propertyId: string;
+  propertyId: number;
   monitorsQuality: number;
   monitoredWaterPointsPercent: number;
   nitrateAnalysis: number;
@@ -27,7 +27,7 @@ export interface WaterQualityConservationScores {
 }
 
 export interface WaterQualityConservationData {
-  propertyId: string;
+  propertyId: number;
   finalScore: number;
   mesoIndicators: WaterQualityConservationMesoIndicators;
   scores: WaterQualityConservationScores;

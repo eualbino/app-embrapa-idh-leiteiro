@@ -1,19 +1,31 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import Toast from "react-native-toast-message";
-import { calculateWasteManagement } from "@/src/utils/calculations";
+
+// Contexts
+import { useAuthContext } from "@/src/contexts/AuthContext";
+
+// Hooks
+import { useNetworkStatus } from "@/src/hooks/useNetworkStatus";
+
+// Services
+import { WasteManagementService } from "@/src/services/api/questionnaire/waste-management";
 
 export const useWasteManagement = () => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
+  const { isOnline } = useNetworkStatus();
+  const { isAuthenticated } = useAuthContext();
 
   const createWasteManagement = async (
     answers: Record<number, number | null>,
     propertyId: string,
   ) => {
+    const offline = !isOnline || !isAuthenticated;
     setIsLoading(true);
     try {
-      const input = {
+      const result = await WasteManagementService.createWasteManagement({
+        propertyId: Number(propertyId),
         wasteStorageSystem: answers[22] ?? 0,
         impermeabilizedSystem: answers[23] ?? 0,
         rainwaterDiverted: answers[24] ?? 0,
@@ -28,22 +40,24 @@ export const useWasteManagement = () => {
         soilAnalysis: answers[33] ?? 0,
         residueApplicationFrequency: answers[34] ?? 0,
         residueApplicationMethod: answers[35] ?? 0,
-      };
+      }, offline);
 
-      const result = calculateWasteManagement(input);
+      if (!offline) {
+        Toast.show({
+          type: "success",
+          text1: t("questionnaire.messages.wasteManagementSuccess"),
+        });
+      }
 
-      Toast.show({
-        type: "success",
-        text1: t("questionnaire.messages.wasteManagementSuccess"),
-      });
-
-      return { message: "ok", data: { propertyId, ...result } };
+      return result;
     } catch (error) {
-      console.error("Erro ao calcular Waste Management:", error);
-      Toast.show({
-        type: "error",
-        text1: t("questionnaire.messages.wasteManagementError"),
-      });
+      console.error("Erro ao salvar Waste Management:", error);
+      if (!offline) {
+        Toast.show({
+          type: "error",
+          text1: t("questionnaire.messages.wasteManagementError"),
+        });
+      }
       throw error;
     } finally {
       setIsLoading(false);

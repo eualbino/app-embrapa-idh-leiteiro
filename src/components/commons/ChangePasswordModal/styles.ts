@@ -22,20 +22,6 @@ export const styles = StyleSheet.create({
     paddingBottom: theme.spacing.md,
     borderBottomWidth: theme.borders.width.thin,
     borderBottomColor: theme.colors.border.light,
-    gap: 12,
-  },
-  avatar: {
-    width: 42,
-    height: 42,
-    borderRadius: 21,
-    backgroundColor: theme.colors.primary.default,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  avatarText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "700",
   },
   title: {
     flex: 1,
@@ -51,37 +37,21 @@ export const styles = StyleSheet.create({
     paddingTop: theme.spacing.md,
     paddingBottom: theme.spacing.sm,
   },
-  cpfRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    flexWrap: "wrap",
-    gap: 6,
+  passwordRequirements: {
     marginTop: theme.spacing.xs,
-    marginBottom: theme.spacing.sm,
-    paddingHorizontal: 4,
+    marginBottom: theme.spacing.md,
   },
-  cpfLabel: {
-    fontSize: 13,
-    color: "#666",
-    fontWeight: "600",
+  requirementText: {
+    fontSize: theme.typography.sizes.xs,
+    fontWeight: theme.typography.weights.regular,
+    color: theme.colors.text.secondary,
+    marginBottom: theme.spacing.xxs,
   },
-  cpfHint: {
-    fontSize: 12,
-    color: "#999",
-    fontStyle: "italic",
+  requirementMet: {
+    color: theme.colors.state.success,
   },
-  changePasswordButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    paddingVertical: 12,
-    paddingHorizontal: 4,
-    marginTop: theme.spacing.sm,
-  },
-  changePasswordText: {
-    fontSize: 14,
-    fontWeight: "600",
-    color: theme.colors.primary.default,
+  requirementNotMet: {
+    color: theme.colors.state.error,
   },
   footer: {
     flexDirection: "row",

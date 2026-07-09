@@ -19,15 +19,15 @@ export interface CreatePropertyRequest {
   roughageKgPerCow: number;
   concentrateKgPerCow: number;
   feedUnit: FeedUnitType;
-  monthlyEnergyKWh: number;
+  monthlyEnergyKwh: number;
   hasPhotovoltaicEnergy: boolean;
   hasEnvironmentalLicense: LicenseStatusType;
   hasWaterGrant: LicenseStatusType;
 }
 
 export interface Property {
-  id: string;
-  userId: string;
+  id: number;
+  userId: number;
   country: string;
   state: string;
   city: string;
@@ -48,7 +48,7 @@ export interface Property {
   roughageKgPerCow?: number;
   concentrateKgPerCow?: number;
   feedUnit?: string;
-  monthlyEnergyKWh?: number;
+  monthlyEnergyKwh?: number;
   hasPhotovoltaicEnergy?: boolean;
   hasEnvironmentalLicense?: string;
   hasWaterGrant?: string;
@@ -62,7 +62,7 @@ export interface CreatePropertyResponse {
 
 export type ProductionSystemType =
   | "PASTO"
-  | "PASTO_SUPLEMENTACAO"
+  | "PASTO_SUPLEMENTADO"
   | "CONFINADO"
   | "CONFINADO_MISTO"
   | "OUTRO";
@@ -70,3 +70,40 @@ export type ProductionSystemType =
 export type FeedUnitType = "MATERIA_NATURAL" | "MATERIA_SECA";
 
 export type LicenseStatusType = "SIM" | "NAO" | "DISPENSA" | null;
+
+export interface PropertyApiResponse {
+  id: number;
+  userId: number;
+  country: string;
+  state: string;
+  city: string;
+  productionSystem: string;
+  totalAreaHa: number;
+  pastureAreaHa: number | null;
+  silageAreaHa: number | null;
+  lactatingCows: number | null;
+  dryCows: number | null;
+  heifersOver12m: number | null;
+  calvesUnder12m: number | null;
+  steers: number | null;
+  bulls: number | null;
+  milkLitersPerDayProperty: number | null;
+  milkLitersPerCowDay: number | null;
+  milkFatPercentage: number | null;
+  milkProteinPercentage: number | null;
+  roughageKgPerCow: number | null;
+  concentrateKgPerCow: number | null;
+  feedUnit: string | null;
+  monthlyEnergyKwh: number | null;
+  hasPhotovoltaicEnergy: boolean;
+  hasEnvironmentalLicense: string | null;
+  hasWaterGrant: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface RetrievePageResponse<T> {
+  totalPages: number;
+  page: number;
+  data: T[];
+}

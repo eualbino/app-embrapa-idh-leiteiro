@@ -11,7 +11,8 @@ export async function getDatabase(): Promise<SQLite.SQLiteDatabase> {
     try {
       await db.getFirstAsync("SELECT 1");
       return db;
-    } catch {
+    } catch (error) {
+      console.error("Erro ao verificar conexão com o banco:", error);
       // Native connection is stale (e.g. closed by Android lifecycle), reopen it
       db = null;
       initPromise = null;
@@ -26,6 +27,7 @@ export async function getDatabase(): Promise<SQLite.SQLiteDatabase> {
         return database;
       })
       .catch((error) => {
+        console.error("Erro ao inicializar o banco de dados:", error);
         initPromise = null;
         throw error;
       });
@@ -71,6 +73,13 @@ async function initializeTables(database: SQLite.SQLiteDatabase): Promise<void> 
     CREATE TABLE IF NOT EXISTS app_settings (
       key TEXT PRIMARY KEY NOT NULL,
       value TEXT NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS property_history (
+      id INTEGER PRIMARY KEY NOT NULL,
+      user_id INTEGER NOT NULL,
+      property_json TEXT NOT NULL,
+      created_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL
     );
   `);
 }

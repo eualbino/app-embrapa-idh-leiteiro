@@ -46,7 +46,7 @@ async function loadData(
   }
 
   const response = await WaterPerformanceIndexService.getWaterPerformanceIndex({
-    propertyId,
+    propertyId: Number(propertyId),
   });
   return { data: response.data };
 }

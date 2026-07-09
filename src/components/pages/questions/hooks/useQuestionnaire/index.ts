@@ -44,7 +44,7 @@ export const useQuestionnaire = (): QuestionnaireState & QuestionnaireActions =>
   // Hooks
   const { t, i18n } = useTranslation();
   const { isOnline } = useNetworkStatus();
-  const { properties, isAuthenticated } = useAuthContext();
+  const { properties, isAuthenticated, refetchUser } = useAuthContext();
   const { createProperty, isLoading: isCreatingProperty } = useProperty();
   const { createWaterIndicator, isLoading: isCreatingWaterIndicator } = useWaterIndicator();
   const { createWaterQualityConservation, isLoading: isCreatingWaterQuality } = useWaterQualityConservation();
@@ -86,12 +86,15 @@ export const useQuestionnaire = (): QuestionnaireState & QuestionnaireActions =>
     }
   }, [answer2, answer22]);
 
-  // Persiste respostas offline a cada mudança
   useEffect(() => {
-    if (Object.keys(answers).length > 0) {
+    const isOfflineSession =
+      !isOnline ||
+      !isAuthenticated ||
+      OfflineSyncService.isTempPropertyId(propertyId ?? "");
+    if (Object.keys(answers).length > 0 && isOfflineSession) {
       OfflineSyncService.saveOfflineAnswers(answers);
     }
-  }, [answers]);
+  }, [answers, isOnline, isAuthenticated, propertyId]);
 
   // Functions
   const currentGroup = questionGroups[step];
@@ -143,7 +146,7 @@ export const useQuestionnaire = (): QuestionnaireState & QuestionnaireActions =>
           Toast.show({
             type: "warning",
             text1: t("questionnaire.questions.toasts.answerAllTitle"),
-            text2: `${t("questionnaire.questions.toasts.answerAllMessage")} (Perguntas: ${unanswered.map((q) => q.id).join(", ")})`,
+            text2: `${t("questionnaire.questions.toasts.answerAllMessage")} ${t("questionnaire.questions.toasts.questionIds", { ids: unanswered.map((q) => q.id).join(", ") })}`,
             visibilityTime: 5000,
           });
           return;
@@ -207,8 +210,15 @@ export const useQuestionnaire = (): QuestionnaireState & QuestionnaireActions =>
           translatedGroupName,
           t,
         });
+        refetchUser();
       } catch (err) {
-        console.error(err)
+        console.error(err);
+        Toast.show({
+          type: "error",
+          text1: t("common.error"),
+          text2: t("questionnaire.questions.toasts.stepError"),
+          visibilityTime: 5000,
+        });
       }
     },
     [
@@ -227,6 +237,7 @@ export const useQuestionnaire = (): QuestionnaireState & QuestionnaireActions =>
       isAuthenticated,
       waterIndicatorScore,
       waterQualityScore,
+      refetchUser,
     ],
   );
 

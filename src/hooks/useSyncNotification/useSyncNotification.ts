@@ -20,26 +20,19 @@ export const useSyncNotification = () => {
   const { isAuthenticated } = useAuthContext();
   const hasNotifiedRef = useRef(false);
 
-  // Reset notification flag when going offline
   useEffect(() => {
     if (!isOnline) {
       hasNotifiedRef.current = false;
     }
   }, [isOnline]);
 
-  // When internet reconnects and user is NOT authenticated, check if we need to notify
   useEffect(() => {
     const checkAndNotify = async () => {
-      // Only notify if:
-      // 1. Just reconnected
-      // 2. User is NOT authenticated (if authenticated, sync happens automatically)
-      // 3. Haven't already notified in this session
       if (!justReconnected || isAuthenticated || hasNotifiedRef.current) {
         return;
       }
 
       try {
-        // Check if form was completed offline
         const wasCompletedOffline =
           await OfflineSyncService.wasFormCompletedOffline();
 
@@ -47,18 +40,15 @@ export const useSyncNotification = () => {
           return;
         }
 
-        // Check if there's pending data to sync
         const pendingSync = await OfflineSyncService.getPendingSync();
         const hasPendingData =
           pendingSync?.hasPropertyToSync || pendingSync?.hasAnswersToSync;
 
         if (!hasPendingData) {
-          // No pending data, clear the flag
           await OfflineSyncService.clearFormCompletedOffline();
           return;
         }
 
-        // User is not authenticated and has pending data - send notification
         hasNotifiedRef.current = true;
         await NotificationService.sendSyncReminderNotification();
       } catch (error) {
@@ -69,8 +59,6 @@ export const useSyncNotification = () => {
     checkAndNotify();
   }, [justReconnected, isAuthenticated]);
 
-  // When user logs in successfully, clear notification flags
-  // The actual sync will be handled by useOfflineSync
   useEffect(() => {
     const clearFlagsOnAuth = async () => {
       if (isAuthenticated && isOnline) {
@@ -79,11 +67,7 @@ export const useSyncNotification = () => {
             await OfflineSyncService.wasFormCompletedOffline();
 
           if (wasCompletedOffline) {
-            // Clear notification-related flags
-            // Data sync will be handled by useOfflineSync
             await NotificationService.clearNotificationScheduled();
-            // Note: Don't clear formCompletedOffline here,
-            // useOfflineSync will clear it after successful sync
           }
         } catch (error) {
           console.error("Error clearing notification flags:", error);

@@ -29,6 +29,7 @@ export default {
       logoutCancel: "Cancelar",
       later: "Después",
       login: "Iniciar Sesión",
+      offline: "Sin conexión",
     },
 
     // Profile
@@ -38,6 +39,28 @@ export default {
       updateSuccess: "¡Perfil actualizado con éxito!",
       updateError: "Error al actualizar el perfil. Inténtalo de nuevo.",
       cpfReadOnly: "El CPF no se puede cambiar.",
+      changePasswordButton: "Cambiar contraseña",
+      changePassword: {
+        title: "Cambiar Contraseña",
+        currentPassword: "Contraseña Actual",
+        currentPasswordPlaceholder: "Ingrese su contraseña actual",
+        newPassword: "Nueva Contraseña",
+        newPasswordPlaceholder: "Ingrese su nueva contraseña",
+        confirmPassword: "Confirmar Nueva Contraseña",
+        confirmPasswordPlaceholder: "Ingrese su contraseña nuevamente",
+        submit: "Cambiar Contraseña",
+        submitting: "Cambiando...",
+        success: "¡Contraseña cambiada con éxito!",
+        errors: {
+          emptyCurrentPassword: "Por favor, ingrese su contraseña actual.",
+          invalidPassword: "La contraseña no cumple con los requisitos mínimos.",
+          passwordMismatch: "Las contraseñas no coinciden.",
+          samePassword: "La nueva contraseña debe ser diferente de la actual.",
+          wrongCurrentPassword: "Contraseña actual incorrecta.",
+          offline: "Conéctese a internet para cambiar su contraseña.",
+          generic: "No fue posible cambiar la contraseña. Inténtalo de nuevo.",
+        },
+      },
     },
 
     // Login & Register
@@ -80,6 +103,7 @@ export default {
         "Acceda a su cuenta o regístrese gratis y comience a usar la aplicación",
       accessAccount: "ACCEDER A MI CUENTA",
       register: "REGÍSTRESE",
+      continueOffline: "Continuar sin internet",
       forgotPassword: "Olvidé mi contraseña",
     },
 
@@ -88,7 +112,9 @@ export default {
       title: "¿Olvidó la contraseña?",
       sendEmailTitle: "¿Olvidó la contraseña?",
       sendEmailDescription:
-        "Ingrese su correo electrónico registrado y le enviaremos un código de verificación para restablecer su contraseña.",
+        "Ingrese su correo electrónico registrado y le enviaremos una nueva contraseña para continuar el acceso.",
+      emailBody:
+        "La contraseña aparece a continuación.",
       confirmCodeTitle: "Confirmar Código",
       confirmCodeDescription: "Se envió un código a su correo electrónico:",
       resetPasswordTitle: "Restablecer Contraseña",
@@ -104,7 +130,9 @@ export default {
       confirmPasswordPlaceholder: "Ingrese su contraseña nuevamente",
 
       sendCode: "Enviar Código",
+      sendPassword: "Enviar Nueva Contraseña",
       sending: "Enviando...",
+      sendingPassword: "Enviando nueva contraseña...",
       confirmCode: "Confirmar Código",
       verifying: "Verificando...",
       resetPassword: "Restablecer Contraseña",
@@ -143,6 +171,8 @@ export default {
         emailSent: "Correo Enviado",
         emailSentMessage:
           "Se envió un código de verificación a su correo electrónico.",
+        passwordSent: "Nueva Contraseña Enviada",
+        passwordSentMessage: "Se envió una nueva contraseña a su correo electrónico.",
         codeVerified: "Código Verificado",
         codeVerifiedMessage: "¡Código confirmado exitosamente!",
         codeResent: "Código Reenviado",
@@ -368,6 +398,8 @@ export default {
             "Datos del formulario de caracterización no disponibles.",
           answerAllTitle: "Atención",
           answerAllMessage: "Responda todas las preguntas antes de continuar.",
+          questionIds: "(Preguntas: {{ids}})",
+          stepError: "Error al procesar el paso. Inténtelo de nuevo.",
           completedTitle: "Éxito",
           completedMessage: "¡Ha completado todas las preguntas!",
           scoreTitle: "Su puntuación en {{groupName}} fue de:",
@@ -742,6 +774,7 @@ export default {
       emptyMessage: "Complete el cuestionario para ver su historial",
       tapToViewDetails: "Toque para ver los detalles",
       viewingResults: "Visualizando resultados",
+      refreshingData: "Cargando datos...",
     },
 
     notifications: {
@@ -764,6 +797,27 @@ export default {
       connectionRestored: "Conexión Restaurada",
       loginToSync:
         "¡Volvió el internet! Inicie sesión para sincronizar sus datos offline.",
+      syncing: "Sincronizando datos...",
+      offlineBanner:
+        "Está sin conexión. Los datos se guardarán localmente.",
+      formCompleteTitle: "Formulario Completo",
+      savedLoginToSync:
+        "Datos guardados. Inicie sesión para sincronizar con el servidor.",
+      savedWillSync:
+        "Datos guardados sin conexión. Se sincronizarán cuando haya conexión.",
+      savedLoginAgain:
+        "Datos guardados localmente. Inicie sesión de nuevo para sincronizar.",
+      syncComplete: "Sincronización Completa",
+      syncCompleteMessage: "¡Todos los datos han sido sincronizados!",
+      syncError: "Error de Sincronización",
+      syncErrorMessage:
+        "No se pudieron sincronizar los datos. Lo intentaremos de nuevo.",
+      loginRequiredTitle: "Inicio de sesión requerido",
+      loginRequiredMessage: "Inicie sesión para sincronizar sus datos.",
+      noConnectionTitle: "Sin conexión",
+      connectToSync: "Conéctese a internet para sincronizar",
+      syncingPending: "Sincronizando datos pendientes...",
+      sessionExpired: "Sesión expirada",
     },
   },
 };

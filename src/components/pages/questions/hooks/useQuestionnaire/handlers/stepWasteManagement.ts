@@ -6,6 +6,7 @@ import type { TFunction } from "i18next";
 // Services
 import { OfflineSyncService } from "@/src/services/offline/OfflineSyncService";
 import { NotificationService } from "@/src/services/notifications";
+import { WaterPerformanceIndexService } from "@/src/services/api/questionnaire/water-performance-index";
 
 // Utils
 import { calculateWaterPerformanceIndex } from "@/src/utils/calculations";
@@ -61,6 +62,20 @@ export async function handleWasteManagementStep({
     isAuthenticated &&
     !OfflineSyncService.isTempPropertyId(propertyId);
 
+  if (canNavigateToResult) {
+    try {
+      await WaterPerformanceIndexService.createWaterPerformanceIndex({
+        propertyId: Number(propertyId),
+        waterManagementScore: wpi.macroIndicators.quantidadeAgua,
+        waterQualityConservationScore: wpi.macroIndicators.qualidadeAgua,
+        wasteManagementScore: wpi.macroIndicators.manejoResiduos,
+        finalScore: wpi.finalScore,
+      });
+    } catch (e) {
+      console.error("Não foi possível salvar o WPI:", e);
+    }
+  }
+
   if (!canNavigateToResult) {
     await OfflineSyncService.setPendingSync(true, true, propertyId);
     await OfflineSyncService.markFormCompletedOffline();
@@ -73,10 +88,10 @@ export async function handleWasteManagementStep({
 
     Toast.show({
       type: "success",
-      text1: "Formulário Completo",
+      text1: t("offlineMode.formCompleteTitle"),
       text2: !isAuthenticated
-        ? "Dados salvos. Faça login para sincronizar com o servidor."
-        : "Dados salvos offline. Serão sincronizados quando houver conexão.",
+        ? t("offlineMode.savedLoginToSync")
+        : t("offlineMode.savedWillSync"),
       visibilityTime: 5000,
     });
 

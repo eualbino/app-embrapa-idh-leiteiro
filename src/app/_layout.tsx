@@ -65,7 +65,6 @@ function RootNavigator() {
       } else if (isAuthenticated) {
         setInitialRoute("/(protected)/(tabs)/(home)");
       } else if (isOfflineMode || isOffline) {
-        // If in offline mode or no internet, go directly to the app
         setInitialRoute("/(protected)/(tabs)/(home)");
       } else {
         setInitialRoute("/auth-landing");
@@ -82,7 +81,6 @@ function RootNavigator() {
     initialRoute,
   ]);
 
-  // Navigate to the initial route as soon as it is determined
   useEffect(() => {
     if (initialRoute !== null && !hasNavigatedToInitial && isSplashReady) {
       router.replace(initialRoute as any);
@@ -90,7 +88,6 @@ function RootNavigator() {
     }
   }, [initialRoute, hasNavigatedToInitial, isSplashReady, router]);
 
-  // Manage navigation after the initial route
   useEffect(() => {
     if (
       !isInitializing &&
@@ -116,11 +113,9 @@ function RootNavigator() {
         return;
       }
 
-      // If authenticated and on an auth route, go to home
       if (isAuthenticated && isAuthRoute) {
         router.replace("/(protected)/(tabs)/(home)" as any);
       }
-      // If not authenticated, not in offline mode and not offline, redirect to auth-landing
       else if (
         !isAuthenticated &&
         isProtectedRoute &&
@@ -129,7 +124,6 @@ function RootNavigator() {
       ) {
         router.replace("/auth-landing" as any);
       }
-      // If offline or in offline mode, allow access to protected routes
     }
   }, [
     isAuthenticated,
@@ -144,7 +138,6 @@ function RootNavigator() {
     isOffline,
   ]);
 
-  // Determine when to hide the custom splash screen
   const shouldHideSplash =
     isSplashReady &&
     !isInitializing &&

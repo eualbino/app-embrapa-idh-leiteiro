@@ -1,5 +1,5 @@
 export interface CreateWasteManagementRequest {
-  propertyId: string;
+  propertyId: number;
   wasteStorageSystem: number;
   impermeabilizedSystem: number;
   rainwaterDiverted: number;
@@ -40,7 +40,7 @@ export interface WasteManagementScores {
 }
 
 export interface WasteManagementData {
-  propertyId: string;
+  propertyId: number;
   finalScore: number;
   mesoIndicators: WasteManagementMesoIndicators;
   scores: WasteManagementScores;

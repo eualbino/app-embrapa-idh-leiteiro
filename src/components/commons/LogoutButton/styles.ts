@@ -1,7 +1,6 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
-  // Botão de Logout
   logoutButton: {
     flexDirection: "row",
     alignItems: "center",
@@ -33,7 +32,6 @@ export const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
 
-  // Modal
   modalOverlay: {
     flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.6)",
@@ -57,7 +55,6 @@ export const styles = StyleSheet.create({
     elevation: 10,
   },
 
-  // Ícone
   iconContainer: {
     alignItems: "center",
     justifyContent: "center",
@@ -69,7 +66,6 @@ export const styles = StyleSheet.create({
     marginBottom: 20,
   },
 
-  // Textos
   modalTitle: {
     fontSize: 22,
     fontWeight: "700",
@@ -86,7 +82,6 @@ export const styles = StyleSheet.create({
     lineHeight: 24,
   },
 
-  // Botões
   buttonContainer: {
     flexDirection: "row",
     gap: 16,

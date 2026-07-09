@@ -8,9 +8,7 @@ import {
   useCallback,
   useRef,
 } from "react";
-import { Alert } from "react-native";
 import { useRouter } from "expo-router";
-import { useTranslation } from "react-i18next";
 import NetInfo from "@react-native-community/netinfo";
 
 // Services
@@ -33,7 +31,6 @@ export function OfflineModeProvider({ children }: { children: ReactNode }) {
   const [isCheckingOfflineMode, setIsCheckingOfflineMode] = useState(true);
   const { isOffline, justReconnected } = useNetworkStatus();
   const router = useRouter();
-  const { t } = useTranslation();
   const hasShownAlertRef = useRef(false);
 
   // Check if user was in offline mode on app start
@@ -44,8 +41,6 @@ export function OfflineModeProvider({ children }: { children: ReactNode }) {
         const wasInOfflineMode = await OfflineSyncService.isInOfflineMode();
 
         if (wasInOfflineMode) {
-          // If the app restarted with internet, exit offline mode so _layout
-          // redirects to login instead of letting the user in unauthenticated
           const networkState = await NetInfo.fetch();
           const hasInternet =
             (networkState.isConnected ?? false) &&
@@ -78,7 +73,7 @@ export function OfflineModeProvider({ children }: { children: ReactNode }) {
     }
   }, [isOffline]);
 
-  // Redirect to login when internet comes back while in offline mode
+  // Redirect to login when internet comes back while in offline mode with pending data
   useEffect(() => {
     const handleReconnection = async () => {
       if (!justReconnected || !isOfflineMode || hasShownAlertRef.current) {
@@ -87,33 +82,17 @@ export function OfflineModeProvider({ children }: { children: ReactNode }) {
 
       hasShownAlertRef.current = true;
 
-      // Check if there's pending data to sync
       const pendingSync = await OfflineSyncService.getPendingSync();
       const hasPendingData = pendingSync?.hasPropertyToSync || pendingSync?.hasAnswersToSync;
 
       if (hasPendingData) {
-        Alert.alert(
-          t("offlineMode.connectionRestored", "Conexão Restaurada"),
-          t("offlineMode.loginToSync", "A internet voltou! Faça login para sincronizar seus dados preenchidos offline."),
-          [
-            {
-              text: t("common.later", "Depois"),
-              style: "cancel",
-            },
-            {
-              text: t("common.login", "Login"),
-              onPress: async () => {
-                await exitOfflineMode();
-                router.replace("/login");
-              },
-            },
-          ]
-        );
+        await exitOfflineMode();
+        router.replace("/login");
       }
     };
 
     handleReconnection();
-  }, [justReconnected, isOfflineMode, t]);
+  }, [justReconnected, isOfflineMode]);
 
   /**
    * Enter offline mode - allows user to access app without login

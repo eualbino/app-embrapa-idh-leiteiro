@@ -11,6 +11,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { theme } from "@/src/config";
 import { PropertySummary } from "@/src/services/api/user";
+import { PropertyService } from "@/src/services/api/property";
 import { generateAndSharePDF } from "@/src/utils/pdfGenerator";
 
 interface PropertyHistoryCardProps {
@@ -29,12 +30,25 @@ export const PropertyHistoryCard: React.FC<PropertyHistoryCardProps> = ({
   const router = useRouter();
   const [isPressed, setIsPressed] = useState(false);
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+  const [isLoadingDetail, setIsLoadingDetail] = useState(false);
 
-  const handlePress = () => {
-    router.push({
-      pathname: "/result",
-      params: { propertyId: property.id },
-    });
+  const handlePress = async () => {
+    try {
+      setIsLoadingDetail(true);
+      await PropertyService.getPropertyById(property.id);
+      router.push({
+        pathname: "/result",
+        params: { propertyId: property.id },
+      });
+    } catch (error) {
+      console.error("Erro ao buscar propriedade:", error);
+      router.push({
+        pathname: "/result",
+        params: { propertyId: property.id },
+      });
+    } finally {
+      setIsLoadingDetail(false);
+    }
   };
 
   const handlePressIn = () => {
@@ -58,10 +72,12 @@ export const PropertyHistoryCard: React.FC<PropertyHistoryCardProps> = ({
           productionSystem: property.productionSystem,
           totalAreaHa: property.totalAreaHa,
           createdAt: property.createdAt,
-          waterManagementScore: property.waterManagementScore,
-          waterQualityConservationScore: property.waterQualityConservationScore,
-          wasteManagementScore: property.wasteManagementScore,
-          waterPerformanceIndexScore: property.waterPerformanceIndexScore,
+          waterManagementScore: property.waterManagementScore ?? null,
+          waterQualityConservationScore:
+            property.waterQualityConservationScore ?? null,
+          wasteManagementScore: property.wasteManagementScore ?? null,
+          waterPerformanceIndexScore:
+            property.waterPerformanceIndexScore ?? null,
         },
         userName,
         userEmail,
@@ -90,7 +106,7 @@ export const PropertyHistoryCard: React.FC<PropertyHistoryCardProps> = ({
   const getProductionSystemLabel = (system: string) => {
     const systems: { [key: string]: string } = {
       PASTO: "Pasto",
-      PASTO_SUPLEMENTACAO: "Pasto com Suplementação",
+      PASTO_SUPLEMENTADO: "Pasto com Suplementação",
       CONFINADO: "Confinado",
       CONFINADO_MISTO: "Confinado Misto",
       OUTRO: "Outro",
@@ -105,14 +121,14 @@ export const PropertyHistoryCard: React.FC<PropertyHistoryCardProps> = ({
     waterPerformanceIndex: 0.64,
   };
 
-  const getScoreColor = (score: number | null, minimum: number) => {
-    if (score === null) return theme.colors.text.secondary;
+  const getScoreColor = (score: number | null | undefined, minimum: number) => {
+    if (score == null) return theme.colors.text.secondary;
     if (score >= minimum) return theme.colors.state.success;
     return theme.colors.state.error;
   };
 
-  const formatScore = (score: number | null) => {
-    if (score === null) return "N/A";
+  const formatScore = (score: number | null | undefined) => {
+    if (score == null) return "N/A";
     return score.toFixed(2).replace(".", ",");
   };
 
@@ -157,11 +173,15 @@ export const PropertyHistoryCard: React.FC<PropertyHistoryCardProps> = ({
               )}
             </TouchableOpacity>
             <Text style={styles.date}>{formatDate(property.createdAt)}</Text>
-            <Ionicons
-              name="chevron-forward"
-              size={20}
-              color={theme.colors.text.secondary}
-            />
+            {isLoadingDetail ? (
+              <ActivityIndicator size="small" color={theme.colors.primary.default} />
+            ) : (
+              <Ionicons
+                name="chevron-forward"
+                size={20}
+                color={theme.colors.text.secondary}
+              />
+            )}
           </View>
         </View>
 

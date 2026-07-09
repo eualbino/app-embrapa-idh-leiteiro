@@ -1,5 +1,16 @@
+export interface WaterPerformanceIndexApiResponse {
+  id: number;
+  propertyId: number;
+  waterManagementScore: number;
+  waterQualityConservationScore: number;
+  wasteManagementScore: number;
+  finalScore: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface GetWaterPerformanceIndexParams {
-  propertyId: string;
+  propertyId: number;
 }
 
 export interface WaterPerformanceMacroIndicators {
@@ -21,7 +32,7 @@ export interface WaterPerformanceDetails {
 }
 
 export interface WaterPerformanceIndexData {
-  propertyId: string;
+  propertyId: number;
   finalScore: number;
   macroIndicators: WaterPerformanceMacroIndicators;
   weights: WaterPerformanceWeights;

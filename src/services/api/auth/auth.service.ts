@@ -1,49 +1,89 @@
-import { api } from '../../http';
-import {
-  LoginRequest,
-  LoginResponse,
-  RegisterRequest,
-  ForgotPasswordRequest,
-  ConfirmCodeRequest,
-  ValidateOtpResponse,
-  ResetPasswordRequest,
-  RefreshTokenResponse,
-} from './dtos';
+import axios from "axios";
+import { api } from "../../http";
+import type { LoginRequest, LoginResponse, RegisterRequest, RegisterResponse } from "./dtos";
+
+const API_URL =
+  process.env.EXPO_PUBLIC_API_URL || "https://api1.cppse.embrapa.br";
+
+// Admin credentials used to create new user accounts
+const ADMIN_USERNAME = process.env.EXPO_PUBLIC_ADMIN_USERNAME;
+const ADMIN_PASSWORD = process.env.EXPO_PUBLIC_ADMIN_PASSWORD;
+
 
 export class AuthService {
-
   static async login(credentials: LoginRequest): Promise<LoginResponse> {
-    const response = await api.post<LoginResponse>('/sessions', credentials);
+    const response = await axios.post<LoginResponse>(
+      `${API_URL}/autenticar`,
+      credentials,
+      { headers: { "Content-Type": "application/json" } },
+    );
     return response.data;
   }
 
-  static async refreshToken(refreshToken: string): Promise<RefreshTokenResponse> {
-    const response = await api.patch<RefreshTokenResponse>('/token/refresh', null, {
-      headers: {
-        Cookie: `refreshToken=${refreshToken}`,
+  static async getCurrentUserEmail(): Promise<string> {
+    const response = await api.get<{ mailAddress: string }>("/usuario");
+    return response.data.mailAddress;
+  }
+
+  static async getAdminToken(): Promise<string> {
+    const response = await axios.post<LoginResponse>(
+      `${API_URL}/autenticar`,
+      { username: ADMIN_USERNAME, password: ADMIN_PASSWORD },
+      { headers: { "Content-Type": "application/json" } },
+    );
+    return response.data.token;
+  }
+
+  static async register(data: RegisterRequest): Promise<RegisterResponse> {
+    const adminToken = await AuthService.getAdminToken();
+
+    const cadastroResponse = await axios.post<{ idt: number }>(
+      `${API_URL}/update`,
+      {
+        entity: "UsuariosCadastro",
+        idValue: "",
+        data: {
+          matricula: data.cpf,
+          email: data.email,
+          nome: data.name,
+          senha: data.password,
+          stsativo: true,
+          ststrabalhaembrapa: false,
+        },
       },
-    });
-    return response.data;
-  }
-
-  static async register(data: RegisterRequest): Promise<void> {
-    await api.post('/users', data);
-  }
-
-  static async forgotPassword(data: ForgotPasswordRequest): Promise<void> {
-    await api.post('/forgot-password', data);
-  }
-
-  static async validateOtp(data: ConfirmCodeRequest): Promise<ValidateOtpResponse> {
-    const response = await api.post<ValidateOtpResponse>('/validate', data);
-    return response.data;
-  }
-
-  static async resetPassword(data: ResetPasswordRequest, token: string): Promise<void> {
-    await api.post('/reset-password', data, {
-      headers: {
-        Authorization: `Bearer ${token}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${adminToken}`,
+        },
       },
-    });
+    );
+
+    const usuariosCadastroId = cadastroResponse.data.idt;
+
+    const usersResponse = await axios.post<{ id: number }>(
+      `${API_URL}/update`,
+      {
+        entity: "Users",
+        idValue: "",
+        data: {
+          email: data.email,
+          name: data.name,
+          cpf: data.cpf || null,
+          passwordHash: data.password,
+          role: "USER",
+          createdAt: new Date().toISOString().slice(0, 23),
+          usuariosCadastroId,
+        },
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${adminToken}`,
+        },
+      },
+    );
+
+    return { userId: usersResponse.data.id };
   }
 }

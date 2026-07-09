@@ -11,6 +11,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 
+// Contexts
+import { useOfflineModeContext } from "@/src/contexts/OfflineModeContext";
+
+// Hooks
+import { useNetworkStatus } from "@/src/hooks/useNetworkStatus";
+
 // Components
 import { ButtonCommon } from "@/src/components/commons/Button";
 
@@ -20,6 +26,8 @@ import { styles } from "@/src/styles/auth-landing.styles";
 export default function AuthLandingScreen() {
   const router = useRouter();
   const { t } = useTranslation();
+  const { isOffline } = useNetworkStatus();
+  const { enterOfflineMode } = useOfflineModeContext();
 
   const handleAccessAccount = () => {
     router.push("/login?mode=login");
@@ -99,6 +107,16 @@ export default function AuthLandingScreen() {
               >
                 {t("authLanding.forgotPassword", "Esqueci minha senha")}
               </Text>
+
+              {isOffline && (
+                <ButtonCommon
+                  onPress={enterOfflineMode}
+                  variant="secondary"
+                  style={styles.secondaryButton}
+                >
+                  {t("authLanding.continueOffline", "Continuar sem internet")}
+                </ButtonCommon>
+              )}
             </View>
           </View>
         </ScrollView>

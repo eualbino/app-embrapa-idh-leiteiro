@@ -4,7 +4,7 @@ import { FormData } from "../types";
 export function propertyToFormData(property: PropertySummary): FormData {
   const productionSystemMap: { [key: string]: string } = {
     PASTO: "exclusivamente_pasto",
-    PASTO_SUPLEMENTACAO: "pastagem_suplementacao",
+    PASTO_SUPLEMENTADO: "pastagem_suplementacao",
     CONFINADO: "confinado_sem_pasto",
     CONFINADO_MISTO: "confinado_vacas_lactacao",
     OUTRO: "outro",
@@ -60,7 +60,7 @@ export function propertyToFormData(property: PropertySummary): FormData {
       unidadeInformada: "",
     },
     energiaEletrica: {
-      consumoMensal: property.monthlyEnergyKWh,
+      consumoMensal: property.monthlyEnergyKwh,
       temEnergiaFotovoltaica: property.hasPhotovoltaicEnergy || false,
     },
     legislacaoAmbiental: {

@@ -6,9 +6,8 @@ const API_URL =
   process.env.EXPO_PUBLIC_API_URL || "https://api1.cppse.embrapa.br";
 
 // Admin credentials used to create new user accounts
-const ADMIN_USERNAME = "app-idh";
-const ADMIN_PASSWORD =
-  "***REMOVED***";
+const ADMIN_USERNAME = process.env.EXPO_PUBLIC_ADMIN_USERNAME;
+const ADMIN_PASSWORD = process.env.EXPO_PUBLIC_ADMIN_PASSWORD;
 
 
 export class AuthService {

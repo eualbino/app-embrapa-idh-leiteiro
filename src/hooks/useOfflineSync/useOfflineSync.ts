@@ -10,26 +10,26 @@ import { useAuthContext } from "@/src/contexts/AuthContext";
 import { useNetworkStatus } from "@/src/hooks/useNetworkStatus";
 
 // Services
-import { PropertyService } from "@/src/services/api/property";
 import { NotificationService } from "@/src/services/notifications";
 import { OfflineSyncService } from "@/src/services/offline/OfflineSyncService";
+import { PropertyService } from "@/src/services/api/property";
 import { WaterIndicatorService } from "@/src/services/api/questionnaire/water-indicator";
 import { WasteManagementService } from "@/src/services/api/questionnaire/waste-management";
 import { WaterQualityConservationService } from "@/src/services/api/questionnaire/water-quality-conservation";
 import { WaterPerformanceIndexService } from "@/src/services/api/questionnaire/water-performance-index";
 
+// Utils
+import { mapFormDataToPropertyRequest } from "@/src/components/pages/questions/hooks/useProperty/mapFormDataToPropertyRequest";
+
 // Mock
 import { QUESTION_IDS } from "@/src/mock/questions";
 
-// Types
-import type { FormData } from "@/src/components/pages/questions/components/QuestionsCaracterizacao/types";
-
-// Module-level ref shared across all instances to prevent concurrent syncs
 const globalIsSyncingRef = { current: false };
 
 export const useOfflineSync = () => {
   // Refs
   const hasSyncedRef = useRef(false);
+  const syncFailedRef = useRef(false);
 
   // States
   const [isSyncing, setIsSyncing] = useState(false);
@@ -38,9 +38,7 @@ export const useOfflineSync = () => {
   // Hooks
   const { t } = useTranslation();
   const { isOnline, justReconnected } = useNetworkStatus();
-  const { properties, isAuthenticated, refetchUser } = useAuthContext();
-
-  const hasExistingProperty = properties && properties.length > 0;
+  const { isAuthenticated, refetchUser } = useAuthContext();
 
   // UseEffect
   useEffect(() => {
@@ -54,49 +52,40 @@ export const useOfflineSync = () => {
 
     if (!isOnline) {
       hasSyncedRef.current = false;
+      syncFailedRef.current = false;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [justReconnected, isOnline, isAuthenticated]);
 
   useEffect(() => {
     const attemptSyncAfterLogin = async () => {
       if (!isAuthenticated || !isOnline) return;
-
       const pendingSync = await OfflineSyncService.getPendingSync();
-      const hasDataToSync =
-        pendingSync?.hasPropertyToSync || pendingSync?.hasAnswersToSync;
+      if (!pendingSync?.hasAnswersToSync) return;
 
-      if (!hasDataToSync) return;
-
+      syncFailedRef.current = false;
       syncOfflineData();
     };
 
-    if (isAuthenticated && isOnline && hasPendingData) {
+    if (isAuthenticated && isOnline) {
       attemptSyncAfterLogin();
     }
-  }, [isAuthenticated, isOnline, hasPendingData]);
+  }, [isAuthenticated, isOnline]);
 
   // Functions
-  const createPropertyFromFormData = async (formData: FormData) => {
-    const propertyData = mapFormDataToPropertyRequest(formData);
-    return await PropertyService.createProperty(propertyData);
-  };
-
   const checkPendingData = async () => {
     const pendingSync = await OfflineSyncService.getPendingSync();
     setHasPendingData(
-      pendingSync?.hasPropertyToSync || pendingSync?.hasAnswersToSync || false,
+      pendingSync?.hasAnswersToSync || false,
     );
   };
 
   const handleReconnection = async () => {
     const pendingSync = await OfflineSyncService.getPendingSync();
     const hasDataToSync =
-      pendingSync?.hasPropertyToSync || pendingSync?.hasAnswersToSync;
+      pendingSync?.hasAnswersToSync;
 
     if (!hasDataToSync) return;
 
-    // If not authenticated, just return - the notification will be handled by useSyncNotification
     if (!isAuthenticated) {
       return;
     }
@@ -112,7 +101,7 @@ export const useOfflineSync = () => {
     propertyId: string,
   ) => {
     const data = {
-      propertyId,
+      propertyId: Number(propertyId),
       monitorsQuality: answers["14"] ?? 0,
       monitoredWaterPointsPercent: answers["15"] ?? 0,
       nitrateAnalysis: answers["16"] ?? 0,
@@ -138,11 +127,9 @@ export const useOfflineSync = () => {
     if (hasWaterIndicator) {
       await syncWaterIndicator(answers, propertyId);
     }
-
     if (hasWaterQuality) {
       await syncWaterQualityConservation(answers, propertyId);
     }
-
     if (hasWasteManagement) {
       await syncWasteManagement(answers, propertyId);
     }
@@ -153,7 +140,7 @@ export const useOfflineSync = () => {
     propertyId: string,
   ) => {
     const data = {
-      propertyId,
+      propertyId: Number(propertyId),
       hasHydraulicMap: answers["1"] ?? 0,
       hasWaterMeasurement: answers["2"] ?? 0,
       measurementFrequency: answers["3"] ?? 0,
@@ -173,11 +160,12 @@ export const useOfflineSync = () => {
   };
 
   const forceSyncNow = useCallback(() => {
+    syncFailedRef.current = false;
     if (!isAuthenticated) {
       Toast.show({
         type: "warning",
-        text1: "Login necessário",
-        text2: "Faça login para sincronizar seus dados.",
+        text1: t("offlineMode.loginRequiredTitle"),
+        text2: t("offlineMode.loginRequiredMessage"),
         visibilityTime: 3000,
       });
       return;
@@ -186,8 +174,8 @@ export const useOfflineSync = () => {
     if (!isOnline) {
       Toast.show({
         type: "warning",
-        text1: "Sem conexão",
-        text2: "Conecte-se à internet para sincronizar",
+        text1: t("offlineMode.noConnectionTitle"),
+        text2: t("offlineMode.connectToSync"),
         visibilityTime: 3000,
       });
       return;
@@ -201,7 +189,7 @@ export const useOfflineSync = () => {
     propertyId: string,
   ) => {
     const data = {
-      propertyId,
+      propertyId: Number(propertyId),
       wasteStorageSystem: answers["22"] ?? 0,
       impermeabilizedSystem: answers["23"] ?? 0,
       rainwaterDiverted: answers["24"] ?? 0,
@@ -221,102 +209,18 @@ export const useOfflineSync = () => {
     await WasteManagementService.createWasteManagement(data);
   };
 
-  const mapFormDataToPropertyRequest = (formData: FormData) => {
-    let productionSystem:
-      | "PASTO"
-      | "PASTO_SUPLEMENTACAO"
-      | "CONFINADO"
-      | "CONFINADO_MISTO"
-      | "OUTRO" = "PASTO";
-
-    switch (formData.sistemaProducao.tipo) {
-      case "exclusivamente_pasto":
-        productionSystem = "PASTO";
-        break;
-      case "pasto_suplementacao":
-        productionSystem = "PASTO_SUPLEMENTACAO";
-        break;
-      case "confinado_sem_pasto":
-        productionSystem = "CONFINADO";
-        break;
-      case "confinado_vacas_lactacao":
-        productionSystem = "CONFINADO_MISTO";
-        break;
-      case "outro":
-        productionSystem = "OUTRO";
-        break;
-    }
-
-    const feedUnit: "MATERIA_NATURAL" | "MATERIA_SECA" =
-      formData.consumoDiario.unidadeInformada === "materia_natural"
-        ? "MATERIA_NATURAL"
-        : "MATERIA_SECA";
-
-    const mapLicenseStatus = (
-      status: string | null,
-    ): "SIM" | "NAO" | "DISPENSA" | null => {
-      const normalizedStatus = status?.toLowerCase().trim();
-
-      if (normalizedStatus === "sim") {
-        return "SIM";
-      }
-      if (normalizedStatus === "nao") {
-        return "NAO";
-      }
-      if (normalizedStatus === "nao_se_aplica") {
-        return "DISPENSA";
-      }
-
-      return "DISPENSA";
-    };
-
-    return {
-      country: formData.localizacao.pais,
-      state: formData.localizacao.estado,
-      city: formData.localizacao.cidade,
-      productionSystem,
-      totalAreaHa: formData.area.propriedade,
-      pastureAreaHa: formData.area.pastagem,
-      silageAreaHa: formData.area.silagem,
-      lactatingCows: formData.rebanho.vacasLactacao,
-      dryCows: formData.rebanho.vacasSecas,
-      heifersOver12M: formData.rebanho.novilhas,
-      calvesUnder12M: formData.rebanho.bezerros,
-      steers: formData.rebanho.garrotes,
-      bulls: formData.rebanho.bulls,
-      milkLitersPerDayProperty: formData.producaoLeiteira.litrosDiaPropriedade,
-      milkLitersPerCowDay: formData.producaoLeiteira.litrosVacaDia,
-      milkFatPercentage: formData.composicaoLeite.percentualGordura,
-      milkProteinPercentage: formData.composicaoLeite.percentualProteina,
-      roughageKgPerCow: formData.consumoDiario.volumoso,
-      concentrateKgPerCow: formData.consumoDiario.concentrado,
-      feedUnit,
-      monthlyEnergyKWh: formData.energiaEletrica.consumoMensal,
-      hasPhotovoltaicEnergy:
-        formData.energiaEletrica.temEnergiaFotovoltaica === true,
-      hasEnvironmentalLicense: mapLicenseStatus(
-        formData.legislacaoAmbiental.temLicencaAmbiental,
-      ),
-      hasWaterGrant: mapLicenseStatus(
-        formData.legislacaoAmbiental.temOutorgaAgua,
-      ),
-    };
-  };
-
   const syncOfflineData = async () => {
     if (!isOnline) return;
-
+    if (syncFailedRef.current) return;
     if (!isAuthenticated) {
       Toast.show({
         type: "warning",
-        text1: "Login necessário",
-        text2: "Faça login para sincronizar seus dados.",
+        text1: t("offlineMode.loginRequiredTitle"),
+        text2: t("offlineMode.loginRequiredMessage"),
         visibilityTime: 3000,
       });
-
       return;
     }
-
     if (globalIsSyncingRef.current) return;
 
     setIsSyncing(true);
@@ -326,87 +230,99 @@ export const useOfflineSync = () => {
       const pendingSync = await OfflineSyncService.getPendingSync();
 
       if (!pendingSync) {
-        setIsSyncing(false);
-        globalIsSyncingRef.current = false;
         return;
       }
 
       let propertyId = pendingSync.propertyId;
 
-      if (pendingSync.hasPropertyToSync) {
+      if (propertyId && OfflineSyncService.isTempPropertyId(propertyId)) {
         const offlineProperty = await OfflineSyncService.getOfflineProperty();
 
-        if (offlineProperty) {
-          try {
-            const response = await createPropertyFromFormData(
-              offlineProperty.formData,
-            );
-
-            if (response?.property?.id) {
-              propertyId = response.property.id;
-              await OfflineSyncService.saveOfflinePropertyId(propertyId);
-              await OfflineSyncService.clearOfflineProperty();
-              await OfflineSyncService.setPendingSync(false, true, propertyId);
-
-              Toast.show({
-                type: "success",
-                text1: "Sincronização",
-                text2: hasExistingProperty
-                  ? t("questionnaire.propertyUpdatedSuccess")
-                  : t("questionnaire.propertyCreatedSuccess"),
-                visibilityTime: 3000,
-              });
-            }
-          } catch (error) {
-            console.error("❌ Erro ao sincronizar propriedade:", error);
-            throw error;
-          }
+        if (!offlineProperty) {
+          throw new Error("Dados da propriedade offline não encontrados no SQLite");
         }
+
+        const propertyData = mapFormDataToPropertyRequest(offlineProperty.formData);
+
+        const response = await PropertyService.createProperty(propertyData);
+
+        const realId = response?.property?.id;
+
+        if (!realId) {
+          throw new Error(`Backend não retornou ID da propriedade. Resposta: ${JSON.stringify(response)}`);
+        }
+
+        propertyId = String(realId);
+
+        await OfflineSyncService.saveOfflinePropertyId(propertyId);
+        await OfflineSyncService.setPendingSync(false, pendingSync.hasAnswersToSync, propertyId);
       }
 
       if (propertyId && !OfflineSyncService.isTempPropertyId(propertyId)) {
         const validPropertyId = propertyId;
         const offlineAnswers = await OfflineSyncService.getOfflineAnswers();
 
-        if (offlineAnswers) {
-          try {
-            await syncAllQuestionnaires(
-              offlineAnswers.answers,
-              validPropertyId,
-            );
-
-            try {
-              await WaterPerformanceIndexService.getWaterPerformanceIndex({
-                propertyId: validPropertyId,
-              });
-            } catch (e) {
-              console.warn("Não foi possível calcular o IDH Leite:", e);
-            }
-
-            Toast.show({
-              type: "success",
-              text1: "Sincronização Completa",
-              text2: "Todos os dados foram sincronizados!",
-              visibilityTime: 3000,
-            });
-
-            await OfflineSyncService.clearOfflineData();
-            await OfflineSyncService.clearFormCompletedOffline();
-            await NotificationService.clearNotificationScheduled();
-            setHasPendingData(false);
-
-            await refetchUser();
-          } catch (error) {
-            throw error;
-          }
+        if (!offlineAnswers) {
+          console.warn("[Sync] estado órfão: pendingSync existe mas não há respostas no SQLite");
+          await OfflineSyncService.clearOfflineData();
+          await OfflineSyncService.clearFormCompletedOffline();
+          await NotificationService.clearNotificationScheduled();
+          setHasPendingData(false);
+          return;
         }
+
+        await syncAllQuestionnaires(offlineAnswers.answers, validPropertyId);
+
+        try {
+          const offlineScores = await OfflineSyncService.getOfflineScores();
+          if (offlineScores) {
+            await WaterPerformanceIndexService.createWaterPerformanceIndex({
+              propertyId: Number(validPropertyId),
+              waterManagementScore: offlineScores.macroIndicators.quantidadeAgua,
+              waterQualityConservationScore: offlineScores.macroIndicators.qualidadeAgua,
+              wasteManagementScore: offlineScores.macroIndicators.manejoResiduos,
+              finalScore: offlineScores.finalScore,
+            });
+          }
+        } catch (e) {
+          console.error("[Sync] Não foi possível salvar o WPI:", e);
+        }
+
+        await OfflineSyncService.clearOfflineData();
+        await OfflineSyncService.clearFormCompletedOffline();
+        await NotificationService.clearNotificationScheduled();
+        setHasPendingData(false);
+
+        Toast.show({
+          type: "success",
+          text1: t("offlineMode.syncComplete"),
+          text2: t("offlineMode.syncCompleteMessage"),
+          visibilityTime: 3000,
+        });
+
+        refetchUser().catch(console.error);
       }
-    } catch (error) {
+    } catch (error: any) {
+      syncFailedRef.current = true;
+      console.error("[Sync] ERRO:", error?.message ?? error, "\nStack:", error?.stack);
+      console.error("[Sync] Detalhes API:", JSON.stringify({
+        status: error?.response?.status,
+        data: error?.response?.data,
+        url: error?.config?.url,
+        requestData: error?.config?.data,
+      }, null, 2));
+      const apiError =
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        error?.message;
+      const errorDetail = apiError
+        ? String(apiError).substring(0, 120)
+        : t("offlineMode.syncErrorMessage");
       Toast.show({
         type: "error",
-        text1: "Erro na Sincronização",
-        text2: "Não foi possível sincronizar os dados. Tentaremos novamente.",
-        visibilityTime: 5000,
+        text1: t("offlineMode.syncError"),
+        text2: errorDetail,
+        visibilityTime: 8000,
       });
     } finally {
       setIsSyncing(false);

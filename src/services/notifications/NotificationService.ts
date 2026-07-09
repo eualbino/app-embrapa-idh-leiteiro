@@ -7,7 +7,6 @@ const FORM_COMPLETED_OFFLINE_KEY = "@app:form_completed_offline";
 const NOTIFICATION_PERMISSION_REQUESTED_KEY =
   "@app:notification_permission_requested";
 
-// Configure notification behavior
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -19,9 +18,6 @@ Notifications.setNotificationHandler({
 });
 
 export class NotificationService {
-  /**
-   * Check if we have already requested permissions before
-   */
   static async hasAlreadyRequestedPermissions(): Promise<boolean> {
     try {
       const value = await AsyncStorage.getItem(
@@ -34,9 +30,6 @@ export class NotificationService {
     }
   }
 
-  /**
-   * Mark that we have requested permissions
-   */
   static async markPermissionRequested(): Promise<void> {
     try {
       await AsyncStorage.setItem(NOTIFICATION_PERMISSION_REQUESTED_KEY, "true");
@@ -45,16 +38,11 @@ export class NotificationService {
     }
   }
 
-  /**
-   * Request notification permissions (only asks once, on first app use)
-   */
   static async requestPermissions(): Promise<boolean> {
     try {
-      // Check if we already have permission
       const { status: existingStatus } =
         await Notifications.getPermissionsAsync();
 
-      // If already granted, just configure Android channel and return
       if (existingStatus === "granted") {
         if (Platform.OS === "android") {
           await Notifications.setNotificationChannelAsync("sync-reminder", {
@@ -74,17 +62,14 @@ export class NotificationService {
         return false;
       }
 
-      // First time asking - request permission
       const { status } = await Notifications.requestPermissionsAsync();
 
-      // Mark that we've requested (regardless of result)
       await this.markPermissionRequested();
 
       if (status !== "granted") {
         return false;
       }
 
-      // Configure Android channel
       if (Platform.OS === "android") {
         await Notifications.setNotificationChannelAsync("sync-reminder", {
           name: "Lembrete de Sincronização",
@@ -113,9 +98,6 @@ export class NotificationService {
     }
   }
 
-  /**
-   * Check if form was completed offline
-   */
   static async wasFormCompletedOffline(): Promise<boolean> {
     try {
       const value = await AsyncStorage.getItem(FORM_COMPLETED_OFFLINE_KEY);
@@ -126,9 +108,6 @@ export class NotificationService {
     }
   }
 
-  /**
-   * Clear the form completed offline flag
-   */
   static async clearFormCompletedOffline(): Promise<void> {
     try {
       await AsyncStorage.removeItem(FORM_COMPLETED_OFFLINE_KEY);
@@ -137,12 +116,8 @@ export class NotificationService {
     }
   }
 
-  /**
-   * Send a local notification to remind user to sync data
-   */
   static async sendSyncReminderNotification(): Promise<void> {
     try {
-      // Check if we already sent a notification recently
       const alreadyScheduled = await AsyncStorage.getItem(
         NOTIFICATION_SCHEDULED_KEY,
       );
@@ -151,19 +126,16 @@ export class NotificationService {
         const hoursSinceScheduled =
           (Date.now() - scheduledTime) / (1000 * 60 * 60);
 
-        // Don't send another notification if one was sent in the last hour
         if (hoursSinceScheduled < 1) {
           return;
         }
       }
 
-      // Request permissions if not already granted
       const hasPermission = await this.requestPermissions();
       if (!hasPermission) {
         return;
       }
 
-      // Schedule immediate notification
       await Notifications.scheduleNotificationAsync({
         content: {
           title: "📱 Dados prontos para sincronizar!",
@@ -171,10 +143,9 @@ export class NotificationService {
           data: { type: "sync_reminder" },
           sound: true,
         },
-        trigger: null, // null means show immediately
+        trigger: null,
       });
 
-      // Mark that we sent the notification
       await AsyncStorage.setItem(
         NOTIFICATION_SCHEDULED_KEY,
         Date.now().toString(),
@@ -184,9 +155,6 @@ export class NotificationService {
     }
   }
 
-  /**
-   * Clear the notification scheduled flag
-   */
   static async clearNotificationScheduled(): Promise<void> {
     try {
       await AsyncStorage.removeItem(NOTIFICATION_SCHEDULED_KEY);
@@ -195,9 +163,6 @@ export class NotificationService {
     }
   }
 
-  /**
-   * Cancel all scheduled notifications
-   */
   static async cancelAllNotifications(): Promise<void> {
     try {
       await Notifications.cancelAllScheduledNotificationsAsync();
@@ -206,18 +171,13 @@ export class NotificationService {
     }
   }
 
-  /**
-   * Add notification response listener
-   */
+
   static addNotificationResponseListener(
     callback: (response: Notifications.NotificationResponse) => void,
   ): Notifications.EventSubscription {
     return Notifications.addNotificationResponseReceivedListener(callback);
   }
 
-  /**
-   * Add notification received listener
-   */
   static addNotificationReceivedListener(
     callback: (notification: Notifications.Notification) => void,
   ): Notifications.EventSubscription {

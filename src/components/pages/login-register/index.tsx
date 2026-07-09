@@ -61,7 +61,8 @@ async function openPdf(moduleId: number, fileName: string) {
         text2: "Não foi possível abrir o arquivo.",
       });
     }
-  } catch {
+  } catch (error) {
+    console.error("Erro ao abrir documento:", error);
     Toast.show({
       type: "error",
       text1: "Erro",
@@ -124,8 +125,7 @@ export default function LoginRegister({
   const handleSubmit = async () => {
     if (view === VIEW_LOGIN_PAGE.LOGIN) {
       await login({
-        email: form.email || undefined,
-        cpf: form.cpf ? unformatCPF(form.cpf) : undefined,
+        email: form.email,
         password: form.password,
       });
     } else {
@@ -171,20 +171,12 @@ export default function LoginRegister({
       return (
         <View>
           <Input
-            label={t("common.email") + " ou CPF"}
+            label={t("common.email")}
             placeholder="email@gmail.com"
-            value={form.email || form.cpf}
-            onChangeText={(text) => {
-              if (text.includes("@") || /[a-zA-Z]/.test(text)) {
-                setForm((prev) => ({ ...prev, email: text, cpf: "" }));
-              } else {
-                setForm((prev) => ({
-                  ...prev,
-                  cpf: formatCPFInput(text),
-                  email: "",
-                }));
-              }
-            }}
+            value={form.email}
+            autoCapitalize="none"
+            onChangeText={(text) => handleFormChange("email", text)}
+            keyboardType="email-address"
             autoComplete="email"
           />
 
@@ -193,6 +185,7 @@ export default function LoginRegister({
             placeholder="********"
             value={form.password}
             onChangeText={(text) => handleFormChange("password", text)}
+            autoCapitalize="none"
             secureTextEntry
             autoComplete="password"
           />
@@ -215,6 +208,7 @@ export default function LoginRegister({
           value={form.email}
           onChangeText={(text) => handleFormChange("email", text)}
           keyboardType="email-address"
+          autoCapitalize="none"
           autoComplete="email"
         />
         <Input

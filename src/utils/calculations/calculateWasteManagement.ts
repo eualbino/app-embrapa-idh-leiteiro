@@ -12,7 +12,6 @@ function getEstruturaWeights(impermeabilizedSystem: number): {
   roofGutters: number;
 } {
   if (impermeabilizedSystem === 1) {
-    // Cenário normal
     return {
       wasteStorageSystem: 0.223,
       impermeabilizedSystem: 0.227,
@@ -23,7 +22,6 @@ function getEstruturaWeights(impermeabilizedSystem: number): {
   }
 
   if (impermeabilizedSystem === 0.67) {
-    // Cenário N1 — não se aplica
     return {
       wasteStorageSystem: 0.306,
       impermeabilizedSystem: 0,
@@ -33,7 +31,6 @@ function getEstruturaWeights(impermeabilizedSystem: number): {
     };
   }
 
-  // Cenário N0 ou N2 (0 ou 0.33)
   return {
     wasteStorageSystem: 0.838,
     impermeabilizedSystem: 0,
@@ -46,7 +43,6 @@ function getEstruturaWeights(impermeabilizedSystem: number): {
 export function calculateWasteManagement(
   data: Omit<CreateWasteManagementRequest, "propertyId">,
 ): Omit<WasteManagementData, "propertyId"> {
-  // Estrutura (Q22-Q26) com pesos determinados pelo valor de Q23
   const ew = getEstruturaWeights(data.impermeabilizedSystem);
 
   const estrutura =
@@ -56,14 +52,12 @@ export function calculateWasteManagement(
     data.systemLeaks * ew.systemLeaks +
     data.roofGutters * ew.roofGutters;
 
-  // Manejo de Resíduo (Q27-Q30)
   const manejoResiduo =
     data.floorWashingPercentage * 0.223 +
     data.manureRaking * 0.294 +
     data.pressureWashing * 0.282 +
     data.emergencyPlan * 0.201;
 
-  // Adubação (Q31-Q35)
   const adubacao =
     data.fertilizerDocumentation * 0.167 +
     data.organicResidueLab * 0.210 +

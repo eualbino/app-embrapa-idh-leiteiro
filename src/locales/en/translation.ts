@@ -29,6 +29,7 @@ export default {
       logoutCancel: "Cancel",
       later: "Later",
       login: "Login",
+      offline: "No connection",
     },
 
     // Profile
@@ -38,6 +39,28 @@ export default {
       updateSuccess: "Profile updated successfully!",
       updateError: "Error updating profile. Please try again.",
       cpfReadOnly: "CPF cannot be changed.",
+      changePasswordButton: "Change password",
+      changePassword: {
+        title: "Change Password",
+        currentPassword: "Current Password",
+        currentPasswordPlaceholder: "Enter your current password",
+        newPassword: "New Password",
+        newPasswordPlaceholder: "Enter your new password",
+        confirmPassword: "Confirm New Password",
+        confirmPasswordPlaceholder: "Enter your new password again",
+        submit: "Change Password",
+        submitting: "Changing...",
+        success: "Password changed successfully!",
+        errors: {
+          emptyCurrentPassword: "Please enter your current password.",
+          invalidPassword: "The password does not meet the minimum requirements.",
+          passwordMismatch: "Passwords do not match.",
+          samePassword: "The new password must be different from the current password.",
+          wrongCurrentPassword: "Current password is incorrect.",
+          offline: "Connect to the internet to change your password.",
+          generic: "Could not change the password. Please try again.",
+        },
+      },
     },
 
     // Login & Register
@@ -80,6 +103,7 @@ export default {
         "Access your account or sign up for free and start using the app",
       accessAccount: "ACCESS MY ACCOUNT",
       register: "SIGN UP",
+      continueOffline: "Continue without internet",
       forgotPassword: "Forgot my password",
     },
 
@@ -88,7 +112,9 @@ export default {
       title: "Forgot Password?",
       sendEmailTitle: "Forgot Password?",
       sendEmailDescription:
-        "Enter your registered email and we will send you a verification code to reset your password.",
+        "Enter your registered email and we will send a new password to continue access.",
+      emailBody:
+        "The password is provided below.",
       confirmCodeTitle: "Confirm Code",
       confirmCodeDescription: "A code was sent to your email:",
       resetPasswordTitle: "Reset Password",
@@ -104,7 +130,9 @@ export default {
       confirmPasswordPlaceholder: "Enter your password again",
 
       sendCode: "Send Code",
+      sendPassword: "Send New Password",
       sending: "Sending...",
+      sendingPassword: "Sending new password...",
       confirmCode: "Confirm Code",
       verifying: "Verifying...",
       resetPassword: "Reset Password",
@@ -141,6 +169,8 @@ export default {
       success: {
         emailSent: "Email Sent",
         emailSentMessage: "A verification code was sent to your email.",
+        passwordSent: "New Password Sent",
+        passwordSentMessage: "A new password was sent to your email.",
         codeVerified: "Code Verified",
         codeVerifiedMessage: "Code confirmed successfully!",
         codeResent: "Code Resent",
@@ -361,6 +391,8 @@ export default {
           missingFormDataMessage: "Characterization form data not available.",
           answerAllTitle: "Attention",
           answerAllMessage: "Please answer all questions before continuing.",
+          questionIds: "(Questions: {{ids}})",
+          stepError: "Error processing the step. Please try again.",
           completedTitle: "Success",
           completedMessage: "You have completed all the questions!",
           scoreTitle: "Your score in {{groupName}} was:",
@@ -731,6 +763,7 @@ export default {
       emptyMessage: "Fill out the questionnaire to view your history",
       tapToViewDetails: "Tap to view details",
       viewingResults: "Viewing results",
+      refreshingData: "Loading data...",
     },
 
     notifications: {
@@ -752,6 +785,24 @@ export default {
         "Data will be synced when you log in with internet access.",
       connectionRestored: "Connection Restored",
       loginToSync: "Internet is back! Log in to sync your offline data.",
+      syncing: "Syncing data...",
+      offlineBanner: "You are offline. Data will be saved locally.",
+      formCompleteTitle: "Form Complete",
+      savedLoginToSync: "Data saved. Log in to sync with the server.",
+      savedWillSync:
+        "Data saved offline. It will be synced when you have a connection.",
+      savedLoginAgain: "Data saved locally. Log in again to sync.",
+      syncComplete: "Sync Complete",
+      syncCompleteMessage: "All data has been synced!",
+      syncError: "Sync Error",
+      syncErrorMessage:
+        "Could not sync data. We will try again.",
+      loginRequiredTitle: "Login required",
+      loginRequiredMessage: "Log in to sync your data.",
+      noConnectionTitle: "No connection",
+      connectToSync: "Connect to the internet to sync",
+      syncingPending: "Syncing pending data...",
+      sessionExpired: "Session expired",
     },
   },
 };

@@ -10,11 +10,11 @@ import { useAuthContext } from "@/src/contexts/AuthContext";
 import { useNetworkStatus } from "@/src/hooks/useNetworkStatus";
 
 // Services
-import {
-  PropertyService,
-  CreatePropertyRequest,
-} from "@/src/services/api/property";
+import { PropertyService } from "@/src/services/api/property";
 import { OfflineSyncService } from "@/src/services/offline/OfflineSyncService";
+
+// Utils
+import { mapFormDataToPropertyRequest } from "./mapFormDataToPropertyRequest";
 
 // Types
 import type { FormData } from "@/src/components/pages/questions/components/QuestionsCaracterizacao/types";
@@ -26,88 +26,6 @@ export const useProperty = () => {
   const { properties, isAuthenticated } = useAuthContext();
 
   const hasExistingProperty = properties && properties.length > 0;
-
-  const mapFormDataToPropertyRequest = (
-    formData: FormData,
-  ): CreatePropertyRequest => {
-    let productionSystem: CreatePropertyRequest["productionSystem"] = "PASTO";
-
-    switch (formData.sistemaProducao.tipo) {
-      case "exclusivamente_pasto":
-        productionSystem = "PASTO";
-        break;
-      case "pasto_suplementacao":
-        productionSystem = "PASTO_SUPLEMENTACAO";
-        break;
-      case "confinado_sem_pasto":
-        productionSystem = "CONFINADO";
-        break;
-      case "confinado_vacas_lactacao":
-        productionSystem = "CONFINADO_MISTO";
-        break;
-      case "outro":
-        productionSystem = "OUTRO";
-        break;
-    }
-
-    const feedUnit: "MATERIA_NATURAL" | "MATERIA_SECA" =
-      formData.consumoDiario.unidadeInformada === "materia_natural"
-        ? "MATERIA_NATURAL"
-        : "MATERIA_SECA";
-
-    const mapLicenseStatus = (
-      status: string | null,
-    ): "SIM" | "NAO" | "DISPENSA" => {
-      if (!status) {
-        return "DISPENSA";
-      }
-      const normalizedStatus = status.toLowerCase().trim();
-
-      if (normalizedStatus === "sim") {
-        return "SIM";
-      }
-      if (normalizedStatus === "nao") {
-        return "NAO";
-      }
-      if (normalizedStatus === "nao_se_aplica") {
-        return "DISPENSA";
-      }
-
-      return "DISPENSA";
-    };
-
-    return {
-      country: formData.localizacao.pais,
-      state: formData.localizacao.estado || "",
-      city: formData.localizacao.cidade || "",
-      productionSystem,
-      totalAreaHa: formData.area.propriedade,
-      pastureAreaHa: formData.area.pastagem,
-      silageAreaHa: formData.area.silagem,
-      lactatingCows: formData.rebanho.vacasLactacao,
-      dryCows: formData.rebanho.vacasSecas,
-      heifersOver12M: formData.rebanho.novilhas,
-      calvesUnder12M: formData.rebanho.bezerros,
-      steers: formData.rebanho.garrotes,
-      bulls: formData.rebanho.bulls,
-      milkLitersPerDayProperty: formData.producaoLeiteira.litrosDiaPropriedade,
-      milkLitersPerCowDay: formData.producaoLeiteira.litrosVacaDia,
-      milkFatPercentage: formData.composicaoLeite.percentualGordura,
-      milkProteinPercentage: formData.composicaoLeite.percentualProteina,
-      roughageKgPerCow: formData.consumoDiario.volumoso,
-      concentrateKgPerCow: formData.consumoDiario.concentrado,
-      feedUnit,
-      monthlyEnergyKWh: formData.energiaEletrica.consumoMensal,
-      hasPhotovoltaicEnergy:
-        formData.energiaEletrica.temEnergiaFotovoltaica === true,
-      hasEnvironmentalLicense: mapLicenseStatus(
-        formData.legislacaoAmbiental.temLicencaAmbiental,
-      ),
-      hasWaterGrant: mapLicenseStatus(
-        formData.legislacaoAmbiental.temOutorgaAgua,
-      ),
-    };
-  };
 
   const createProperty = async (formData: FormData) => {
     setIsLoading(true);
@@ -123,8 +41,7 @@ export const useProperty = () => {
         Toast.show({
           type: "info",
           text1: t("common.offline"),
-          text2:
-            "Dados salvos localmente. Serão sincronizados quando houver conexão.",
+          text2: t("offlineMode.dataSavedLocally"),
           visibilityTime: 4000,
         });
 
@@ -148,9 +65,17 @@ export const useProperty = () => {
 
       return response;
     } catch (error: any) {
-      console.error("Erro ao criar propriedade:", error);
+      console.error("Erro ao criar propriedade:", JSON.stringify({
+        status: error?.response?.status,
+        data: error?.response?.data,
+        message: error?.message,
+        config: {
+          url: error?.config?.url,
+          data: error?.config?.data,
+          headers: error?.config?.headers,
+        },
+      }, null, 2));
 
-      // If authentication error (401/403), save offline
       if (error.response?.status === 401 || error.response?.status === 403) {
         await OfflineSyncService.saveOfflineProperty(formData);
         const tempId = OfflineSyncService.generateTempPropertyId();
@@ -158,9 +83,8 @@ export const useProperty = () => {
 
         Toast.show({
           type: "warning",
-          text1: "Sessão expirada",
-          text2:
-            "Dados salvos localmente. Faça login novamente para sincronizar.",
+          text1: t("offlineMode.sessionExpired"),
+          text2: t("offlineMode.savedLoginAgain"),
           visibilityTime: 5000,
         });
 

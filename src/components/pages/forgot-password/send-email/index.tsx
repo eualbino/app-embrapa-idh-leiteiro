@@ -51,7 +51,19 @@ export default function SendEmailForgotPassword() {
       return;
     }
 
-    await sendForgotPasswordEmail({ email });
+    const sent = await sendForgotPasswordEmail({ email });
+
+    if (!sent) {
+      return;
+    }
+
+    Toast.show({
+      type: "success",
+      text1: t("forgotPassword.success.passwordSent"),
+      text2: t("forgotPassword.success.passwordSentMessage"),
+    });
+
+    router.replace("/login");
   };
 
   const handleBackToLogin = () => {
@@ -99,8 +111,8 @@ export default function SendEmailForgotPassword() {
                 disabled={isLoading}
               >
                 {isLoading
-                  ? t("forgotPassword.sending")
-                  : t("forgotPassword.sendCode")}
+                  ? t("forgotPassword.sendingPassword")
+                  : t("forgotPassword.sendPassword")}
               </ButtonCommon>
             </View>
 

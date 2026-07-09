@@ -40,7 +40,7 @@ export const useResultPDFData = (
 
         // Busca a propriedade específica
         const foundProperty = response.properties.find(
-          (prop) => prop.id === propertyId,
+          (prop) => prop.id === Number(propertyId),
         );
 
         if (foundProperty) {

@@ -72,10 +72,12 @@ export const PropertyHistoryCard: React.FC<PropertyHistoryCardProps> = ({
           productionSystem: property.productionSystem,
           totalAreaHa: property.totalAreaHa,
           createdAt: property.createdAt,
-          waterManagementScore: property.waterManagementScore,
-          waterQualityConservationScore: property.waterQualityConservationScore,
-          wasteManagementScore: property.wasteManagementScore,
-          waterPerformanceIndexScore: property.waterPerformanceIndexScore,
+          waterManagementScore: property.waterManagementScore ?? null,
+          waterQualityConservationScore:
+            property.waterQualityConservationScore ?? null,
+          wasteManagementScore: property.wasteManagementScore ?? null,
+          waterPerformanceIndexScore:
+            property.waterPerformanceIndexScore ?? null,
         },
         userName,
         userEmail,

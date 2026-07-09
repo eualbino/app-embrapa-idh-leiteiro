@@ -20,12 +20,6 @@ export interface UserProfile {
   createdAt: string;
 }
 
-export interface UpdateProfileRequest {
-  name: string;
-  email: string;
-  phone?: string;
-}
-
 export interface PropertySummary {
   id: number;
   userId: number;

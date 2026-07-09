@@ -51,6 +51,10 @@ export const styles = StyleSheet.create({
     paddingTop: theme.spacing.md,
     paddingBottom: theme.spacing.sm,
   },
+  disabledInput: {
+    color: "#999",
+    backgroundColor: "#F5F5F5",
+  },
   cpfRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -100,17 +104,5 @@ export const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "700",
     color: "#424242",
-  },
-  saveButton: {
-    flex: 1,
-    paddingVertical: 14,
-    borderRadius: 12,
-    backgroundColor: theme.colors.primary.default,
-    alignItems: "center",
-  },
-  saveText: {
-    fontSize: 15,
-    fontWeight: "700",
-    color: "#fff",
   },
 });

@@ -4,7 +4,6 @@ import { PropertyHistory } from "../../database";
 import { AuthService } from "../auth";
 import type {
   GetMeResponse,
-  UpdateProfileRequest,
   UserProfile,
   PropertySummary,
   UsuarioResponse,
@@ -160,49 +159,6 @@ export class UserService {
         waterPerformanceIndexScore: wpi.finalScore,
       };
     });
-  }
-
-  static async updateProfile(data: UpdateProfileRequest): Promise<UserProfile> {
-    const storedProfile = await UserService.loadUserProfile();
-    if (!storedProfile?.id) {
-      throw new Error("Perfil do usuário não encontrado");
-    }
-
-    await api.post("/update", {
-      entity: "Users",
-      idValue: storedProfile.id,
-      data: {
-        id: storedProfile.id,
-        email: data.email,
-        name: data.name,
-        cpf: storedProfile.cpf,
-        role: storedProfile.role,
-        otpCode: null,
-        otpExpire: null,
-      },
-    });
-
-    if (storedProfile.usuariosCadastroId) {
-      await api.post("/update", {
-        entity: "UsuariosCadastro",
-        idValue: storedProfile.usuariosCadastroId,
-        data: {
-          idt: storedProfile.usuariosCadastroId,
-          matricula: storedProfile.cpf,
-          email: data.email,
-          nome: data.name,
-        },
-      });
-    }
-
-    const updatedProfile: UserProfile = {
-      ...storedProfile,
-      name: data.name,
-      email: data.email,
-    };
-
-    await UserService.saveUserProfile(updatedProfile);
-    return updatedProfile;
   }
 
   static async changePassword(

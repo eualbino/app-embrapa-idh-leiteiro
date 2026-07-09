@@ -22,11 +22,7 @@ import { NotificationService } from "@/src/services/notifications";
 
 // Types
 import type { RegisterRequest } from "@/src/services/api/auth/dtos";
-import type {
-  UserProfile,
-  PropertySummary,
-  UpdateProfileRequest,
-} from "@/src/services/api/user";
+import type { UserProfile, PropertySummary } from "@/src/services/api/user";
 
 interface LoginCredentials {
   email: string;
@@ -43,7 +39,6 @@ interface AuthContextData {
   register: (data: RegisterRequest) => Promise<void>;
   logout: () => Promise<void>;
   refetchUser: () => Promise<void>;
-  updateProfile: (data: UpdateProfileRequest) => Promise<void>;
   changePassword: (currentPassword: string, newPassword: string) => Promise<void>;
 }
 
@@ -251,31 +246,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const updateProfile = async (data: UpdateProfileRequest) => {
-    try {
-      setIsLoading(true);
-      const updatedUser = await UserService.updateProfile(data);
-      setUser(updatedUser);
-      Toast.show({
-        type: "success",
-        text1: t("common.success"),
-        text2: t("profile.updateSuccess"),
-      });
-    } catch (error: any) {
-      console.error("Erro ao atualizar perfil:", error);
-      const message =
-        error?.response?.data?.message || t("profile.updateError");
-      Toast.show({
-        type: "error",
-        text1: t("common.error"),
-        text2: message,
-      });
-      throw error;
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const changePassword = async (currentPassword: string, newPassword: string) => {
     if (!isOnline) {
       Toast.show({
@@ -355,7 +325,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         register,
         logout,
         refetchUser,
-        updateProfile,
         changePassword,
       }}
     >

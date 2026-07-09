@@ -36,8 +36,6 @@ export default {
     profile: {
       title: "Meu Perfil",
       edit: "Editar Perfil",
-      updateSuccess: "Perfil atualizado com sucesso!",
-      updateError: "Erro ao atualizar perfil. Tente novamente.",
       cpfReadOnly: "O CPF não pode ser alterado.",
       changePasswordButton: "Alterar senha",
       changePassword: {

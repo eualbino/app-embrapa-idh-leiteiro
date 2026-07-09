@@ -22,9 +22,6 @@ import { ChangePasswordModal } from "@/src/components/commons/ChangePasswordModa
 // Config
 import { theme } from "@/src/config";
 
-// Utils
-import { formatPhoneInput } from "@/src/utils";
-
 // Styles
 import { styles } from "./styles";
 
@@ -35,13 +32,12 @@ interface ProfileEditModalProps {
 
 export function ProfileEditModal({ visible, onClose }: ProfileEditModalProps) {
   const { t } = useTranslation();
-  const { user, updateProfile, isLoading } = useAuthContext();
+  const { user } = useAuthContext();
   const [changePasswordVisible, setChangePasswordVisible] = useState(false);
 
   const [form, setForm] = useState({
     name: "",
     email: "",
-    phone: "",
   });
 
   useEffect(() => {
@@ -49,23 +45,9 @@ export function ProfileEditModal({ visible, onClose }: ProfileEditModalProps) {
       setForm({
         name: user.name || "",
         email: user.email || "",
-        phone: user.phone ? formatPhoneInput(user.phone) : "",
       });
     }
   }, [visible, user]);
-
-  const handleSave = async () => {
-    try {
-      await updateProfile({
-        name: form.name,
-        email: form.email,
-        phone: form.phone.replace(/\D/g, ""),
-      });
-      onClose();
-    } catch (error) {
-      console.error("Erro ao salvar perfil:", error);
-    }
-  };
 
   const avatarInitials = user?.name
     ? user.name
@@ -106,30 +88,20 @@ export function ProfileEditModal({ visible, onClose }: ProfileEditModalProps) {
             >
               <Input
                 label={t("common.name")}
-                placeholder="Marcelo Souza"
                 value={form.name}
-                onChangeText={(text) => setForm((p) => ({ ...p, name: text }))}
-                autoComplete="name"
+                editable={false}
+                inputStyle={styles.disabledInput}
               />
               <Input
                 label={t("common.email")}
-                placeholder="email@gmail.com"
                 value={form.email}
-                onChangeText={(text) => setForm((p) => ({ ...p, email: text }))}
-                keyboardType="email-address"
-                autoComplete="email"
-                autoCapitalize="none"
+                editable={false}
+                inputStyle={styles.disabledInput}
               />
-              <Input
-                label={t("common.phone")}
-                placeholder="(11) 99999-9999"
-                value={form.phone}
-                onChangeText={(text) =>
-                  setForm((p) => ({ ...p, phone: formatPhoneInput(text) }))
-                }
-                keyboardType="phone-pad"
-                maxLength={15}
-              />
+              <View style={styles.cpfRow}>
+                <Ionicons name="lock-closed-outline" size={14} color="#999" />
+                <Text style={styles.cpfHint}>{t("profile.nameEmailReadOnly")}</Text>
+              </View>
 
               <View style={styles.cpfRow}>
                 <Ionicons name="lock-closed-outline" size={14} color="#999" />
@@ -160,16 +132,6 @@ export function ProfileEditModal({ visible, onClose }: ProfileEditModalProps) {
                 activeOpacity={0.7}
               >
                 <Text style={styles.cancelText}>{t("common.cancel")}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.saveButton}
-                onPress={handleSave}
-                disabled={isLoading}
-                activeOpacity={0.7}
-              >
-                <Text style={styles.saveText}>
-                  {isLoading ? t("common.loading") : t("common.save")}
-                </Text>
               </TouchableOpacity>
             </View>
           </View>

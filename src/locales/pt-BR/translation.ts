@@ -29,6 +29,7 @@ export default {
       logoutCancel: "Cancelar",
       later: "Depois",
       login: "Login",
+      offline: "Sem conexão",
     },
 
     // Profile
@@ -38,6 +39,28 @@ export default {
       updateSuccess: "Perfil atualizado com sucesso!",
       updateError: "Erro ao atualizar perfil. Tente novamente.",
       cpfReadOnly: "O CPF não pode ser alterado.",
+      changePasswordButton: "Alterar senha",
+      changePassword: {
+        title: "Alterar Senha",
+        currentPassword: "Senha Atual",
+        currentPasswordPlaceholder: "Digite sua senha atual",
+        newPassword: "Nova Senha",
+        newPasswordPlaceholder: "Digite sua nova senha",
+        confirmPassword: "Confirmar Nova Senha",
+        confirmPasswordPlaceholder: "Digite sua senha novamente",
+        submit: "Alterar Senha",
+        submitting: "Alterando...",
+        success: "Senha alterada com sucesso!",
+        errors: {
+          emptyCurrentPassword: "Por favor, insira sua senha atual.",
+          invalidPassword: "A senha não atende aos requisitos mínimos.",
+          passwordMismatch: "As senhas não coincidem.",
+          samePassword: "A nova senha deve ser diferente da senha atual.",
+          wrongCurrentPassword: "Senha atual incorreta.",
+          offline: "Conecte-se à internet para alterar sua senha.",
+          generic: "Não foi possível alterar a senha. Tente novamente.",
+        },
+      },
     },
 
     // Login & Register
@@ -81,6 +104,7 @@ export default {
       accessAccount: "ACESSAR MINHA CONTA",
       register: "CADASTRE-SE",
       forgotPassword: "Esqueci minha senha",
+      continueOffline: "Continuar sem internet",
     },
 
     // Forgot Password
@@ -88,7 +112,9 @@ export default {
       title: "Esqueceu a Senha?",
       sendEmailTitle: "Esqueceu a Senha?",
       sendEmailDescription:
-        "Digite seu e-mail cadastrado e enviaremos um código de verificação para redefinir sua senha.",
+        "Digite seu e-mail cadastrado e enviaremos uma nova senha para continuar o acesso.",
+      emailBody:
+        "Segue a senha logo abaixo.",
       confirmCodeTitle: "Confirmar Código",
       confirmCodeDescription: "Foi enviado um código para seu e-mail:",
       resetPasswordTitle: "Redefinir Senha",
@@ -104,7 +130,9 @@ export default {
       confirmPasswordPlaceholder: "Digite sua senha novamente",
 
       sendCode: "Enviar Código",
+      sendPassword: "Enviar Nova Senha",
       sending: "Enviando...",
+      sendingPassword: "Enviando nova senha...",
       confirmCode: "Confirmar Código",
       verifying: "Verificando...",
       resetPassword: "Redefinir Senha",
@@ -142,6 +170,8 @@ export default {
         emailSent: "E-mail Enviado",
         emailSentMessage:
           "Um código de verificação foi enviado para seu e-mail.",
+        passwordSent: "Nova Senha Enviada",
+        passwordSentMessage: "Uma nova senha foi enviada para seu e-mail.",
         codeVerified: "Código Verificado",
         codeVerifiedMessage: "Código confirmado com sucesso!",
         codeResent: "Código Reenviado",
@@ -367,6 +397,8 @@ export default {
             "Dados do formulário de caracterização não disponíveis.",
           answerAllTitle: "Atenção",
           answerAllMessage: "Responda todas as perguntas antes de continuar.",
+          questionIds: "(Perguntas: {{ids}})",
+          stepError: "Erro ao processar o passo. Tente novamente.",
           completedTitle: "Sucesso",
           completedMessage: "Você finalizou todas as perguntas!",
           scoreTitle: "Seu escore em {{groupName}} foi de:",
@@ -741,6 +773,7 @@ export default {
       emptyMessage: "Preencha o questionário para visualizar seu histórico",
       tapToViewDetails: "Toque para ver os detalhes",
       viewingResults: "Visualizando resultados",
+      refreshingData: "Carregando dados...",
     },
 
     notifications: {
@@ -763,6 +796,27 @@ export default {
       connectionRestored: "Conexão Restaurada",
       loginToSync:
         "A internet voltou! Faça login para sincronizar seus dados preenchidos offline.",
+      syncing: "Sincronizando dados...",
+      offlineBanner:
+        "Você está offline. Os dados serão salvos localmente.",
+      formCompleteTitle: "Formulário Completo",
+      savedLoginToSync:
+        "Dados salvos. Faça login para sincronizar com o servidor.",
+      savedWillSync:
+        "Dados salvos offline. Serão sincronizados quando houver conexão.",
+      savedLoginAgain:
+        "Dados salvos localmente. Faça login novamente para sincronizar.",
+      syncComplete: "Sincronização Completa",
+      syncCompleteMessage: "Todos os dados foram sincronizados!",
+      syncError: "Erro na Sincronização",
+      syncErrorMessage:
+        "Não foi possível sincronizar os dados. Tentaremos novamente.",
+      loginRequiredTitle: "Login necessário",
+      loginRequiredMessage: "Faça login para sincronizar seus dados.",
+      noConnectionTitle: "Sem conexão",
+      connectToSync: "Conecte-se à internet para sincronizar",
+      syncingPending: "Sincronizando dados pendentes...",
+      sessionExpired: "Sessão expirada",
     },
   },
 };

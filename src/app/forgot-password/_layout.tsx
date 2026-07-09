@@ -10,8 +10,6 @@ export default function ForgotPasswordLayout() {
       }}
     >
       <Stack.Screen name="send-email/index" />
-      <Stack.Screen name="confirm-code/index" />
-      <Stack.Screen name="reset-password/index" />
     </Stack>
   );
 }

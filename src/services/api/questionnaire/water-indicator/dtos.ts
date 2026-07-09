@@ -1,5 +1,5 @@
 export interface CreateWaterIndicatorRequest {
-  propertyId: string;
+  propertyId: number;
   hasHydraulicMap: number;
   hasWaterMeasurement: number;
   measurementFrequency: number;
@@ -38,7 +38,7 @@ export interface WaterIndicatorScores {
 }
 
 export interface WaterIndicatorData {
-  propertyId: string;
+  propertyId: number;
   finalScore: number;
   mesoIndicators: WaterIndicatorMesoIndicators;
   scores: WaterIndicatorScores;

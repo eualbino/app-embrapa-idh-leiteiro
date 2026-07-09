@@ -1,42 +1,33 @@
-import { useState, useCallback } from "react";
-import { useFocusEffect } from "expo-router";
-import { UserService, GetMeResponse } from "@/src/services/api/user";
+import { useMemo, useState, useCallback } from "react";
+import { useAuthContext } from "@/src/contexts/AuthContext";
 
 export const useUserHistory = () => {
-  const [data, setData] = useState<GetMeResponse | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { user, properties: rawProperties, isInitializing, refetchUser } = useAuthContext();
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const fetchUserData = useCallback(async () => {
+  const properties = useMemo(
+    () =>
+      [...rawProperties].sort(
+        (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+      ),
+    [rawProperties],
+  );
+
+  const refetch = useCallback(async () => {
+    setIsRefreshing(true);
     try {
-      setIsLoading(true);
-      setError(null);
-      const response = await UserService.getMe();
-      setData(response);
-    } catch (err: any) {
-      console.error("Erro ao buscar dados do usuário:", err);
-      setError(err?.response?.data?.message || "Erro ao carregar histórico");
+      await refetchUser();
     } finally {
-      setIsLoading(false);
+      setIsRefreshing(false);
     }
-  }, []);
-
-  // Refetch when the screen gains focus (e.g., after sync and navigating to history)
-  useFocusEffect(
-    useCallback(() => {
-      fetchUserData();
-    }, [fetchUserData])
-  );
-
-  const properties = [...(data?.properties || [])].sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-  );
+  }, [refetchUser]);
 
   return {
-    user: data?.user || null,
+    user,
     properties,
-    isLoading,
-    error,
-    refetch: fetchUserData,
+    isLoading: isInitializing,
+    isRefreshing,
+    error: null,
+    refetch,
   };
 };

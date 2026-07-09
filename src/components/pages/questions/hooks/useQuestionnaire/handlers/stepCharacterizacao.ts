@@ -14,7 +14,7 @@ import type { FormData } from "@/src/components/pages/questions/components/Quest
 interface Params {
   formData: FormData | null;
   formDataOverride?: FormData | null;
-  createProperty: (data: FormData) => Promise<{ property?: { id?: string } } | undefined>;
+  createProperty: (data: FormData) => Promise<{ property?: { id?: string | number } } | undefined>;
   t: TFunction;
   language: string;
   onSuccess: (propertyId: string, data: FormData) => void;
@@ -56,7 +56,8 @@ export async function handleCharacterizacaoStep({
   const response = await createProperty(data);
   const pid = response?.property?.id;
   if (pid) {
-    await OfflineSyncService.saveOfflinePropertyId(pid);
-    onSuccess(pid, data);
+    const pidStr = String(pid);
+    await OfflineSyncService.saveOfflinePropertyId(pidStr);
+    onSuccess(pidStr, data);
   }
 }

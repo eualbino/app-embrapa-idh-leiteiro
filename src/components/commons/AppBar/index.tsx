@@ -15,12 +15,16 @@ import { useRouter, usePathname } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 
+// Hooks
+import { useNetworkStatus } from "@/src/hooks/useNetworkStatus";
+
 // Context
 import { useAuthContext } from "@/src/contexts/AuthContext";
 
 // Components
 import { ProfileEditModal } from "@/src/components/commons/ProfileEditModal";
 import { LogoutButton } from "@/src/components/commons/LogoutButton";
+import { NetworkStatusBanner } from "@/src/components/commons/NetworkStatusBanner";
 
 // Styles
 import { styles } from "./styles";
@@ -39,6 +43,7 @@ export const AppBar: React.FC<AppBarProps> = ({ title = "IDH Leite" }) => {
   const insets = useSafeAreaInsets();
   const { t } = useTranslation();
   const { user } = useAuthContext();
+  const { isOffline } = useNetworkStatus();
 
   const openMenu = () => {
     setMenuVisible(true);
@@ -107,6 +112,7 @@ export const AppBar: React.FC<AppBarProps> = ({ title = "IDH Leite" }) => {
           <Text style={styles.title}>{title}</Text>
           <View style={styles.placeholder} />
         </View>
+        <NetworkStatusBanner isOffline={isOffline} isSyncing={false} />
       </View>
 
       <Modal

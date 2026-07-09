@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, Animated } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useTranslation } from "react-i18next";
 
 interface NetworkStatusBannerProps {
   isOffline: boolean;
@@ -11,6 +12,7 @@ export const NetworkStatusBanner: React.FC<NetworkStatusBannerProps> = ({
   isOffline,
   isSyncing,
 }) => {
+  const { t } = useTranslation();
   const [fadeAnim] = React.useState(new Animated.Value(0));
 
   React.useEffect(() => {
@@ -39,8 +41,8 @@ export const NetworkStatusBanner: React.FC<NetworkStatusBannerProps> = ({
 
   const icon = isSyncing ? "cloud-upload-outline" : "cloud-offline-outline";
   const text = isSyncing
-    ? "Sincronizando dados..."
-    : "Você está offline. Os dados serão salvos localmente.";
+    ? t("offlineMode.syncing")
+    : t("offlineMode.offlineBanner");
 
   return (
     <Animated.View

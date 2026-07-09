@@ -27,7 +27,7 @@ import { styles } from "./styles";
 
 export default function History() {
   const { t } = useTranslation();
-  const { user, properties, isLoading, error, refetch } = useUserHistory();
+  const { user, properties, isLoading, isRefreshing, error, refetch } = useUserHistory();
 
   const onRefresh = () => {
     refetch();
@@ -49,7 +49,7 @@ export default function History() {
         contentContainerStyle={{ paddingHorizontal: 20, flex: 1 }}
         style={{ backgroundColor: "#ffffff" }}
         refreshControl={
-          <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
+          <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
         }
       >
         <View style={styles.centerContainer}>
@@ -67,7 +67,7 @@ export default function History() {
         contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 20 }}
         style={{ backgroundColor: "#ffffff" }}
         refreshControl={
-          <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
+          <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
         }
       >
         <View style={styles.containerInfo}>
@@ -75,6 +75,15 @@ export default function History() {
           <Text style={styles.textSubHeader}>{t("history.description")}</Text>
           <LogoutButton />
         </View>
+
+        {isRefreshing && (
+          <View style={styles.refreshingBanner}>
+            <ActivityIndicator size="small" color={theme.colors.primary.default} />
+            <Text style={styles.refreshingBannerText}>
+              {t("history.refreshingData")}
+            </Text>
+          </View>
+        )}
 
         {user && (
           <View style={styles.userInfoCard}>

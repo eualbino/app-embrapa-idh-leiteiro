@@ -5,3 +5,4 @@ export * as OfflineScores from "./tables/OfflineScores";
 export * as OfflineStorage from "./tables/OfflineStorage";
 export * as OfflineAnswers from "./tables/OfflineAnswers";
 export * as OfflineProperty from "./tables/OfflineProperty";
+export * as PropertyHistory from "./tables/PropertyHistory";

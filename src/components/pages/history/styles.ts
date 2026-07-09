@@ -104,4 +104,19 @@ export const styles = StyleSheet.create({
     color: theme.colors.text.secondary,
     textAlign: "center",
   },
+  refreshingBanner: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: theme.spacing.sm,
+    paddingVertical: theme.spacing.sm,
+    marginBottom: theme.spacing.md,
+    backgroundColor: "#F8F9FA",
+    borderRadius: 8,
+  },
+  refreshingBannerText: {
+    fontSize: theme.typography.sizes.sm,
+    color: theme.colors.primary.default,
+    fontWeight: theme.typography.weights.medium,
+  },
 });

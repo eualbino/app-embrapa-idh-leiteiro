@@ -191,6 +191,7 @@ export class OfflineSyncService {
       if (!data) return null;
       return JSON.parse(data) as PendingSyncData;
     } catch (error) {
+      console.error("Erro ao recuperar pending sync:", error);
       return null;
     }
   }
@@ -204,6 +205,11 @@ export class OfflineSyncService {
     } catch (error) {
       console.error("Erro ao limpar dados offline:", error);
       throw error;
+    }
+    try {
+      await OfflineSyncService.setOfflineMode(false);
+    } catch (error) {
+      console.error("Erro ao desativar modo offline após limpeza:", error);
     }
   }
 
@@ -237,6 +243,7 @@ export class OfflineSyncService {
       const value = await AppSettings.getSetting(FORM_COMPLETED_OFFLINE_KEY);
       return value === "true";
     } catch (error) {
+      console.error("Erro ao verificar formulário completado offline:", error);
       return false;
     }
   }
@@ -267,6 +274,7 @@ export class OfflineSyncService {
       const value = await AppSettings.getSetting(OFFLINE_MODE_KEY);
       return value === "true";
     } catch (error) {
+      console.error("Erro ao verificar modo offline:", error);
       return false;
     }
   }

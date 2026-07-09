@@ -1,5 +1,5 @@
 // External Libraries
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import NetInfo from "@react-native-community/netinfo";
 
 export interface NetworkStatus {
@@ -15,7 +15,7 @@ export const useNetworkStatus = () => {
     type: null,
   });
 
-  const [previousConnection, setPreviousConnection] = useState<boolean>(true);
+  const previousConnectionRef = useRef<boolean>(true);
   const [justReconnected, setJustReconnected] = useState<boolean>(false);
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export const useNetworkStatus = () => {
         isInternetReachable,
         type: state.type,
       });
-      setPreviousConnection(isConnected && isInternetReachable !== false);
+      previousConnectionRef.current = isConnected && isInternetReachable !== false;
     };
 
     checkInitialConnection();
@@ -45,7 +45,7 @@ export const useNetworkStatus = () => {
         type: state.type,
       });
 
-      if (!previousConnection && hasConnection) {
+      if (!previousConnectionRef.current && hasConnection) {
         setJustReconnected(true);
 
         setTimeout(() => {
@@ -53,16 +53,14 @@ export const useNetworkStatus = () => {
         }, 5000);
       }
 
-      setPreviousConnection(hasConnection);
+      previousConnectionRef.current = hasConnection;
     });
 
     return () => {
       unsubscribe();
     };
-  }, [previousConnection]);
+  }, []);
 
-  // isInternetReachable can return false on Android even with a valid connection,
-  // so we rely only on isConnected to avoid false offline negatives.
   const isOnline = networkStatus.isConnected ?? false;
 
   return {

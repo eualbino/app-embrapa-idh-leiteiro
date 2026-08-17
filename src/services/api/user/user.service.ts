@@ -107,7 +107,12 @@ export class UserService {
   static async fetchPropertiesByUserId(userId: number): Promise<PropertySummary[]> {
     if (!userId) return [];
 
-    const allProperties = await fetchAllPages<PropertyApiResponse>("Properties");
+    // Dispara as duas varreduras em paralelo (são entidades independentes)
+    // em vez de esperar uma terminar pra começar a outra.
+    const [allProperties, allWpi] = await Promise.all([
+      fetchAllPages<PropertyApiResponse>("Properties"),
+      fetchAllPages<WaterPerformanceIndexApiResponse>("WaterPerformanceIndex"),
+    ]);
     const matchedRaw = allProperties.filter((p) => Number(p.userId) === Number(userId));
 
     if (matchedRaw.length === 0) return [];
@@ -143,8 +148,7 @@ export class UserService {
       updatedAt: p.updatedAt,
     }));
 
-    // Fetch WaterPerformanceIndex and merge scores
-    const allWpi = await fetchAllPages<WaterPerformanceIndexApiResponse>("WaterPerformanceIndex");
+    // Junta os scores do WaterPerformanceIndex já buscado acima
     const wpiMap = new Map<number, WaterPerformanceIndexApiResponse>();
     allWpi.forEach((w) => wpiMap.set(Number(w.propertyId), w));
 

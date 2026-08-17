@@ -1,6 +1,7 @@
 const DISABLING_RULES: { trigger: string; value: number; disables: string[] }[] = [
   { trigger: "2", value: 0, disables: ["3", "4"] },
-  { trigger: "22", value: 0, disables: ["23"] },
+  { trigger: "14", value: 0, disables: ["15", "16", "17"] },
+  { trigger: "22", value: 0, disables: ["23", "24", "25"] },
 ];
 
 export const getDisabledQuestions = (answers: { [key: string]: number | null }): string[] => {

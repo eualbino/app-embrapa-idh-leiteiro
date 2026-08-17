@@ -648,7 +648,7 @@ export default {
       categoryWaterQuantity: "Water Quantity",
       categoryWaterQuality: "Water Quality",
       categoryWasteManagement: "Waste Management",
-      approved: "Approved",
+      approved: "Well done, you're on the right track!",
       needsImprovement: "How to Improve",
       minimumScore: "Minimum",
       congratulations: "Congratulations!",

@@ -8,13 +8,11 @@ import {
   KeyboardAvoidingView,
   Platform,
   TouchableOpacity,
+  Linking,
 } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "expo-router";
 import Toast from "react-native-toast-message";
-import * as Sharing from "expo-sharing";
-import * as FileSystem from "expo-file-system";
-import { Asset } from "expo-asset";
 
 // Context
 import { useAuthContext } from "@/src/contexts/AuthContext";
@@ -28,7 +26,7 @@ import { LanguageSelector } from "@/src/components/commons/LanguageSelector";
 import { formatCPFInput, formatPhoneInput, unformatCPF } from "@/src/utils";
 
 // Types
-import { VIEW_LOGIN_PAGE } from "./contants";
+import { DOCUMENTS_URL, VIEW_LOGIN_PAGE } from "./contants";
 
 // Style
 import { styles } from "./styles";
@@ -37,30 +35,12 @@ interface LoginRegisterProps {
   initialMode?: VIEW_LOGIN_PAGE;
 }
 
-async function openPdf(moduleId: number, fileName: string) {
+async function openDocument(url: string) {
   try {
-    const asset = Asset.fromModule(moduleId);
-    await asset.downloadAsync();
+    const canOpen = await Linking.canOpenURL(url);
+    if (!canOpen) throw new Error();
 
-    if (!asset.localUri) throw new Error();
-
-    const destUri = new FileSystem.File(FileSystem.Paths.cache, fileName);
-
-    await new FileSystem.File(asset.localUri).copy(destUri);
-
-    const canShare = await Sharing.isAvailableAsync();
-    if (canShare) {
-      await Sharing.shareAsync(destUri.uri, {
-        mimeType: "application/pdf",
-        UTI: "com.adobe.pdf",
-      });
-    } else {
-      Toast.show({
-        type: "error",
-        text1: "Erro",
-        text2: "Não foi possível abrir o arquivo.",
-      });
-    }
+    await Linking.openURL(url);
   } catch (error) {
     console.error("Erro ao abrir documento:", error);
     Toast.show({
@@ -325,10 +305,7 @@ export default function LoginRegister({
               <Text
                 style={styles.checkboxLink}
                 onPress={() =>
-                  openPdf(
-                    require("@/src/assets/documents/IDH_Termo_Uso_Privacidade.pdf"),
-                    "IDH_Termo_Uso_Privacidade.pdf",
-                  )
+                  openDocument(DOCUMENTS_URL.TERMO_USO_PRIVACIDADE)
                 }
               >
                 Termo de Uso e Privacidade
@@ -336,12 +313,7 @@ export default function LoginRegister({
               {" e o "}
               <Text
                 style={styles.checkboxLink}
-                onPress={() =>
-                  openPdf(
-                    require("@/src/assets/documents/IDH_Aviso_Privacidade.pdf"),
-                    "IDH_Aviso_Privacidade.pdf",
-                  )
-                }
+                onPress={() => openDocument(DOCUMENTS_URL.AVISO_PRIVACIDADE)}
               >
                 Aviso de Privacidade
               </Text>

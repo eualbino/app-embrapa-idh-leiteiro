@@ -31,7 +31,11 @@ export const styles = StyleSheet.create({
     marginBottom: 10,
   },
   logoEmbrapa: {
+    // Sem `height` a imagem colapsava para 0px em contexto flex com
+    // resizeMode="contain" — o logo da Embrapa não aparecia.
+    // 170x63 mantém a proporção de logo_embrapa.png (300x111).
     width: 170,
+    height: 63,
   },
   logoIDH: {
     width: 170,

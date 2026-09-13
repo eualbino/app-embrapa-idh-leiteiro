@@ -61,29 +61,54 @@ export class AuthService {
 
     const usuariosCadastroId = cadastroResponse.data.idt;
 
-    const usersResponse = await axios.post<{ id: number }>(
-      `${API_URL}/update`,
-      {
-        entity: "Users",
-        idValue: "",
-        data: {
-          email: data.email,
-          name: data.name,
-          cpf: data.cpf || null,
-          passwordHash: data.password,
-          role: "USER",
-          createdAt: new Date().toISOString().slice(0, 23),
-          usuariosCadastroId,
+    try {
+      const usersResponse = await axios.post<{ id: number }>(
+        `${API_URL}/update`,
+        {
+          entity: "Users",
+          idValue: "",
+          data: {
+            email: data.email,
+            name: data.name,
+            cpf: data.cpf || null,
+            passwordHash: data.password,
+            role: "USER",
+            createdAt: new Date().toISOString().slice(0, 23),
+            usuariosCadastroId,
+          },
         },
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${adminToken}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${adminToken}`,
+          },
         },
-      },
-    );
+      );
 
-    return { userId: usersResponse.data.id };
+      return { userId: usersResponse.data.id };
+    } catch (error) {
+      // A criação em UsuariosCadastro e em Users não é atômica no backend.
+      // Se a segunda etapa falhar (ex: e-mail duplicado em Users), desfaz a
+      // primeira para não deixar linha órfã em UsuariosCadastro.
+      await axios
+        .post(
+          `${API_URL}/delete`,
+          { entity: "UsuariosCadastro", idValue: String(usuariosCadastroId) },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${adminToken}`,
+            },
+          },
+        )
+        .catch((rollbackError) => {
+          console.error(
+            "Falha ao reverter cadastro órfão em UsuariosCadastro:",
+            rollbackError,
+          );
+        });
+
+      throw error;
+    }
   }
 }

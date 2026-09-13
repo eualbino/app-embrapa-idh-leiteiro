@@ -3,9 +3,6 @@ export enum VIEW_LOGIN_PAGE {
   REGISTER = "register"
 }
 
-export const DOCUMENTS_URL = {
-  TERMO_USO_PRIVACIDADE:
-    "https://idh.cppse.embrapa.br/documents/IDH_Termo_Uso_Privacidade.pdf",
-  AVISO_PRIVACIDADE:
-    "https://idh.cppse.embrapa.br/documents/IDH_Aviso_Privacidade.pdf",
-};
+// Reexportado de config/documents: as mesmas URLs são usadas no menu do app,
+// depois do login.
+export { DOCUMENTS_URL } from "@/src/config/documents";

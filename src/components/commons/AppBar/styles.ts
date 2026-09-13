@@ -111,6 +111,13 @@ export const styles = StyleSheet.create({
     backgroundColor: theme.colors.border.light,
     marginBottom: theme.spacing.md,
   },
+  // Separa a navegação dos links de documentos legais.
+  menuDivider: {
+    height: 1,
+    backgroundColor: theme.colors.border.light,
+    marginVertical: theme.spacing.sm,
+    marginHorizontal: theme.spacing.lg,
+  },
   userInfo: {
     flexDirection: "row",
     alignItems: "center",

@@ -202,4 +202,105 @@ export class UserService {
       });
     }
   }
+
+  /**
+   * Exclusão de conta iniciada pelo usuário.
+   *
+   * Exigida pela App Store (Guideline 5.1.1(v)) e pelo Google Play: a conta
+   * precisa ser encerrada de dentro do app, sem depender de atendimento.
+   *
+   * Escopo, por decisão da Embrapa: apaga a CONTA, não os dados de avaliação.
+   * Nome, e-mail e CPF são removidos de `UsuariosCadastro` e de `Users`, e o
+   * acesso é cortado na hora. As propriedades e os índices hídricos ficam,
+   * desvinculados de qualquer dado pessoal, para a pesquisa.
+   *
+   * Por isso a linha em `Users` é anonimizada e NÃO apagada: `Properties.userId`
+   * aponta para ela, e removê-la deixaria as avaliações órfãs.
+   *
+   * Usa o token do próprio usuário (cliente `api`), nunca o token de admin.
+   */
+  static async deleteAccount(currentPassword: string): Promise<void> {
+    const storedProfile = await UserService.loadUserProfile();
+    if (!storedProfile?.id || !storedProfile?.email) {
+      throw new Error("PROFILE_NOT_FOUND");
+    }
+    if (!storedProfile.usuariosCadastroId) {
+      throw new Error("PROFILE_NOT_FOUND");
+    }
+
+    // Reautenticação, mesmo mecanismo usado em changePassword.
+    try {
+      await AuthService.login({
+        username: storedProfile.email,
+        password: currentPassword,
+      });
+    } catch (error: any) {
+      console.error(
+        "Erro ao verificar senha na exclusão de conta. status:",
+        error?.response?.status,
+      );
+      const status = error?.response?.status;
+      if (status === 401 || status === 404 || status === 400) {
+        throw new Error("WRONG_CURRENT_PASSWORD");
+      }
+      throw error;
+    }
+
+    const cadastroId = storedProfile.usuariosCadastroId;
+
+    // Avisa a Embrapa antes de anonimizar, enquanto os dados ainda permitem
+    // identificar o cadastro a ser removido. É best-effort de propósito: uma
+    // falha de e-mail não pode impedir o usuário de encerrar a conta, que é
+    // justamente o que as lojas exigem.
+    try {
+      await api.post("/solicitarExclusaoConta", {
+        usuariosCadastroId: cadastroId,
+        usersId: storedProfile.id,
+        nome: storedProfile.name,
+        email: storedProfile.email,
+        solicitadoEm: new Date().toISOString(),
+      });
+    } catch (error: any) {
+      console.error(
+        "Falha ao notificar a Embrapa sobre exclusão de conta. status:",
+        error?.response?.status,
+      );
+    }
+
+    // Valores derivados do id, para não colidir com as constraints de
+    // unicidade de e-mail e matrícula.
+    const anonimo = `removido-${cadastroId}`;
+    const emailAnonimo = `${anonimo}@conta-removida.invalid`;
+
+    // 1º: `Users`, que guarda nome, e-mail e CPF do perfil. A linha permanece
+    // (ver comentário do método) — só os campos pessoais são sobrescritos.
+    // Precisa vir antes de desativar o cadastro, que é o que corta o acesso.
+    await api.post("/update", {
+      entity: "Users",
+      idValue: String(storedProfile.id),
+      data: {
+        id: storedProfile.id,
+        name: "Conta removida",
+        email: emailAnonimo,
+        cpf: null,
+        role: storedProfile.role,
+        createdAt: storedProfile.createdAt,
+        usuariosCadastroId: cadastroId,
+      },
+    });
+
+    // 2º: as credenciais. `stsativo: false` encerra o acesso.
+    await api.post("/update", {
+      entity: "UsuariosCadastro",
+      idValue: String(cadastroId),
+      data: {
+        idt: cadastroId,
+        matricula: anonimo,
+        email: emailAnonimo,
+        nome: "Conta removida",
+        senha: `${anonimo}-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+        stsativo: false,
+      },
+    });
+  }
 }

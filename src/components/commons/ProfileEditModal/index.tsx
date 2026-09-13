@@ -18,6 +18,7 @@ import { useAuthContext } from "@/src/contexts/AuthContext";
 // Components
 import { Input } from "@/src/components/commons/Input";
 import { ChangePasswordModal } from "@/src/components/commons/ChangePasswordModal";
+import { DeleteAccountModal } from "@/src/components/commons/DeleteAccountModal";
 
 // Config
 import { theme } from "@/src/config";
@@ -34,6 +35,7 @@ export function ProfileEditModal({ visible, onClose }: ProfileEditModalProps) {
   const { t } = useTranslation();
   const { user } = useAuthContext();
   const [changePasswordVisible, setChangePasswordVisible] = useState(false);
+  const [deleteAccountVisible, setDeleteAccountVisible] = useState(false);
 
   const [form, setForm] = useState({
     name: "",
@@ -76,7 +78,12 @@ export function ProfileEditModal({ visible, onClose }: ProfileEditModalProps) {
                 <Text style={styles.avatarText}>{avatarInitials}</Text>
               </View>
               <Text style={styles.title}>{t("profile.title")}</Text>
-              <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+              <TouchableOpacity
+                onPress={onClose}
+                style={styles.closeButton}
+                accessibilityRole="button"
+                accessibilityLabel={t("common.cancel")}
+              >
                 <Ionicons name="close" size={24} color="#666" />
               </TouchableOpacity>
             </View>
@@ -113,6 +120,8 @@ export function ProfileEditModal({ visible, onClose }: ProfileEditModalProps) {
                 style={styles.changePasswordButton}
                 onPress={() => setChangePasswordVisible(true)}
                 activeOpacity={0.7}
+                accessibilityRole="button"
+                accessibilityLabel={t("profile.changePasswordButton")}
               >
                 <Ionicons
                   name="key-outline"
@@ -121,6 +130,23 @@ export function ProfileEditModal({ visible, onClose }: ProfileEditModalProps) {
                 />
                 <Text style={styles.changePasswordText}>
                   {t("profile.changePasswordButton")}
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.deleteAccountButton}
+                onPress={() => setDeleteAccountVisible(true)}
+                activeOpacity={0.7}
+                accessibilityRole="button"
+                accessibilityLabel={t("profile.deleteAccountButton")}
+              >
+                <Ionicons
+                  name="trash-outline"
+                  size={18}
+                  color={theme.colors.state.error}
+                />
+                <Text style={styles.deleteAccountText}>
+                  {t("profile.deleteAccountButton")}
                 </Text>
               </TouchableOpacity>
             </ScrollView>
@@ -141,6 +167,11 @@ export function ProfileEditModal({ visible, onClose }: ProfileEditModalProps) {
       <ChangePasswordModal
         visible={changePasswordVisible}
         onClose={() => setChangePasswordVisible(false)}
+      />
+
+      <DeleteAccountModal
+        visible={deleteAccountVisible}
+        onClose={() => setDeleteAccountVisible(false)}
       />
     </>
   );

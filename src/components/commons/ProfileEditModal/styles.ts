@@ -87,6 +87,23 @@ export const styles = StyleSheet.create({
     fontWeight: "600",
     color: theme.colors.primary.default,
   },
+  // Separado do restante por uma linha: é a única ação destrutiva da tela
+  // e não deve ser tocada por engano ao procurar "alterar senha".
+  deleteAccountButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 4,
+    marginTop: theme.spacing.sm,
+    borderTopWidth: theme.borders.width.thin,
+    borderTopColor: theme.colors.border.light,
+  },
+  deleteAccountText: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: theme.colors.state.error,
+  },
   footer: {
     flexDirection: "row",
     paddingHorizontal: theme.spacing.lg,

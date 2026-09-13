@@ -137,7 +137,15 @@ export const useQuestionnaire = (): QuestionnaireState & QuestionnaireActions =>
             },
           });
         } catch (err) {
-          console.error(err)
+          // Sem este aviso o botão "Avançar" ficava inerte quando o cadastro
+          // da propriedade falhava, sem nenhuma explicação ao usuário.
+          console.error("Erro no passo de caracterização:", err);
+          Toast.show({
+            type: "error",
+            text1: t("common.error"),
+            text2: t("questionnaire.questions.toasts.stepError"),
+            visibilityTime: 5000,
+          });
         }
         return;
       }
@@ -162,7 +170,7 @@ export const useQuestionnaire = (): QuestionnaireState & QuestionnaireActions =>
         Toast.show({
           type: "error",
           text1: t("common.error"),
-          text2: "Property ID não encontrado. Por favor, reinicie o questionário.",
+          text2: t("questionnaire.questions.toasts.propertyNotFound"),
           visibilityTime: 5000,
         });
         return;
@@ -195,7 +203,13 @@ export const useQuestionnaire = (): QuestionnaireState & QuestionnaireActions =>
             });
           }
         } catch (err) {
-          console.error(err)
+          console.error("Erro ao calcular indicador do passo:", err);
+          Toast.show({
+            type: "error",
+            text1: t("common.error"),
+            text2: t("questionnaire.questions.toasts.stepError"),
+            visibilityTime: 5000,
+          });
           return;
         }
         setStep((prev) => prev + 1);

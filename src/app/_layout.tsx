@@ -1,6 +1,6 @@
 // External Libraries
 import { useEffect, useState, useCallback } from "react";
-import { StatusBar, View } from "react-native";
+import { Platform, StatusBar, View } from "react-native";
 import { Stack, useRouter, usePathname } from "expo-router";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
@@ -27,9 +27,19 @@ import { useNetworkStatus } from "@/src/hooks/useNetworkStatus";
 // Components
 import { OfflineSyncMonitor } from "@/src/components/commons/OfflineSyncMonitor";
 import { CustomSplashScreen } from "@/src/components/commons/CustomSplashScreen";
+import { AppErrorBoundary } from "@/src/components/commons/AppErrorBoundary";
 
 // Styles
 import { styles } from "@/src/styles/_layout.styles";
+
+// Captura exceções de render de qualquer rota e evita o crash em release
+// (Apple Guideline 2.1). O expo-router usa este export automaticamente.
+export { AppErrorBoundary as ErrorBoundary };
+
+// Tempo mínimo de splash: só evita o "piscar" quando a inicialização é
+// instantânea. O que realmente libera a navegação são os estados de
+// inicialização observados abaixo, não este timer.
+const MIN_SPLASH_MS = 600;
 
 function RootNavigator() {
   const { isAuthenticated, isInitializing } = useAuthContext();
@@ -47,7 +57,7 @@ function RootNavigator() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsSplashReady(true);
-    }, 3000);
+    }, MIN_SPLASH_MS);
 
     return () => clearTimeout(timer);
   }, []);
@@ -186,7 +196,14 @@ function RootNavigator() {
 }
 
 export default function RootLayout() {
-  NavigationBar.setButtonStyleAsync("dark");
+  // Efeito colateral fora do corpo do render: com o React Compiler ligado
+  // (app.json → experiments.reactCompiler) isso é comportamento indefinido,
+  // e em iOS a chamada só emitia um warning a cada render.
+  useEffect(() => {
+    if (Platform.OS === "android") {
+      NavigationBar.setButtonStyleAsync("dark");
+    }
+  }, []);
 
   return (
     <OnboardingProvider>

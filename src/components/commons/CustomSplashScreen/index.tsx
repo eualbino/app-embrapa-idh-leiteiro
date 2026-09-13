@@ -1,8 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Image, Animated, StatusBar } from "react-native";
 
 // Styles
 import { styles } from "./styles";
+
+const FADE_OUT_MS = 350;
 
 interface CustomSplashScreenProps {
   isVisible: boolean;
@@ -14,20 +16,27 @@ export function CustomSplashScreen({
   onAnimationEnd,
 }: CustomSplashScreenProps) {
   const fadeAnim = useRef(new Animated.Value(1)).current;
+  // Desmontar só no fim da animação. Sair no `isVisible === false` fazia a
+  // splash sumir de uma vez e deixava o componente montado e invisível
+  // durante todo o fade.
+  const [isMounted, setIsMounted] = useState(true);
 
   useEffect(() => {
     if (!isVisible) {
       Animated.timing(fadeAnim, {
         toValue: 0,
-        duration: 3000,
+        duration: FADE_OUT_MS,
         useNativeDriver: true,
-      }).start(() => {
-        onAnimationEnd?.();
+      }).start(({ finished }) => {
+        if (finished) {
+          setIsMounted(false);
+          onAnimationEnd?.();
+        }
       });
     }
   }, [isVisible, fadeAnim, onAnimationEnd]);
 
-  if (!isVisible) {
+  if (!isMounted) {
     return null;
   }
 

@@ -32,6 +32,46 @@ export default {
       offline: "Sem conexão",
     },
 
+    // Menu
+    menu: {
+      title: "Menu",
+      home: "Início",
+      history: "Histórico",
+      legal: "Documentos",
+      termsOfUse: "Termo de Uso e Privacidade",
+      privacyNotice: "Aviso de Privacidade",
+      openDocumentError: "Não foi possível abrir o documento.",
+      acceptPrefix: "Li e aceito o ",
+      acceptSeparator: " e o ",
+      mustAccept: "Você precisa aceitar os termos para se cadastrar.",
+    },
+
+    // Error Boundary
+    errorBoundary: {
+      title: "Algo deu errado",
+      message:
+        "Não foi possível carregar esta tela. Seus dados continuam salvos no aparelho.",
+      retry: "Tentar novamente",
+      notFoundTitle: "Página não encontrada",
+      notFoundMessage: "O endereço acessado não existe neste aplicativo.",
+      goHome: "Voltar ao início",
+    },
+
+    // Welcome
+    welcome: {
+      title: "Seja bem-vindo!",
+      p1Start: "Com o ",
+      p1Highlight: "Índice de Desempenho Hídrico da Produção Leiteira",
+      p1End:
+        " você irá avaliar o uso da água e o manejo de dejetos da propriedade.",
+      p2: "Ele lhe auxiliará no monitoramento do desempenho ambiental e no uso eficiente da água e dos dejetos.",
+      p3Start: "Sua propriedade será analisada em três dimensões – ",
+      p3Highlight: "quantidade e qualidade de água e manejo de resíduos",
+      p3End:
+        " – ao responder às questões, indicações de melhorias para cada uma das dimensões são apresentadas relacionadas à performance alcançada!",
+      continue: "Avançar",
+    },
+
     // Profile
     profile: {
       title: "Meu Perfil",
@@ -57,6 +97,31 @@ export default {
           wrongCurrentPassword: "Senha atual incorreta.",
           offline: "Conecte-se à internet para alterar sua senha.",
           generic: "Não foi possível alterar a senha. Tente novamente.",
+        },
+      },
+      deleteAccountButton: "Excluir minha conta",
+      deleteAccount: {
+        title: "Excluir minha conta",
+        warning:
+          "Esta ação encerra sua conta definitivamente. Você perderá o acesso agora.",
+        whatIsRemoved:
+          "Serão removidos os seus dados pessoais: nome, e-mail e CPF.",
+        whatIsKept:
+          "As avaliações da propriedade são mantidas de forma anônima, sem vínculo com você, para a pesquisa da Embrapa.",
+        irreversible: "Não é possível desfazer.",
+        confirmPassword: "Digite sua senha para confirmar",
+        confirmPasswordPlaceholder: "Sua senha atual",
+        submit: "Excluir conta",
+        submitting: "Excluindo...",
+        cancel: "Cancelar",
+        successTitle: "Conta excluída",
+        successMessage:
+          "Sua conta foi encerrada e seus dados pessoais foram removidos.",
+        errors: {
+          emptyPassword: "Digite sua senha para confirmar a exclusão.",
+          wrongPassword: "Senha incorreta.",
+          offline: "Conecte-se à internet para excluir sua conta.",
+          generic: "Não foi possível excluir a conta. Tente novamente.",
         },
       },
     },
@@ -397,6 +462,8 @@ export default {
           answerAllMessage: "Responda todas as perguntas antes de continuar.",
           questionIds: "(Perguntas: {{ids}})",
           stepError: "Erro ao processar o passo. Tente novamente.",
+          propertyNotFound:
+            "Não foi possível recuperar os dados da propriedade. Reinicie o questionário.",
           completedTitle: "Sucesso",
           completedMessage: "Você finalizou todas as perguntas!",
           scoreTitle: "Seu escore em {{groupName}} foi de:",
@@ -648,6 +715,7 @@ export default {
 
     // Result Page
     result: {
+      appBarTitle: "Resultado",
       title: "Escore Geral do IDH Leite",
       downloadReport: "Baixar relatório",
       offlineMode: "Modo offline",

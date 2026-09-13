@@ -11,6 +11,7 @@ import {
   Linking,
 } from "react-native";
 import { useTranslation } from "react-i18next";
+import type { TFunction } from "i18next";
 import { useRouter } from "expo-router";
 import Toast from "react-native-toast-message";
 
@@ -35,18 +36,17 @@ interface LoginRegisterProps {
   initialMode?: VIEW_LOGIN_PAGE;
 }
 
-async function openDocument(url: string) {
+async function openDocument(url: string, t: TFunction) {
   try {
-    const canOpen = await Linking.canOpenURL(url);
-    if (!canOpen) throw new Error();
-
+    // `canOpenURL` retorna false em alguns aparelhos mesmo com o link válido;
+    // tentar abrir direto e tratar a falha é mais confiável.
     await Linking.openURL(url);
   } catch (error) {
     console.error("Erro ao abrir documento:", error);
     Toast.show({
       type: "error",
-      text1: "Erro",
-      text2: "Não foi possível abrir o documento.",
+      text1: t("common.error"),
+      text2: t("menu.openDocumentError"),
     });
   }
 }
@@ -113,7 +113,7 @@ export default function LoginRegister({
         Toast.show({
           type: "error",
           text1: t("common.error"),
-          text2: "Você precisa aceitar os termos para se cadastrar.",
+          text2: t("menu.mustAccept"),
         });
         return;
       }
@@ -301,21 +301,23 @@ export default function LoginRegister({
             </View>
 
             <Text style={styles.checkboxLabel}>
-              {"Li e aceito o "}
+              {t("menu.acceptPrefix")}
               <Text
                 style={styles.checkboxLink}
+                accessibilityRole="link"
                 onPress={() =>
-                  openDocument(DOCUMENTS_URL.TERMO_USO_PRIVACIDADE)
+                  openDocument(DOCUMENTS_URL.TERMO_USO_PRIVACIDADE, t)
                 }
               >
-                Termo de Uso e Privacidade
+                {t("menu.termsOfUse")}
               </Text>
-              {" e o "}
+              {t("menu.acceptSeparator")}
               <Text
                 style={styles.checkboxLink}
-                onPress={() => openDocument(DOCUMENTS_URL.AVISO_PRIVACIDADE)}
+                accessibilityRole="link"
+                onPress={() => openDocument(DOCUMENTS_URL.AVISO_PRIVACIDADE, t)}
               >
-                Aviso de Privacidade
+                {t("menu.privacyNotice")}
               </Text>
             </Text>
           </TouchableOpacity>

@@ -28,25 +28,14 @@ export const styles = StyleSheet.create({
     height: 60,
   },
   logo: {
-    width: 200,
-    height: 80,
+    // Proporção do icon.png (1019x905) para o logo não ficar reduzido
+    // dentro de uma caixa com aspecto muito diferente.
+    width: 180,
+    height: 160,
   },
   titleContainer: {
     marginBottom: 24,
     alignItems: "center",
-  },
-  betaBadge: {
-    backgroundColor: "#FFA000",
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    borderRadius: 16,
-    marginTop: 8,
-  },
-  betaText: {
-    color: "#ffffff",
-    fontSize: 12,
-    fontWeight: "bold",
-    letterSpacing: 1,
   },
   title: {
     fontSize: 28,

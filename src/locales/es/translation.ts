@@ -32,6 +32,46 @@ export default {
       offline: "Sin conexión",
     },
 
+    // Menu
+    menu: {
+      title: "Menú",
+      home: "Inicio",
+      history: "Historial",
+      legal: "Documentos",
+      termsOfUse: "Término de Uso y Privacidad",
+      privacyNotice: "Aviso de Privacidad",
+      openDocumentError: "No fue posible abrir el documento.",
+      acceptPrefix: "He leído y acepto el ",
+      acceptSeparator: " y el ",
+      mustAccept: "Debe aceptar los términos para registrarse.",
+    },
+
+    // Error Boundary
+    errorBoundary: {
+      title: "Algo salió mal",
+      message:
+        "No se pudo cargar esta pantalla. Sus datos siguen guardados en el dispositivo.",
+      retry: "Intentar de nuevo",
+      notFoundTitle: "Página no encontrada",
+      notFoundMessage: "La dirección abierta no existe en esta aplicación.",
+      goHome: "Volver al inicio",
+    },
+
+    // Welcome
+    welcome: {
+      title: "¡Bienvenido!",
+      p1Start: "Con el ",
+      p1Highlight: "Índice de Desempeño Hídrico de la Producción Lechera",
+      p1End:
+        " evaluará el uso del agua y el manejo de estiércol de la propiedad.",
+      p2: "Le ayudará a monitorear el desempeño ambiental y el uso eficiente del agua y del estiércol.",
+      p3Start: "Su propiedad será analizada en tres dimensiones – ",
+      p3Highlight: "cantidad y calidad del agua y manejo de residuos",
+      p3End:
+        " – al responder las preguntas, se presentan indicaciones de mejora para cada dimensión relacionadas con el desempeño alcanzado.",
+      continue: "Avanzar",
+    },
+
     // Profile
     profile: {
       title: "Mi Perfil",
@@ -57,6 +97,31 @@ export default {
           wrongCurrentPassword: "Contraseña actual incorrecta.",
           offline: "Conéctese a internet para cambiar su contraseña.",
           generic: "No fue posible cambiar la contraseña. Inténtalo de nuevo.",
+        },
+      },
+      deleteAccountButton: "Eliminar mi cuenta",
+      deleteAccount: {
+        title: "Eliminar mi cuenta",
+        warning:
+          "Esta acción cierra su cuenta definitivamente. Perderá el acceso ahora.",
+        whatIsRemoved:
+          "Se eliminarán sus datos personales: nombre, correo electrónico y CPF.",
+        whatIsKept:
+          "Las evaluaciones de la propiedad se mantienen de forma anónima, sin vínculo con usted, para la investigación de Embrapa.",
+        irreversible: "No se puede deshacer.",
+        confirmPassword: "Escriba su contraseña para confirmar",
+        confirmPasswordPlaceholder: "Su contraseña actual",
+        submit: "Eliminar cuenta",
+        submitting: "Eliminando...",
+        cancel: "Cancelar",
+        successTitle: "Cuenta eliminada",
+        successMessage:
+          "Su cuenta fue cerrada y sus datos personales fueron eliminados.",
+        errors: {
+          emptyPassword: "Escriba su contraseña para confirmar la eliminación.",
+          wrongPassword: "Contraseña incorrecta.",
+          offline: "Conéctese a internet para eliminar su cuenta.",
+          generic: "No fue posible eliminar la cuenta. Inténtalo de nuevo.",
         },
       },
     },
@@ -398,6 +463,8 @@ export default {
           answerAllMessage: "Responda todas las preguntas antes de continuar.",
           questionIds: "(Preguntas: {{ids}})",
           stepError: "Error al procesar el paso. Inténtelo de nuevo.",
+          propertyNotFound:
+            "No se pudieron recuperar los datos de la propiedad. Reinicie el cuestionario.",
           completedTitle: "Éxito",
           completedMessage: "¡Ha completado todas las preguntas!",
           scoreTitle: "Su puntuación en {{groupName}} fue de:",
@@ -647,6 +714,7 @@ export default {
 
     // Result Page
     result: {
+      appBarTitle: "Resultado",
       title: "Puntuación General del IDH_Leche",
       downloadReport: "Descargar informe",
       offlineMode: "Modo sin conexión",

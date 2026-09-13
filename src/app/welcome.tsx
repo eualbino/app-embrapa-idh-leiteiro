@@ -3,6 +3,7 @@ import { useState } from "react";
 import { View, ScrollView, Image, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
+import { useTranslation } from "react-i18next";
 
 // Contexts
 import { useOnboardingContext } from "@/src/contexts/OnboardingContext";
@@ -15,6 +16,7 @@ import { styles } from "@/src/styles/welcome.styles";
 
 export default function WelcomeScreen() {
   const router = useRouter();
+  const { t } = useTranslation();
   const { markAsCompleted } = useOnboardingContext();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -47,35 +49,22 @@ export default function WelcomeScreen() {
             </View>
 
             <View style={styles.titleContainer}>
-              <Text style={styles.title}>Seja bem-vindo!</Text>
-              <View style={styles.betaBadge}>
-                <Text style={styles.betaText}>VERSÃO BETA</Text>
-              </View>
+              <Text style={styles.title}>{t("welcome.title")}</Text>
             </View>
 
             <View style={styles.textContainer}>
               <Text style={styles.paragraph}>
-                Com o{" "}
-                <Text style={styles.bold}>
-                  Índice de Desempenho Hídrico da Produção Leiteira
-                </Text>{" "}
-                você irá avaliar o uso da água e o manejo de dejetos da
-                propriedade.
+                {t("welcome.p1Start")}
+                <Text style={styles.bold}>{t("welcome.p1Highlight")}</Text>
+                {t("welcome.p1End")}
               </Text>
 
-              <Text style={styles.paragraph}>
-                Ele lhe auxiliará no monitoramento do desempenho ambiental e no
-                uso eficiente da água e dos dejetos.
-              </Text>
+              <Text style={styles.paragraph}>{t("welcome.p2")}</Text>
 
               <Text style={styles.paragraph}>
-                Sua propriedade será analisada em três dimensões –{" "}
-                <Text style={styles.bold}>
-                  quantidade e qualidade de água e manejo de resíduos
-                </Text>{" "}
-                – ao responder às questões, indicações de melhorias para cada
-                uma das dimensões são apresentadas relacionadas à performance
-                alcançada!
+                {t("welcome.p3Start")}
+                <Text style={styles.bold}>{t("welcome.p3Highlight")}</Text>
+                {t("welcome.p3End")}
               </Text>
             </View>
 
@@ -95,7 +84,7 @@ export default function WelcomeScreen() {
             disabled={isLoading}
             style={styles.button}
           >
-            {isLoading ? "Carregando..." : "Avançar"}
+            {isLoading ? t("common.loading") : t("welcome.continue")}
           </ButtonCommon>
         </View>
       </SafeAreaView>

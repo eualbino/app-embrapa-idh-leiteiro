@@ -35,17 +35,6 @@ const MINIMUM_SCORES = {
   waterPerformanceIndex: 0.64,
 };
 
-const formatDate = (dateString: string): string => {
-  const date = new Date(dateString);
-  return date.toLocaleDateString("pt-BR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-};
-
 const formatDateOnly = (dateString: string): string => {
   const date = new Date(dateString);
   return date.toLocaleDateString("pt-BR", {
@@ -186,7 +175,10 @@ const renderImprovementSection = (
 };
 
 const generateHTMLContent = (options: PDFGeneratorOptions): string => {
-  const { property, userName, userEmail, userCpf } = options;
+  // O relatório imprime apenas o nome. `userEmail` e `userCpf` continuam na
+  // interface por compatibilidade com os chamadores, mas não são lidos — o PDF
+  // compartilhável não carrega e-mail nem CPF.
+  const { property, userName } = options;
   const mainScore = property.waterPerformanceIndexScore;
   const mainScoreColor = getScoreColor(
     mainScore,
@@ -608,7 +600,9 @@ const generateHTMLContent = (options: PDFGeneratorOptions): string => {
         MINIMUM_SCORES.waterManagement,
       )
         ? renderImprovementSection(
-          "💧 Quantidade de Água",
+          // O emoji vem do parâmetro `icon`; repeti-lo no título saía
+          // duplicado no relatório ("💧 💧 Quantidade de Água").
+          "Quantidade de Água",
           "💧",
           getWaterManagementImprovements(),
         )
@@ -621,7 +615,7 @@ const generateHTMLContent = (options: PDFGeneratorOptions): string => {
       )
         ? renderImprovementSection(
           "Qualidade da Água",
-          "✓",
+          "🚰",
           getWaterQualityImprovements(),
         )
         : ""
@@ -632,7 +626,7 @@ const generateHTMLContent = (options: PDFGeneratorOptions): string => {
         MINIMUM_SCORES.wasteManagement,
       )
         ? renderImprovementSection(
-          "♻️ Manejo de Resíduos",
+          "Manejo de Resíduos",
           "♻️",
           getWasteManagementImprovements(),
         )

@@ -32,6 +32,46 @@ export default {
       offline: "No connection",
     },
 
+    // Menu
+    menu: {
+      title: "Menu",
+      home: "Home",
+      history: "History",
+      legal: "Documents",
+      termsOfUse: "Terms of Use and Privacy",
+      privacyNotice: "Privacy Notice",
+      openDocumentError: "The document could not be opened.",
+      acceptPrefix: "I have read and accept the ",
+      acceptSeparator: " and the ",
+      mustAccept: "You must accept the terms to create an account.",
+    },
+
+    // Error Boundary
+    errorBoundary: {
+      title: "Something went wrong",
+      message:
+        "This screen could not be loaded. Your data is still saved on the device.",
+      retry: "Try again",
+      notFoundTitle: "Page not found",
+      notFoundMessage: "The address you opened does not exist in this app.",
+      goHome: "Back to start",
+    },
+
+    // Welcome
+    welcome: {
+      title: "Welcome!",
+      p1Start: "With the ",
+      p1Highlight: "Water Performance Index for Dairy Production",
+      p1End:
+        " you will assess water use and manure management on your farm.",
+      p2: "It will help you monitor environmental performance and the efficient use of water and manure.",
+      p3Start: "Your farm will be analyzed across three dimensions – ",
+      p3Highlight: "water quantity, water quality and waste management",
+      p3End:
+        " – and as you answer the questions, improvement suggestions for each dimension are presented based on the performance achieved!",
+      continue: "Continue",
+    },
+
     // Profile
     profile: {
       title: "My Profile",
@@ -57,6 +97,31 @@ export default {
           wrongCurrentPassword: "Current password is incorrect.",
           offline: "Connect to the internet to change your password.",
           generic: "Could not change the password. Please try again.",
+        },
+      },
+      deleteAccountButton: "Delete my account",
+      deleteAccount: {
+        title: "Delete my account",
+        warning:
+          "This permanently closes your account. You will lose access now.",
+        whatIsRemoved:
+          "Your personal data will be removed: name, email and CPF.",
+        whatIsKept:
+          "Farm assessments are kept anonymously, with no link to you, for Embrapa's research.",
+        irreversible: "This cannot be undone.",
+        confirmPassword: "Enter your password to confirm",
+        confirmPasswordPlaceholder: "Your current password",
+        submit: "Delete account",
+        submitting: "Deleting...",
+        cancel: "Cancel",
+        successTitle: "Account deleted",
+        successMessage:
+          "Your account was closed and your personal data was removed.",
+        errors: {
+          emptyPassword: "Enter your password to confirm the deletion.",
+          wrongPassword: "Incorrect password.",
+          offline: "Connect to the internet to delete your account.",
+          generic: "Could not delete the account. Please try again.",
         },
       },
     },
@@ -391,6 +456,8 @@ export default {
           answerAllMessage: "Please answer all questions before continuing.",
           questionIds: "(Questions: {{ids}})",
           stepError: "Error processing the step. Please try again.",
+          propertyNotFound:
+            "Could not retrieve the farm data. Please restart the questionnaire.",
           completedTitle: "Success",
           completedMessage: "You have completed all the questions!",
           scoreTitle: "Your score in {{groupName}} was:",
@@ -640,6 +707,7 @@ export default {
 
     // Result Page
     result: {
+      appBarTitle: "Result",
       title: "Overall IDH_Milk Score",
       downloadReport: "Download report",
       offlineMode: "Offline mode",
@@ -648,7 +716,7 @@ export default {
       categoryWaterQuantity: "Water Quantity",
       categoryWaterQuality: "Water Quality",
       categoryWasteManagement: "Waste Management",
-      approved: "Approved",
+      approved: "Well done, you're on the right track!",
       needsImprovement: "How to Improve",
       minimumScore: "Minimum",
       congratulations: "Congratulations!",

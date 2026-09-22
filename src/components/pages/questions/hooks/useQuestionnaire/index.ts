@@ -71,8 +71,9 @@ export const useQuestionnaire = (): QuestionnaireState & QuestionnaireActions =>
     }
   }, [properties, hasAutoFilled]);
 
-  // Desabilita Q3/Q4 quando Q2 é 0; desabilita Q23 quando Q22 é 0
+  // Desabilita Q3/Q4 quando Q2 é 0; Q15/Q16/Q17 quando Q14 é 0; Q23/Q24/Q25 quando Q22 é 0
   const answer2 = answers["2"];
+  const answer14 = answers["14"];
   const answer22 = answers["22"];
 
   useEffect(() => {
@@ -80,11 +81,15 @@ export const useQuestionnaire = (): QuestionnaireState & QuestionnaireActions =>
       setAnswers((prev) => ({ ...prev, "3": 0, "4": 0 }));
       setSelectedIndexes((prev) => ({ ...prev, "3": 0, "4": 0 }));
     }
-    if (answer22 === 0) {
-      setAnswers((prev) => ({ ...prev, "23": null }));
-      setSelectedIndexes((prev) => ({ ...prev, "23": 0 }));
+    if (answer14 === 0) {
+      setAnswers((prev) => ({ ...prev, "15": 0, "16": 0, "17": 0 }));
+      setSelectedIndexes((prev) => ({ ...prev, "15": 0, "16": 0, "17": 0 }));
     }
-  }, [answer2, answer22]);
+    if (answer22 === 0) {
+      setAnswers((prev) => ({ ...prev, "23": null, "24": null, "25": null }));
+      setSelectedIndexes((prev) => ({ ...prev, "23": 0, "24": 0, "25": 0 }));
+    }
+  }, [answer2, answer14, answer22]);
 
   useEffect(() => {
     const isOfflineSession =
@@ -132,7 +137,15 @@ export const useQuestionnaire = (): QuestionnaireState & QuestionnaireActions =>
             },
           });
         } catch (err) {
-          console.error(err)
+          // Sem este aviso o botão "Avançar" ficava inerte quando o cadastro
+          // da propriedade falhava, sem nenhuma explicação ao usuário.
+          console.error("Erro no passo de caracterização:", err);
+          Toast.show({
+            type: "error",
+            text1: t("common.error"),
+            text2: t("questionnaire.questions.toasts.stepError"),
+            visibilityTime: 5000,
+          });
         }
         return;
       }
@@ -157,7 +170,7 @@ export const useQuestionnaire = (): QuestionnaireState & QuestionnaireActions =>
         Toast.show({
           type: "error",
           text1: t("common.error"),
-          text2: "Property ID não encontrado. Por favor, reinicie o questionário.",
+          text2: t("questionnaire.questions.toasts.propertyNotFound"),
           visibilityTime: 5000,
         });
         return;
@@ -190,7 +203,13 @@ export const useQuestionnaire = (): QuestionnaireState & QuestionnaireActions =>
             });
           }
         } catch (err) {
-          console.error(err)
+          console.error("Erro ao calcular indicador do passo:", err);
+          Toast.show({
+            type: "error",
+            text1: t("common.error"),
+            text2: t("questionnaire.questions.toasts.stepError"),
+            visibilityTime: 5000,
+          });
           return;
         }
         setStep((prev) => prev + 1);

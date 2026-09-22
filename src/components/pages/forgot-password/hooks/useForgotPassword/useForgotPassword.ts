@@ -7,9 +7,6 @@ import { AuthService } from "@/src/services/api/auth/auth.service";
 const API_URL =
   process.env.EXPO_PUBLIC_API_URL || "https://api1.cppse.embrapa.br";
 
-const NOT_SUPPORTED_MSG =
-  "Recuperação de senha não está disponível. Entre em contato com o administrador.";
-
 export function useForgotPassword() {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);

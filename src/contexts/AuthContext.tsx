@@ -17,6 +17,7 @@ import { useNetworkStatus } from "@/src/hooks/useNetworkStatus";
 // Services
 import { AuthService } from "@/src/services";
 import { UserService } from "@/src/services/api/user";
+import { PropertyHistory } from "@/src/services/database";
 import { OfflineSyncService } from "@/src/services/offline/OfflineSyncService";
 import { NotificationService } from "@/src/services/notifications";
 
@@ -38,6 +39,7 @@ interface AuthContextData {
   login: (credentials: LoginCredentials) => Promise<void>;
   register: (data: RegisterRequest) => Promise<void>;
   logout: () => Promise<void>;
+  deleteAccount: (currentPassword: string) => Promise<void>;
   refetchUser: () => Promise<void>;
   changePassword: (currentPassword: string, newPassword: string) => Promise<void>;
 }
@@ -175,11 +177,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           console.error("Erro ao atualizar dados do usuário em background:", error);
         });
     } catch (error: any) {
-      console.error("Erro no login:", JSON.stringify({
-        status: error?.response?.status,
-        data: error?.response?.data,
-        message: error?.message,
-      }, null, 2));
+      // Nunca logar o corpo da resposta: ele repassa a mensagem do banco, que
+      // pode conter e-mail e CPF, e em release isso vai para o logcat.
+      console.error("Erro no login. status:", error?.response?.status);
       const status = error?.response?.status;
       let errorMessage = t("auth.errors.loginFailed");
 
@@ -227,11 +227,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         password: data.password,
       });
     } catch (error: any) {
-      console.error("Erro no registro:", error);
+      // Ver comentário em `login`: o corpo da resposta carrega dado pessoal.
+      console.error("Erro no registro. status:", error?.response?.status);
       const status = error?.response?.status;
       let errorMessage = t("auth.errors.registerFailed");
 
-      if (status === 400) {
+      // O backend retorna 401 (em vez de 400/409) quando o INSERT viola a
+      // constraint de unicidade de e-mail/CPF, então a detecção não pode
+      // depender só do status HTTP.
+      const responseErrorText: string = error?.response?.data?.erro || "";
+      const isDuplicateKeyError = /duplicate key/i.test(responseErrorText);
+
+      if (status === 400 || isDuplicateKeyError) {
         errorMessage =
           error?.response?.data?.message || t("auth.errors.emailOrCpfExists");
       }
@@ -284,11 +291,36 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  /**
+   * Remove do aparelho tudo que identifica o usuário.
+   *
+   * Antes daqui o logout apagava só o token, e nome, e-mail, CPF, telefone e o
+   * histórico de propriedades continuavam legíveis no aparelho — problema real
+   * em celular compartilhado, comum no público deste app.
+   *
+   * A preferência de idioma e o flag de onboarding não são pessoais e ficam.
+   */
+  const clearLocalUserData = async (userId?: number) => {
+    await AsyncStorage.multiRemove([
+      "@app:token",
+      "@app:userProfile",
+      "@app:userProperties",
+    ]);
+
+    if (userId) {
+      try {
+        await PropertyHistory.clearProperties(userId);
+      } catch (error) {
+        console.error("Erro ao limpar histórico local de propriedades:", error);
+      }
+    }
+  };
+
   const logout = async () => {
     try {
       setIsLoading(true);
 
-      await AsyncStorage.removeItem("@app:token");
+      await clearLocalUserData(user?.id);
 
       setIsAuthenticated(false);
       setUser(null);
@@ -313,6 +345,44 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  /**
+   * Encerra a conta e sai. Ver UserService.deleteAccount para o que acontece
+   * no servidor. O erro é repassado para a tela poder distinguir senha errada.
+   */
+  const deleteAccount = async (currentPassword: string) => {
+    try {
+      setIsLoading(true);
+
+      const userId = user?.id;
+      await UserService.deleteAccount(currentPassword);
+
+      await clearLocalUserData(userId);
+      await OfflineSyncService.clearOfflineData();
+
+      setIsAuthenticated(false);
+      setUser(null);
+      setProperties([]);
+
+      router.replace("/auth-landing");
+
+      Toast.show({
+        type: "success",
+        text1: t("profile.deleteAccount.successTitle"),
+        text2: t("profile.deleteAccount.successMessage"),
+      });
+    } catch (error: any) {
+      console.error(
+        "Erro ao excluir conta:",
+        error?.message === "WRONG_CURRENT_PASSWORD"
+          ? "senha incorreta"
+          : error?.response?.status,
+      );
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -324,6 +394,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         login,
         register,
         logout,
+        deleteAccount,
         refetchUser,
         changePassword,
       }}

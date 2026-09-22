@@ -9,11 +9,13 @@ import {
   Animated,
   Dimensions,
   Image,
+  Linking,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter, usePathname } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
+import Toast from "react-native-toast-message";
 
 // Hooks
 import { useNetworkStatus } from "@/src/hooks/useNetworkStatus";
@@ -23,8 +25,10 @@ import { useAuthContext } from "@/src/contexts/AuthContext";
 
 // Components
 import { ProfileEditModal } from "@/src/components/commons/ProfileEditModal";
-import { LogoutButton } from "@/src/components/commons/LogoutButton";
 import { NetworkStatusBanner } from "@/src/components/commons/NetworkStatusBanner";
+
+// Config
+import { DOCUMENTS_URL } from "@/src/config/documents";
 
 // Styles
 import { styles } from "./styles";
@@ -78,6 +82,22 @@ export const AppBar: React.FC<AppBarProps> = ({ title = "IDH Leite" }) => {
     }, 320);
   };
 
+  // A política de privacidade só era alcançável na tela de cadastro. As duas
+  // lojas esperam que ela continue acessível para quem já tem conta.
+  const openDocument = async (url: string) => {
+    closeMenu();
+    try {
+      await Linking.openURL(url);
+    } catch (error) {
+      console.error("Erro ao abrir documento:", error);
+      Toast.show({
+        type: "error",
+        text1: t("common.error"),
+        text2: t("menu.openDocumentError"),
+      });
+    }
+  };
+
   const isActive = (route: string) => {
     if (route === "home") return !pathname?.includes("history");
     if (route === "history") return pathname?.includes("history");
@@ -101,13 +121,18 @@ export const AppBar: React.FC<AppBarProps> = ({ title = "IDH Leite" }) => {
             onPress={openMenu}
             style={styles.menuButton}
             activeOpacity={0.7}
+            accessibilityRole="button"
+            accessibilityLabel={t("menu.title")}
           >
             <Ionicons name="menu" size={28} color="#ffffff" />
           </TouchableOpacity>
           <Image
-            source={require("@/src/assets/images/icon-white.png")}
+            // Versão reduzida: o arquivo original tem 5121x7916 e era
+            // decodificado inteiro em memória para exibir 40x40.
+            source={require("@/src/assets/images/icon-white-small.png")}
             style={styles.logo}
             resizeMode="contain"
+            accessibilityIgnoresInvertColors
           />
           <Text style={styles.title}>{title}</Text>
           <View style={styles.placeholder} />
@@ -134,8 +159,15 @@ export const AppBar: React.FC<AppBarProps> = ({ title = "IDH Leite" }) => {
             ]}
           >
             <View style={styles.drawerHeader}>
-              <Text style={styles.drawerTitle}>Menu</Text>
-              <TouchableOpacity onPress={closeMenu} style={styles.closeButton}>
+              <Text style={styles.drawerTitle} accessibilityRole="header">
+                {t("menu.title")}
+              </Text>
+              <TouchableOpacity
+                onPress={closeMenu}
+                style={styles.closeButton}
+                accessibilityRole="button"
+                accessibilityLabel={t("common.cancel")}
+              >
                 <Ionicons name="close" size={28} color="#006f36" />
               </TouchableOpacity>
             </View>
@@ -148,6 +180,9 @@ export const AppBar: React.FC<AppBarProps> = ({ title = "IDH Leite" }) => {
                 ]}
                 onPress={() => navigateTo("/(protected)/(tabs)/(home)")}
                 activeOpacity={0.7}
+                accessibilityRole="button"
+                accessibilityLabel={t("menu.home")}
+                accessibilityState={{ selected: isActive("home") }}
               >
                 <Ionicons
                   name="home"
@@ -160,7 +195,7 @@ export const AppBar: React.FC<AppBarProps> = ({ title = "IDH Leite" }) => {
                     isActive("home") && styles.menuItemTextActive,
                   ]}
                 >
-                  Home
+                  {t("menu.home")}
                 </Text>
               </TouchableOpacity>
 
@@ -171,6 +206,9 @@ export const AppBar: React.FC<AppBarProps> = ({ title = "IDH Leite" }) => {
                 ]}
                 onPress={() => navigateTo("/(protected)/(tabs)/history")}
                 activeOpacity={0.7}
+                accessibilityRole="button"
+                accessibilityLabel={t("menu.history")}
+                accessibilityState={{ selected: isActive("history") }}
               >
                 <Ionicons
                   name="time"
@@ -183,7 +221,33 @@ export const AppBar: React.FC<AppBarProps> = ({ title = "IDH Leite" }) => {
                     isActive("history") && styles.menuItemTextActive,
                   ]}
                 >
-                  Histórico
+                  {t("menu.history")}
+                </Text>
+              </TouchableOpacity>
+
+              <View style={styles.menuDivider} />
+
+              <TouchableOpacity
+                style={styles.menuItem}
+                onPress={() => openDocument(DOCUMENTS_URL.TERMO_USO_PRIVACIDADE)}
+                activeOpacity={0.7}
+                accessibilityRole="link"
+                accessibilityLabel={t("menu.termsOfUse")}
+              >
+                <Ionicons name="document-text-outline" size={24} color="#666" />
+                <Text style={styles.menuItemText}>{t("menu.termsOfUse")}</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.menuItem}
+                onPress={() => openDocument(DOCUMENTS_URL.AVISO_PRIVACIDADE)}
+                activeOpacity={0.7}
+                accessibilityRole="link"
+                accessibilityLabel={t("menu.privacyNotice")}
+              >
+                <Ionicons name="shield-outline" size={24} color="#666" />
+                <Text style={styles.menuItemText}>
+                  {t("menu.privacyNotice")}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -209,6 +273,8 @@ export const AppBar: React.FC<AppBarProps> = ({ title = "IDH Leite" }) => {
                 style={styles.editProfileButton}
                 onPress={handleOpenProfile}
                 activeOpacity={0.7}
+                accessibilityRole="button"
+                accessibilityLabel={t("profile.edit")}
               >
                 <Ionicons name="pencil-outline" size={18} color="#006f36" />
                 <Text style={styles.editProfileText}>{t("profile.edit")}</Text>

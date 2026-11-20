@@ -65,16 +65,14 @@ export const useProperty = () => {
 
       return response;
     } catch (error: any) {
-      console.error("Erro ao criar propriedade:", JSON.stringify({
-        status: error?.response?.status,
-        data: error?.response?.data,
-        message: error?.message,
-        config: {
-          url: error?.config?.url,
-          data: error?.config?.data,
-          headers: error?.config?.headers,
-        },
-      }, null, 2));
+      // Nunca logar o corpo da resposta nem o payload/headers da request:
+      // eles carregam dados do produtor (e-mail, CPF) e o token de acesso,
+      // e em release isso vai para o log do dispositivo.
+      console.error(
+        "Erro ao criar propriedade. status:",
+        error?.response?.status,
+        error?.message,
+      );
 
       if (error.response?.status === 401 || error.response?.status === 403) {
         await OfflineSyncService.saveOfflineProperty(formData);

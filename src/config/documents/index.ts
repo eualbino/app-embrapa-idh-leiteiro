@@ -6,8 +6,6 @@
  * privacidade continue alcançável de dentro do app a qualquer momento.
  */
 export const DOCUMENTS_URL = {
-  TERMO_USO_PRIVACIDADE:
-    "https://idh.cppse.embrapa.br/documents/IDH_Termo_Uso_Privacidade.pdf",
-  AVISO_PRIVACIDADE:
-    "https://idh.cppse.embrapa.br/documents/IDH_Aviso_Privacidade.pdf",
+  TERMO_USO_PRIVACIDADE: "https://idh.cppse.embrapa.br/termos-de-uso",
+  AVISO_PRIVACIDADE: "https://idh.cppse.embrapa.br/politica-de-privacidade",
 } as const;

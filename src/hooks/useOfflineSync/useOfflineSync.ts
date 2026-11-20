@@ -305,12 +305,15 @@ export const useOfflineSync = () => {
     } catch (error: any) {
       syncFailedRef.current = true;
       console.error("[Sync] ERRO:", error?.message ?? error, "\nStack:", error?.stack);
-      console.error("[Sync] Detalhes API:", JSON.stringify({
-        status: error?.response?.status,
-        data: error?.response?.data,
-        url: error?.config?.url,
-        requestData: error?.config?.data,
-      }, null, 2));
+      // Nunca logar o corpo da resposta nem o payload da request: eles
+      // carregam dados do produtor (e-mail, CPF) e em release isso vai
+      // para o log do dispositivo.
+      console.error(
+        "[Sync] Detalhes API. status:",
+        error?.response?.status,
+        "url:",
+        error?.config?.url,
+      );
       const apiError =
         error?.response?.data?.message ||
         error?.response?.data?.error ||

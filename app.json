@@ -16,7 +16,7 @@
     },
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "br.gov.embrapa.idhleite",
+      "bundleIdentifier": "br.embrapa.idhleite",
       "icon": {
         "light": "./src/assets/images/ios-light.png",
         "dark": "./src/assets/images/ios-dark.png"
